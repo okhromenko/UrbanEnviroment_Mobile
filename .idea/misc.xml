@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/background_splash.xml" value="0.224" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/bird_background.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/bird_loading.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/button_go.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/button_organization.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/button_register.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/button_user.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/home_page_menu.xml" value="0.279" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/loading.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_animals.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_help.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_map.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_organization.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_profile.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/text_authorization.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/text_registration.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_authorization.xml" value="0.11220871327254306" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_help.xml" value="0.11220871327254306" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_home.xml" value="0.264" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_map.xml" value="0.11220871327254306" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_organizations.xml" value="0.11220871327254306" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_profile.xml" value="0.11220871327254306" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_registration.xml" value="0.11220871327254306" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/animal_item.xml" value="0.264" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.224" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
