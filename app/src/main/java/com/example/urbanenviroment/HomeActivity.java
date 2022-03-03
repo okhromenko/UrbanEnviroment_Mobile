@@ -70,4 +70,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
+
+    public void card(View view){
+        Intent intent = new Intent(this, CardsMainActivity.class);
+        startActivity(intent);
+    }
 }

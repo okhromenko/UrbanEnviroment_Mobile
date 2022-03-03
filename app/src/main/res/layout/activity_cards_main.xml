@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".HomeActivity">
+    tools:context=".CardsMainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -68,7 +68,7 @@
         app:srcCompat="@drawable/home_page_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/AnimalsRecycler"
+        android:id="@+id/AnimalsCardsRecycler"
         android:layout_width="match_parent"
         android:layout_height="604dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.253"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AnimalsRecycler"
+        app:layout_constraintTop_toBottomOf="@+id/AnimalsCardsRecycler"
         android:onClick="animals"
         app:layout_constraintVertical_bias="0.422" />
 
@@ -99,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.227"
         app:layout_constraintStart_toEndOf="@+id/button_photo"
-        app:layout_constraintTop_toBottomOf="@+id/AnimalsRecycler"
+        app:layout_constraintTop_toBottomOf="@+id/AnimalsCardsRecycler"
         android:onClick="card"
         app:layout_constraintVertical_bias="0.422" />
 
