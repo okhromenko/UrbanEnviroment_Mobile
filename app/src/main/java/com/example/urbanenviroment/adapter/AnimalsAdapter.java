@@ -39,12 +39,13 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
                 animalsList.get(position).getImg_animal(), "drawable", context.getPackageName());
         holder.img_animal_home.setImageResource(image_animal_id);
 
-        int img_org_home_id = context.getResources().getIdentifier("ic_" +
+        int img_org_home_id = context.getResources().getIdentifier(
                 animalsList.get(position).getImg_org(), "drawable", context.getPackageName());
         holder.img_org_home.setImageResource(img_org_home_id);
 
         holder.name_org_home.setText(animalsList.get(position).getName_org());
         holder.date_home.setText(animalsList.get(position).getDate());
+
     }
 
     @Override

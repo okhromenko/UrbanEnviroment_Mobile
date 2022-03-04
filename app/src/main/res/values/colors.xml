@@ -8,4 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#DEDEDE</color>
+    <color name="food">#A9CF64</color>
+    <color name="things">#E3AF64</color>
+    <color name="help">#5EA6D9</color>
 </resources>

@@ -31,28 +31,28 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="help"
-            android:src="@drawable/menu_help" />
+            android:src="@drawable/menu_help_ex" />
 
         <ImageButton
             android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="authorization"
-            android:src="@drawable/menu_profile" />
+            android:src="@drawable/menu_profile_ex" />
 
         <ImageButton
             android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="organization"
-            android:src="@drawable/menu_organization" />
+            android:src="@drawable/menu_organization_ex" />
 
         <ImageButton
             android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="map"
-            android:src="@drawable/menu_map" />
+            android:src="@drawable/menu_map_ex" />
     </LinearLayout>
 
     <ImageView
