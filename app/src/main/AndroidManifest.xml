@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
+            android:name=".HelpPage"
+            android:exported="false" />
+        <activity
+            android:name=".AmimalPage"
+            android:exported="false" />
+        <activity
             android:name=".CardsMainActivity"
             android:exported="false" />
         <activity

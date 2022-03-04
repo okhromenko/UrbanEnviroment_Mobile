@@ -7,6 +7,63 @@
     android:background="@color/background"
     tools:context=".HelpActivity">
 
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/ads_type_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Тип помощи"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="Количество объявлений:    " />
+
+            <TextView
+                android:id="@+id/count_ads_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Количество объявлений" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/home_page_menu" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/HelpRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -47,8 +104,8 @@
             android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:onClick="organization"
             android:contentDescription="@string/app_name"
+            android:onClick="organization"
             android:src="@drawable/menu_organization_ex" />
 
         <ImageButton
@@ -58,65 +115,6 @@
             android:onClick="map"
             android:contentDescription="@string/app_name"
             android:src="@drawable/menu_map_ex" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.015">
-
-        <TextView
-            android:id="@+id/ads_type_help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Тип помощи"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="Количество объявлений:    " />
-
-            <TextView
-                android:id="@+id/count_ads_help"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Количество объявлений" />
-        </LinearLayout>
-
-
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/home_page_menu" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/HelpRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </LinearLayout>
 
 
