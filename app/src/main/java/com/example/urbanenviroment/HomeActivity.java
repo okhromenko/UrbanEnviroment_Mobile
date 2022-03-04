@@ -75,4 +75,9 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CardsMainActivity.class);
         startActivity(intent);
     }
+
+    public void filter(View view){
+        Intent intent = new Intent(this, FilterAnimals.class);
+        startActivity(intent);
+    }
 }

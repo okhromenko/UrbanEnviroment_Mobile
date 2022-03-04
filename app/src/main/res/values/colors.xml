@@ -11,4 +11,5 @@
     <color name="food">#A9CF64</color>
     <color name="things">#E3AF64</color>
     <color name="help">#5EA6D9</color>
+    <color name="transparent">#00000000</color>
 </resources>

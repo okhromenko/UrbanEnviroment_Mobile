@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
+            android:name=".FilterAnimals"
+            android:exported="false" />
+        <activity
             android:name=".HelpPage"
             android:exported="false" />
         <activity

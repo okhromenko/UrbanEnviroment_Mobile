@@ -1,6 +1,7 @@
 package com.example.urbanenviroment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.urbanenviroment.AmimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.Cards;
@@ -43,6 +45,14 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
         holder.kind_cards.setText(animalCardsList.get(position).getKind());
         holder.name_animal_cards.setText(animalCardsList.get(position).getName_animal());
         holder.description_animal_cards.setText(animalCardsList.get(position).getDescription());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AmimalPage.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

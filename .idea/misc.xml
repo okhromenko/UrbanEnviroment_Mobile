@@ -12,21 +12,25 @@
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/button_user.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/help_line_item.xml" value="0.192" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/home_page_menu.xml" value="0.279" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/img_panel_help_page.xml" value="0.2625" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/loading.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_animals.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_help.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_map.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_organization.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/menu_profile.xml" value="0.1" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/panel_bottom_help_page.xml" value="0.2785" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/panel_top_help_page.xml" value="0.2785" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/text_authorization.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/text_registration.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout-v28/activity_help.xml" value="0.176" />
-        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_amimal_page.xml" value="0.264" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_amimal_page.xml" value="0.176" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_authorization.xml" value="0.11220871327254306" />
-        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_cards_main.xml" value="0.2123931623931624" />
-        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_help.xml" value="0.264" />
-        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_help_page.xml" value="0.22530996152201796" />
-        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_cards_main.xml" value="0.176" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_filter_animals.xml" value="0.22530996152201796" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_help.xml" value="0.136" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_help_page.xml" value="0.2" />
+        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_home.xml" value="0.176" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_map.xml" value="0.11220871327254306" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_organizations.xml" value="0.11220871327254306" />

@@ -85,4 +85,9 @@ public class HelpActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
+
+    public void filter(View view){
+        Intent intent = new Intent(this, FilterAnimals.class);
+        startActivity(intent);
+    }
 }
