@@ -12,4 +12,6 @@
     <color name="things">#E3AF64</color>
     <color name="help">#5EA6D9</color>
     <color name="transparent">#00000000</color>
+    <color name="basic_blue">#0A0032</color>
+
 </resources>
