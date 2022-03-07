@@ -10,6 +10,7 @@
         android:id="@+id/cardView2"
         android:layout_width="304dp"
         android:layout_height="162dp"
+        app:cardBackgroundColor="#2C2EA5"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
