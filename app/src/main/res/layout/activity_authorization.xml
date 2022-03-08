@@ -114,7 +114,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_no_account_register" />
+        app:srcCompat="@drawable/link_no_account_register" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
