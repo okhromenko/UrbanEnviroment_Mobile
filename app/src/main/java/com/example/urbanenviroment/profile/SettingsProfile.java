@@ -13,12 +13,12 @@ import com.example.urbanenviroment.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.profile.registr_authoriz.AuthorizationActivity;
 
-public class ProfileActivity extends AppCompatActivity {
+public class SettingsProfile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_setting_profile);
     }
 
     public void animals(View view){
@@ -43,21 +43,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void map(View view){
         Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
-    }
-
-    public void settings(View view){
-        Intent intent = new Intent(this, SettingsProfile.class);
-        startActivity(intent);
-    }
-
-    public void favorites(View view){
-        Intent intent = new Intent(this, FavoritesProfile.class);
-        startActivity(intent);
-    }
-
-    public void notifications(View view){
-        Intent intent = new Intent(this, NotificationsProfile.class);
         startActivity(intent);
     }
 }
