@@ -4,103 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.user.ProfileActivityUser">
-
+    tools:context=".profile.user.settings.SettingNotificationsUser">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <ImageView
-                android:id="@+id/imageView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/img_profile" />
-
-            <ImageView
-                android:id="@+id/img_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="60dp"
-                android:layout_marginBottom="10dp"
-                app:srcCompat="@drawable/label_img_profile" />
-
-            <ImageButton
-                android:id="@+id/button_setting_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/button_setting"
-                android:background="@color/transparent"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="right"
-                android:onClick="settings"/>
-
-        </FrameLayout>
-
-
-        <TextView
-            android:id="@+id/name_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"
-            android:text="Имя пользователя"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:id="@+id/data_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Дата регистрации"/>
-
-            <TextView
-                android:id="@+id/email_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Электронная почта"/>
-
-        </FrameLayout>
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView14"
+            android:id="@+id/imageView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/text_setting_notifications" />
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            app:srcCompat="@drawable/line_one" />
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="30dp">
 
-        <ImageButton
-            android:id="@+id/button_favorites_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/button_favorites"
-            android:layout_marginBottom="20dp"
-            android:background="@color/transparent"
-            android:onClick="favorites"/>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Уведомления" />
+        </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/button_notification_profile"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Switch
+                android:id="@+id/switch_ads_notif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/text_animal_setting_notif" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/button_notification"
-            android:background="@color/transparent"
-            android:onClick="notifications"/>
+            android:layout_marginTop="30dp">
+
+            <Switch
+                android:id="@+id/switch_animal_notif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <ImageView
+                android:id="@+id/imageView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/text_animal_setting_notif" />
+        </FrameLayout>
 
     </LinearLayout>
 

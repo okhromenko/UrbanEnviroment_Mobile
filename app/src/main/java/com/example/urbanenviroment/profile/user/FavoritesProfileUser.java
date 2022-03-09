@@ -1,4 +1,4 @@
-package com.example.urbanenviroment.profile;
+package com.example.urbanenviroment.profile.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.urbanenviroment.R;
 
-public class FavoritesProfile extends AppCompatActivity {
+public class FavoritesProfileUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

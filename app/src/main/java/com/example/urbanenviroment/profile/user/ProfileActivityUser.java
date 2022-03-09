@@ -1,4 +1,4 @@
-package com.example.urbanenviroment.profile;
+package com.example.urbanenviroment.profile.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +13,7 @@ import com.example.urbanenviroment.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.profile.registr_authoriz.AuthorizationActivity;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivityUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +47,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void settings(View view){
-        Intent intent = new Intent(this, SettingsProfile.class);
+        Intent intent = new Intent(this, SettingsProfileUser.class);
         startActivity(intent);
     }
 
     public void favorites(View view){
-        Intent intent = new Intent(this, FavoritesProfile.class);
+        Intent intent = new Intent(this, FavoritesProfileUser.class);
         startActivity(intent);
     }
 
     public void notifications(View view){
-        Intent intent = new Intent(this, NotificationsProfile.class);
+        Intent intent = new Intent(this, NotificationsProfileUser.class);
         startActivity(intent);
     }
 }

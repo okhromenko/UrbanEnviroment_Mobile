@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile.user.settings.SettingProfileUser">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_setting_profile" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="Изменить имя пользователя" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="25dp">
+
+                    <TextView
+                        android:id="@+id/text_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Имя пользователя" />
+
+                    <TextView
+                        android:id="@+id/button_change_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:textStyle="bold"
+                        android:onClick="change_user_name"
+                        android:text="Изменить" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_change_name_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="5dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="15dp">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    app:cardCornerRadius="14dp">
+
+                                    <com.rengwuxian.materialedittext.MaterialEditText
+                                        android:id="@+id/name_change_setting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:layout_marginStart="15dp"
+                                        android:fontFamily="@font/roboto"
+                                        android:hint="Введите новое имя"
+                                        android:inputType="textPersonName"
+                                        android:textAlignment="textStart"
+                                        android:textSize="16sp"
+                                        app:met_floatingLabel="none"
+                                        app:met_hideUnderline="true"
+                                        app:met_singleLineEllipsis="false" />
+
+                                    <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/button_clear_cross"
+                                        android:background="@color/transparent"
+                                        android:layout_gravity="center_vertical|right"
+                                        android:onClick="clear_name"
+                                        android:layout_marginEnd="15dp"/>
+                                </androidx.cardview.widget.CardView>
+
+                            </FrameLayout>
+
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="15dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                app:cardCornerRadius="14dp">
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
+                                    android:id="@+id/change_password_setting_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginStart="15dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:hint="Введите пароль"
+                                    android:inputType="textPassword"
+                                    android:textSize="16sp"
+                                    app:met_floatingLabel="none"
+                                    app:met_hideUnderline="true"
+                                    app:met_singleLineEllipsis="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/button_clear_cross"
+                                    android:background="@color/transparent"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:onClick="clear_name_password"
+                                    android:layout_marginEnd="15dp"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_save_setting"
+                                android:background="@color/transparent"
+                                android:layout_marginRight="150dp"/>
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_cancel_setting"
+                                android:layout_gravity="right"
+                                android:onClick="cancel_name"
+                                android:background="@color/transparent"/>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/text_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="Изменить электронную почту" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="25dp">
+
+                    <TextView
+                        android:id="@+id/text_user_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Электронная почта" />
+
+                    <TextView
+                        android:id="@+id/button_change_user_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:textStyle="bold"
+                        android:onClick="change_user_email"
+                        android:text="Изменить" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_change_email_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="5dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="15dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                app:cardCornerRadius="14dp">
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
+                                    android:id="@+id/email_change_setting"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginStart="15dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:hint="Введите новую почту"
+                                    android:inputType="textEmailAddress"
+                                    android:textAlignment="textStart"
+                                    android:textSize="16sp"
+                                    app:met_floatingLabel="none"
+                                    app:met_hideUnderline="true"
+                                    app:met_singleLineEllipsis="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/button_clear_cross"
+                                    android:background="@color/transparent"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:onClick="clear_email"
+                                    android:layout_marginEnd="15dp"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="15dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                app:cardCornerRadius="14dp">
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
+                                    android:id="@+id/change_password_setting_email"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginStart="15dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:hint="Введите пароль"
+                                    android:inputType="textPassword"
+                                    android:textSize="16sp"
+                                    app:met_floatingLabel="none"
+                                    app:met_hideUnderline="true"
+                                    app:met_singleLineEllipsis="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/button_clear_cross"
+                                    android:background="@color/transparent"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:onClick="clear_email_password"
+                                    android:layout_marginEnd="15dp"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_save_setting"
+                                android:background="@color/transparent"
+                                android:layout_marginRight="150dp"/>
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_cancel_setting"
+                                android:layout_gravity="right"
+                                android:onClick="cancel_email"
+                                android:background="@color/transparent"/>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/text_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="Изменить пароль" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="25dp">
+
+                    <TextView
+                        android:id="@+id/text_user_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Пароль" />
+
+                    <TextView
+                        android:id="@+id/button_change_user_password"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:text="Изменить"
+                        android:onClick="change_user_password"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout_change_password_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="5dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="15dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                app:cardCornerRadius="14dp">
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
+                                    android:id="@+id/password_change_setting"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginStart="15dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:hint="Введите новый пароль"
+                                    android:inputType="textPassword"
+                                    android:textAlignment="textStart"
+                                    android:textSize="16sp"
+                                    app:met_floatingLabel="none"
+                                    app:met_hideUnderline="true"
+                                    app:met_singleLineEllipsis="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/button_clear_cross"
+                                    android:background="@color/transparent"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:onClick="clear_password"
+                                    android:layout_marginEnd="15dp"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="15dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="15dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                app:cardCornerRadius="14dp">
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
+                                    android:id="@+id/change_password_setting_pass"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginStart="15dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:hint="Введите старый пароль"
+                                    android:inputType="textPassword"
+                                    android:textSize="16sp"
+                                    app:met_floatingLabel="none"
+                                    app:met_hideUnderline="true"
+                                    app:met_singleLineEllipsis="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/button_clear_cross"
+                                    android:background="@color/transparent"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:onClick="clear_password_password"
+                                    android:layout_marginEnd="15dp"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal">
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_save_setting"
+                                android:background="@color/transparent"
+                                android:layout_marginRight="150dp"/>
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_cancel_setting"
+                                android:layout_gravity="right"
+                                android:onClick="cancel_password"
+                                android:background="@color/transparent"/>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="animals"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_animal_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="help"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_help_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="authorization"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_profile" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:contentDescription="@string/app_name"
+            android:onClick="organization"
+            android:src="@drawable/menu_organization_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="map"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_map_ex" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

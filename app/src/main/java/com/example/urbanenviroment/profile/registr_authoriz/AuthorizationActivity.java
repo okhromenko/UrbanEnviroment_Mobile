@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.urbanenviroment.HelpActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.profile.ProfileActivity;
+import com.example.urbanenviroment.profile.user.ProfileActivityUser;
 
 public class AuthorizationActivity extends AppCompatActivity {
 
@@ -24,7 +23,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
     public void goIn(View view){
-        Intent intent = new Intent(this, ProfileActivity.class);
+        Intent intent = new Intent(this, ProfileActivityUser.class);
         startActivity(intent);
     }
 }
