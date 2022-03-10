@@ -73,6 +73,7 @@ public class SettingProfileUser extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_name_user);
 
         change(textName, textchange, layout);
+
     }
 
     public void change_user_email(View view){
@@ -89,6 +90,7 @@ public class SettingProfileUser extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_password_user);
 
         change(textPassword, textchange, layout);
+
     }
 
     public void cancel_name(View view){
@@ -97,6 +99,8 @@ public class SettingProfileUser extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_name_user);
 
         cancel(textName, textchange, layout);
+        clear(R.id.name_change_setting);
+        clear(R.id.change_password_setting_name);
     }
 
     public void cancel_email(View view){
@@ -105,6 +109,8 @@ public class SettingProfileUser extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_email_user);
 
         cancel(textEmail, textchange, layout);
+        clear(R.id.email_change_setting);
+        clear(R.id.change_password_setting_email);
     }
 
     public void cancel_password(View view){
@@ -113,6 +119,8 @@ public class SettingProfileUser extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_password_user);
 
         cancel(textPassword, textchange, layout);
+        clear(R.id.password_change_setting);
+        clear(R.id.change_password_setting_pass);
     }
 
     public void clear_name(View view){
