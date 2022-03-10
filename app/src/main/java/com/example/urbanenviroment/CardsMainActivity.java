@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.urbanenviroment.adapter.AnimalCardsAdapter;
 import com.example.urbanenviroment.adapter.AnimalsAdapter;
@@ -94,4 +95,5 @@ public class CardsMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FilterAnimals.class);
         startActivity(intent);
     }
+
 }
