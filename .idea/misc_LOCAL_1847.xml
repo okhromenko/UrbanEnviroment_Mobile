@@ -3,27 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/drawable/down_menu_rectangle.xml" value="0.2555" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_amimal_page.xml" value="0.25" />
         <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_authorization.xml" value="0.2" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_cards_main.xml" value="0.264" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_favorites_profile.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_filter_animals.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_help.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_help_page.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_home.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_map.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_notifications_profile.xml" value="0.25" />
         <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_organizations.xml" value="0.2269021739130435" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_registration.xml" value="0.2269021739130435" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_setting_notifications_user.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_setting_other.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_setting_profile.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/activity_setting_profile_user.xml" value="0.25" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/animal_cards_item.xml" value="0.4" />
-        <entry key="..\:/Programm/UrbanEnviroment_Mobile/app/src/main/res/layout/animal_item.xml" value="0.25" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/background_splash.xml" value="0.224" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/bird_background.xml" value="0.1" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/drawable/bird_loading.xml" value="0.1" />
@@ -58,12 +40,8 @@
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_help_page.xml" value="0.2" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_home.xml" value="0.176" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_main.xml" value="0.2" />
-<<<<<<< HEAD
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_map.xml" value="0.28149300155520995" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_notifications_profile.xml" value="0.15476699444206926" />
-=======
-        <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_map.xml" value="0.11220871327254306" />
->>>>>>> 382babe430b46ceffd5015baef2c30303eccffbb
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_organizations.xml" value="0.2" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_profile.xml" value="0.176" />
         <entry key="..\:/UrbanEnviroment/app/src/main/res/layout/activity_registration.xml" value="0.11220871327254306" />
