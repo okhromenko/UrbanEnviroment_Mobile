@@ -6,4 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".profile.user.NotificationsProfileUser">
 
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/text_notification_profile" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/NotificationRecyclerProfile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="animals"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_animal_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="help"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_help_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="authorization"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_profile" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:contentDescription="@string/app_name"
+            android:onClick="organization"
+            android:src="@drawable/menu_organization_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="map"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_map_ex" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
