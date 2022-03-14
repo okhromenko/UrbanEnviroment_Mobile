@@ -27,11 +27,15 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         List<Animals> animalsList = new ArrayList<>();
-        animalsList.add(new Animals(1, "Заповедный край", "img_org", "animal_item_img", "03.03.2022"));
-        animalsList.add(new Animals(2, "Дивная долина", "img_org", "animal_item_img", "03.03.2022"));
-        animalsList.add(new Animals(3, "Шкотово", "img_org", "animal_item_img", "03.03.2022"));
-        animalsList.add(new Animals(4, "Брянский лес", "img_org", "animal_item_img", "03.03.2022"));
-
+        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "animal_item_img",
+                "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
+                "ж", "12.12.2012"));
+        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "animal_item_img",
+                "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
+                "ж", "12.12.2012"));
+        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "animal_item_img",
+                "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
+                "ж", "12.12.2012"));
         setAnimalsRecycler(animalsList);
     }
 

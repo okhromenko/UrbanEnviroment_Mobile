@@ -1,15 +1,26 @@
 package com.example.urbanenviroment.model;
 
-public class Animals {
-    int id;
-    String name_org, img_org, img_animal, date;
+import java.util.Date;
 
-    public Animals(int id, String name_org, String img_org, String img_animal, String date) {
+public class Animals {
+
+    int id;
+    String name_org, img_org, name_animal, img_animal, age, state, kind, species, description, sex, reg_data;
+
+    public Animals(int id, String name_org, String img_org, String name_animal, String img_animal,
+                   String age, String state, String kind, String species, String description, String sex, String reg_data) {
         this.id = id;
         this.name_org = name_org;
         this.img_org = img_org;
+        this.name_animal = name_animal;
         this.img_animal = img_animal;
-        this.date = date;
+        this.age = age;
+        this.state = state;
+        this.kind = kind;
+        this.species = species;
+        this.description = description;
+        this.sex = sex;
+        this.reg_data = reg_data;
     }
 
     public int getId() {
@@ -36,6 +47,14 @@ public class Animals {
         this.img_org = img_org;
     }
 
+    public String getName_animal() {
+        return name_animal;
+    }
+
+    public void setName_animal(String name_animal) {
+        this.name_animal = name_animal;
+    }
+
     public String getImg_animal() {
         return img_animal;
     }
@@ -44,11 +63,59 @@ public class Animals {
         this.img_animal = img_animal;
     }
 
-    public String getDate() {
-        return date;
+    public String getAge() {
+        return age;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getReg_data() {
+        return reg_data;
+    }
+
+    public void setReg_data(String reg_data) {
+        this.reg_data = reg_data;
     }
 }

@@ -14,16 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.AmimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
-import com.example.urbanenviroment.model.Cards;
 
 import java.util.List;
 
 public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.AnimalCardsViewHolder> {
 
     Context context;
-    List<Cards> animalCardsList;
+    List<Animals> animalCardsList;
 
-    public AnimalCardsAdapter(Context context, List<Cards> animalCardsList) {
+    public AnimalCardsAdapter(Context context, List<Animals> animalCardsList) {
         this.context = context;
         this.animalCardsList = animalCardsList;
     }

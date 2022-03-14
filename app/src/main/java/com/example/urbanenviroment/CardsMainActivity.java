@@ -7,12 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.example.urbanenviroment.adapter.AnimalCardsAdapter;
-import com.example.urbanenviroment.adapter.AnimalsAdapter;
 import com.example.urbanenviroment.model.Animals;
-import com.example.urbanenviroment.model.Cards;
 import com.example.urbanenviroment.profile.registr_authoriz.AuthorizationActivity;
 
 import java.util.ArrayList;
@@ -28,29 +25,17 @@ public class CardsMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards_main);
 
-        List<Cards> cardsList = new ArrayList<>();
-        cardsList.add(new Cards(1, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(2, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(3, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(4, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(1, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(2, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(3, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-        cardsList.add(new Cards(4, "Дивная долина", "Кролик", "Степаша", "img_org",
-                "Кролик нашелся одним холодным зимним днем в снегу. Он был такой крохой, что у сотрудников заповедника сжалось сердце, они решили взять его под свое крыло. Сейчас у него все хорошо."));
-
-
+        List<Animals> cardsList = new ArrayList<>();
+        cardsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+                "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
+                "ж", "12.12.2012"));
+        cardsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+                "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
+                "ж", "12.12.2012"));
         setCardsRecycler(cardsList);
     }
 
-    private void setCardsRecycler(List<Cards> cardsList){
+    private void setCardsRecycler(List<Animals> cardsList){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
         AnimalsCardsRecycler = findViewById(R.id.AnimalsCardsRecycler);

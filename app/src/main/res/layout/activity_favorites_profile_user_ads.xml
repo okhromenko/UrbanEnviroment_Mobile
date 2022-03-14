@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/FavoritesRecyclerProfileAds"
+            android:id="@+id/FavoritesRecyclerHelp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

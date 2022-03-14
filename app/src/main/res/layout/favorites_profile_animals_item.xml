@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
@@ -16,8 +15,10 @@
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:shadowColor="#19000000"
         app:shadowMargin="10dp"
         app:shadowRadius="10dp">
@@ -38,19 +39,19 @@
                 <com.loopeer.shadow.ShadowView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:cornerRadius="50dp"
                     app:shadowColor="#1A000000"
                     app:shadowMargin="5dp"
-                    app:shadowRadius="5dp"
-                    app:cornerRadius="50dp">
+                    app:shadowRadius="5dp">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         app:cardBackgroundColor="@color/background"
-                        app:cardCornerRadius="50dp" >
+                        app:cardCornerRadius="50dp">
 
                         <ImageView
-                            android:id="@+id/img_animal_cards"
+                            android:id="@+id/favorites_animals_img_animal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:visibility="visible"
@@ -61,7 +62,7 @@
 
 
                 <TextView
-                    android:id="@+id/kind_cards"
+                    android:id="@+id/favorites_animals_kind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -72,7 +73,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/name_animal_cards"
+                    android:id="@+id/favorites_animals_name_animal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -84,23 +85,75 @@
 
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/description_animal_cards"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"
-                android:fontFamily="@font/roboto"
-                android:text="Тык тык тык тык тык тык тык тык тык тык тык"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/text22"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Возраст:"/>
+
+                    <TextView
+                        android:id="@+id/favorite_animals_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:text="Возраст"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/text23"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Пол:"/>
+
+                    <TextView
+                        android:id="@+id/favorite_animals_sex"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:text="Пол"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/text24"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Состояние:"/>
+
+                    <TextView
+                        android:id="@+id/favorite_animals_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="right"
+                        android:text="Состояние"/>
+                </FrameLayout>
+
+            </LinearLayout>
+
 
 
             <TextView
-                android:id="@+id/name_org_cards"
+                android:id="@+id/favorites_animals_name_org"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -129,5 +182,7 @@
         app:layout_constraintStart_toStartOf="@+id/cardview"
         app:layout_constraintTop_toTopOf="@+id/cardview"
         app:srcCompat="@drawable/button_favorite" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

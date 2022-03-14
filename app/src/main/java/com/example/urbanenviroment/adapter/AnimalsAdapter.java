@@ -46,7 +46,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
         holder.img_org_home.setImageResource(img_org_home_id);
 
         holder.name_org_home.setText(animalsList.get(position).getName_org());
-        holder.date_home.setText(animalsList.get(position).getDate());
+        holder.date_home.setText(animalsList.get(position).getReg_data());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,9 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment" >
         <activity
-            android:name=".profile.user.FavoritesProfileUserAds"
-            android:exported="false" />
-        <activity
             android:name=".profile.user.settings.SettingOther"
             android:exported="false" />
         <activity
@@ -23,6 +20,9 @@
             android:exported="false" />
         <activity
             android:name=".profile.user.NotificationsProfileUser"
+            android:exported="false" />
+        <activity
+            android:name=".profile.user.FavoritesProfileUserAds"
             android:exported="false" />
         <activity
             android:name=".profile.user.FavoritesProfileUserAnimals"
