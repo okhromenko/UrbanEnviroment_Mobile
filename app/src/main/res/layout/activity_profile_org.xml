@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.user.ProfileActivityUser">
-
+    tools:context=".profile.org.ProfileActivityOrg">
 
     <LinearLayout
         android:id="@+id/linearLayout8"
@@ -29,7 +28,7 @@
                 app:srcCompat="@drawable/img_profile" />
 
             <ImageView
-                android:id="@+id/img_profile"
+                android:id="@+id/img_profile_org"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -38,7 +37,7 @@
                 app:srcCompat="@drawable/label_img_profile" />
 
             <ImageButton
-                android:id="@+id/button_setting_profile"
+                android:id="@+id/button_setting_profile_org"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -51,7 +50,7 @@
 
 
         <TextView
-            android:id="@+id/name_profile"
+            android:id="@+id/name_profile_org"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -59,23 +58,29 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/email_profile_org"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Электронная почта организации" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp">
 
             <TextView
-                android:id="@+id/data_profile"
+                android:id="@+id/data_profile_org"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="Дата регистрации" />
 
             <TextView
-                android:id="@+id/email_profile"
+                android:id="@+id/phone_profile_org"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Электронная почта" />
+                android:text="Номер телефона" />
 
         </FrameLayout>
 
@@ -86,22 +91,127 @@
             android:layout_marginBottom="40dp"
             app:srcCompat="@drawable/line_one" />
 
-        <ImageButton
-            android:id="@+id/button_favorites_profile"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:background="@color/transparent"
-            android:onClick="favorites"
-            app:srcCompat="@drawable/button_favorites" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Фото"/>
 
-        <ImageButton
-            android:id="@+id/button_notification_profile"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp">
+
+            <ImageButton
+                android:id="@+id/imageButton8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="left"
+                app:srcCompat="@drawable/button_add_profile_org" />
+
+            <ImageButton
+                android:id="@+id/imageButton9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="right"
+                app:srcCompat="@drawable/button_delete_profile_org" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Животные"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp">
+
+            <ImageButton
+                android:id="@+id/imageButton82"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="left"
+                app:srcCompat="@drawable/button_add_profile_org" />
+
+            <ImageButton
+                android:id="@+id/imageButton92"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="right"
+                app:srcCompat="@drawable/button_edit_profile_org" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Объявления"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp">
+
+            <ImageButton
+                android:id="@+id/imageButton22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="left"
+                app:srcCompat="@drawable/button_add_profile_org" />
+
+            <ImageButton
+                android:id="@+id/imageButton12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="right"
+                app:srcCompat="@drawable/button_edit_profile_org" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Внешний вид"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <ImageButton
+                android:id="@+id/imageButton7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="left"
+                app:srcCompat="@drawable/button_user_org" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:onClick="notifications"
-            app:srcCompat="@drawable/button_notification" />
+            android:text="Переключить на пользователя"
+            app:layout_constraintBottom_toTopOf="@+id/shadowView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:onClick="NAN"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout8"/>
 
     </LinearLayout>
 
@@ -177,16 +287,5 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/menu_map_ex" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Переключить на организацию"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="NAN"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

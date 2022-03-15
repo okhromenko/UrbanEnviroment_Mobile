@@ -1,4 +1,4 @@
-package com.example.urbanenviroment.profile.user;
+package com.example.urbanenviroment.profile.org;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,15 +11,18 @@ import com.example.urbanenviroment.HomeActivity;
 import com.example.urbanenviroment.MapActivity;
 import com.example.urbanenviroment.OrganizationsActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.profile.user.FavoritesProfileUserAnimals;
+import com.example.urbanenviroment.profile.user.NotificationsProfileUser;
+import com.example.urbanenviroment.profile.user.ProfileActivityUser;
+import com.example.urbanenviroment.profile.user.SettingsProfileUser;
 
-public class ProfileActivityUser extends AppCompatActivity {
+public class ProfileActivityOrg extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profile_org);
     }
 
     public void animals(View view){
@@ -52,18 +55,8 @@ public class ProfileActivityUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void favorites(View view){
-        Intent intent = new Intent(this, FavoritesProfileUserAnimals.class);
-        startActivity(intent);
-    }
-
-    public void notifications(View view){
-        Intent intent = new Intent(this, NotificationsProfileUser.class);
-        startActivity(intent);
-    }
-
     public void NAN(View view){
-        Intent intent = new Intent(this, ProfileActivityOrg.class);
+        Intent intent = new Intent(this, ProfileActivityUser.class);
         startActivity(intent);
     }
 }
