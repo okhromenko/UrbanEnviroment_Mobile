@@ -4,72 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".OrganizationsActivity">
+    tools:context=".OrganizationsPage">
 
 
-    <FrameLayout
-        android:id="@+id/linearLayout4"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <FrameLayout
-            android:id="@+id/rectangle_search_org"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/text_search_org"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="40dp"
-                android:layout_gravity="center_vertical"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/button_sort_ex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/transparent"
-                android:onClick="sort"
-                android:src="@drawable/button_sort_ex" />
-
-        </FrameLayout>
-
-        <ImageButton
-            android:id="@+id/button_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="right|center_vertical"
-            android:background="@color/transparent"
-            android:onClick="find"
-            android:src="@drawable/button_loupe_org" />
-    </FrameLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/OrgRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:text="Тут должна быть страничка"
         app:layout_constraintBottom_toTopOf="@+id/shadowView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        android:textSize="20sp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

@@ -26,6 +26,8 @@ public class HelpActivity extends AppCompatActivity {
     RecyclerView helpRecycler;
     HelpAdapter helpAdapter;
 
+    Dialog_Search dialog_search;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,8 @@ public class HelpActivity extends AppCompatActivity {
                 "Несите!", "03.03.2022", "Выполнено"));
 
         setHelpRecycler(helpList);
+
+        dialog_search = new Dialog_Search();
     }
 
     private void setHelpRecycler(List<Help> helpList){
@@ -89,5 +93,9 @@ public class HelpActivity extends AppCompatActivity {
     public void filter(View view){
         Intent intent = new Intent(this, FilterAnimals.class);
         startActivity(intent);
+    }
+
+    public void sort(View view){
+        dialog_search.show(getSupportFragmentManager(), "fragment");
     }
 }

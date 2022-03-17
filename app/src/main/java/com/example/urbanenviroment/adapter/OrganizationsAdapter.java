@@ -1,6 +1,7 @@
 package com.example.urbanenviroment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.urbanenviroment.HelpPage;
+import com.example.urbanenviroment.OrganizationsPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Organizations;
 
@@ -43,9 +46,20 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         holder.img_org_org.setImageResource(img_org_id);
 
         holder.name_org_org.setText(organizationsList.get(position).getName_org());
+        holder.address_org.setText(organizationsList.get(position).getAddress());
         holder.description_org.setText(organizationsList.get(position).getDescription());
         holder.count_animal_org.setText(organizationsList.get(position).getCount_animal());
+        holder.count_ads_org.setText(organizationsList.get(position).getCount_ads());
+        holder.count_photo_org.setText(organizationsList.get(position).getCount_photo());
         holder.date_org.setText(organizationsList.get(position).getDate());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OrganizationsPage.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -56,15 +70,19 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
     public static final class OrganizationViewHolder extends RecyclerView.ViewHolder{
 
         ImageView img_org_org;
-        TextView name_org_org, description_org, count_animal_org, date_org;
+        TextView name_org_org, address_org, description_org, count_animal_org, count_ads_org,
+                count_photo_org, date_org;
 
         public OrganizationViewHolder(@NonNull View itemView) {
             super(itemView);
 
             img_org_org = itemView.findViewById(R.id.img_org_org);
             name_org_org = itemView.findViewById(R.id.name_org_org);
+            address_org = itemView.findViewById(R.id.address_org_org);
             description_org = itemView.findViewById(R.id.description_org);
             count_animal_org = itemView.findViewById(R.id.count_animal_org);
+            count_ads_org = itemView.findViewById(R.id.count_ads_org);
+            count_photo_org = itemView.findViewById(R.id.count_photo_org);
             date_org = itemView.findViewById(R.id.date_org);
         }
     }

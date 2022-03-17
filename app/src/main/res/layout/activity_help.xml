@@ -61,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="@color/transparent"
-                android:src="@drawable/button_sort" />
+                android:onClick="sort"
+                android:src="@drawable/button_sort_ex" />
 
             <ImageButton
                 android:id="@+id/button_filter"

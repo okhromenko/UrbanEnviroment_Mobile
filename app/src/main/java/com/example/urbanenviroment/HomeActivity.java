@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.urbanenviroment.adapter.AnimalsAdapter;
 import com.example.urbanenviroment.model.Animals;
@@ -20,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
 
+    Dialog_Search dialog_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,10 @@ public class HomeActivity extends AppCompatActivity {
         animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "animal_item_img",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
+
         setAnimalsRecycler(animalsList);
+
+        dialog_search = new Dialog_Search();
     }
 
     private void setAnimalsRecycler(List<Animals> animalsList){
@@ -83,5 +88,11 @@ public class HomeActivity extends AppCompatActivity {
     public void filter(View view){
         Intent intent = new Intent(this, FilterAnimals.class);
         startActivity(intent);
+    }
+
+    public void sort(View view){
+//        ImageButton button = (ImageButton) findViewById(R.id.button_sort_ex);
+//        button.setImageResource(R.drawable.button_sort);
+        dialog_search.show(getSupportFragmentManager(), "fragment");
     }
 }

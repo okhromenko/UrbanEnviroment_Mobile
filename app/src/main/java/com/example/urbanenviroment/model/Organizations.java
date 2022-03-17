@@ -2,7 +2,21 @@ package com.example.urbanenviroment.model;
 
 public class Organizations {
     int id;
-    String name_org, img_org, description, count_animal, date;
+    String name_org, img_org, phone, address, description, count_animal, count_ads, count_photo, date;
+
+    public Organizations(int id, String name_org, String img_org, String phone, String address,
+                         String description, String count_animal, String count_ads, String count_photo, String date) {
+        this.id = id;
+        this.name_org = name_org;
+        this.img_org = img_org;
+        this.phone = phone;
+        this.address = address;
+        this.description = description;
+        this.count_animal = count_animal;
+        this.count_ads = count_ads;
+        this.count_photo = count_photo;
+        this.date = date;
+    }
 
     public int getId() {
         return id;
@@ -28,6 +42,22 @@ public class Organizations {
         this.img_org = img_org;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -44,20 +74,27 @@ public class Organizations {
         this.count_animal = count_animal;
     }
 
+    public String getCount_ads() {
+        return count_ads;
+    }
+
+    public void setCount_ads(String count_ads) {
+        this.count_ads = count_ads;
+    }
+
+    public String getCount_photo() {
+        return count_photo;
+    }
+
+    public void setCount_photo(String count_photo) {
+        this.count_photo = count_photo;
+    }
+
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
-        this.date = date;
-    }
-
-    public Organizations(int id, String name_org, String img_org, String description, String count_animal, String date) {
-        this.id = id;
-        this.name_org = name_org;
-        this.img_org = img_org;
-        this.description = description;
-        this.count_animal = count_animal;
         this.date = date;
     }
 }

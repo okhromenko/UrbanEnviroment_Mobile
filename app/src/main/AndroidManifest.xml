@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
+            android:name=".OrganizationsPage"
+            android:exported="false" />
+        <activity
             android:name=".profile.org.ProfileActivityOrg"
             android:exported="false" />
         <activity

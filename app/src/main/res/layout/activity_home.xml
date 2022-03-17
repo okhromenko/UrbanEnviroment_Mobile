@@ -25,10 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:src="@drawable/button_sort"
+            android:src="@drawable/button_sort_ex"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="sort"
             app:layout_constraintTop_toTopOf="parent" />
 
     </com.loopeer.shadow.ShadowView>
