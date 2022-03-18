@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.urbanenviroment.AmimalPage;
+import com.example.urbanenviroment.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 
@@ -51,7 +50,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AmimalPage.class);
+                Intent intent = new Intent(context, AnimalPage.class);
                 context.startActivity(intent);
             }
         });

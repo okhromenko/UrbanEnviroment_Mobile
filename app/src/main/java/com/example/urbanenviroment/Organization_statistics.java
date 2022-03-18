@@ -8,12 +8,12 @@ import android.view.View;
 
 import com.example.urbanenviroment.profile.registr_authoriz.AuthorizationActivity;
 
-public class OrganizationsPage extends AppCompatActivity {
+public class Organization_statistics extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_organizations_page);
+        setContentView(R.layout.activity_organization_statistics_animal);
     }
 
     public void animals(View view){
@@ -41,8 +41,12 @@ public class OrganizationsPage extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void statistics(View view){
-        Intent intent = new Intent(this, Organization_statistics.class);
-        startActivity(intent);
+    public void button_animal_statistics(View view){
+        setContentView(R.layout.activity_organization_statistics_animal);
     }
+
+    public void button_ads_statistics(View view){
+        setContentView(R.layout.activity_organization_statistics_ads);
+    }
+
 }

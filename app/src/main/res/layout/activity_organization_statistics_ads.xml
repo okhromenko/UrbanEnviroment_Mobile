@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                app:srcCompat="@drawable/text_statistics" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Вот тут нужна статистика объявлений :)"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:onClick="button_animal_statistics"
+                    app:srcCompat="@drawable/button_animal_statistics_ex" />
+
+                <ImageButton
+                    android:id="@+id/imageButton15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="button_ads_statistics"
+                    app:srcCompat="@drawable/button_ads_statistics" />
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadowView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shadowColor="#1A000000"
+        app:shadowMarginTop="10dp"
+        app:shadowRadius="10dp">
+
+        <ImageButton
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            android:visibility="invisible" />
+
+    </com.loopeer.shadow.ShadowView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shadowView"
+        app:layout_constraintVertical_bias="0.8">
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="animals"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_animal_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="help"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_help_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="authorization"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_profile_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:contentDescription="@string/app_name"
+            android:onClick="organization"
+            android:src="@drawable/menu_organization" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="map"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/menu_map_ex" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

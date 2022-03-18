@@ -8,12 +8,12 @@ import android.view.View;
 
 import com.example.urbanenviroment.profile.registr_authoriz.AuthorizationActivity;
 
-public class AmimalPage extends AppCompatActivity {
+public class AnimalPage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_amimal_page);
+        setContentView(R.layout.activity_animal_page);
     }
 
     public void animals(View view){

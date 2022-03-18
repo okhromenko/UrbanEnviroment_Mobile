@@ -11,10 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.urbanenviroment.AmimalPage;
+import com.example.urbanenviroment.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
-import com.example.urbanenviroment.profile.user.FavoritesProfileUserAnimals;
 
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<Favorit
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AmimalPage.class);
+                Intent intent = new Intent(context, AnimalPage.class);
                 context.startActivity(intent);
             }
         });
