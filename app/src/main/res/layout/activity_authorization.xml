@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.registr_authoriz.AuthorizationActivity">
+    tools:context=".page.profile.registr_authoriz.AuthorizationActivity">
 
     <ImageView
         android:id="@+id/imageView2"

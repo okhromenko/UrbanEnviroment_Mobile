@@ -2,7 +2,6 @@ package com.example.urbanenviroment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.urbanenviroment.HelpPage;
-import com.example.urbanenviroment.OrganizationsPage;
+import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Organizations;
 

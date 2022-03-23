@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profile.user.FavoritesProfileUserAnimals">
+    tools:context=".page.profile.user.FavoritesProfileUserAnimals">
 
     <LinearLayout
         android:id="@+id/linearLayout7"
@@ -66,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
+                android:onClick="favorites_menu_org"
                 android:src="@drawable/button_org_menu_profile_ex" />
         </LinearLayout>
 

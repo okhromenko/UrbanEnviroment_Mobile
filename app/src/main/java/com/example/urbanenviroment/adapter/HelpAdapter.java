@@ -16,7 +16,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.urbanenviroment.HelpPage;
+import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Help;
 

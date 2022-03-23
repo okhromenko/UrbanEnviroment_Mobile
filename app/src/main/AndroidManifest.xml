@@ -10,70 +10,73 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
-            android:name=".Organization_statistics"
+            android:name=".page.profile.user.FavoritesProfileUserOrg"
             android:exported="false" />
         <activity
-            android:name=".OrganizationsPage"
+            android:name=".page.org.Organization_statistics"
             android:exported="false" />
         <activity
-            android:name=".profile.org.ProfileActivityOrg"
+            android:name=".page.org.OrganizationsPage"
             android:exported="false" />
         <activity
-            android:name=".profile.user.settings.SettingOther"
+            android:name=".page.profile.org.ProfileActivityOrg"
             android:exported="false" />
         <activity
-            android:name=".profile.user.settings.SettingProfileUser"
+            android:name=".page.profile.settings.SettingOther"
             android:exported="false" />
         <activity
-            android:name=".profile.user.settings.SettingNotificationsUser"
+            android:name=".page.profile.settings.SettingProfileUser"
             android:exported="false" />
         <activity
-            android:name=".profile.user.NotificationsProfileUser"
+            android:name=".page.profile.settings.SettingNotificationsUser"
             android:exported="false" />
         <activity
-            android:name=".profile.user.FavoritesProfileUserAds"
+            android:name=".page.profile.user.NotificationsProfileUser"
             android:exported="false" />
         <activity
-            android:name=".profile.user.FavoritesProfileUserAnimals"
+            android:name=".page.profile.user.FavoritesProfileUserAds"
             android:exported="false" />
         <activity
-            android:name=".profile.user.SettingsProfileUser"
+            android:name=".page.profile.user.FavoritesProfileUserAnimals"
             android:exported="false" />
         <activity
-            android:name=".FilterAnimals"
+            android:name=".page.profile.user.SettingsProfileUser"
             android:exported="false" />
         <activity
-            android:name=".HelpPage"
+            android:name=".page.animals.FilterAnimals"
             android:exported="false" />
         <activity
-            android:name=".AnimalPage"
+            android:name=".page.help.HelpPage"
             android:exported="false" />
         <activity
-            android:name=".CardsMainActivity"
+            android:name=".page.animals.AnimalPage"
             android:exported="false" />
         <activity
-            android:name=".profile.registr_authoriz.RegistrationActivity"
+            android:name=".page.animals.CardsMainActivity"
             android:exported="false" />
         <activity
-            android:name=".profile.registr_authoriz.AuthorizationActivity"
+            android:name=".page.profile.registr_authoriz.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".profile.user.ProfileActivityUser"
+            android:name=".page.profile.registr_authoriz.AuthorizationActivity"
             android:exported="false" />
         <activity
-            android:name=".OrganizationsActivity"
+            android:name=".page.profile.user.ProfileActivityUser"
             android:exported="false" />
         <activity
-            android:name=".MapActivity"
+            android:name=".page.org.OrganizationsActivity"
             android:exported="false" />
         <activity
-            android:name=".HelpActivity"
+            android:name=".page.map.MapActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".page.help.HelpActivity"
             android:exported="false" />
         <activity
-            android:name=".splashscreen.MainActivity"
+            android:name=".page.animals.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".page.splashscreen.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
