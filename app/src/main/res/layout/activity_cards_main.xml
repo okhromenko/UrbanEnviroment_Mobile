@@ -107,7 +107,7 @@
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,13 +134,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/shadowView"
-        app:layout_constraintVertical_bias="0.8">
+        app:layout_constraintVertical_bias="1">
 
         <ImageButton
             android:layout_width="73dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="animals"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:src="@drawable/menu_animals" />
 
         <ImageButton
@@ -148,6 +150,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="help"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:src="@drawable/menu_help_ex" />
 
         <ImageButton
@@ -155,6 +159,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="authorization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:src="@drawable/menu_profile_ex" />
 
         <ImageButton
@@ -162,6 +168,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="organization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:src="@drawable/menu_organization_ex" />
 
         <ImageButton
@@ -169,6 +177,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:onClick="map"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
             android:src="@drawable/menu_map_ex" />
     </LinearLayout>
 
