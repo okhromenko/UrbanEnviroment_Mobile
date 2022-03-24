@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".page.profile.user.SettingsProfileUser">
+    tools:context=".page.profile.org.SettingProfileOrg">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,23 +28,24 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/button_setting_notifications"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@color/transparent"
-                android:onClick="setting_notification"
-                app:srcCompat="@drawable/button_setting_notifications" />
-
-
-            <ImageButton
-                android:id="@+id/button_setting_profile"
+                android:id="@+id/button_setting_org_org"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@color/transparent"
                 android:onClick="setting_user"
-                app:srcCompat="@drawable/button_setting_profile" />
+                app:srcCompat="@drawable/button_setting_org_org" />
+
+
+            <ImageButton
+                android:id="@+id/button_setting_page_org"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/transparent"
+                android:onClick="setting_page"
+                app:srcCompat="@drawable/button_setting_page_org" />
+
 
             <ImageButton
                 android:id="@+id/imageButton6"

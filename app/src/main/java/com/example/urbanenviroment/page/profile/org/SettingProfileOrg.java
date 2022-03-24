@@ -1,27 +1,29 @@
-package com.example.urbanenviroment.page.profile.user;
+package com.example.urbanenviroment.page.profile.org;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.example.urbanenviroment.page.help.HelpActivity;
+import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.animals.HomeActivity;
+import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.settings.SettingNotificationsUser;
+import com.example.urbanenviroment.page.profile.settings.SettingOther;
+import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
+import com.example.urbanenviroment.page.profile.settings.SettingProfileUser;
 
-public class ProfileActivityUser extends AppCompatActivity {
+public class SettingProfileOrg extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_setting_profile_org);
     }
 
     public void animals(View view){
@@ -49,23 +51,23 @@ public class ProfileActivityUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void settings(View view){
-        Intent intent = new Intent(this, SettingsProfileUser.class);
+    public void setting_page(View view) {
+        Intent intent = new Intent(this, SettingPageOrg.class);
         startActivity(intent);
     }
 
-    public void favorites(View view){
-        Intent intent = new Intent(this, FavoritesProfileUserAnimals.class);
+    public void setting_user(View view) {
+        Intent intent = new Intent(this, SettingProfileUser.class);
         startActivity(intent);
     }
 
-    public void notifications(View view){
-        Intent intent = new Intent(this, NotificationsProfileUser.class);
+    public void setting_other(View view) {
+        Intent intent = new Intent(this, SettingOther.class);
         startActivity(intent);
     }
 
-    public void NAN(View view){
-        Intent intent = new Intent(this, ProfileActivityOrg.class);
-        startActivity(intent);
+    public void delete_profile(View view) {
+        Toast.makeText(getApplicationContext(),
+                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -49,7 +50,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
     }
 
     public void settings(View view){
-        Intent intent = new Intent(this, SettingsProfileUser.class);
+        Intent intent = new Intent(this, SettingProfileOrg.class);
         startActivity(intent);
     }
 

@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
+            android:name=".page.profile.settings.SettingPageOrg"
+            android:exported="false" />
+        <activity
+            android:name=".page.profile.org.SettingProfileOrg"
+            android:exported="false" />
+        <activity
             android:name=".page.profile.user.FavoritesProfileUserOrg"
             android:exported="false" />
         <activity
