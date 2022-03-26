@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:layout_margin="5dp"
-    android:layout_marginVertical="20dp">
+    android:layout_gravity="center_horizontal">
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/cardview"
@@ -15,18 +13,16 @@
         app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:shadowColor="#19000000"
         app:shadowMargin="10dp"
         app:shadowRadius="10dp">
 
         <LinearLayout
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -102,14 +98,20 @@
                         android:id="@+id/text22"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Возраст:"/>
+                        android:text="Возраст:"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/light_gray"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/favorite_animals_age"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right"
-                        android:text="Возраст"/>
+                        android:text="Возраст"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"/>
                 </FrameLayout>
 
                 <FrameLayout
@@ -120,14 +122,20 @@
                         android:id="@+id/text23"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Пол:"/>
+                        android:text="Пол:"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/light_gray"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/favorite_animals_sex"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right"
-                        android:text="Пол"/>
+                        android:text="Пол"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -138,18 +146,23 @@
                         android:id="@+id/text24"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Состояние:"/>
+                        android:text="Состояние:"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/light_gray"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/favorite_animals_state"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="right"
-                        android:text="Состояние"/>
+                        android:text="Состояние"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
                 </FrameLayout>
 
             </LinearLayout>
-
 
 
             <TextView

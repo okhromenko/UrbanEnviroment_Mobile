@@ -73,7 +73,7 @@
 
         <ImageButton
             android:layout_width="73dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="animals"
@@ -83,7 +83,7 @@
 
         <ImageButton
             android:layout_width="73dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="help"
@@ -93,7 +93,7 @@
 
         <ImageButton
             android:layout_width="73dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="authorization"
@@ -103,7 +103,7 @@
 
         <ImageButton
             android:layout_width="73dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="organization"
@@ -113,7 +113,7 @@
 
         <ImageButton
             android:layout_width="73dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="map"
