@@ -4,42 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".page.profile.user.NotificationsProfileUser">
+    tools:context=".page.profile.org.AddingPhoto">
 
     <LinearLayout
-        android:id="@+id/linearLayout7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/text_notification_profile" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/shadowView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/NotificationRecyclerProfile"
+        <ImageView
+            android:id="@+id/imageView22"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_add_photo"
+            android:layout_marginBottom="40dp"/>
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/imageView23"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_photo"
+            android:layout_marginBottom="20dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Добавить фотографию \n животного"/>
+
+            <ImageView
+                android:id="@+id/img_add_photo_animal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:onClick="loading_photo"
+                app:srcCompat="@drawable/img_photo_add_org" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/imageView24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_search_animals"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вот тут нужно добавить поиск"/>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="bottom|left"
+                app:srcCompat="@drawable/button_org_save"/>
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="bottom|right"
+                app:srcCompat="@drawable/button_org_cancel"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
@@ -64,8 +111,9 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="54dp"
-        android:layout_marginTop="16dp"
+        android:baselineAligned="true"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,17 +124,15 @@
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:contentDescription="@string/app_name"
             android:onClick="animals"
             android:scaleX="0.9"
             android:scaleY="0.9"
-            android:src="@drawable/menu_animal_ex" />
+            android:src="@drawable/menu_animals" />
 
         <ImageButton
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:contentDescription="@string/app_name"
             android:onClick="help"
             android:scaleX="0.9"
             android:scaleY="0.9"
@@ -96,17 +142,15 @@
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:contentDescription="@string/app_name"
             android:onClick="authorization"
             android:scaleX="0.9"
             android:scaleY="0.9"
-            android:src="@drawable/menu_profile" />
+            android:src="@drawable/menu_profile_ex" />
 
         <ImageButton
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:contentDescription="@string/app_name"
             android:onClick="organization"
             android:scaleX="0.9"
             android:scaleY="0.9"
@@ -116,7 +160,6 @@
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:contentDescription="@string/app_name"
             android:onClick="map"
             android:scaleX="0.9"
             android:scaleY="0.9"

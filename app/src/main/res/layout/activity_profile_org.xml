@@ -110,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:layout_gravity="left"
-                app:srcCompat="@drawable/button_add_profile_org" />
+                android:onClick="add_animal_photo_org"
+                app:srcCompat="@drawable/button_add_profile_org"/>
 
             <ImageButton
                 android:id="@+id/imageButton9"

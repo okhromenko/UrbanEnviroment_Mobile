@@ -58,4 +58,9 @@ public class ProfileActivityOrg extends AppCompatActivity {
         Intent intent = new Intent(this, ProfileActivityUser.class);
         startActivity(intent);
     }
+
+    public void add_animal_photo_org(View view) {
+        Intent intent = new Intent(this, AddingPhoto.class);
+        startActivity(intent);
+    }
 }
