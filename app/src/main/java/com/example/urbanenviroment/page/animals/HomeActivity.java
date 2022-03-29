@@ -95,8 +95,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void sort(View view){
-//        ImageButton button = (ImageButton) findViewById(R.id.button_sort_ex);
-//        button.setImageResource(R.drawable.button_sort);
         dialog_search.show(getSupportFragmentManager(), "fragment");
     }
 }

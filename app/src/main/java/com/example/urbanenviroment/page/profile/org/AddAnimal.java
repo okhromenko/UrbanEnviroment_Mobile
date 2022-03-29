@@ -1,21 +1,16 @@
 package com.example.urbanenviroment.page.profile.org;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -26,11 +21,9 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
-public class AddingPhoto extends AppCompatActivity {
+public class AddAnimal extends AppCompatActivity {
 
     private static final int RQS_OPEN_IMAGE = 1;
     private static final int RQS_GET_IMAGE = 2;
@@ -41,7 +34,7 @@ public class AddingPhoto extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adding_photo);
+        setContentView(R.layout.activity_add_animal);
     }
 
     public void loading_photo(View view){
@@ -52,7 +45,6 @@ public class AddingPhoto extends AppCompatActivity {
 
         startActivityForResult(intent, RQS_OPEN_IMAGE);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -87,6 +79,11 @@ public class AddingPhoto extends AppCompatActivity {
         }
     }
 
+    public void clear(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setText("");
+    }
+
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
@@ -110,5 +107,29 @@ public class AddingPhoto extends AppCompatActivity {
     public void map(View view){
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
+    }
+
+    public void clear_name(View view){
+        clear(R.id.add_animal_org);
+    }
+
+    public void clear_kind(View view){
+        clear(R.id.add_kind_animal);
+    }
+
+    public void clear_species(View view){
+        clear(R.id.add_species_animal);
+    }
+
+    public void clear_data(View view){
+        clear(R.id.add_data_animal);
+    }
+
+    public void clear_state(View view){
+        clear(R.id.add_state_animal);
+    }
+
+    public void clear_description(View view){
+        clear(R.id.add_description_animal_org);
     }
 }

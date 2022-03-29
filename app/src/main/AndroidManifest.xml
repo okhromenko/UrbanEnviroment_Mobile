@@ -13,7 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
-            android:name=".page.profile.org.AddingPhoto"
+            android:name=".page.profile.org.AddAnimal"
+            android:exported="false" />
+        <activity
+            android:name=".page.profile.org.DeletePhoto"
+            android:exported="false" />
+        <activity
+            android:name=".page.profile.org.AddPhoto"
             android:exported="false" />
         <activity
             android:name=".page.profile.settings.SettingPageOrg"
@@ -101,4 +107,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>

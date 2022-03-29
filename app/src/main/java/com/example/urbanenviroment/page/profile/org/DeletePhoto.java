@@ -6,20 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.urbanenviroment.page.help.HelpActivity;
+import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.Dialog_Search;
+import com.example.urbanenviroment.page.animals.FilterAnimals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
+import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
-import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 
-public class ProfileActivityOrg extends AppCompatActivity {
+public class DeletePhoto extends AppCompatActivity {
+
+    Dialog_Search dialog_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_org);
+        setContentView(R.layout.activity_delete_photo);
+
+        dialog_search = new Dialog_Search();
     }
 
     public void animals(View view){
@@ -47,28 +52,12 @@ public class ProfileActivityOrg extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void settings(View view){
-        Intent intent = new Intent(this, SettingProfileOrg.class);
+    public void filter(View view){
+        Intent intent = new Intent(this, FilterAnimals.class);
         startActivity(intent);
     }
 
-    public void NAN(View view){
-        Intent intent = new Intent(this, ProfileActivityUser.class);
-        startActivity(intent);
-    }
-
-    public void add_animal_photo_org(View view) {
-        Intent intent = new Intent(this, AddPhoto.class);
-        startActivity(intent);
-    }
-
-    public void delete_photo_animal(View view) {
-        Intent intent = new Intent(this, DeletePhoto.class);
-        startActivity(intent);
-    }
-
-    public void add_animal_description(View view) {
-        Intent intent = new Intent(this, AddAnimal.class);
-        startActivity(intent);
+    public void sort(View view){
+        dialog_search.show(getSupportFragmentManager(), "fragment");
     }
 }

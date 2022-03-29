@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".page.profile.org.AddPhoto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_add_photo"
+            android:layout_marginBottom="40dp"/>
+
+        <ImageView
+            android:id="@+id/imageView23"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_photo"
+            android:layout_marginBottom="20dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Добавить фотографию \n животного"/>
+
+            <ImageView
+                android:id="@+id/img_add_photo_animal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:onClick="loading_photo"
+                app:srcCompat="@drawable/img_photo_add_org" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/imageView24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/text_search_animals"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Вот тут нужно добавить поиск"/>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="bottom|left"
+                app:srcCompat="@drawable/button_org_save"/>
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:layout_gravity="bottom|right"
+                app:srcCompat="@drawable/button_org_cancel"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadowView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shadowColor="#1A000000"
+        app:shadowMarginTop="10dp"
+        app:shadowRadius="10dp">
+
+        <ImageButton
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            android:visibility="invisible" />
+
+    </com.loopeer.shadow.ShadowView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shadowView"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="animals"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_animals" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="help"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_help_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="authorization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_profile_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="organization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_organization_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="map"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_map_ex" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

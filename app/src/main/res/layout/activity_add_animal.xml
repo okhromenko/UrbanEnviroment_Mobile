@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".page.profile.org.AddAnimal">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/text_add_animals_org"
+                android:layout_marginBottom="30dp"/>
+
+            <ImageView
+                android:id="@+id/imageView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/text_name_kind_animal_org" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_change_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/add_animal_org"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите имя животного"
+                                android:inputType="text"
+                                android:textAlignment="textStart"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_clear_cross"
+                                android:background="@color/transparent"
+                                android:layout_gravity="center_vertical|right"
+                                android:onClick="clear_name"
+                                android:layout_marginEnd="15dp"/>
+                        </androidx.cardview.widget.CardView>
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        app:cardCornerRadius="14dp">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/add_kind_animal"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/roboto"
+                            android:hint="Введите вид животного"
+                            android:inputType="text"
+                            android:textSize="16sp"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_singleLineEllipsis="false" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_clear_cross"
+                            android:background="@color/transparent"
+                            android:layout_gravity="center_vertical|right"
+                            android:onClick="clear_kind"
+                            android:layout_marginEnd="15dp"/>
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        app:cardCornerRadius="14dp">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/add_species_animal"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/roboto"
+                            android:hint="Введите науное название"
+                            android:inputType="text"
+                            android:textSize="16sp"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_singleLineEllipsis="false" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_clear_cross"
+                            android:background="@color/transparent"
+                            android:layout_gravity="center_vertical|right"
+                            android:onClick="clear_species"
+                            android:layout_marginEnd="15dp"/>
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/text_photo" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_marginBottom="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Добавить фотографию \n животного"/>
+
+                <ImageView
+                    android:id="@+id/img_add_photo_animal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:onClick="loading_photo"
+                    app:srcCompat="@drawable/img_photo_add_org" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/imageView28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@drawable/text_specifications_animal_org" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/button_switch_man"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="120dp"
+                    android:text="Самец"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/button_switch_woman"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layoutDirection="rtl"
+                    android:text="Самка"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_change_location_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/add_data_animal"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите дату рождения"
+                                android:inputType="date"
+                                android:textAlignment="textStart"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_clear_cross"
+                                android:background="@color/transparent"
+                                android:layout_gravity="center_vertical|right"
+                                android:onClick="clear_data"
+                                android:layout_marginEnd="15dp"/>
+                        </androidx.cardview.widget.CardView>
+
+                    </FrameLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        app:cardCornerRadius="14dp">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/add_state_animal"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/roboto"
+                            android:hint="Введите состояние животного"
+                            android:inputType="text"
+                            android:textSize="16sp"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_singleLineEllipsis="false" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_clear_cross"
+                            android:background="@color/transparent"
+                            android:layout_gravity="center_vertical|right"
+                            android:onClick="clear_state"
+                            android:layout_marginEnd="15dp"/>
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView29"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:srcCompat="@drawable/text_add_descriptions_org" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout_change_location_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    android:layout_marginBottom="70dp"
+                    app:cardCornerRadius="15dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="1dp"
+                        app:cardCornerRadius="14dp">
+
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/add_description_animal_org"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="15dp"
+                            android:fontFamily="@font/roboto"
+                            android:hint="Введите описание"
+                            android:inputType="text"
+                            android:textSize="16sp"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_singleLineEllipsis="false" />
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_clear_cross"
+                            android:background="@color/transparent"
+                            android:layout_gravity="center_vertical|right"
+                            android:onClick="clear_description"
+                            android:layout_marginEnd="15dp"/>
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:background="@color/transparent"
+            android:src="@drawable/button_org_save" />
+
+        <ImageButton
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/button_org_cancel" />
+    </LinearLayout>
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadowView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shadowColor="#1A000000"
+        app:shadowMarginTop="10dp"
+        app:shadowRadius="10dp">
+
+        <ImageButton
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            android:visibility="invisible" />
+
+    </com.loopeer.shadow.ShadowView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shadowView"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="animals"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_animals" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="help"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_help_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="authorization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_profile_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="organization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_organization_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="map"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_map_ex" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
