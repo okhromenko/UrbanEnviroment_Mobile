@@ -7,15 +7,22 @@
     android:background="@color/white"
     tools:context=".page.profile.user.FavoritesProfileUserAnimals">
 
-    <ImageView
-        android:id="@+id/imageView19"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/text_favorites_profile"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/text_favorites_profile" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_marginStart="2dp"
@@ -27,7 +34,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView19">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/FavoritesRecyclerProfileAnimals"
@@ -36,43 +43,50 @@
             android:clipToPadding="false"
             android:paddingBottom="40dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:scaleX="0.9"
-            android:scaleY="0.9">
-
-            <ImageButton
-                android:id="@+id/button_animals_menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="favorites_menu_animal"
-                android:src="@drawable/button_animals_menu_profile" />
-
-            <ImageButton
-                android:id="@+id/button_ads_menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/transparent"
-                android:onClick="favorites_menu_ads"
-                android:src="@drawable/button_ads_menu_profile_ex" />
-
-            <ImageButton
-                android:id="@+id/button_org_menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="favorites_menu_org"
-                android:src="@drawable/button_org_menu_profile_ex" />
-        </LinearLayout>
-
     </FrameLayout>
+
+    <LinearLayout
+        android:scaleX="0.95"
+        android:scaleY="0.95"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_animals_menu_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_animal"
+            android:src="@drawable/button_animals_menu_profile" />
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_ads_menu_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_ads"
+            android:src="@drawable/button_ads_menu_profile_ex" />
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_org_menu_profile"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_org"
+            android:src="@drawable/button_org_menu_profile_ex" />
+    </LinearLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
