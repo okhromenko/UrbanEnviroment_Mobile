@@ -71,4 +71,10 @@ public class ProfileActivityOrg extends AppCompatActivity {
         Intent intent = new Intent(this, AddAnimal.class);
         startActivity(intent);
     }
+
+    public void edit_animal(View view) {
+        Intent intent = new Intent(this, EditAnimal.class);
+        startActivity(intent);
+    }
+
 }
