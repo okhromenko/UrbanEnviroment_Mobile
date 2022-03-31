@@ -3,57 +3,100 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="0dp"
     android:layout_gravity="center_horizontal">
 
-    <androidx.cardview.widget.CardView
+    <com.loopeer.shadow.ShadowView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:shadowColor="#19000000"
+        app:shadowMargin="10dp"
+        app:shadowRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="15dp">
-
-                <ImageView
-                    android:id="@+id/img_org_org"
-                    android:layout_width="match_parent"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal">
+                <com.loopeer.shadow.ShadowView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/img_org" />
+                    app:shadowColor="#1A000000"
+                    app:shadowMargin="5dp"
+                    app:shadowRadius="5dp"
+                    app:cornerRadius="50dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        app:cardBackgroundColor="@color/background"
+                        app:cardCornerRadius="50dp" >
+
+                        <ImageView
+                            android:id="@+id/img_org_org"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/img_org" />
+
+                        </androidx.cardview.widget.CardView>
+                </com.loopeer.shadow.ShadowView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center_vertical">
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/name_org_org"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:textSize="16sp"
                         android:text="Название организации"
-                        android:layout_marginBottom="5dp"/>
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/address_org_org"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Местоположение" />
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageView32"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/img_map" />
+
+                        <TextView
+                            android:id="@+id/address_org_org"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="Местоположение"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/dark_gray"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -63,41 +106,77 @@
                 android:id="@+id/description_org"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:textSize="16sp"
-                android:text="Описание объявления" />
+                android:layout_marginStart="5dp"
+                android:text="Описание объявления"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/imageView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/img_animal" />
 
                     <TextView
                         android:id="@+id/count_animal_org"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="тык" />
+                        android:text="тык"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView30"
+                        android:layout_width="18dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/img_ads" />
 
                     <TextView
                         android:id="@+id/count_ads_org"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="тык" />
+                        android:text="тык"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:id="@+id/imageView31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/img_photo" />
 
                     <TextView
                         android:id="@+id/count_photo_org"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="тык" />
+                        android:text="тык"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <TextView
@@ -106,12 +185,15 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_marginEnd="10dp"
-                    android:text="Дата регистрации" />
+                    android:text="Дата регистрации"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"/>
 
             </FrameLayout>
 
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.loopeer.shadow.ShadowView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

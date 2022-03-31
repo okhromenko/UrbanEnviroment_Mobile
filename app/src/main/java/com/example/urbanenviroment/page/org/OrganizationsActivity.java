@@ -19,6 +19,7 @@ import com.example.urbanenviroment.adapter.OrganizationsAdapter;
 import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.Dialog_Search;
+import com.loopeer.shadow.ShadowView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,17 +102,24 @@ public class OrganizationsActivity extends AppCompatActivity {
     }
 
     public void find(View view){
-        ImageButton button = (ImageButton) findViewById(R.id.button_sort_ex);
+        //ShadowView button = (ShadowView) findViewById(R.id.shadowView2);
         FrameLayout rectangle = (FrameLayout) findViewById(R.id.rectangle_search_org);
 
-        if (button.getVisibility() == View.GONE){
-            button.setVisibility(View.VISIBLE);
-            rectangle.setVisibility(View.GONE);
-        }
-        else{
-            button.setVisibility(View.GONE);
+        if (rectangle.getVisibility() == View.GONE){
             rectangle.setVisibility(View.VISIBLE);
         }
+        else{
+            rectangle.setVisibility(View.GONE);
+        }
+
+        //if (button.getVisibility() == View.GONE){
+        //    button.setVisibility(View.VISIBLE);
+        //    rectangle.setVisibility(View.GONE);
+        //}
+        //else{
+        //    button.setVisibility(View.GONE);
+        //    rectangle.setVisibility(View.VISIBLE);
+        //}
 
     }
 

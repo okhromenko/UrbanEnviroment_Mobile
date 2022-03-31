@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">UrbanEnviroment</string>
+    <string name="sort">Сортировка по времени</string>
+    <string name="sort_date">Сортировка по дате регистрации</string>
+    <string name="sort_photo">Сортировка по количеству фото</string>
+    <string name="sort_animal">Сортировка по количеству животных</string>
+    <string name="sort_ads">Сортировка по количеству объявлений</string>
 </resources>
