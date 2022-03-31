@@ -24,11 +24,13 @@
     </LinearLayout>
 
     <FrameLayout
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
@@ -36,41 +38,54 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/FavoritesRecyclerOrg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp"
-            android:gravity="center">
-
-            <ImageButton
-                android:id="@+id/button_animals_menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="favorites_menu_animal"
-                android:src="@drawable/button_animals_menu_profile_ex" />
-
-            <ImageButton
-                android:id="@+id/button_ads_menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="favorites_menu_ads"
-                android:src="@drawable/button_ads_menu_profile_ex" />
-
-            <ImageButton
-                android:id="@+id/button_org_menu_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="favorites_menu_org"
-                android:src="@drawable/button_org_menu_profile" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="40dp" />
 
     </FrameLayout>
+
+    <LinearLayout
+        android:scaleX="0.95"
+        android:scaleY="0.95"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_animals_menu_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_animal"
+            android:src="@drawable/button_animals_menu_profile_ex" />
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_ads_menu_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_ads"
+            android:src="@drawable/button_ads_menu_profile_ex" />
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_org_menu_profile"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_org"
+            android:src="@drawable/button_org_menu_profile" />
+    </LinearLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
