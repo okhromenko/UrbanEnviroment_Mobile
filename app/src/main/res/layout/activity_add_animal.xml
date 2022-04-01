@@ -25,6 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/text_add_animals_org"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="30dp"/>
 
             <ImageView

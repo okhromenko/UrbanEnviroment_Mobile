@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
+            android:name=".page.profile.org.AddHelp"
+            android:exported="false" />
+        <activity
             android:name=".page.profile.org.EditAnimalPage"
             android:exported="false" />
         <activity
