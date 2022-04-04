@@ -6,6 +6,438 @@
     android:layout_height="match_parent"
     tools:context=".page.profile.org.EditAnimalPage">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                app:srcCompat="@drawable/text_edit_animal_page_edit" />
+
+            <ImageView
+                android:id="@+id/imageView33"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/change_kind_state_edit_animal" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/text_name_animal_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Имя животного" />
+
+                <TextView
+                    android:id="@+id/button_change_name_animal_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textStyle="bold"
+                    android:onClick="change_name_animal_edit_page"
+                    android:text="Изменить" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_change_name_animal_edit_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:cardBackgroundColor="@color/basic_blue"
+                        app:cardCornerRadius="15dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="1dp"
+                                app:cardCornerRadius="14dp">
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
+                                    android:id="@+id/add_animal_org"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="48dp"
+                                    android:layout_marginStart="15dp"
+                                    android:fontFamily="@font/roboto"
+                                    android:hint="Введите имя животного"
+                                    android:inputType="text"
+                                    android:textAlignment="textStart"
+                                    android:textSize="16sp"
+                                    app:met_floatingLabel="none"
+                                    app:met_hideUnderline="true"
+                                    app:met_singleLineEllipsis="false" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/button_clear_cross"
+                                    android:background="@color/transparent"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:onClick="clear_name"
+                                    android:layout_marginEnd="15dp"/>
+
+                            </androidx.cardview.widget.CardView>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        app:cardBackgroundColor="@color/basic_blue"
+                        app:cardCornerRadius="15dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/change_password_setting_name_animal"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите пароль"
+                                android:inputType="textPassword"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|right"
+                                android:layout_marginEnd="15dp"
+                                android:background="@color/transparent"
+                                android:onClick="clear_name_password"
+                                android:src="@drawable/button_clear_cross" />
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_save_setting"
+                            android:background="@color/transparent"
+                            android:layout_marginRight="150dp"/>
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_cancel_setting"
+                            android:layout_gravity="right"
+                            android:onClick="cancel_name_animal_edit_page"
+                            android:background="@color/transparent"/>
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/text_kind_animal_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Вид животного" />
+
+                <TextView
+                    android:id="@+id/button_change_kind_animal_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textStyle="bold"
+                    android:onClick="change_kind_animal_edit_page"
+                    android:text="Изменить" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_change_kind_animal_edit_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:cardBackgroundColor="@color/basic_blue"
+                        app:cardCornerRadius="15dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/add_kind_org"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите вид животного"
+                                android:inputType="text"
+                                android:textAlignment="textStart"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_clear_cross"
+                                android:background="@color/transparent"
+                                android:layout_gravity="center_vertical|right"
+                                android:onClick="clear_kind"
+                                android:layout_marginEnd="15dp"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        app:cardBackgroundColor="@color/basic_blue"
+                        app:cardCornerRadius="15dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/change_password_setting_kind_animal"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите пароль"
+                                android:inputType="textPassword"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|right"
+                                android:layout_marginEnd="15dp"
+                                android:background="@color/transparent"
+                                android:onClick="clear_kind_password"
+                                android:src="@drawable/button_clear_cross" />
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_save_setting"
+                            android:background="@color/transparent"
+                            android:layout_marginRight="150dp"/>
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_cancel_setting"
+                            android:layout_gravity="right"
+                            android:onClick="cancel_kind_animal_edit_page"
+                            android:background="@color/transparent"/>
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/text_species_animal_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Научное название вида" />
+
+                <TextView
+                    android:id="@+id/button_change_species_animal_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:textStyle="bold"
+                    android:onClick="change_species_animal_edit_page"
+                    android:text="Изменить" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_change_species_animal_edit_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:cardBackgroundColor="@color/basic_blue"
+                        app:cardCornerRadius="15dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/add_species_org"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите научное название вида"
+                                android:inputType="text"
+                                android:textAlignment="textStart"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/button_clear_cross"
+                                android:background="@color/transparent"
+                                android:layout_gravity="center_vertical|right"
+                                android:onClick="clear_species"
+                                android:layout_marginEnd="15dp"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        app:cardBackgroundColor="@color/basic_blue"
+                        app:cardCornerRadius="15dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/change_password_setting_species_animal"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите пароль"
+                                android:inputType="textPassword"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|right"
+                                android:layout_marginEnd="15dp"
+                                android:background="@color/transparent"
+                                android:onClick="clear_species_password"
+                                android:src="@drawable/button_clear_cross" />
+                        </androidx.cardview.widget.CardView>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal">
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_save_setting"
+                            android:background="@color/transparent"
+                            android:layout_marginRight="150dp"/>
+
+                        <ImageButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/button_cancel_setting"
+                            android:layout_gravity="right"
+                            android:onClick="cancel_species_animal_edit_page"
+                            android:background="@color/transparent"/>
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/imageView34"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                app:srcCompat="@drawable/change_main_photo_edit_animal" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
         android:layout_width="match_parent"

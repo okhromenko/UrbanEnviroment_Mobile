@@ -35,7 +35,6 @@
                 app:srcCompat="@drawable/text_name_kind_animal_org" />
 
             <LinearLayout
-                android:id="@+id/linearLayout_change_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"

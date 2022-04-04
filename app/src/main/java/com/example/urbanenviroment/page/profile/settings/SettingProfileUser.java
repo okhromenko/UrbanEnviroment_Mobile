@@ -71,7 +71,6 @@ public class SettingProfileUser extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_name_user);
 
         change(textName, textchange, layout);
-
     }
 
     public void change_user_email(View view){

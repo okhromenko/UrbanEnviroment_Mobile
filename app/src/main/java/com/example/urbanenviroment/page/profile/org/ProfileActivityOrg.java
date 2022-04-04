@@ -82,4 +82,9 @@ public class ProfileActivityOrg extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void edit_help(View view) {
+        Intent intent = new Intent(this, EditHelp.class);
+        startActivity(intent);
+    }
+
 }

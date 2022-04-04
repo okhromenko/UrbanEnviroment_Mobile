@@ -16,6 +16,7 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
+import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 
 import java.util.ArrayList;
@@ -106,4 +107,5 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
         Intent intent = new Intent(this, FavoritesProfileUserOrg.class);
         startActivity(intent);
     }
+
 }

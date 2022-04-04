@@ -171,9 +171,9 @@
             <ImageButton
                 android:id="@+id/imageButton22"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:layout_height="match_parent"
                 android:layout_gravity="left"
+                android:background="@color/transparent"
                 android:onClick="add_ad_org"
                 app:srcCompat="@drawable/button_add_profile_org" />
 
@@ -183,6 +183,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:layout_gravity="right"
+                android:onClick="edit_help"
                 app:srcCompat="@drawable/button_edit_profile_org" />
         </FrameLayout>
 

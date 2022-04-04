@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment">
         <activity
+            android:name=".page.profile.org.EditHelpPage"
+            android:exported="false" />
+        <activity
+            android:name=".page.profile.org.EditHelp"
+            android:exported="false" />
+        <activity
             android:name=".page.profile.org.AddHelp"
             android:exported="false" />
         <activity
