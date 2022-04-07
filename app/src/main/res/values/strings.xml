@@ -5,4 +5,7 @@
     <string name="sort_photo">Сортировка по количеству фото</string>
     <string name="sort_animal">Сортировка по количеству животных</string>
     <string name="sort_ads">Сортировка по количеству объявлений</string>
+    <string name="ads_food">Еда</string>
+    <string name="ads_stuff">Вещи</string>
+    <string name="ads_volunteer">Волонтерство</string>
 </resources>

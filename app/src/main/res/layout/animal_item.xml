@@ -11,12 +11,12 @@
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp"
+        app:cornerRadius="10dp"
         app:shadowColor="#19000000"
         app:shadowMargin="10dp"
         app:shadowRadius="10dp">
@@ -55,12 +55,13 @@
                     </androidx.cardview.widget.CardView>
                 </com.loopeer.shadow.ShadowView>
 
+
                 <TextView
                     android:id="@+id/name_org_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:text="Название организации" />
