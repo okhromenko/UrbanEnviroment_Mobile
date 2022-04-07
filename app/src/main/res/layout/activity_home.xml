@@ -100,7 +100,6 @@
         </androidx.cardview.widget.CardView>
     </com.loopeer.shadow.ShadowView>
 
-
     <LinearLayout
         android:scaleX="0.95"
         android:scaleY="0.95"
@@ -150,7 +149,6 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:visibility="invisible" />
-
 
     </com.loopeer.shadow.ShadowView>
 
@@ -212,5 +210,4 @@
             android:scaleY="0.9"
             android:src="@drawable/menu_map_ex" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

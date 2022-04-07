@@ -27,42 +27,56 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.loopeer.shadow.ShadowView
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:shadowColor="#1A000000"
-                    app:shadowMargin="5dp"
-                    app:shadowRadius="5dp"
-                    app:cornerRadius="50dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:cardBackgroundColor="@color/background"
-                        app:cardCornerRadius="50dp" >
-
-                    <ImageView
-                        android:id="@+id/img_org_help"
-                        android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <com.loopeer.shadow.ShadowView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/img_org" />
-                    </androidx.cardview.widget.CardView>
-                </com.loopeer.shadow.ShadowView>
+                        app:shadowColor="#1A000000"
+                        app:shadowMargin="5dp"
+                        app:shadowRadius="5dp"
+                        app:cornerRadius="50dp">
 
-                <TextView
-                    android:id="@+id/name_org_help"
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="50dp" >
+
+                        <ImageView
+                            android:id="@+id/img_org_help"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/img_org" />
+                        </androidx.cardview.widget.CardView>
+                    </com.loopeer.shadow.ShadowView>
+
+                    <TextView
+                        android:id="@+id/name_org_help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:text="Название организации" />
+                </LinearLayout>
+
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:text="Название организации" />
-            </LinearLayout>
+                    android:src="@drawable/button_favorite"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"/>
+
+            </FrameLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"

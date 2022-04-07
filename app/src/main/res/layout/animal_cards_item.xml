@@ -27,61 +27,73 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <com.loopeer.shadow.ShadowView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:shadowColor="#1A000000"
-                    app:shadowMargin="5dp"
-                    app:shadowRadius="5dp"
-                    app:cornerRadius="50dp">
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        app:cardBackgroundColor="@color/background"
-                        app:cardCornerRadius="50dp" >
+                    <com.loopeer.shadow.ShadowView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:shadowColor="#1A000000"
+                        app:shadowMargin="5dp"
+                        app:shadowRadius="5dp"
+                        app:cornerRadius="50dp">
 
-                        <ImageView
-                            android:id="@+id/img_animal_cards"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="visible"
-                            app:srcCompat="@drawable/img_org" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="50dp" >
 
-                    </androidx.cardview.widget.CardView>
-                </com.loopeer.shadow.ShadowView>
+                            <ImageView
+                                android:id="@+id/img_animal_cards"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="visible"
+                                app:srcCompat="@drawable/img_org" />
+
+                        </androidx.cardview.widget.CardView>
+                    </com.loopeer.shadow.ShadowView>
 
 
-                <TextView
-                    android:id="@+id/kind_cards"
+                    <TextView
+                        android:id="@+id/kind_cards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Название вида"
+                        android:layout_marginRight="5dp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/name_animal_cards"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Имя животного"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Название вида"
-                    android:layout_marginRight="5dp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/name_animal_cards"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Имя животного"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                    android:src="@drawable/button_favorite"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"/>
+            </FrameLayout>
 
 
             <TextView
@@ -115,18 +127,5 @@
 
     </com.loopeer.shadow.ShadowView>
 
-    <ImageButton
-        android:id="@+id/button_favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginRight="20dp"
-        android:background="#00FFFFFF"
-        android:onClick="add_favorite"
-        app:layout_constraintEnd_toEndOf="@+id/cardview"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/cardview"
-        app:layout_constraintTop_toTopOf="@+id/cardview"
-        app:srcCompat="@drawable/button_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

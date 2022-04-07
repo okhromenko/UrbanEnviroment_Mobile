@@ -55,9 +55,9 @@
                 android:text="объявлений" />
         </LinearLayout>
 
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.loopeer.shadow.ShadowView
                 android:id="@+id/shadowView2"
@@ -130,7 +130,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </com.loopeer.shadow.ShadowView>
-</FrameLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -234,6 +234,4 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/menu_map_ex" />
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
