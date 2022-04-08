@@ -1,4 +1,4 @@
-package com.example.urbanenviroment.page.animals;
+package com.example.urbanenviroment.page;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.urbanenviroment.R;
 
-public class FilterAnimals extends AppCompatActivity {
+public class Filter extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

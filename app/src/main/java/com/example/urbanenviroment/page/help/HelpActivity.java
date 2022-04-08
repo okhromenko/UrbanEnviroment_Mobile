@@ -13,7 +13,7 @@ import com.example.urbanenviroment.page.Dialog_Search;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.model.Help;
-import com.example.urbanenviroment.page.animals.FilterAnimals;
+import com.example.urbanenviroment.page.Filter;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
@@ -92,7 +92,7 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterAnimals.class);
+        Intent intent = new Intent(this, Filter.class);
         startActivity(intent);
     }
 

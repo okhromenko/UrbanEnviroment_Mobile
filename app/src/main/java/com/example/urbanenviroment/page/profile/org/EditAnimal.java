@@ -13,7 +13,7 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.AnimalEditOrgAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.Dialog_Search;
-import com.example.urbanenviroment.page.animals.FilterAnimals;
+import com.example.urbanenviroment.page.Filter;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -88,7 +88,7 @@ public class EditAnimal extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterAnimals.class);
+        Intent intent = new Intent(this, Filter.class);
         startActivity(intent);
     }
 

@@ -5,10 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.urbanenviroment.page.Dialog_Search;
+import com.example.urbanenviroment.page.Filter;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
@@ -25,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
 
-    Dialog_Search dialog_search;
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,6 @@ public class HomeActivity extends AppCompatActivity {
 
         setAnimalsRecycler(animalsList);
 
-        dialog_search = new Dialog_Search();
     }
 
     private void setAnimalsRecycler(List<Animals> animalsList){
@@ -90,11 +92,22 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterAnimals.class);
+        Intent intent = new Intent(this, Filter.class);
         startActivity(intent);
     }
 
     public void sort(View view){
-        dialog_search.show(getSupportFragmentManager(), "fragment");
+        ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
+
+        if (flag){
+            button_up.setImageResource(R.drawable.img_sort_arrow_up);
+            flag = false;
+        }
+        else{
+            button_up.setImageResource(R.drawable.img_sort_arrow_down);
+            flag = true;
+        }
+
+
     }
 }

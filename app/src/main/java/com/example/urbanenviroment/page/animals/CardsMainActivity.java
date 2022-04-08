@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.example.urbanenviroment.page.Filter;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
@@ -23,6 +25,8 @@ public class CardsMainActivity extends AppCompatActivity {
 
     RecyclerView AnimalsCardsRecycler;
     AnimalCardsAdapter cardsAdapter;
+
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +85,21 @@ public class CardsMainActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterAnimals.class);
+        Intent intent = new Intent(this, Filter.class);
         startActivity(intent);
+    }
+
+    public void sort(View view){
+        ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
+
+        if (flag){
+            button_up.setImageResource(R.drawable.img_sort_arrow_up);
+            flag = false;
+        }
+        else{
+            button_up.setImageResource(R.drawable.img_sort_arrow_down);
+            flag = true;
+        }
     }
 
 }

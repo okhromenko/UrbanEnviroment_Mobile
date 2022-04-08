@@ -92,6 +92,7 @@
                     android:textColor="@color/black"/>
 
                 <ImageView
+                    android:id="@+id/img_sort_arrow_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/img_sort_arrow_up"
