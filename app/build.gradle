@@ -44,4 +44,5 @@ dependencies {
     implementation 'com.github.MaTriXy:Android-custom-shadow-view:master'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation "androidx.recyclerview:recyclerview:1.2.0-alpha04"
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:3.0.0"
 }

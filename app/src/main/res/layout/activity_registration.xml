@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:orientation="vertical"
-        android:visibility="invisible"
+
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +134,7 @@
                 app:cardCornerRadius="14dp">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/passFieldduplicate"
+                    android:id="@+id/passFieldDuplicate"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginStart="15dp"
@@ -149,11 +149,12 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ImageButton
-            android:id="@+id/imageButton3"
+        <ImageView
+            android:id="@+id/buttonRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:onClick="button_registration"
             app:srcCompat="@drawable/button_register" />
     </LinearLayout>
 

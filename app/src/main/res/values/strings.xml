@@ -8,4 +8,9 @@
     <string name="ads_food">Еда</string>
     <string name="ads_stuff">Вещи</string>
     <string name="ads_volunteer">Волонтерство</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+    <!-- Change BOTH strings as required -->
+    <string name="back4app_app_id">pttgerbnLJl4Rghwxxd2TT0IbPq3cHTgOlV7i4LN</string>
+    <string name="back4app_client_key">B4OD6zSCXMjXpscwe1OgFtxpI9bgdsqZKLGdi5zr</string>
 </resources>

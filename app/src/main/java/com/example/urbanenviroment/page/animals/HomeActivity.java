@@ -1,5 +1,7 @@
 package com.example.urbanenviroment.page.animals;
 
+import com.parse.GetCallback;
+import com.parse.Parse;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +21,9 @@ import com.example.urbanenviroment.adapter.AnimalsAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +38,32 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId(getString(R.string.back4app_app_id))
+                // if defined
+                .clientKey(getString(R.string.back4app_client_key))
+                .server(getString(R.string.back4app_server_url))
+                .build()
+        );
+
         setContentView(R.layout.activity_home);
+
+
+//        ParseObject person = new ParseObject("Person");
+//        person.put("name", "John Snow");
+//        person.put("age", 27);
+//        person.saveInBackground();
+//
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Person");
+//        query.getInBackground("mhPFDlCahj", new GetCallback<ParseObject>() {
+//            public void done(ParseObject object, ParseException e) {
+//                if (e == null) {
+//                } else {
+//                }
+//            }
+//        });
 
         List<Animals> animalsList = new ArrayList<>();
         animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "animal_item_img",
