@@ -27,6 +27,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     MaterialEditText emailField, nameFields, passwordField, passwordFieldDuplicate;
 
+    Boolean is_org;
+
     private ProgressDialog progressDialog;
 
     @Override
@@ -46,22 +48,35 @@ public class RegistrationActivity extends AppCompatActivity {
         passwordField = (MaterialEditText) findViewById(R.id.passField);
         passwordFieldDuplicate = (MaterialEditText) findViewById(R.id.passFieldDuplicate);
 
-        if (!nameFields.getText().toString().isEmpty() && !passwordField.getText().toString().isEmpty()){
-            progressDialog.show();
-            ParseUser user = new ParseUser();
+        if (!emailField.getText().toString().isEmpty() && !nameFields.getText().toString().isEmpty()
+                && !passwordField.getText().toString().isEmpty() && !passwordFieldDuplicate.getText().toString().isEmpty()){
 
-            user.setUsername(nameFields.getText().toString());
-            user.setPassword(passwordField.getText().toString());
-            user.signUpInBackground(e -> {
-                progressDialog.dismiss();
-                if (e == null) {
-                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                } else {
-                    ParseUser.logOut();
-                    Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+            if (passwordField.getText().toString().equals(passwordFieldDuplicate.getText().toString())){
+
+                progressDialog.show();
+
+                ParseUser user = new ParseUser();
+                user.setUsername(nameFields.getText().toString());
+                user.setPassword(passwordField.getText().toString());
+                user.setEmail(emailField.getText().toString());
+                user.put("is_org", is_org);
+
+                user.signUpInBackground(e -> {
+                    progressDialog.dismiss();
+
+                    if (e == null) {
+                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                    } else {
+                        ParseUser.logOut();
+                        Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Пароли не совпадают", Toast.LENGTH_LONG).show();
         }
+        else
+            Toast.makeText(getApplicationContext(), "Заполните все поля", Toast.LENGTH_LONG).show();
     }
 
     public void authorization(View view){
@@ -71,13 +86,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void user_register(View view){
 
+        is_org = false;
+
         ImageView ivname = findViewById(R.id.imageView4);
         ivname.setImageResource(R.drawable.text_reg_user);
 
-        ImageButton ibu = findViewById(R.id.imageButton);
+        ImageButton ibu = findViewById(R.id.user_register);
         ibu.setImageResource(R.drawable.button_user_press);
 
-        ImageButton ibo = findViewById(R.id.imageButton2);
+        ImageButton ibo = findViewById(R.id.org_register);
         ibo.setImageResource(R.drawable.button_organization);
 
         LinearLayout lldata = findViewById(R.id.linearLayoutData);
@@ -90,13 +107,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void org_register(View view){
 
+        is_org = true;
+
         ImageView ivname = findViewById(R.id.imageView4);
         ivname.setImageResource(R.drawable.text_reg_org);
 
-        ImageButton ibu = findViewById(R.id.imageButton);
+        ImageButton ibu = findViewById(R.id.user_register);
         ibu.setImageResource(R.drawable.button_user);
 
-        ImageButton ibo = findViewById(R.id.imageButton2);
+        ImageButton ibo = findViewById(R.id.org_register);
         ibo.setImageResource(R.drawable.button_org_press);
 
         LinearLayout lldata = findViewById(R.id.linearLayoutData);

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:orientation="vertical"
-
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +180,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView4">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/user_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -188,7 +188,7 @@
             app:srcCompat="@drawable/button_user" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/org_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
