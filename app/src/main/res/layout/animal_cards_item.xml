@@ -87,12 +87,14 @@
                 </LinearLayout>
 
                 <ImageButton
+                    android:id="@+id/button_favorite_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/button_favorite"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/transparent"/>
+                    android:background="@color/transparent"
+                    android:onClick="button_favorite"
+                    android:src="@drawable/button_favorite" />
             </FrameLayout>
 
 

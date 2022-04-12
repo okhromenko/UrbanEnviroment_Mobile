@@ -209,15 +209,11 @@
         </FrameLayout>
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
+            android:id="@+id/exit_profile"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Переключить на пользователя"
-            app:layout_constraintBottom_toTopOf="@+id/shadowView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:onClick="NAN"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout8"/>
+            android:onClick="exit"
+            android:text="Выйти" />
 
     </LinearLayout>
 

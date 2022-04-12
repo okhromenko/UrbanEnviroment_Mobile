@@ -103,6 +103,13 @@
             android:onClick="notifications"
             app:srcCompat="@drawable/button_notification" />
 
+        <Button
+            android:id="@+id/exit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="exit"
+            android:text="Выйти" />
+
     </LinearLayout>
 
     <com.loopeer.shadow.ShadowView
@@ -187,16 +194,5 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/menu_map_ex" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Переключить на организацию"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="NAN"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

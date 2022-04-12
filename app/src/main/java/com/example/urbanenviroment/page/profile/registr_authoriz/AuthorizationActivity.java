@@ -27,6 +27,22 @@ public class AuthorizationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authorization);
 
         progressDialog = new ProgressDialog(AuthorizationActivity.this);
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        if(parseUser != null){
+
+            if ((Boolean) parseUser.get("is_org")) {
+                Intent intent = new Intent(this, ProfileActivityOrg.class);
+                startActivity(intent);
+                finish();
+            }
+            else {
+                Intent intent = new Intent(this, ProfileActivityUser.class);
+                startActivity(intent);
+                finish();
+            }
+        }
     }
 
     public void registration(View view){
@@ -47,7 +63,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
             if (parseUser != null) {
                 Toast.makeText(getApplicationContext(), "Successful ", Toast.LENGTH_LONG).show();
-                if (parseUser.get("is_org").toString().equals("true")){
+                if ((Boolean) parseUser.get("is_org")){
                     Intent intent = new Intent(this, ProfileActivityOrg.class);
                     startActivity(intent);
                 }

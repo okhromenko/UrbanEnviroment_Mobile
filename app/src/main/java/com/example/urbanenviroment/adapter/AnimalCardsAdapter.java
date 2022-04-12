@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,8 @@ import com.example.urbanenviroment.model.Animals;
 import java.util.List;
 
 public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.AnimalCardsViewHolder> {
+
+    boolean flag_favorite = false;
 
     Context context;
     List<Animals> animalCardsList;
@@ -52,6 +55,20 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 context.startActivity(intent);
             }
         });
+
+        holder.button_favorite_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flag_favorite){
+                    holder.button_favorite_card.setImageResource(R.drawable.button_favorite);
+                    flag_favorite = false;
+                }
+                else{
+                    holder.button_favorite_card.setImageResource(R.drawable.button_favorite_press);
+                    flag_favorite = true;
+                }
+            }
+        });
     }
 
     @Override
@@ -61,12 +78,14 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
 
     public static final class AnimalCardsViewHolder extends RecyclerView.ViewHolder{
 
+        ImageButton button_favorite_card;
         ImageView img_animal_cards;
         TextView name_org_cards, kind_cards, name_animal_cards, description_animal_cards;
 
         public AnimalCardsViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            button_favorite_card = itemView.findViewById(R.id.button_favorite_card);
             img_animal_cards = itemView.findViewById(R.id.img_animal_cards);
             name_org_cards = itemView.findViewById(R.id.name_org_cards);
             kind_cards = itemView.findViewById(R.id.kind_cards);

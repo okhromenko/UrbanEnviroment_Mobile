@@ -19,6 +19,7 @@ import com.example.urbanenviroment.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
+import com.parse.ParseSession;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;

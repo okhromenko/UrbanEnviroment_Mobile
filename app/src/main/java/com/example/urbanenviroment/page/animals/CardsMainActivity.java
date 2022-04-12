@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,7 +27,7 @@ public class CardsMainActivity extends AppCompatActivity {
     RecyclerView AnimalsCardsRecycler;
     AnimalCardsAdapter cardsAdapter;
 
-    boolean flag = false;
+    boolean flag_sort = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +93,13 @@ public class CardsMainActivity extends AppCompatActivity {
     public void sort(View view){
         ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
 
-        if (flag){
+        if (flag_sort){
             button_up.setImageResource(R.drawable.img_sort_arrow_up);
-            flag = false;
+            flag_sort = false;
         }
         else{
             button_up.setImageResource(R.drawable.img_sort_arrow_down);
-            flag = true;
+            flag_sort = true;
         }
     }
-
 }
