@@ -58,7 +58,7 @@
                             app:cardCornerRadius="14dp">
 
                             <com.rengwuxian.materialedittext.MaterialEditText
-                                android:id="@+id/add_animal_org"
+                                android:id="@+id/add_name_animal"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
                                 android:layout_marginStart="15dp"
@@ -247,7 +247,7 @@
                             app:cardCornerRadius="14dp">
 
                             <com.rengwuxian.materialedittext.MaterialEditText
-                                android:id="@+id/add_data_animal"
+                                android:id="@+id/add_date_animal"
                                 android:layout_width="match_parent"
                                 android:layout_height="48dp"
                                 android:layout_marginStart="15dp"
@@ -389,6 +389,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
+            android:onClick="btn_save"
             android:background="@color/transparent"
             android:src="@drawable/button_org_save" />
 
@@ -397,6 +398,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:onClick="btn_cancel"
             android:src="@drawable/button_org_cancel" />
     </LinearLayout>
 

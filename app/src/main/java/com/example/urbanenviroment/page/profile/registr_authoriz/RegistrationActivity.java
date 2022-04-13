@@ -26,10 +26,8 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    MaterialEditText emailField, nameFields, passwordField, passwordFieldDuplicate;
-
-    Boolean is_org;
-
+    private MaterialEditText emailField, nameFields, passwordField, passwordFieldDuplicate;
+    private Boolean is_org;
     private ProgressDialog progressDialog;
 
     @Override

@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
@@ -18,7 +20,13 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 public class ProfileActivityUser extends AppCompatActivity {
 
@@ -30,6 +38,22 @@ public class ProfileActivityUser extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         progressDialog = new ProgressDialog(ProfileActivityUser.this);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+        query.whereEqualTo("objectId", "X1OgKdoAoM");
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject player, ParseException e) {
+                if (e == null) {
+                    ParseFile playerName = player.getParseFile("image");
+                    ImageView im = (ImageView) findViewById(R.id.imageView8);
+                    Uri imageUri = Uri.parse(playerName.getUrl());
+                    Picasso.get().load(imageUri.toString()).into(im);
+
+                } else {
+                    // Something is wrong
+                }
+            }
+        });
     }
 
     public void animals(View view){

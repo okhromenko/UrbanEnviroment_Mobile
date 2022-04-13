@@ -1,13 +1,16 @@
 package com.example.urbanenviroment.page.animals;
 
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,8 +25,10 @@ import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,22 +54,6 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
-
-//        ParseObject person = new ParseObject("Person");
-//        person.put("name", "John Snow");
-//        person.put("age", 27);
-//        person.saveInBackground();
-//
-//
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Person");
-//        query.getInBackground("mhPFDlCahj", new GetCallback<ParseObject>() {
-//            public void done(ParseObject object, ParseException e) {
-//                if (e == null) {
-//                } else {
-//                }
-//            }
-//        });
-
         List<Animals> animalsList = new ArrayList<>();
         animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "animal_item_img",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
@@ -77,7 +66,9 @@ public class HomeActivity extends AppCompatActivity {
                 "ж", "12.12.2012"));
 
         setAnimalsRecycler(animalsList);
+    }
 
+    private void initTodoList(List<ParseObject> list) {
     }
 
     private void setAnimalsRecycler(List<Animals> animalsList){
