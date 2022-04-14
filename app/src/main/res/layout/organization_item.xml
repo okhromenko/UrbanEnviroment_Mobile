@@ -60,6 +60,8 @@
                     </com.loopeer.shadow.ShadowView>
 
                     <LinearLayout
+
+                        android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
@@ -72,7 +74,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="Название организации"
-                            android:fontFamily="@font/roboto_medium"
+                            android:fontFamily="@font/roboto"
+                            android:textStyle="bold"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 

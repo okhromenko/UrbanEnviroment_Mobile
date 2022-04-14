@@ -202,7 +202,7 @@
         android:id="@+id/textView2"
         android:onClick="authorization"
         android:layout_width="wrap_content"
-        android:layout_height="30sp"
+        android:layout_height="35sp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
