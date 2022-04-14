@@ -154,7 +154,7 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void clear_data(View view){
-        clear(R.id.add_data_animal);
+        clear(R.id.add_date_animal);
     }
 
     public void clear_state(View view){
