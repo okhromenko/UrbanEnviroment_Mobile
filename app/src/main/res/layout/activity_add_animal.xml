@@ -143,7 +143,7 @@
                             android:layout_height="48dp"
                             android:layout_marginStart="15dp"
                             android:fontFamily="@font/roboto"
-                            android:hint="Введите науное название"
+                            android:hint="Введите научное название"
                             android:inputType="text"
                             android:textSize="16sp"
                             app:met_floatingLabel="none"
@@ -253,7 +253,7 @@
                                 android:layout_marginStart="15dp"
                                 android:fontFamily="@font/roboto"
                                 android:hint="Введите дату рождения"
-                                android:inputType="date"
+                                android:inputType="text"
                                 android:textAlignment="textStart"
                                 android:textSize="16sp"
                                 app:met_floatingLabel="none"
@@ -263,10 +263,10 @@
                             <ImageButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/button_clear_cross"
+                                android:src="@drawable/button_add_date"
                                 android:background="@color/transparent"
                                 android:layout_gravity="center_vertical|right"
-                                android:onClick="clear_data"
+                                android:onClick="button_date"
                                 android:layout_marginEnd="15dp"/>
                         </androidx.cardview.widget.CardView>
 
@@ -342,7 +342,7 @@
                         app:cardCornerRadius="14dp">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/add_description_animal_org"
+                            android:id="@+id/add_description_animal"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginStart="15dp"

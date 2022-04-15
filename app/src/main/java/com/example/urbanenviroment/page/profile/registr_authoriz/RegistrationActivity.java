@@ -16,13 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.profile.org.AddAnimal;
+import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseSession;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import java.util.Date;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -64,7 +72,28 @@ public class RegistrationActivity extends AppCompatActivity {
                     progressDialog.dismiss();
 
                     if (e == null) {
-                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                        if (is_org){
+                            ParseObject org = new ParseObject("Organization");
+                            org.put("id_user", user);
+                            org.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null) {
+                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        ParseUser.logOut();
+                                        Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                        else{
+                            Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
+                            startActivity(intent);
+                        }
                     } else {
                         ParseUser.logOut();
                         Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

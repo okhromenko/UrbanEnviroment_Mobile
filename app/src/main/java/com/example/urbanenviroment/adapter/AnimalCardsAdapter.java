@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,9 +40,8 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AnimalCardsViewHolder holder, int position) {
-        int image_animal_cards_id = context.getResources().getIdentifier(
-                animalCardsList.get(position).getImg_animal(), "drawable", context.getPackageName());
-        holder.img_animal_cards.setImageResource(image_animal_cards_id);
+
+        Picasso.get().load(animalCardsList.get(position).getImg_animal()).into(holder.img_animal_cards);
 
         holder.name_org_cards.setText(animalCardsList.get(position).getName_org());
         holder.kind_cards.setText(animalCardsList.get(position).getKind());

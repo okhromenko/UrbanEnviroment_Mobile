@@ -212,6 +212,6 @@ public class EditAnimalPage extends AppCompatActivity {
     }
 
     public void clear_description(View view){
-        clear(R.id.add_description_animal_org);
+        clear(R.id.add_description_animal);
     }
 }

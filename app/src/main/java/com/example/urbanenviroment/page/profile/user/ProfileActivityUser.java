@@ -54,6 +54,18 @@ public class ProfileActivityUser extends AppCompatActivity {
                 }
             }
         });
+
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animal_kind");
+        query_3.whereEqualTo("name", "Крот");
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject player, ParseException e) {
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(), "Нашел", Toast.LENGTH_LONG).show();
+                } else {
+                    // Something is wrong
+                }
+            }
+        });
     }
 
     public void animals(View view){

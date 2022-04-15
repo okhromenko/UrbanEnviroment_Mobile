@@ -5,6 +5,7 @@ import androidx.loader.content.CursorLoader;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.provider.SyncStateContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -32,6 +34,7 @@ import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.google.android.material.snackbar.Snackbar;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -41,11 +44,17 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class AddAnimal extends AppCompatActivity {
 
@@ -55,8 +64,10 @@ public class AddAnimal extends AppCompatActivity {
 
     private ImageView imageView;
     private String sex;
-    private MaterialEditText name, age, state, kind, species;
+    private MaterialEditText name, age, state, kind, species, description;
     byte[] byteArray;
+    Calendar calendar_text;
+    DatePickerDialog dpd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +152,24 @@ public class AddAnimal extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void button_date(View view){
+        age = (MaterialEditText) findViewById(R.id.add_date_animal);
+        calendar_text = Calendar.getInstance();
+
+        int day_first = calendar_text.get(Calendar.DAY_OF_MONTH);
+        int month_first = calendar_text.get(Calendar.MONTH);
+        int year_first = calendar_text.get(Calendar.YEAR);
+
+        dpd = new DatePickerDialog(AddAnimal.this, new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                age.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            }
+        }, year_first, month_first, day_first);
+        dpd.show();
+    }
+
     public void clear_name(View view){
         clear(R.id.add_name_animal);
     }
@@ -153,25 +182,62 @@ public class AddAnimal extends AppCompatActivity {
         clear(R.id.add_species_animal);
     }
 
-    public void clear_data(View view){
-        clear(R.id.add_date_animal);
-    }
-
     public void clear_state(View view){
         clear(R.id.add_state_animal);
     }
 
     public void clear_description(View view){
-        clear(R.id.add_description_animal_org);
+        clear(R.id.add_description_animal);
+    }
+
+    public void getParameter(){
+        ParseObject animal = new ParseObject("Animals");
+
+        ParseFile photo = new ParseFile(byteArray);
+        animal.put("name", name.getText().toString());
+        animal.put("state",  state.getText().toString());
+        animal.put("species", species.getText().toString());
+        animal.put("description", description.getText().toString());
+        animal.put("age", age.getText().toString());
+        animal.put("sex", sex);
+        animal.put("image", photo);
+
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animal_kind");
+        query_3.whereEqualTo("name", kind.getText().toString());
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    ParseObject id_kind = ParseObject.createWithoutData("Animal_kind", object.getObjectId());
+                    animal.put("id_kind", id_kind);
+
+                    ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
+                    animal.put("id_user", ptr);
+
+                    animal.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+                                startActivity(intent);
+                            } else {
+                                ParseUser.logOut();
+                                Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void btn_save(View view){
-
         name = (MaterialEditText) findViewById(R.id.add_name_animal);
         age = (MaterialEditText) findViewById(R.id.add_date_animal);
         state = (MaterialEditText) findViewById(R.id.add_state_animal);
         kind = (MaterialEditText) findViewById(R.id.add_kind_animal);
         species = (MaterialEditText) findViewById(R.id.add_species_animal);
+        description = (MaterialEditText) findViewById(R.id.add_description_animal);
 
         RadioButton sex_man = (RadioButton) findViewById(R.id.button_switch_man);
 
@@ -180,31 +246,7 @@ public class AddAnimal extends AppCompatActivity {
         else
             sex = "Самка";
 
-        ParseObject animal = new ParseObject("Animals");
-
-        ParseFile photo = new ParseFile(byteArray);
-
-        animal.put("name", name.getText().toString());
-        animal.put("state",  state.getText().toString());
-        animal.put("kind", kind.getText().toString());
-        animal.put("species", species.getText().toString());
-        animal.put("sex", sex);
-        animal.put("image", photo);
-
-        animal.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null) {
-                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
-                    startActivity(intent);
-                } else {
-                    ParseUser.logOut();
-                    Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
+        getParameter();
     }
 
     public void btn_cancel(View view){
@@ -213,5 +255,6 @@ public class AddAnimal extends AppCompatActivity {
         state.setText("");
         kind.setText("");
         species.setText("");
+        description.setText("");
     }
 }
