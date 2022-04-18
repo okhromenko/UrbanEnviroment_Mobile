@@ -31,22 +31,22 @@ public class FavoritesProfileUserAnimals extends AppCompatActivity {
         setContentView(R.layout.activity_favorites_profile);
 
         List<Animals> animalsList = new ArrayList<>();
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "img_org",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "img_org",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "img_org",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "img_org",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "img_org",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "img_org",
                 "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
         setAnimalsRecycler(animalsList);

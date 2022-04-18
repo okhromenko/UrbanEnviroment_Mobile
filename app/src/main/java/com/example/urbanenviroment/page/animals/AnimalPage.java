@@ -14,7 +14,6 @@ import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 
 public class AnimalPage extends AppCompatActivity {
-
     boolean flag = false;
 
     @Override

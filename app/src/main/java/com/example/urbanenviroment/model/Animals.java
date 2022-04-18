@@ -1,13 +1,21 @@
 package com.example.urbanenviroment.model;
 
-import java.util.Date;
-
 public class Animals {
 
-    int id;
-    String name_org, img_org, name_animal, img_animal, age, state, kind, species, description, sex, reg_data;
+    String id;
+    String name_org;
+    String img_org;
+    String name_animal;
+    String img_animal;
+    String age;
+    String state;
+    String kind;
+    String species;
+    String description;
+    String sex;
+    String reg_data;
 
-    public Animals(int id, String name_org, String img_org, String name_animal, String img_animal,
+    public Animals(String id, String name_org, String img_org, String name_animal, String img_animal,
                    String age, String state, String kind, String species, String description, String sex, String reg_data) {
         this.id = id;
         this.name_org = name_org;
@@ -23,11 +31,11 @@ public class Animals {
         this.reg_data = reg_data;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

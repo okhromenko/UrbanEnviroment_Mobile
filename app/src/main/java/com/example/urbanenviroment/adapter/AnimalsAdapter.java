@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,13 +37,9 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
 
     @Override
     public void onBindViewHolder(@NonNull AnimalsViewHolder holder, int position) {
-        int image_animal_id = context.getResources().getIdentifier(
-                animalsList.get(position).getImg_animal(), "drawable", context.getPackageName());
-        holder.img_animal_home.setImageResource(image_animal_id);
+        Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_animal_home);
 
-        int img_org_home_id = context.getResources().getIdentifier(
-                animalsList.get(position).getImg_org(), "drawable", context.getPackageName());
-        holder.img_org_home.setImageResource(img_org_home_id);
+        Picasso.get().load(animalsList.get(position).getImg_org()).into(holder.img_org_home);
 
         holder.name_org_home.setText(animalsList.get(position).getName_org());
         holder.date_home.setText(animalsList.get(position).getReg_data());

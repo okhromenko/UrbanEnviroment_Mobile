@@ -36,13 +36,13 @@ public class EditAnimal extends AppCompatActivity {
         setContentView(R.layout.activity_edit_animal);
 
         List<Animals> animalsList = new ArrayList<>();
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Степаша", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Степаша", "img_org",
                 "3 года", "здоров", "Кролик", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Василий", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Василий", "img_org",
                 "3 года", "здоров", "Енот", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
-        animalsList.add(new Animals(1, "Дивная долина", "img_org", "Гена", "img_org",
+        animalsList.add(new Animals("1", "Дивная долина", "img_org", "Гена", "img_org",
                 "3 года", "здоров", "Сурок", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                 "ж", "12.12.2012"));
 

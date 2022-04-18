@@ -227,6 +227,32 @@ public class AddAnimal extends AppCompatActivity {
                         }
                     });
                 }
+                else{
+                    ParseObject animal_kind = new ParseObject("Animal_kind");
+                    animal_kind.put("name", kind.getText().toString());
+                    animal_kind.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
+                            animal.put("id_user", ptr);
+                            animal.put("id_kind", animal_kind);
+
+                            animal.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null) {
+                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+                                        startActivity(intent);
+                                    } else {
+                                        ParseUser.logOut();
+                                        Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
     }

@@ -38,7 +38,7 @@ public class DeletePhoto extends AppCompatActivity {
         List<Animals> animalsList = new ArrayList<>();
 
         for (int i = 0; i < 100; i++){
-            animalsList.add(new Animals(1, "Дивная долина", "img_org", "Кролик", "photo_delete_animal",
+            animalsList.add(new Animals("1", "Дивная долина", "img_org", "Кролик", "photo_delete_animal",
                     "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
                     "ж", "12.12.2012"));
         }
