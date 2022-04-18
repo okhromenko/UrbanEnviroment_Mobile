@@ -40,9 +40,9 @@ public class NotificationsProfileUser extends AppCompatActivity {
         setContentView(R.layout.activity_notifications_profile);
 
         List<Notifications> notificationsList = new ArrayList<>();
-        notificationsList.add(new Notifications(1, "Дивная долина", "img_org", "животное"));
-        notificationsList.add(new Notifications(2, "Дивная долина", "img_org", "объявления"));
-        notificationsList.add(new Notifications(3, "Дивная долина", "img_org", "фото"));
+        notificationsList.add(new Notifications(1, "Дивная долина", "img_org", "животное", "Кот Степан"));
+        notificationsList.add(new Notifications(2, "Дивная долина", "img_org", "объявление", "Волонтерство"));
+        notificationsList.add(new Notifications(3, "Дивная долина", "img_org", "фото", "Кот Степан"));
 
         setNotificationsRecycler(notificationsList);
     }

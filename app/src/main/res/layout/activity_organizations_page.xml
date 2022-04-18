@@ -270,6 +270,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:onClick="statistics"
                     android:layout_gravity="right"
                     android:layout_width="155dp"
                     android:layout_height="50dp"
