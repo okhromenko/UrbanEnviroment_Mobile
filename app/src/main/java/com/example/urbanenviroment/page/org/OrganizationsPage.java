@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -18,6 +21,14 @@ public class OrganizationsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizations_page);
+
+
+        TextView UnderlineLink = (TextView) findViewById(R.id.address_org_org_page);
+        String str = "Адресс организации";
+        SpannableString content = new SpannableString(str);
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        UnderlineLink.setText(content);
+
     }
 
     public void animals(View view){
