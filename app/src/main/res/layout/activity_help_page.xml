@@ -27,17 +27,20 @@
                 app:cardElevation="0dp" />
 
             <LinearLayout
+                android:id="@+id/panel_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/panel_top"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     app:cardBackgroundColor="@color/help"
                     app:cardCornerRadius="0dp" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/panel_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/help"
@@ -62,6 +65,7 @@
                             android:textSize="16sp" />
 
                         <ImageView
+                            android:id="@+id/type_img_help_page"
                             android:layout_width="21dp"
                             android:layout_height="21dp"
                             android:layout_marginStart="5dp"
@@ -98,7 +102,7 @@
                 android:layout_marginEnd="10dp">
 
                 <TextView
-                    android:id="@+id/status_animal_page"
+                    android:id="@+id/status_help_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
@@ -136,8 +140,8 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/description_help_page"
                 android:layout_marginHorizontal="5dp"
-                android:id="@+id/description_animal_page"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -154,7 +158,7 @@
                 app:cardBackgroundColor="@color/black"/>
 
             <TextView
-                android:id="@+id/org_animal_page"
+                android:id="@+id/org_help_page"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"

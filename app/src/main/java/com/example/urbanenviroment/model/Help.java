@@ -1,10 +1,9 @@
 package com.example.urbanenviroment.model;
 
 public class Help {
-    int id;
-    String name_org, img_org, type_help, description, date, status;
+    String id, name_org, img_org, type_help, description, date, status;
 
-    public Help(int id, String name_org, String img_org, String type_help, String description, String date, String status) {
+    public Help(String id, String name_org, String img_org, String type_help, String description, String date, String status) {
         this.id = id;
         this.name_org = name_org;
         this.img_org = img_org;
@@ -14,11 +13,11 @@ public class Help {
         this.status = status;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

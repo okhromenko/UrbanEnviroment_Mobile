@@ -1,9 +1,12 @@
 package com.example.urbanenviroment.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Help;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,6 +32,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
 
     Context context;
     List<Help> helpList;
+    int color, image, color_transperent;
 
     public HelpAdapter(Context context, List<Help> helpList) {
         this.context = context;
@@ -43,38 +48,18 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HelpViewHolder holder, int position) {
-        int img_org_help_id = context.getResources().getIdentifier(
-                helpList.get(position).getImg_org(), "drawable", context.getPackageName());
-        holder.img_org_help.setImageResource(img_org_help_id);
+    public void onBindViewHolder(@NonNull HelpViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
+        Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
 
-        //Drawable drawable = AppCompatResources.getDrawable(context, R.drawable.help_line_item);
-        //assert drawable != null;
-        //Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
-        //Drawable mutableDrawable = wrappedDrawable.mutate();
+        color = Color.GRAY;
+        color_transperent = Color.GRAY;
+        image = R.drawable.img_things_item;
 
-        int color = Color.GRAY;
-        Drawable image = ContextCompat.getDrawable(context, R.drawable.img_things_item);
+        find_type(helpList.get(position).getType_help());
 
-        if (helpList.get(position).getType_help().equals("Еда")) {
-            color = ContextCompat.getColor(context, R.color.food);
-            image = ContextCompat.getDrawable(context, R.drawable.img_food_item);
-        }
-            //DrawableCompat.setTint(mutableDrawable, ContextCompat.getColor(context, R.color.food));
-        if (helpList.get(position).getType_help().equals("Вещи")){
-            color = ContextCompat.getColor(context, R.color.things);
-            image = ContextCompat.getDrawable(context, R.drawable.img_things_item);
-        }
-            //DrawableCompat.setTint(mutableDrawable, ContextCompat.getColor(context, R.color.things));
-        if (helpList.get(position).getType_help().equals("Волонтерство")){
-            color = ContextCompat.getColor(context, R.color.help);
-            image = ContextCompat.getDrawable(context, R.drawable.img_help_item);
-        }
-            //DrawableCompat.setTint(mutableDrawable, ContextCompat.getColor(context, R.color.help));
+        holder.img_item_help.setImageDrawable(ContextCompat.getDrawable(context, image));
 
-        //holder.img_line_help.setImageDrawable(drawable);
-        holder.img_item_help.setImageDrawable(image);
         holder.img_line_help.setCardBackgroundColor(color);
         holder.img_box_help.setCardBackgroundColor(color);
         holder.name_org_help.setText(helpList.get(position).getName_org());
@@ -87,9 +72,41 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, HelpPage.class);
+
+                find_type(helpList.get(position).getType_help());
+
+                intent.putExtra("type_ads_help", helpList.get(position).getType_help());
+                intent.putExtra("status_help", helpList.get(position).getStatus());
+                intent.putExtra("date_help", helpList.get(position).getDate());
+                intent.putExtra("description_help", helpList.get(position).getDescription());
+                intent.putExtra("name_org_help", helpList.get(position).getName_org());
+                intent.putExtra("image", image);
+                intent.putExtra("color", color);
+                intent.putExtra("color_transperent", color_transperent);
+
                 context.startActivity(intent);
             }
         });
+    }
+
+    public void find_type(String st){
+        switch (st) {
+            case "Еда":
+                color = ContextCompat.getColor(context, R.color.food);
+                color_transperent = ContextCompat.getColor(context, R.color.food_transperent);
+                image = R.drawable.img_food_item;
+                break;
+            case "Вещи":
+                color = ContextCompat.getColor(context, R.color.things);
+                color_transperent = ContextCompat.getColor(context, R.color.things_transperent);
+                image = R.drawable.img_things_item;
+                break;
+            case "Волонтерство":
+                color = ContextCompat.getColor(context, R.color.help);
+                color_transperent = ContextCompat.getColor(context, R.color.help_transperent);
+                image = R.drawable.img_help_item;
+                break;
+        }
     }
 
     @Override

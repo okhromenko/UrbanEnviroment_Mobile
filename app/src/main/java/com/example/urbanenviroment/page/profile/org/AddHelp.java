@@ -18,9 +18,11 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -85,27 +87,15 @@ public class AddHelp extends AppCompatActivity {
         dpd.show();
     }
 
-    public void btn_save(View view){
-
-        add_date_help = (MaterialEditText) findViewById(R.id.add_date_help);
-        add_description_help = (MaterialEditText) findViewById(R.id.add_description_help);
-
-        switch (type_flag){
-            case (0):
-                type = "Еда";
-                break;
-            case(1):
-                type = "Вещи";
-                break;
-            case(2):
-                type = "Помощь";
-                break;
-        }
+    public void getParameter(){
 
         ParseObject ads = new ParseObject("Ads");
 
+        ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
+        ads.put("id_user", ptr);
+
         ads.put("type", type);
-        ads.put("first_date", add_date_help.getText().toString());
+        ads.put("last_date", add_date_help.getText().toString());
         ads.put("description",  add_description_help.getText().toString());
 
         ads.saveInBackground(new SaveCallback() {
@@ -121,7 +111,26 @@ public class AddHelp extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void btn_save(View view){
+
+        add_date_help = (MaterialEditText) findViewById(R.id.add_date_help);
+        add_description_help = (MaterialEditText) findViewById(R.id.add_description_help);
+
+        switch (type_flag){
+            case (0):
+                type = "Еда";
+                break;
+            case(1):
+                type = "Вещи";
+                break;
+            case(2):
+                type = "Волонтерство";
+                break;
+        }
+
+        getParameter();
     }
 
     public void btn_cancel(View view){
