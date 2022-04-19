@@ -1,15 +1,22 @@
 package com.example.urbanenviroment.page.org;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -30,7 +37,8 @@ public class OrganizationsActivity extends AppCompatActivity {
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
 
-    Dialog_Search dialog_search;
+    //Dialog_Search dialog_search;
+    Dialog dialog_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +70,8 @@ public class OrganizationsActivity extends AppCompatActivity {
 
         setOrgRecycler(orgList);
 
-        dialog_search = new Dialog_Search();
+        dialog_search = new Dialog(this);
+        //dialog_search = new Dialog_Search();
     }
 
 
@@ -114,6 +123,33 @@ public class OrganizationsActivity extends AppCompatActivity {
     }
 
     public void sort(View view){
-        dialog_search.show(getSupportFragmentManager(), "fragment");
+
+        CardView org_view = this.findViewById(R.id.org_cardview);
+        TextView sort_text = this.findViewById(R.id.sort_text);
+        ImageView sort_arrow = this.findViewById(R.id.sort_arrow);
+
+        sort_arrow.setColorFilter(getResources().getColor(R.color.white));
+        org_view.setCardBackgroundColor(getResources().getColor(R.color.basic_blue));
+        sort_text.setTextColor(getResources().getColor(R.color.white));
+
+        dialog_search.setContentView(R.layout.dialog_search);
+        dialog_search.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog_search.show();
+
+        //dialog_search.show(getSupportFragmentManager(), "fragment");
     }
+
+    public void accept(View view) {
+
+        CardView org_view = this.findViewById(R.id.org_cardview);
+        TextView sort_text = this.findViewById(R.id.sort_text);
+        ImageView sort_arrow = this.findViewById(R.id.sort_arrow);
+
+        sort_arrow.setColorFilter(getResources().getColor(R.color.black));
+        org_view.setCardBackgroundColor(getResources().getColor(R.color.white));
+        sort_text.setTextColor(getResources().getColor(R.color.black));
+
+        dialog_search.dismiss();
+    }
+
 }

@@ -1,51 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <com.loopeer.shadow.ShadowView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="10dp"
+        app:cornerRadius="10dp"
+        app:shadowColor="#19000000"
+        app:shadowMargin="10dp"
+        app:shadowRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/white"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="15dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/ff34"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:fontFamily="@font/roboto"
-                    android:text="Сортировать по:"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/ff34"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:fontFamily="@font/roboto"
+                android:text="Сортировать по:"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginVertical="15dp">
 
                 <RadioButton
                     android:id="@+id/button_sort_dialog_decrease"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
@@ -54,6 +57,7 @@
 
                 <RadioButton
                     android:id="@+id/button_sort_dialog_increasing"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
@@ -64,11 +68,11 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_height="match_parent">
 
                 <RadioButton
                     android:id="@+id/button_sort_dialog_data_reg"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
@@ -77,6 +81,8 @@
 
                 <RadioButton
                     android:id="@+id/button_sort_dialog_count_animal"
+                    android:layout_marginVertical="5dp"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
@@ -85,6 +91,7 @@
 
                 <RadioButton
                     android:id="@+id/button_sort_dialog_count_ads"
+                    android:theme="@style/MyRadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
@@ -93,16 +100,32 @@
 
                 <RadioButton
                     android:id="@+id/button_sort_dialog_count_photo"
+                    android:theme="@style/MyRadioButton"
+                    android:layout_marginVertical="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layoutDirection="rtl"
                     android:text="Количество фотографий"
                     android:textSize="16sp" />
-
             </RadioGroup>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/accept_sort_btn"
+                    android:onClick="accept"
+                    android:scaleX="0.85"
+                    android:scaleY="0.85"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/button_accept_sort"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+
         </LinearLayout>
-
-    </RelativeLayout>
-
+    </com.loopeer.shadow.ShadowView>
 </androidx.constraintlayout.widget.ConstraintLayout>
