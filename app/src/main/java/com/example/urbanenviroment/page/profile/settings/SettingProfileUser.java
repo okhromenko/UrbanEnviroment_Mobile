@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class SettingProfileUser extends AppCompatActivity {
 
@@ -21,6 +23,23 @@ public class SettingProfileUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile_user);
+
+        //Сделай определение, организация или пользователь!
+
+        ImageView setting_text = (ImageView) findViewById(R.id.imageView6);
+        TextView textchangeName = (TextView) findViewById(R.id.text_1);
+        MaterialEditText hintchangeName = (MaterialEditText) findViewById(R.id.name_change_setting);
+
+        //if {
+        //    setting_text.setImageResource(R.drawable.text_setting_org);
+        //    textchangeName.setText("Изменить название организации");
+        //    hintchangeName.setHint("Введите новое название");
+        //}
+        //else {
+        //    setting_text.setImageResource(R.drawable.text_setting_profile);
+        //    textchangeName.setText("Изменить имя пользователя");
+        //    hintchangeName.setHint("Введите новое имя");
+        //}
     }
 
     public void animals(View view){
