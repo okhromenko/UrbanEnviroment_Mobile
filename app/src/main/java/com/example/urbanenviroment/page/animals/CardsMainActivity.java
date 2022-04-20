@@ -28,6 +28,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class CardsMainActivity extends AppCompatActivity {
                                         String species = i.get("species").toString();
                                         String description = i.get("description").toString();
                                         String sex = i.get("sex").toString();
-                                        String date = i.getCreatedAt().toString();
+                                        String date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
 
                                         animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                                 age, state, kind_animal, species, description, sex, date));

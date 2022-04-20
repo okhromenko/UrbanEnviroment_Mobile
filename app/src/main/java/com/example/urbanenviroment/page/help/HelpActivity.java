@@ -28,6 +28,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class HelpActivity extends AppCompatActivity {
                                 String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
                                 String type = i.get("type").toString();
                                 String description = i.get("description").toString();
-                                String first_data = String.valueOf(i.getCreatedAt());
+                                String first_data = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
                                 String last_data = i.get("last_date").toString();
 
                                 helpList.add(new Help(id, name_org, image_org, type, description, last_data, status(first_data, last_data)));

@@ -36,8 +36,12 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -90,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                                         String species = i.get("species").toString();
                                         String description = i.get("description").toString();
                                         String sex = i.get("sex").toString();
-                                        String date = i.getCreatedAt().toString();
+                                        String date =  new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
 
                                         animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                                 age, state, kind_animal, species, description, sex, date));

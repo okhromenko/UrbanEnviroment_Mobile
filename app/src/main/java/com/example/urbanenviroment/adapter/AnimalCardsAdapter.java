@@ -1,5 +1,6 @@
 package com.example.urbanenviroment.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AnimalCardsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AnimalCardsViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Picasso.get().load(animalCardsList.get(position).getImg_animal()).into(holder.img_animal_cards);
 
@@ -52,6 +53,17 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnimalPage.class);
+
+                intent.putExtra("kind_animal", animalCardsList.get(position).getKind());
+                intent.putExtra("species_animal", animalCardsList.get(position).getSpecies());
+                intent.putExtra("reg_date_animal", animalCardsList.get(position).getReg_data());
+                intent.putExtra("name_animal", animalCardsList.get(position).getName_animal());
+                intent.putExtra("description_animal", animalCardsList.get(position).getDescription());
+                intent.putExtra("sex_animal", animalCardsList.get(position).getSex());
+                intent.putExtra("age_animal", animalCardsList.get(position).getAge());
+                intent.putExtra("state_animal", animalCardsList.get(position).getState());
+                intent.putExtra("image_animal", animalCardsList.get(position).getImg_animal());
+
                 context.startActivity(intent);
             }
         });
