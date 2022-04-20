@@ -45,7 +45,7 @@ public class ProfileActivityUser extends AppCompatActivity {
             public void done(ParseObject player, ParseException e) {
                 if (e == null) {
                     ParseFile playerName = player.getParseFile("image");
-                    ImageView im = (ImageView) findViewById(R.id.imageView8);
+                    ImageView im = (ImageView) findViewById(R.id.img_profile_image);
                     Uri imageUri = Uri.parse(playerName.getUrl());
                     Picasso.get().load(imageUri.toString()).into(im);
 
