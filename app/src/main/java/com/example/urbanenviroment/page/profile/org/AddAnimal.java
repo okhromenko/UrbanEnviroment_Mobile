@@ -282,5 +282,8 @@ public class AddAnimal extends AppCompatActivity {
         kind.setText("");
         species.setText("");
         description.setText("");
+
+        Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+        startActivity(intent);
     }
 }

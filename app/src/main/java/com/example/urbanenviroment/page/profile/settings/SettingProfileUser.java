@@ -14,7 +14,10 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
+import com.parse.ParseUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class SettingProfileUser extends AppCompatActivity {
@@ -24,22 +27,22 @@ public class SettingProfileUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile_user);
 
-        //Сделай определение, организация или пользователь!
+        ParseUser parseUser = ParseUser.getCurrentUser();
 
         ImageView setting_text = (ImageView) findViewById(R.id.imageView6);
         TextView textchangeName = (TextView) findViewById(R.id.text_1);
         MaterialEditText hintchangeName = (MaterialEditText) findViewById(R.id.name_change_setting);
 
-        //if {
-        //    setting_text.setImageResource(R.drawable.text_setting_org);
-        //    textchangeName.setText("Изменить название организации");
-        //    hintchangeName.setHint("Введите новое название");
-        //}
-        //else {
-        //    setting_text.setImageResource(R.drawable.text_setting_profile);
-        //    textchangeName.setText("Изменить имя пользователя");
-        //    hintchangeName.setHint("Введите новое имя");
-        //}
+        if ((Boolean) parseUser.get("is_org")) {
+            setting_text.setImageResource(R.drawable.text_setting_org);
+            textchangeName.setText("Изменить название организации");
+            hintchangeName.setHint("Введите новое название");
+        }
+        else {
+            setting_text.setImageResource(R.drawable.text_setting_profile);
+            textchangeName.setText("Изменить имя пользователя");
+            hintchangeName.setHint("Введите новое имя");
+        }
     }
 
     public void animals(View view){
