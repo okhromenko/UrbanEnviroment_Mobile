@@ -22,17 +22,23 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class SettingPageOrg extends AppCompatActivity {
+
+    String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_page_org);
 
+        description = "";
+
         TextView text_location = (TextView) findViewById(R.id.text_location);
         TextView text_phone = (TextView) findViewById(R.id.text_phone);
-        TextView text_description = (TextView) findViewById(R.id.text_description);
+        //TextView text_description = (TextView) findViewById(R.id.text_description);
+        MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
@@ -46,7 +52,14 @@ public class SettingPageOrg extends AppCompatActivity {
                 if (e == null) {
                     text_location.setText(object.get("address").toString());
                     text_phone.setText(object.get("phone").toString());
-                    text_description.setText(object.get("description").toString());
+
+
+                    if (object.get("description").toString() != null) {
+                        text_description.setText(object.get("description").toString());
+                        description = object.get("description").toString();
+                    }
+
+                    //text_description.setText(object.get("description").toString());
                 }
             }
         });
@@ -111,127 +124,118 @@ public class SettingPageOrg extends AppCompatActivity {
         change(textPhone, textchange, layout);
     }
 
-    public void change_description(View view){
-        TextView textDescription = (TextView) findViewById(R.id.text_description);
-        TextView textchange = (TextView) findViewById(R.id.button_change_description);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_description);
-
-        change(textDescription, textchange, layout);
-
-    }
-
     public void save_local(View view){
         TextView textName = (TextView) findViewById(R.id.location_change_setting);
-        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_location);
+        //TextView textPassword = (TextView) findViewById(R.id.change_password_setting_location);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        //ParseUser parseUser = ParseUser.getCurrentUser();
 
-        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+        //ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
+        //    public void done(ParseUser user, ParseException e) {
+        //        if (user != null) {
+        //            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
 
-                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-                    query_3.whereEqualTo("id_user", id_user);
-                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
-                                object.put("address", textName.getText().toString());
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+//                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+//                    query_3.whereEqualTo("id_user", id_user);
+//                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+//                        public void done(ParseObject object, ParseException e) {
+//                            if (e == null) {
+//                                object.put("address", textName.getText().toString());
+//                                object.saveInBackground(new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException e) {
+//                                        if(e == null) {
+//                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+//                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+//                                            startActivity(intent);
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    });
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
     }
 
     public void save_phone(View view){
         TextView textName = (TextView) findViewById(R.id.phone_change_setting);
-        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_phone);
-
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-
-                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-                    query_3.whereEqualTo("id_user", id_user);
-                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
-                                object.put("phone", textName.getText().toString());
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+//        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_phone);
+//
+//        ParseUser parseUser = ParseUser.getCurrentUser();
+//
+//        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
+//            public void done(ParseUser user, ParseException e) {
+//                if (user != null) {
+//                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+//
+//                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+//                    query_3.whereEqualTo("id_user", id_user);
+//                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+//                        public void done(ParseObject object, ParseException e) {
+//                            if (e == null) {
+//                                object.put("phone", textName.getText().toString());
+//                                object.saveInBackground(new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException e) {
+//                                        if(e == null) {
+//                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+//                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+//                                            startActivity(intent);
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    });
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
     }
 
     public void save_description(View view){
         TextView textName = (TextView) findViewById(R.id.description_change_setting);
-        TextView textPassword = (TextView) findViewById(R.id.change_description_setting_pass);
+        //TextView textPassword = (TextView) findViewById(R.id.change_description_setting_pass);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
-        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+        //ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
+        //    public void done(ParseUser user, ParseException e) {
+        //        if (user != null) {
+        //            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
 
-                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-                    query_3.whereEqualTo("id_user", id_user);
-                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
-                                object.put("description", textName.getText().toString());
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
+        //            ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+        //            query_3.whereEqualTo("id_user", id_user);
+        //            query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+        //                public void done(ParseObject object, ParseException e) {
+        //                    if (e == null) {
+        //                        object.put("description", textName.getText().toString());
+        //                        object.saveInBackground(new SaveCallback() {
+        //                            @Override
+        //                            public void done(ParseException e) {
+        //                                if(e == null) {
+        //                                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+        //                                    Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+        //                                    startActivity(intent);
+        //                                }
+        //                            }
+        //                        });
+        //                    }
+        //                }
+        //            });
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        //        } else {
+        //            Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+        //        }
+        //    }
+        //});
     }
 
     public void cancel_location(View view){
@@ -241,7 +245,6 @@ public class SettingPageOrg extends AppCompatActivity {
 
         cancel(textName, textchange, layout);
         clear(R.id.location_change_setting);
-        clear(R.id.change_password_setting_location);
     }
 
     public void cancel_phone(View view){
@@ -251,40 +254,19 @@ public class SettingPageOrg extends AppCompatActivity {
 
         cancel(textPhone, textchange, layout);
         clear(R.id.phone_change_setting);
-        clear(R.id.change_password_setting_phone);
     }
 
     public void cancel_description(View view){
-        TextView textDescription = (TextView) findViewById(R.id.text_description);
-        TextView textchange = (TextView) findViewById(R.id.button_change_description);
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_description);
-
-        cancel(textDescription, textchange, layout);
-        clear(R.id.description_change_setting);
-        clear(R.id.change_description_setting_pass);
+        MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
+        text_description.setText(description);
     }
 
     public void clear_location(View view){
         clear(R.id.location_change_setting);
     }
 
-    public void clear_location_password(View view){
-        clear(R.id.change_password_setting_location);
-    }
-
     public void clear_phone(View view){
         clear(R.id.phone_change_setting);
-    }
-
-    public void clear_phone_password(View view){
-        clear(R.id.change_password_setting_phone);
-    }
-
-    public void clear_description(View view){
-        clear(R.id.description_change_setting);
-    }
-
-    public void clear_description_password(View view){
-        clear(R.id.change_description_setting_pass);
     }
 }
