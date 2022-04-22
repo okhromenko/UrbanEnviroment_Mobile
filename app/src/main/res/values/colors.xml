@@ -16,6 +16,7 @@
     <color name="help_transperent">#805EA6D9</color>
     <color name="transparent">#00000000</color>
     <color name="basic_blue">#0A0032</color>
+    <color name="basic_blue_light">#800A0032</color>
     <color name="light_gray">#C4C4C4</color>
     <color name="dark_gray">#454545</color>
     <color name="blue_link">#128DE2</color>

@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".page.profile.settings.SettingNotificationsUser">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,11 +25,11 @@
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/text_setting_notifications" />
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:layout_marginBottom="30dp">
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/textView"
@@ -36,8 +38,10 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Уведомления" />
-        </FrameLayout>
+                android:text="Уведомления"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/basic_blue"
+                android:layout_marginBottom="20dp"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -50,11 +54,28 @@
                 android:layout_gravity="center_vertical|right"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            <ImageView
-                android:id="@+id/imageView20"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/text_animal_setting_notif" />
+                android:layout_gravity="center_vertical|left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Объявления"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:text="Получать уведомления о новых объявлениях организации"
+                    android:textColor="@color/dark_gray"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14sp"/>
+            </LinearLayout>
         </FrameLayout>
 
         <FrameLayout
@@ -69,14 +90,31 @@
                 android:layout_gravity="center_vertical|right"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-            <ImageView
-                android:id="@+id/imageView17"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/text_animal_setting_notif" />
-        </FrameLayout>
+                android:layout_gravity="center_vertical|left"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Животные"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:text="Получать уведомления о новых животных организации"
+                    android:textColor="@color/dark_gray"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+        </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

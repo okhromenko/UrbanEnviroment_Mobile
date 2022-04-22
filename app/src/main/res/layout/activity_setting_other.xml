@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".page.profile.settings.SettingOther">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="10dp"
@@ -23,10 +23,11 @@
             android:layout_gravity="center_horizontal"
             app:srcCompat="@drawable/text_setting_other" />
 
-        <FrameLayout
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
             android:layout_marginBottom="30dp">
 
             <TextView
@@ -36,65 +37,133 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Приватность" />
-        </FrameLayout>
+                android:text="Приватность"
+                android:fontFamily="@font/roboto"
+                android:textColor="@color/basic_blue"
+                android:layout_marginBottom="20dp"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp">
-
-            <Switch
-                android:id="@+id/switch_email_other"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                android:layout_marginBottom="20dp">
 
-            <ImageView
-                android:id="@+id/imageView21"
-                android:layout_width="wrap_content"
+                <Switch
+                    android:id="@+id/switch_email_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Скрытая электронная почта"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:text="Если вы скроете электронную почту, никто, кроме вас, её не увидит"
+                        android:textColor="@color/dark_gray"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_org_setting"
+                android:visibility="gone"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/text_theme_setting_other" />
+                android:layout_marginBottom="40dp">
 
-        </FrameLayout>
+                <Switch
+                    android:id="@+id/switch_phone_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="Внешний вид" />
-        </FrameLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Скрытый номер телефона"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"/>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:text="Если вы скроете номер телефона, никто, кроме вас, его не увидит"
+                        android:textColor="@color/dark_gray"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </FrameLayout>
 
-            <Switch
-                android:id="@+id/switch_theme_other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Внешний вид"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/basic_blue"
+                    android:layout_marginBottom="20dp" />
 
-            <ImageView
-                android:id="@+id/imageView18"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/text_theme_setting_other" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <Switch
+                    android:id="@+id/switch_theme_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
-        </FrameLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:orientation="vertical">
 
-    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Тёмная тема"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:text="Будет изменена тема, со светлой на тёмную"
+                        android:textColor="@color/dark_gray"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
