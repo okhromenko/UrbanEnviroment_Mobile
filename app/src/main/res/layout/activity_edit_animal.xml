@@ -9,12 +9,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        android:layout_marginBottom="6dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -24,6 +24,7 @@
                 android:id="@+id/shadowView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
                 app:cornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -31,7 +32,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shadowColor="#1A000000"
                 app:shadowMargin="10dp"
-                android:layout_gravity="right"
                 app:shadowRadius="10dp">
 
                 <ImageButton
@@ -49,12 +49,11 @@
             </com.loopeer.shadow.ShadowView>
 
             <com.loopeer.shadow.ShadowView
-                android:layout_marginTop="5dp"
                 android:id="@+id/shadowView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cornerRadius="5dp"
                 android:layout_gravity="left|top"
+                app:cornerRadius="5dp"
                 app:shadowColor="#1A000000"
                 app:shadowMargin="10dp"
                 app:shadowRadius="10dp">
@@ -62,38 +61,38 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="5dp"
+                    android:onClick="sort"
                     app:cardBackgroundColor="@color/white"
-                    android:onClick="sort">
+                    app:cardCornerRadius="5dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginHorizontal="10dp"
-                        android:layout_marginVertical="5dp">
+                        android:layout_marginVertical="5dp"
+                        android:gravity="center">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/sort"
                             android:fontFamily="@font/roboto"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"/>
+                            android:text="@string/sort"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <ImageView
                             android:id="@+id/img_sort_arrow_up"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/img_sort_arrow_up"
-                            android:layout_marginStart="10dp"/>
+                            android:layout_marginStart="10dp"
+                            android:src="@drawable/img_sort_arrow_up" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </com.loopeer.shadow.ShadowView>
-
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginHorizontal="2dp"
             android:id="@+id/RecyclerView_edit_animal"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
