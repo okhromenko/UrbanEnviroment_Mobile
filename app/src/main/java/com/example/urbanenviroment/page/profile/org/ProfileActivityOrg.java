@@ -97,7 +97,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Bye-bye", Toast.LENGTH_LONG).show();
         });
 
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, AuthorizationActivity.class);
         startActivity(intent);
     }
 

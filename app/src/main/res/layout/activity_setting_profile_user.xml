@@ -177,6 +177,7 @@
                             <ImageButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:onClick="save_username"
                                 android:src="@drawable/button_save_setting"
                                 android:background="@color/transparent"
                                 android:layout_marginRight="150dp"/>
@@ -328,6 +329,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/button_save_setting"
+                                android:onClick="save_email"
                                 android:background="@color/transparent"
                                 android:layout_marginRight="150dp"/>
 
@@ -479,6 +481,7 @@
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/button_save_setting"
                                 android:background="@color/transparent"
+                                android:onClick="save_password"
                                 android:layout_marginRight="150dp"/>
 
                             <ImageButton

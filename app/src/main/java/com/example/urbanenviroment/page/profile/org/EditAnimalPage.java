@@ -36,6 +36,14 @@ public class EditAnimalPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_animal_page);
+
+        TextView text_name_animal_edit_page = (TextView) findViewById(R.id.text_name_animal_edit_page);
+        TextView text_kind_animal_edit_page = (TextView) findViewById(R.id.text_kind_animal_edit_page);
+        TextView text_species_animal_edit_page = (TextView) findViewById(R.id.text_species_animal_edit_page);
+
+        text_name_animal_edit_page.setText(getIntent().getStringExtra("name_animal"));
+        text_kind_animal_edit_page.setText(getIntent().getStringExtra("kind_animal"));
+        text_species_animal_edit_page.setText(getIntent().getStringExtra("species_animal"));
     }
 
     public void loading_photo(View view){

@@ -8,16 +8,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.profile.org.AddAnimal;
 import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
+import com.parse.GetCallback;
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseSession;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class SettingProfileUser extends AppCompatActivity {
@@ -28,6 +38,21 @@ public class SettingProfileUser extends AppCompatActivity {
         setContentView(R.layout.activity_setting_profile_user);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
+
+        TextView text_user_name = (TextView) findViewById(R.id.text_user_name);
+        TextView text_user_email = (TextView) findViewById(R.id.text_user_email);
+
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("_User");
+        query_3.whereEqualTo("objectId", parseUser.getObjectId());
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    text_user_name.setText(object.get("username").toString());
+                    text_user_email.setText(object.get("email").toString());
+                }
+
+            }
+        });
 
         ImageView setting_text = (ImageView) findViewById(R.id.imageView6);
         TextView textchangeName = (TextView) findViewById(R.id.text_1);
@@ -110,6 +135,88 @@ public class SettingProfileUser extends AppCompatActivity {
 
         change(textPassword, textchange, layout);
 
+    }
+
+    public void save_username(View view){
+        TextView textName = (TextView) findViewById(R.id.name_change_setting);
+        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_name);
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    parseUser.setUsername(textName.getText().toString());
+                    parseUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void save_email(View view){
+        TextView textEmail = (TextView) findViewById(R.id.email_change_setting);
+        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_email);
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    parseUser.setEmail(textEmail.getText().toString());
+                    parseUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void save_password(View view){
+        TextView textPass = (TextView) findViewById(R.id.password_change_setting);
+        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_pass);
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    parseUser.setPassword(textPass.getText().toString());
+                    parseUser.saveInBackground();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        ParseUser.logOutInBackground(p -> {
+            if (p == null){
+                Toast.makeText(getApplicationContext(), "Введите новый пароль", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Intent intent = new Intent(SettingProfileUser.this, AuthorizationActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void cancel_name(View view){

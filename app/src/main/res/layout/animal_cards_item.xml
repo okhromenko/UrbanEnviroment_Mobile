@@ -55,7 +55,7 @@
                             <ImageView
                                 android:id="@+id/img_animal_cards"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="36dp"
                                 android:visibility="visible"
                                 app:srcCompat="@drawable/img_org" />
 
