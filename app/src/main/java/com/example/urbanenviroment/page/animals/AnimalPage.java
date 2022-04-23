@@ -33,6 +33,7 @@ public class AnimalPage extends AppCompatActivity {
         TextView sex_animal_page = (TextView) findViewById(R.id.sex_animal_page);
         TextView age_animal_page = (TextView) findViewById(R.id.age_animal_page);
         TextView state_animal_page = (TextView) findViewById(R.id.state_animal_page);
+        TextView address_animal_page = (TextView) findViewById(R.id.address_animal_page);
 
         kind_animal_page.setText(getIntent().getStringExtra("kind_animal"));
         species_animal_page.setText(getIntent().getStringExtra("species_animal"));
@@ -43,6 +44,9 @@ public class AnimalPage extends AppCompatActivity {
         sex_animal_page.setText(getIntent().getStringExtra("sex_animal"));
         age_animal_page.setText(getIntent().getStringExtra("age_animal"));
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
+        address_animal_page.setText(getIntent().getStringExtra("address"));
+
+
 
     }
 

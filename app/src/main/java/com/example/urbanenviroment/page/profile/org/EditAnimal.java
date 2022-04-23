@@ -21,9 +21,11 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class EditAnimal extends AppCompatActivity {
     AnimalEditOrgAdapter animalEditOrg;
 
     Dialog_Search dialog_search;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+    String kind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,48 +50,74 @@ public class EditAnimal extends AppCompatActivity {
         dialog_search = new Dialog_Search();
     }
 
-    public void init(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+    public void init() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
                     List<Animals> animalsList = new ArrayList<>();
-                    for (ParseObject i : objects){
+                    for (ParseObject i : objects) {
 
-                        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-                        query_kind.whereEqualTo("objectId", i.getParseObject("id_kind").getObjectId());
-                        query_kind.findInBackground((object_kind, ex) -> {
-                            if (ex == null) {
-                                ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                                query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
-                                query_user.findInBackground((object_user, exception) -> {
-                                    if (exception == null) {
-                                        String id = i.getObjectId().toString();
-                                        String name_org = object_user.get(0).getString("username").toString();
-                                        String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
-                                        String name_animal = i.get("name").toString();
-                                        String image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-                                        String age = i.get("age").toString();
-                                        String kind_animal =  object_kind.get(0).get("name").toString();
-                                        String state = i.get("state").toString();
-                                        String species = i.get("species").toString();
-                                        String description = i.get("description").toString();
-                                        String sex = i.get("sex").toString();
-                                        String date =  new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
+                        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
+                        query_animal.whereEqualTo("objectId", i.getParseObject("id_animal").getObjectId());
+                        query_animal.findInBackground((object_animal, exception) -> {
+                            if (exception == null) {
+                                for (ParseObject j : object_animal) {
 
-                                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                                age, state, kind_animal, species, description, sex, date));
+                                    ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
+                                    query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
+                                    query_kind.findInBackground((object_kind, exp) -> {
+                                        if (exp == null) {
+                                            for (ParseObject r : object_kind) {
+                                                kind = r.getString("name").toString();
+                                            }
+                                        }
+                                    });
 
-                                        setAnimalsRecycler(animalsList);
-                                    }
-                                });
+                                    ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
+                                    query_user.whereEqualTo("objectId", j.getParseObject("id_user").getObjectId());
+                                    query_user.findInBackground((object_user, ex) -> {
+                                        if (ex == null) {
+                                            for (ParseObject k : object_user) {
+
+                                                ParseObject id_org = ParseObject.createWithoutData("_User", k.getObjectId());
+
+                                                ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
+                                                query_org.whereEqualTo("id_user",  id_org);
+                                                query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                    public void done(ParseObject object_org, ParseException exp) {
+                                                        if (exp == null) {
+                                                            id = i.getObjectId().toString();
+                                                            image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
+                                                            name_animal = j.get("name").toString();
+                                                            age = j.get("age").toString();
+                                                            state = j.get("state").toString();
+                                                            kind_animal = kind;
+                                                            species = j.get("species").toString();
+                                                            description = j.get("description").toString();
+                                                            sex = j.get("sex").toString();
+                                                            name_org = k.getString("username").toString();
+                                                            image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
+                                                            address = object_org.get("address").toString();
+
+                                                            animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                                                                    age, state, kind_animal, species, description, sex, date));
+                                                            setAnimalsRecycler(animalsList);
+                                                        }
+
+                                                    }
+                                                });
+                                            }
+
+                                        }
+                                    });
+                                }
                             }
                         });
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 ParseUser user = new ParseUser();
                 user.setUsername(nameFields.getText().toString());
                 user.setPassword(passwordField.getText().toString());
-                user.setEmail(emailField.getText().toString());
+                user.setEmail(emailField.getText().toString().toLowerCase());
                 user.put("is_org", is_org);
 
                 user.signUpInBackground(e -> {

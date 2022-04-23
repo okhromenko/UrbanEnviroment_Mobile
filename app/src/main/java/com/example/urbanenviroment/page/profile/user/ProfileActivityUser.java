@@ -60,7 +60,6 @@ public class ProfileActivityUser extends AppCompatActivity {
         query_3.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject player, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(getApplicationContext(), "Нашел", Toast.LENGTH_LONG).show();
                 } else {
                     // Something is wrong
                 }

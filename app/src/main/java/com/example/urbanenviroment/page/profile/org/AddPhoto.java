@@ -63,7 +63,13 @@ public class AddPhoto extends AppCompatActivity {
 
         listView = findViewById(R.id.listview_add_photo);
 
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+
+        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+
+        query.whereEqualTo("id_user", id_user);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
@@ -138,7 +144,7 @@ public class AddPhoto extends AppCompatActivity {
                 Uri mediaUri = data.getData();
                 String mediaPath = mediaUri.getPath();
 
-                //display the image
+
                 try {
                     InputStream inputStream = getBaseContext().getContentResolver().openInputStream(mediaUri);
                     Bitmap bm = BitmapFactory.decodeStream(inputStream);

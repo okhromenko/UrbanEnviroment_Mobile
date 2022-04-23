@@ -26,18 +26,17 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class SettingPageOrg extends AppCompatActivity {
 
-    String description;
+//    String description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_page_org);
 
-        description = "";
+//        description = "";
 
         TextView text_location = (TextView) findViewById(R.id.text_location);
         TextView text_phone = (TextView) findViewById(R.id.text_phone);
-        //TextView text_description = (TextView) findViewById(R.id.text_description);
         MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
@@ -52,14 +51,12 @@ public class SettingPageOrg extends AppCompatActivity {
                 if (e == null) {
                     text_location.setText(object.get("address").toString());
                     text_phone.setText(object.get("phone").toString());
+                    text_description.setText(object.get("description").toString());
 
-
-                    if (object.get("description").toString() != null) {
-                        text_description.setText(object.get("description").toString());
-                        description = object.get("description").toString();
-                    }
-
-                    //text_description.setText(object.get("description").toString());
+//                    if (object.get("description").toString() != null) {
+//
+//                        description = object.get("description").toString();
+//                    }
                 }
             }
         });
@@ -126,116 +123,93 @@ public class SettingPageOrg extends AppCompatActivity {
 
     public void save_local(View view){
         TextView textName = (TextView) findViewById(R.id.location_change_setting);
-        //TextView textPassword = (TextView) findViewById(R.id.change_password_setting_location);
 
-        //ParseUser parseUser = ParseUser.getCurrentUser();
+        ParseUser parseUser = ParseUser.getCurrentUser();
 
-        //ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-        //    public void done(ParseUser user, ParseException e) {
-        //        if (user != null) {
-        //            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-
-//                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-//                    query_3.whereEqualTo("id_user", id_user);
-//                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-//                        public void done(ParseObject object, ParseException e) {
-//                            if (e == null) {
-//                                object.put("address", textName.getText().toString());
-//                                object.saveInBackground(new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException e) {
-//                                        if(e == null) {
-//                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-//                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    });
-//
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+        query_3.whereEqualTo("id_user", id_user);
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    object.put("address", textName.getText().toString());
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void save_phone(View view){
         TextView textName = (TextView) findViewById(R.id.phone_change_setting);
-//        TextView textPassword = (TextView) findViewById(R.id.change_password_setting_phone);
-//
-//        ParseUser parseUser = ParseUser.getCurrentUser();
-//
-//        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-//            public void done(ParseUser user, ParseException e) {
-//                if (user != null) {
-//                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-//
-//                    ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-//                    query_3.whereEqualTo("id_user", id_user);
-//                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-//                        public void done(ParseObject object, ParseException e) {
-//                            if (e == null) {
-//                                object.put("phone", textName.getText().toString());
-//                                object.saveInBackground(new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException e) {
-//                                        if(e == null) {
-//                                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-//                                            Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                        }
-//                    });
-//
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+        query_3.whereEqualTo("id_user", id_user);
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    object.put("phone", textName.getText().toString());
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void save_description(View view){
         TextView textName = (TextView) findViewById(R.id.description_change_setting);
-        //TextView textPassword = (TextView) findViewById(R.id.change_description_setting_pass);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
-        //ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-        //    public void done(ParseUser user, ParseException e) {
-        //        if (user != null) {
-        //            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
 
-        //            ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-        //            query_3.whereEqualTo("id_user", id_user);
-        //            query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-        //                public void done(ParseObject object, ParseException e) {
-        //                    if (e == null) {
-        //                        object.put("description", textName.getText().toString());
-        //                        object.saveInBackground(new SaveCallback() {
-        //                            @Override
-        //                            public void done(ParseException e) {
-        //                                if(e == null) {
-        //                                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-        //                                    Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-        //                                    startActivity(intent);
-        //                                }
-        //                            }
-        //                        });
-        //                    }
-        //                }
-        //            });
-
-        //        } else {
-        //            Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-        //        }
-        //    }
-        //});
+        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+        query_3.whereEqualTo("id_user", id_user);
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    object.put("description", textName.getText().toString());
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void cancel_location(View view){
@@ -259,7 +233,7 @@ public class SettingPageOrg extends AppCompatActivity {
     public void cancel_description(View view){
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_description);
         MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
-        text_description.setText(description);
+        text_description.setText(" ");
     }
 
     public void clear_location(View view){

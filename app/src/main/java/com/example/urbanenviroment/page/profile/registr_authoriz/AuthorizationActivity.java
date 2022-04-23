@@ -57,7 +57,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        ParseUser.logInInBackground(emailField.getText().toString(), passwordField.getText().toString(), (parseUser, e) -> {
+        ParseUser.logInInBackground(emailField.getText().toString().toLowerCase(), passwordField.getText().toString(), (parseUser, e) -> {
 
             progressDialog.dismiss();
 

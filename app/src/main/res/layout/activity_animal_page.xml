@@ -225,7 +225,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/org_animal_page"
+                    android:id="@+id/address_animal_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
