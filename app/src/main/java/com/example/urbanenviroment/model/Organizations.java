@@ -1,16 +1,16 @@
 package com.example.urbanenviroment.model;
 
 public class Organizations {
-    int id;
-    String name_org, img_org, phone, address, description, count_animal, count_ads, count_photo, date;
+    String id, name_org, img_org, phone, address, email, description, count_animal, count_ads, count_photo, date;
 
-    public Organizations(int id, String name_org, String img_org, String phone, String address,
+    public Organizations(String id, String name_org, String img_org, String phone, String address, String email,
                          String description, String count_animal, String count_ads, String count_photo, String date) {
         this.id = id;
         this.name_org = name_org;
         this.img_org = img_org;
         this.phone = phone;
         this.address = address;
+        this.email = email;
         this.description = description;
         this.count_animal = count_animal;
         this.count_ads = count_ads;
@@ -18,11 +18,11 @@ public class Organizations {
         this.date = date;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -56,6 +56,14 @@ public class Organizations {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDescription() {

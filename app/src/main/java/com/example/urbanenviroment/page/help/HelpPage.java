@@ -19,6 +19,12 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class HelpPage extends AppCompatActivity {
@@ -52,6 +58,7 @@ public class HelpPage extends AppCompatActivity {
         TextView status_help_page = (TextView) findViewById(R.id.status_help_page);
         TextView description_help_page = (TextView) findViewById(R.id.description_help_page);
         TextView org_help_page = (TextView) findViewById(R.id.org_help_page);
+        ImageButton button_favorite_help_page = findViewById(R.id.button_favorite_help_page);
 
         panel_date.setBackgroundColor(getIntent().getIntExtra("color_transperent", 0));
         panel_top.setCardBackgroundColor(getIntent().getIntExtra("color", 0));
@@ -63,6 +70,61 @@ public class HelpPage extends AppCompatActivity {
         description_help_page.setText(getIntent().getStringExtra("description_help"));
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
+
+        query.whereEqualTo("id_ads", id_ads);
+        query.whereEqualTo("id_user", parseUser);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object != null)
+                    button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
+                else
+                    button_favorite_help_page.setImageResource(R.drawable.button_favorite);
+            }
+        });
+
+        button_favorite_help_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+
+                ParseUser parseUser = ParseUser.getCurrentUser();
+                ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
+
+                query.whereEqualTo("id_ads", id_ads);
+                query.whereEqualTo("id_user", parseUser);
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (object == null){
+                            button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
+
+                            ParseObject favorite_ads = new ParseObject("FavoriteAds");
+                            favorite_ads.put("id_user", parseUser);
+                            favorite_ads.put("id_ads", id_ads);
+
+                            favorite_ads.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null){
+                                        Intent intent = new Intent(HelpPage.this, HelpPage.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            button_favorite_help_page.setImageResource(R.drawable.button_favorite);
+                            object.deleteInBackground();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void animals(View view){
@@ -93,19 +155,6 @@ public class HelpPage extends AppCompatActivity {
     public void card(View view){
         Intent intent = new Intent(this, CardsMainActivity.class);
         startActivity(intent);
-    }
-
-    public void favorite(View view){
-        ImageButton button_favorite = (ImageButton) findViewById(R.id.favorite_button);
-
-        if (flag){
-            button_favorite.setImageResource(R.drawable.button_favorite);
-            flag = false;
-        }
-        else{
-            button_favorite.setImageResource(R.drawable.button_favorite_press);
-            flag = true;
-        }
     }
 
 }

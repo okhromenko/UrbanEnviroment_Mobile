@@ -90,8 +90,7 @@
                     android:textColor="@color/black"/>
 
                 <ImageButton
-                    android:id="@+id/favorite_button"
-                    android:onClick="favorite"
+                    android:id="@+id/favorite_button_animal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/button_favorite"

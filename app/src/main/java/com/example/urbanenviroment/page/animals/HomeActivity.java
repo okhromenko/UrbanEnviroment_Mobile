@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                                                 query_org.getFirstInBackground(new GetCallback<ParseObject>() {
                                                     public void done(ParseObject object_org, ParseException exp) {
                                                         if (exp == null) {
-                                                            id = i.getObjectId().toString();
+                                                            id = j.getObjectId().toString();
                                                             image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
                                                             date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
                                                             name_animal = j.get("name").toString();

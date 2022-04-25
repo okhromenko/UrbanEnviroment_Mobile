@@ -65,8 +65,8 @@ public class HelpActivity extends AppCompatActivity {
                         query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
                         query_user.findInBackground((object_user, ex) -> {
                             if (ex == null) {
-                                String id = i.getObjectId().toString();
-                                String name_org = object_user.get(0).getString("username").toString();
+                                String id = i.getObjectId();
+                                String name_org = object_user.get(0).getString("username");
                                 String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
                                 String type = i.get("type").toString();
                                 String description = i.get("description").toString();

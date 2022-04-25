@@ -188,6 +188,7 @@ public class AddPhoto extends AppCompatActivity {
     }
 
     public void getParameter() {
+        ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject collection = new ParseObject("Collection");
 
         ParseFile photo = new ParseFile(byteArray);
@@ -195,6 +196,7 @@ public class AddPhoto extends AppCompatActivity {
 
         collection.put("image", photo);
         collection.put("id_animal", ptr);
+        collection.put("id_user", parseUser);
 
         collection.saveInBackground(new SaveCallback() {
             @Override

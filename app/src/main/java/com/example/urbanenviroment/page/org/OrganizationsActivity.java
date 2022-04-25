@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -28,7 +31,14 @@ import com.example.urbanenviroment.page.profile.org.AddHelp;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.Dialog_Search;
 import com.loopeer.shadow.ShadowView;
+import com.parse.CountCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +46,8 @@ public class OrganizationsActivity extends AppCompatActivity {
 
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
+    String id, name, image, date, address, description, phone, email, count_animal, count_photo, count_ads;
 
-    //Dialog_Search dialog_search;
     Dialog dialog_search;
 
     @Override
@@ -45,36 +55,74 @@ public class OrganizationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizations);
 
-        List<Organizations> orgList = new ArrayList<>();
-        orgList.add(new Organizations(1, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(2, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(3, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(4, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(5, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(6, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(7, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-
-        setOrgRecycler(orgList);
+        init();
 
         dialog_search = new Dialog(this);
-        //dialog_search = new Dialog_Search();
     }
 
+    public void init(){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Organization");
+        query.orderByAscending("createdAt");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
 
+                    List<Organizations> orgList = new ArrayList<>();
+                    for (ParseObject i : objects){
+
+                        ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
+                        query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
+                        query_user.getFirstInBackground(new GetCallback<ParseObject>() {
+                            public void done(ParseObject object_user, ParseException ex) {
+                                if (ex == null) {
+                                    ParseObject id_user = ParseObject.createWithoutData("_User", object_user.getObjectId());
+
+                                    ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
+                                    query_animal.whereEqualTo("id_user", id_user);
+                                    query_animal.countInBackground(new CountCallback() {
+                                        @Override
+                                        public void done(int query_count_animal, ParseException e) {
+                                            ParseQuery<ParseObject> query_animal = new ParseQuery<>("Ads");
+                                            query_animal.whereEqualTo("id_user", id_user);
+                                            query_animal.countInBackground(new CountCallback() {
+                                                @Override
+                                                public void done(int query_count_ads, ParseException e) {
+                                                    ParseQuery<ParseObject> query_animal = new ParseQuery<>("Collection");
+                                                    query_animal.whereEqualTo("id_user", id_user);
+                                                    query_animal.countInBackground(new CountCallback() {
+                                                        @Override
+                                                        public void done(int query_count_photo, ParseException e) {
+                                                            id = i.getObjectId();
+                                                            name = object_user.getString("username");
+                                                            image = Uri.parse(object_user.getParseFile("image").getUrl()).toString();
+                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
+                                                            address = i.get("address").toString();
+                                                            description = i.get("description").toString();
+                                                            phone = i.get("phone").toString();
+                                                            email = object_user.getString("email");
+                                                            count_animal = Integer.toString(query_count_animal);
+                                                            count_ads = Integer.toString(query_count_ads);
+                                                            count_photo = Integer.toString(query_count_photo);
+
+                                                            orgList.add(new Organizations(id, name, image, phone, address, email, description,
+                                                                    count_animal, count_ads, count_photo, date));
+                                                            setOrgRecycler(orgList);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     private void setOrgRecycler(List<Organizations> orgList){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -135,8 +183,6 @@ public class OrganizationsActivity extends AppCompatActivity {
         dialog_search.setContentView(R.layout.dialog_search);
         dialog_search.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog_search.show();
-
-        //dialog_search.show(getSupportFragmentManager(), "fragment");
     }
 
     public void accept(View view) {

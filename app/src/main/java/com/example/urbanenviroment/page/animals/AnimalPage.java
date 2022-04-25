@@ -14,6 +14,12 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 public class AnimalPage extends AppCompatActivity {
@@ -34,6 +40,7 @@ public class AnimalPage extends AppCompatActivity {
         TextView age_animal_page = (TextView) findViewById(R.id.age_animal_page);
         TextView state_animal_page = (TextView) findViewById(R.id.state_animal_page);
         TextView address_animal_page = (TextView) findViewById(R.id.address_animal_page);
+        ImageButton favorite_button_animal = findViewById(R.id.favorite_button_animal);
 
         kind_animal_page.setText(getIntent().getStringExtra("kind_animal"));
         species_animal_page.setText(getIntent().getStringExtra("species_animal"));
@@ -46,7 +53,61 @@ public class AnimalPage extends AppCompatActivity {
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
         address_animal_page.setText(getIntent().getStringExtra("address"));
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
 
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+
+        query.whereEqualTo("id_animal", id_animal);
+        query.whereEqualTo("id_user", parseUser);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object != null)
+                    favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
+                else
+                    favorite_button_animal.setImageResource(R.drawable.button_favorite);
+            }
+        });
+
+        favorite_button_animal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
+
+                ParseUser parseUser = ParseUser.getCurrentUser();
+                ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+
+                query.whereEqualTo("id_animal", id_animal);
+                query.whereEqualTo("id_user", parseUser);
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (object == null){
+                            favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
+
+                            ParseObject favorite_animal = new ParseObject("FavoriteAnimal");
+                            favorite_animal.put("id_user", parseUser);
+                            favorite_animal.put("id_animal", id_animal);
+
+                            favorite_animal.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e != null){
+                                        Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            favorite_button_animal.setImageResource(R.drawable.button_favorite);
+                            object.deleteInBackground();
+                        }
+                    }
+                });
+            }
+        });
 
     }
 
@@ -78,19 +139,6 @@ public class AnimalPage extends AppCompatActivity {
     public void card(View view){
         Intent intent = new Intent(this, CardsMainActivity.class);
         startActivity(intent);
-    }
-
-    public void favorite(View view){
-        ImageButton button_favorite = (ImageButton) findViewById(R.id.favorite_button);
-
-        if (flag){
-            button_favorite.setImageResource(R.drawable.button_favorite);
-            flag = false;
-        }
-        else{
-            button_favorite.setImageResource(R.drawable.button_favorite_press);
-            flag = true;
-        }
     }
 
 }

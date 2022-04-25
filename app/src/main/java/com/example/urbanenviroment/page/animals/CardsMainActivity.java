@@ -47,40 +47,29 @@ public class CardsMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cards_main);
 
         init();
+
     }
 
-    public void init() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+    public void init(){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
                     List<Animals> animalsList = new ArrayList<>();
-                    for (ParseObject i : objects) {
+                    for (ParseObject i : objects){
 
-                        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
-                        query_animal.whereEqualTo("objectId", i.getParseObject("id_animal").getObjectId());
-                        query_animal.findInBackground((object_animal, exception) -> {
-                            if (exception == null) {
-                                for (ParseObject j : object_animal) {
-
-                                    ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-                                    query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
-                                    query_kind.findInBackground((object_kind, exp) -> {
-                                        if (exp == null) {
-                                            for (ParseObject r : object_kind) {
-                                                kind = r.getString("name").toString();
-                                            }
-                                        }
-                                    });
-
+                        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
+                        query_kind.whereEqualTo("objectId", i.getParseObject("id_kind").getObjectId());
+                        query_kind.findInBackground((object_kind, ex) -> {
+                            if (ex == null) {
+                                for (ParseObject l : object_kind){
                                     ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                                    query_user.whereEqualTo("objectId", j.getParseObject("id_user").getObjectId());
-                                    query_user.findInBackground((object_user, ex) -> {
-                                        if (ex == null) {
-                                            for (ParseObject k : object_user) {
-
+                                    query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
+                                    query_user.findInBackground((object_user, exception) -> {
+                                        if (exception == null) {
+                                            for (ParseObject k : object_user){
                                                 ParseObject id_org = ParseObject.createWithoutData("_User", k.getObjectId());
 
                                                 ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
@@ -89,17 +78,16 @@ public class CardsMainActivity extends AppCompatActivity {
                                                     public void done(ParseObject object_org, ParseException exp) {
                                                         if (exp == null) {
                                                             id = i.getObjectId().toString();
-                                                            image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
-                                                            name_animal = j.get("name").toString();
-                                                            age = j.get("age").toString();
-                                                            state = j.get("state").toString();
-                                                            kind_animal = kind;
-                                                            species = j.get("species").toString();
-                                                            description = j.get("description").toString();
-                                                            sex = j.get("sex").toString();
                                                             name_org = k.getString("username").toString();
                                                             image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
+                                                            name_animal = i.get("name").toString();
+                                                            image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+                                                            age = i.get("age").toString();
+                                                            kind_animal = l.get("name").toString();
+                                                            state = i.get("state").toString();
+                                                            species = i.get("species").toString();
+                                                            description = i.get("description").toString();
+                                                            sex = i.get("sex").toString();
                                                             address = object_org.get("address").toString();
 
                                                             animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
@@ -110,13 +98,14 @@ public class CardsMainActivity extends AppCompatActivity {
                                                     }
                                                 });
                                             }
-
                                         }
                                     });
                                 }
                             }
                         });
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
                 }
             }
         });

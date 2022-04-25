@@ -33,26 +33,8 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
         setContentView(R.layout.activity_favorites_profile_user_org);
 
         List<Organizations> orgList = new ArrayList<>();
-        orgList.add(new Organizations(1, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(2, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(3, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(4, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(5, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(6, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
-                "03.03.2022"));
-        orgList.add(new Organizations(7, "Заповедный край", "img_org", "+79841887843",
-                "Державина 19А", "Описание", "4", "3", "43",
+        orgList.add(new Organizations("1", "Заповедный край", "img_org", "+79841887843",
+                "Державина 19А", "ohr", "Описание", "4", "3", "43",
                 "03.03.2022"));
 
         setOrgRecycler(orgList);
