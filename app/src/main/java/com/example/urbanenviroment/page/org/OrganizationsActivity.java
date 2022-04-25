@@ -56,7 +56,6 @@ public class OrganizationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organizations);
 
         init();
-
         dialog_search = new Dialog(this);
     }
 
