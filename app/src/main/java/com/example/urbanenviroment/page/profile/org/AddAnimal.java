@@ -164,7 +164,7 @@ public class AddAnimal extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                age.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                age.setText(dayOfMonth + "." + (month + 1) + "." + year);
             }
         }, year_first, month_first, day_first);
         dpd.show();

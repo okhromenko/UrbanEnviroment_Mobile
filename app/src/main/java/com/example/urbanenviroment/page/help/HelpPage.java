@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
@@ -60,6 +61,9 @@ public class HelpPage extends AppCompatActivity {
         TextView org_help_page = (TextView) findViewById(R.id.org_help_page);
         ImageButton button_favorite_help_page = findViewById(R.id.button_favorite_help_page);
 
+
+        LinearLayout edit_del_buttons = findViewById(R.id.edit_delete_buttons);
+
         panel_date.setBackgroundColor(getIntent().getIntExtra("color_transperent", 0));
         panel_top.setCardBackgroundColor(getIntent().getIntExtra("color", 0));
         panel_text.setCardBackgroundColor(getIntent().getIntExtra("color", 0));
@@ -74,6 +78,15 @@ public class HelpPage extends AppCompatActivity {
 
         ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
+
+        if ((Boolean) parseUser.get("is_org")) {
+            button_favorite_help_page.setVisibility(View.GONE);
+        } else {
+            button_favorite_help_page.setVisibility(View.VISIBLE);
+        }
+
+        //edit_del_buttons - layout в котором лежат кнопки для редактирования и удаления объявления.
+        // Их должно быть видно, той организации, которая добавляла эти объявления. Нужна проверка на это.
 
         query.whereEqualTo("id_ads", id_ads);
         query.whereEqualTo("id_user", parseUser);
@@ -157,4 +170,8 @@ public class HelpPage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void delete_edit_ads(View view){
+        Toast.makeText(getApplicationContext(),
+                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
+    }
 }

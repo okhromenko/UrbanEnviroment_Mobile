@@ -97,6 +97,36 @@
                     android:layout_gravity="right|center_vertical"
                     android:background="@color/transparent"/>
 
+                <LinearLayout
+                    android:id="@+id/edit_delete_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:visibility="gone">
+
+                    <ImageButton
+                        android:id="@+id/button_setting_edit_animal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:layout_gravity="center_vertical"
+                        app:srcCompat="@drawable/button_setting_edit_animal"
+                        android:scaleX="0.75"
+                        android:scaleY="0.75" />
+
+                    <ImageButton
+                        android:id="@+id/button_delete_edit_animal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:layout_gravity="center_vertical"
+                        android:onClick="delete_edit_animal"
+                        app:srcCompat="@drawable/button_delete_edit_animal"
+                        android:scaleX="0.75"
+                        android:scaleY="0.75" />
+                </LinearLayout>
+
+
             </FrameLayout>
 
             <LinearLayout

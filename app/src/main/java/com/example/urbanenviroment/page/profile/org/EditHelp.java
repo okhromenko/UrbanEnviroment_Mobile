@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
@@ -25,15 +26,20 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class EditHelp extends AppCompatActivity {
 
+    boolean flag = false;
+
     RecyclerView helpRecycler;
     HelpAdapter helpAdapter;
 
-    Dialog_Search dialog_search;
+    //Dialog_Search dialog_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,7 @@ public class EditHelp extends AppCompatActivity {
 
         init();
 
-        dialog_search = new Dialog_Search();
+        //dialog_search = new Dialog_Search();
     }
 
     public void init(){
@@ -81,7 +87,27 @@ public class EditHelp extends AppCompatActivity {
     }
 
     public String status(String first_date, String last_date){
-        return "потом сделаю";
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            Date lastDate = dateFormat.parse(last_date);
+            Date todayDate = new Date();
+            if (todayDate.compareTo(lastDate) <= 0){
+                long milliseconds = lastDate.getTime() - todayDate.getTime();
+                int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
+                if (days >= 2){
+                    return "В процессе";
+                }
+                else {
+                    return "Завершается";
+                }
+            }
+            else if (todayDate.compareTo(lastDate) > 0){
+                return "Выполнено";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Формат даты не совпадает!";
     }
 
     private void setHelpRecycler(List<Help> helpList){
@@ -125,7 +151,15 @@ public class EditHelp extends AppCompatActivity {
     }
 
     public void sort(View view){
-        dialog_search.show(getSupportFragmentManager(), "fragment");
+        //dialog_search.show(getSupportFragmentManager(), "fragment");
+        ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
+        if (flag){
+            button_up.setImageResource(R.drawable.img_sort_arrow_up);
+            flag = false;
+        }
+        else{
+            button_up.setImageResource(R.drawable.img_sort_arrow_down);
+            flag = true;
+        }
     }
-
 }

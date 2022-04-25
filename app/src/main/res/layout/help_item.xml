@@ -51,6 +51,7 @@
 
                         <ImageView
                             android:id="@+id/img_org_help"
+                            android:scaleType="centerCrop"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/img_org" />

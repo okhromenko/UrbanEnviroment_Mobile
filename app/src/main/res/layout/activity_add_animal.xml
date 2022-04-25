@@ -182,13 +182,19 @@
                     android:layout_gravity="center_vertical"
                     android:text="Добавить фотографию \n животного"/>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="right">
+
                 <ImageView
                     android:id="@+id/img_add_photo_animal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:onClick="loading_photo"
+                    android:scaleType="centerCrop"
                     app:srcCompat="@drawable/img_photo_add_org" />
+                </androidx.cardview.widget.CardView>
             </FrameLayout>
 
             <ImageView

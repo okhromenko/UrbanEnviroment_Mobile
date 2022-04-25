@@ -9,7 +9,9 @@ import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -41,6 +43,8 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_page = findViewById(R.id.button_org_page);
 
+        ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
+
         img_org_org_page.setImageResource(getIntent().getIntExtra("image", 0));
 
         TextView UnderlineLink = (TextView) findViewById(R.id.address_org_org_page);
@@ -62,6 +66,15 @@ public class OrganizationsPage extends AppCompatActivity {
 
         ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject id_org = ParseObject.createWithoutData("Organization", getIntent().getStringExtra("id"));
+
+        if ((Boolean) parseUser.get("is_org")) {
+            button_org_page.setVisibility(View.GONE);
+        } else {
+            button_org_page.setVisibility(View.VISIBLE);
+        }
+
+        //button_org_edit - кнопка для редактирования организации, которая должна быть видима тогда,
+        //когда организация находится на своей странице организации. Нужна проверка на это.
 
         query.whereEqualTo("id_org", id_org);
         query.whereEqualTo("id_user", parseUser);

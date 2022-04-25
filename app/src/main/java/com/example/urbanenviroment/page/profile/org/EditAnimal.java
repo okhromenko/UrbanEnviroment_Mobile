@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
@@ -36,7 +37,8 @@ public class EditAnimal extends AppCompatActivity {
     RecyclerView animalEditRecycler;
     AnimalEditOrgAdapter animalEditOrg;
 
-    Dialog_Search dialog_search;
+    boolean flag = false;
+    //Dialog_Search dialog_search;
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
     String kind;
 
@@ -47,7 +49,7 @@ public class EditAnimal extends AppCompatActivity {
 
         init();
 
-        dialog_search = new Dialog_Search();
+        //dialog_search = new Dialog_Search();
     }
 
     public void init() {
@@ -155,10 +157,17 @@ public class EditAnimal extends AppCompatActivity {
     }
 
     public void sort(View view){
-        dialog_search.show(getSupportFragmentManager(), "fragment");
+        //dialog_search.show(getSupportFragmentManager(), "fragment");
+        ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
+        if (flag){
+            button_up.setImageResource(R.drawable.img_sort_arrow_up);
+            flag = false;
+        }
+        else{
+            button_up.setImageResource(R.drawable.img_sort_arrow_down);
+            flag = true;
+        }
     }
-
-
 
     public void delete_edit_animal(View view){
         Toast.makeText(getApplicationContext(),

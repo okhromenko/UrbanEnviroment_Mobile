@@ -198,7 +198,5 @@ public class HomeActivity extends AppCompatActivity {
             button_up.setImageResource(R.drawable.img_sort_arrow_down);
             flag = true;
         }
-
-
     }
 }

@@ -52,11 +52,6 @@ public class SettingPageOrg extends AppCompatActivity {
                     text_location.setText(object.get("address").toString());
                     text_phone.setText(object.get("phone").toString());
                     text_description.setText(object.get("description").toString());
-
-//                    if (object.get("description").toString() != null) {
-//
-//                        description = object.get("description").toString();
-//                    }
                 }
             }
         });

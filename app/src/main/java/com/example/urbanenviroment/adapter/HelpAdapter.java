@@ -82,6 +82,12 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
 
+        if ((Boolean) parseUser.get("is_org")) {
+            holder.button_favorite_help.setVisibility(View.GONE);
+        } else {
+            holder.button_favorite_help.setVisibility(View.VISIBLE);
+        }
+
         query.whereEqualTo("id_ads", id_ads);
         query.whereEqualTo("id_user", parseUser);
         query.getFirstInBackground(new GetCallback<ParseObject>() {

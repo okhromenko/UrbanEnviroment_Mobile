@@ -53,8 +53,8 @@
                             <ImageView
                                 android:id="@+id/favorites_animals_img_animal"
                                 android:layout_width="match_parent"
+                                android:scaleType="centerCrop"
                                 android:layout_height="wrap_content"
-                                android:visibility="visible"
                                 app:srcCompat="@drawable/img_org" />
 
                         </androidx.cardview.widget.CardView>

@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -42,6 +44,8 @@ public class AnimalPage extends AppCompatActivity {
         TextView address_animal_page = (TextView) findViewById(R.id.address_animal_page);
         ImageButton favorite_button_animal = findViewById(R.id.favorite_button_animal);
 
+        LinearLayout edit_del_buttons = findViewById(R.id.edit_delete_buttons);
+
         kind_animal_page.setText(getIntent().getStringExtra("kind_animal"));
         species_animal_page.setText(getIntent().getStringExtra("species_animal"));
         data_animal_page.setText(getIntent().getStringExtra("reg_date_animal"));
@@ -57,6 +61,15 @@ public class AnimalPage extends AppCompatActivity {
 
         ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+
+        if ((Boolean) parseUser.get("is_org")) {
+            favorite_button_animal.setVisibility(View.GONE);
+        } else {
+            favorite_button_animal.setVisibility(View.VISIBLE);
+        }
+
+        //edit_del_buttons - layout в котором лежат кнопки для редактирования и удаления животного.
+        // Их должно быть видно, той организации, которая добавляла этих животных. Нужна проверка на это.
 
         query.whereEqualTo("id_animal", id_animal);
         query.whereEqualTo("id_user", parseUser);
@@ -139,6 +152,11 @@ public class AnimalPage extends AppCompatActivity {
     public void card(View view){
         Intent intent = new Intent(this, CardsMainActivity.class);
         startActivity(intent);
+    }
+
+    public void delete_edit_animal(View view){
+        Toast.makeText(getApplicationContext(),
+                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
     }
 
 }
