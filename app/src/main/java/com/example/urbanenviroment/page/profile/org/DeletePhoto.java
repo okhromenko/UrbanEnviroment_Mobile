@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
@@ -19,7 +22,14 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +38,8 @@ public class DeletePhoto extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
 
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+
     Dialog_Search dialog_search;
 
     @Override
@@ -35,17 +47,34 @@ public class DeletePhoto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_photo);
 
-        List<Animals> animalsList = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++){
-            animalsList.add(new Animals("1", "Дивная долина", "img_org", "Державина 19А", "Кролик", "photo_delete_animal",
-                    "3 года", "здоров", "тык тык", "тыу тыу тыу", "тык тык тык тык тык тык тык",
-                    "ж", "12.12.2012"));
-        }
-
-        setAnimalsRecycler(animalsList);
+        init();
 
         dialog_search = new Dialog_Search();
+    }
+
+    public void init(){
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+        query.orderByAscending("createdAt");
+        query.whereEqualTo("id_user", parseUser);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+
+                    List<Animals> animalsList = new ArrayList<>();
+                    for (ParseObject i : objects) {
+
+                        id = i.getObjectId();
+                        image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+
+                        animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                                age, state, kind_animal, species, description, sex, date));
+                        setAnimalsRecycler(animalsList);
+                    }
+                }
+            }
+        });
     }
 
     private void setAnimalsRecycler(List<Animals> animalsList){
@@ -91,10 +120,5 @@ public class DeletePhoto extends AppCompatActivity {
 
     public void sort(View view){
         dialog_search.show(getSupportFragmentManager(), "fragment");
-    }
-
-    public void delete_photo_animal_icon(View view){
-        Toast.makeText(getApplicationContext(),
-                "Фото удалено, капитан ヽ(ー_ー )ノ", Toast.LENGTH_SHORT).show();
     }
 }

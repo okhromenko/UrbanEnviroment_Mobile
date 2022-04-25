@@ -22,17 +22,17 @@
             android:id="@+id/img_photo_animal_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/app_name"
             app:srcCompat="@drawable/photo_delete_animal" />
 
             <ImageView
-                android:id="@+id/button_photo_animal_delete"
+                android:id="@+id/btn_delete_collection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
                 android:layout_gravity="right"
                 android:layout_margin="5dp"
-                android:onClick="delete_photo_animal_icon"
                 app:srcCompat="@drawable/button_icon_delete_photo" />
         </androidx.cardview.widget.CardView>
     </FrameLayout>

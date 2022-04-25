@@ -16,7 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.AnimalPage;
+import com.example.urbanenviroment.page.profile.org.DeletePhoto;
+import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -82,6 +88,26 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
                 context.startActivity(intent);
             }
         });
+
+        holder.button_delete_edit_animal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+
+                query.whereEqualTo("objectId", animalsList.get(position).getId());
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException ex) {
+                        if (object != null){
+                            object.deleteInBackground();
+
+                            Intent intent = new Intent(context, EditAnimal.class);
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -94,10 +120,11 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
 
         ImageView img_animal_edit;
         TextView kind_animal_edit, name_animal_edit;
-        ImageButton button_setting_edit_animal;
+        ImageButton button_setting_edit_animal, button_delete_edit_animal;
 
         public AnimalEditOrgViewHolder(@NonNull View itemView) {
             super(itemView);
+            button_delete_edit_animal = itemView.findViewById(R.id.button_delete_edit_animal);
             button_setting_edit_animal = itemView.findViewById(R.id.button_setting_edit_animal);
             img_animal_edit = itemView.findViewById(R.id.img_animal_edit);
             kind_animal_edit = itemView.findViewById(R.id.kind_animal_edit);
