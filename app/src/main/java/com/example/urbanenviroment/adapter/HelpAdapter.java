@@ -27,6 +27,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Help;
+import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -42,24 +43,29 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
     Context context;
     List<Help> helpList;
     int color, image, color_transperent;
+    boolean flag;
 
-    public HelpAdapter(Context context, List<Help> helpList) {
+    public HelpAdapter(Context context, List<Help> helpList, boolean flag) {
         this.context = context;
         this.helpList = helpList;
+        this.flag = flag;
     }
 
     @NonNull
     @Override
     public HelpViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        if (flag){
+            View helpItem = LayoutInflater.from(context).inflate(R.layout.help_edit_item, parent, false);
+            return new HelpAdapter.HelpViewHolder(helpItem);
+        }
+
         View helpItem = LayoutInflater.from(context).inflate(R.layout.help_item, parent, false);
         return new HelpAdapter.HelpViewHolder(helpItem);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull HelpViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-        Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
 
         color = Color.GRAY;
         color_transperent = Color.GRAY;
@@ -71,34 +77,10 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
 
         holder.img_line_help.setCardBackgroundColor(color);
         holder.img_box_help.setCardBackgroundColor(color);
-        holder.name_org_help.setText(helpList.get(position).getName_org());
         holder.type_ads_help.setText(helpList.get(position).getType_help());
         holder.description_help.setText(helpList.get(position).getDescription());
         holder.status_help.setText(helpList.get(position).getStatus());
         holder.date_help.setText(helpList.get(position).getDate());
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-
-        ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
-
-        if ((Boolean) parseUser.get("is_org")) {
-            holder.button_favorite_help.setVisibility(View.GONE);
-        } else {
-            holder.button_favorite_help.setVisibility(View.VISIBLE);
-        }
-
-        query.whereEqualTo("id_ads", id_ads);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null)
-                    holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
-                else
-                    holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-            }
-        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,44 +103,74 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
             }
         });
 
-        holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+        if(!flag){
+            holder.name_org_help.setText(helpList.get(position).getName_org());
+            Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
 
-                ParseUser parseUser = ParseUser.getCurrentUser();
-                ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
 
-                query.whereEqualTo("id_ads", id_ads);
-                query.whereEqualTo("id_user", parseUser);
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if (object == null){
-                            holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+            ParseUser parseUser = ParseUser.getCurrentUser();
+            ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
 
-                            ParseObject favorite_ads = new ParseObject("FavoriteAds");
-                            favorite_ads.put("id_user", parseUser);
-                            favorite_ads.put("id_ads", id_ads);
-
-                            favorite_ads.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Intent intent = new Intent(context, HelpActivity.class);
-                                        context.startActivity(intent);
-                                    }
-                                }
-                            });
-                        }
-                        else {
-                            holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-                            object.deleteInBackground();
-                        }
-                    }
-                });
+            if ((Boolean) parseUser.get("is_org")) {
+                holder.button_favorite_help.setVisibility(View.GONE);
+            } else {
+                holder.button_favorite_help.setVisibility(View.VISIBLE);
             }
-        });
+
+            query.whereEqualTo("id_ads", id_ads);
+            query.whereEqualTo("id_user", parseUser);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    if (object != null)
+                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+                    else
+                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
+                }
+            });
+
+
+
+            holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+
+                    ParseUser parseUser = ParseUser.getCurrentUser();
+                    ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
+
+                    query.whereEqualTo("id_ads", id_ads);
+                    query.whereEqualTo("id_user", parseUser);
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException e) {
+                            if (object == null){
+                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+
+                                ParseObject favorite_ads = new ParseObject("FavoriteAds");
+                                favorite_ads.put("id_user", parseUser);
+                                favorite_ads.put("id_ads", id_ads);
+
+                                favorite_ads.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e != null){
+                                            Intent intent = new Intent(context, HelpActivity.class);
+                                            context.startActivity(intent);
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
+                                object.deleteInBackground();
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 
     public void find_type(String st){
@@ -196,6 +208,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
 
         public HelpViewHolder(@NonNull View itemView) {
             super(itemView);
+
             button_favorite_help = itemView.findViewById(R.id.button_favorite_help);
             img_org_help = itemView.findViewById(R.id.img_org_help);
             name_org_help = itemView.findViewById(R.id.name_org_help);

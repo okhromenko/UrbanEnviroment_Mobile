@@ -102,7 +102,7 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
         helpRecycler = findViewById(R.id.FavoritesRecyclerHelp);
         helpRecycler.setLayoutManager(layoutManager);
 
-        helpAdapter = new HelpAdapter(this, helpList);
+        helpAdapter = new HelpAdapter(this, helpList, true);
         helpRecycler.setAdapter(helpAdapter);
     }
 

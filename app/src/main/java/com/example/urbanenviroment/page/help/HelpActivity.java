@@ -117,7 +117,7 @@ public class HelpActivity extends AppCompatActivity {
         helpRecycler = findViewById(R.id.HelpRecycler);
         helpRecycler.setLayoutManager(layoutManager);
 
-        helpAdapter = new HelpAdapter(this, helpList);
+        helpAdapter = new HelpAdapter(this, helpList, false);
         helpRecycler.setAdapter(helpAdapter);
 
         TextView count_ads = findViewById(R.id.count_ads_help);

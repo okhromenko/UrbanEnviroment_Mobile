@@ -74,10 +74,7 @@ public class HelpPage extends AppCompatActivity {
         description_help_page.setText(getIntent().getStringExtra("description_help"));
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-
         ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
 
         if ((Boolean) parseUser.get("is_org")) {
             button_favorite_help_page.setVisibility(View.GONE);
@@ -85,9 +82,22 @@ public class HelpPage extends AppCompatActivity {
             button_favorite_help_page.setVisibility(View.VISIBLE);
         }
 
-        //edit_del_buttons - layout в котором лежат кнопки для редактирования и удаления объявления.
-        // Их должно быть видно, той организации, которая добавляла эти объявления. Нужна проверка на это.
 
+        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
+        query_ads.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query_ads.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object != null){
+                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
+                        edit_del_buttons.setVisibility(View.VISIBLE);
+                    else edit_del_buttons.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+        ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
         query.whereEqualTo("id_ads", id_ads);
         query.whereEqualTo("id_user", parseUser);
         query.getFirstInBackground(new GetCallback<ParseObject>() {

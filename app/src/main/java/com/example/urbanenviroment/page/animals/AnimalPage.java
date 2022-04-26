@@ -57,10 +57,7 @@ public class AnimalPage extends AppCompatActivity {
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
         address_animal_page.setText(getIntent().getStringExtra("address"));
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
-
         ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
 
         if ((Boolean) parseUser.get("is_org")) {
             favorite_button_animal.setVisibility(View.GONE);
@@ -68,9 +65,21 @@ public class AnimalPage extends AppCompatActivity {
             favorite_button_animal.setVisibility(View.VISIBLE);
         }
 
-        //edit_del_buttons - layout в котором лежат кнопки для редактирования и удаления животного.
-        // Их должно быть видно, той организации, которая добавляла этих животных. Нужна проверка на это.
+        ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
+        query_animal.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query_animal.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object != null){
+                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
+                        edit_del_buttons.setVisibility(View.VISIBLE);
+                    else edit_del_buttons.setVisibility(View.GONE);
+                }
+            }
+        });
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
+        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
         query.whereEqualTo("id_animal", id_animal);
         query.whereEqualTo("id_user", parseUser);
         query.getFirstInBackground(new GetCallback<ParseObject>() {

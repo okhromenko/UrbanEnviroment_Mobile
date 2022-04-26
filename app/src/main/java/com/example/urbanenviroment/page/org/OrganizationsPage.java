@@ -62,10 +62,8 @@ public class OrganizationsPage extends AppCompatActivity {
         count_photo_org_page.setText(getIntent().getStringExtra("count_photo"));
         date_reg_org_org.setText(getIntent().getStringExtra("date"));
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
 
         ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_org = ParseObject.createWithoutData("Organization", getIntent().getStringExtra("id"));
 
         if ((Boolean) parseUser.get("is_org")) {
             button_org_page.setVisibility(View.GONE);
@@ -73,9 +71,21 @@ public class OrganizationsPage extends AppCompatActivity {
             button_org_page.setVisibility(View.VISIBLE);
         }
 
-        //button_org_edit - кнопка для редактирования организации, которая должна быть видима тогда,
-        //когда организация находится на своей странице организации. Нужна проверка на это.
+        ParseQuery<ParseObject> query_org = ParseQuery.getQuery("Organization");
+        query_org.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object != null){
+                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
+                        button_org_edit.setVisibility(View.VISIBLE);
+                    else button_org_edit.setVisibility(View.GONE);
+                }
+            }
+        });
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
+        ParseObject id_org = ParseObject.createWithoutData("Organization", getIntent().getStringExtra("id"));
         query.whereEqualTo("id_org", id_org);
         query.whereEqualTo("id_user", parseUser);
         query.getFirstInBackground(new GetCallback<ParseObject>() {

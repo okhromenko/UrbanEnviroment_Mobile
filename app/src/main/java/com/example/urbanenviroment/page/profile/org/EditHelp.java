@@ -25,6 +25,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.time.Period;
@@ -52,7 +53,9 @@ public class EditHelp extends AppCompatActivity {
     }
 
     public void init(){
+        ParseUser parseUser = ParseUser.getCurrentUser();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
+        query.whereEqualTo("id_user", parseUser);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
@@ -116,7 +119,7 @@ public class EditHelp extends AppCompatActivity {
         helpRecycler = findViewById(R.id.EditHelpRecycler);
         helpRecycler.setLayoutManager(layoutManager);
 
-        helpAdapter = new HelpAdapter(this, helpList);
+        helpAdapter = new HelpAdapter(this, helpList, true);
         helpRecycler.setAdapter(helpAdapter);
     }
 
