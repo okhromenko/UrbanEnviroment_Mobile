@@ -13,4 +13,12 @@
     <!-- Change BOTH strings as required -->
     <string name="back4app_app_id">pttgerbnLJl4Rghwxxd2TT0IbPq3cHTgOlV7i4LN</string>
     <string name="back4app_client_key">B4OD6zSCXMjXpscwe1OgFtxpI9bgdsqZKLGdi5zr</string>
+
+    <string-array name="AgeAnimal">
+        <item>До 1 года</item>
+        <item>До 2 лет</item>
+        <item>До 3 лет</item>
+        <item>10 лет</item>
+    </string-array>
+
 </resources>

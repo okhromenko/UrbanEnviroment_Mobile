@@ -81,16 +81,7 @@ public class AddHelp extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String DoM, M;
-                DoM = String.valueOf(dayOfMonth);
-                M = String.valueOf(month);
-                if (dayOfMonth <= 9) {
-                    DoM = "0" + DoM;
-                }
-                if ((month + 1) <= 9) {
-                    M = "0" + M;
-                }
-                add_date_help.setText(DoM + "." + M + "." + year);
+                add_date_help.setText(dayOfMonth + "." + (month + 1) + "." + year);
             }
         }, year_first, month_first, day_first);
         dpd.show();
