@@ -24,6 +24,12 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class AnimalPage extends AppCompatActivity {
     boolean flag = false;
 
@@ -53,9 +59,72 @@ public class AnimalPage extends AppCompatActivity {
         name_animal_page.setText(getIntent().getStringExtra("name_animal"));
         description_animal_page.setText(getIntent().getStringExtra("description_animal"));
         sex_animal_page.setText(getIntent().getStringExtra("sex_animal"));
-        age_animal_page.setText(getIntent().getStringExtra("age_animal"));
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
         address_animal_page.setText(getIntent().getStringExtra("address"));
+
+        try {
+
+            /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            LocalDate ageDate = LocalDate.parse(getIntent().getStringExtra("age_animal"), formatter);
+            LocalDate todayDate = LocalDate.now();
+            Period period = Period.between(ageDate, todayDate);
+
+            if (period.getYears() <= 0) {
+
+                String month = "месяцев";
+
+                if (period.getMonths() == 1){
+                    month = "месяц";
+                } else if ((period.getMonths() > 1 ) && (period.getMonths() < 5)) {
+                    month = "месяца";
+                }
+
+                age_animal_page.setText(period.getMonths() + month);
+            } else {
+                String year = "лет";
+
+                if (period.getYears() < 5){
+                    year = "год";
+                }
+                age_animal_page.setText(period.getYears() + year);
+            }*/
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            Date ageDate = dateFormat.parse(getIntent().getStringExtra("age_animal"));
+            Date todayDate = new Date();
+            long milliseconds = todayDate.getTime() - ageDate.getTime();
+            int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
+            int month = (int) (days / 30);
+            int year = (int) (month / 12);
+
+            if (month == 0) {
+                age_animal_page.setText("Меньше месяца");
+            }
+
+            else if (year <= 0) {
+
+                String monthS = " месяцев";
+
+                if (month == 1){
+                    monthS = " месяц";
+                } else if ((month > 1 ) && (month < 5)) {
+                    monthS = " месяца";
+                }
+                age_animal_page.setText(month + monthS);
+            } else {
+                String yearS = " лет";
+
+                if (year < 5){
+                    yearS = " год";
+                }
+                age_animal_page.setText(year + yearS);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //age_animal_page.setText(getIntent().getStringExtra("age_animal"));
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
