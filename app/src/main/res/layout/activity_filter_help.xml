@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".page.filter.FilterHelp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/text_filter"
+            android:background="@color/transparent"
+            android:layout_marginBottom="40dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+
+                <ImageButton
+                    android:id="@+id/food_filter"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    android:onClick="food_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|left"
+                    android:src="@drawable/button_food_type_ad_org"
+                    android:background="@color/transparent"/>
+
+                <ImageButton
+                    android:id="@+id/things_filter"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    android:onClick="things_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center_horizontal"
+                    android:src="@drawable/button_things_type_ad_org"
+                    android:background="@color/transparent"/>
+
+                <ImageButton
+                    android:id="@+id/help_filter"
+                    android:scaleY="0.9"
+                    android:scaleX="0.9"
+                    android:onClick="help_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:src="@drawable/button_help_type_ad_org"
+                    android:background="@color/transparent"/>
+
+            </FrameLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:cardBackgroundColor="@color/black"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:cardBackgroundColor="@color/white"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:cardBackgroundColor="@color/black"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/basic_blue"
+                app:cardCornerRadius="15dp"
+                android:layout_marginEnd="5dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginHorizontal="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Организация"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/button_cross"
+                        android:background="@color/transparent"
+                        android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/rectangle_search_org"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="#F3F3F3">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/text_search_щкп"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="40dp"
+                    android:hint="Поиск по организациям"
+                    android:textColorHighlight="@color/basic_blue"
+                    android:textColorLink="@color/basic_blue"
+                    android:textSize="16sp"
+                    app:met_floatingLabel="none"
+                    app:met_hideUnderline="true"
+                    app:met_singleLineEllipsis="false" />
+
+                <ImageButton
+                    android:id="@+id/button_search_org"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/button_loupe_org" />
+            </androidx.cardview.widget.CardView>
+        </FrameLayout>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:cardBackgroundColor="@color/black"
+            android:layout_marginBottom="40dp"/>
+    </LinearLayout>
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadowView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shadowColor="#1A000000"
+        app:shadowMarginTop="10dp"
+        app:shadowRadius="10dp">
+
+        <ImageButton
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:background="@color/white"
+            android:visibility="invisible" />
+
+    </com.loopeer.shadow.ShadowView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shadowView"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="animals"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_animal_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="help"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_help" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="authorization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_profile_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="organization"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_organization_ex" />
+
+        <ImageButton
+            android:layout_width="73dp"
+            android:layout_height="55dp"
+            android:background="@color/white"
+            android:onClick="map"
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:src="@drawable/menu_map_ex" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

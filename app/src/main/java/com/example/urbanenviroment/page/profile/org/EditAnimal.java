@@ -14,14 +14,12 @@ import android.widget.Toast;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.AnimalEditOrgAdapter;
 import com.example.urbanenviroment.model.Animals;
-import com.example.urbanenviroment.page.Dialog_Search;
-import com.example.urbanenviroment.page.Filter;
+import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -152,7 +150,7 @@ public class EditAnimal extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, Filter.class);
+        Intent intent = new Intent(this, FilterAnimal.class);
         startActivity(intent);
     }
 

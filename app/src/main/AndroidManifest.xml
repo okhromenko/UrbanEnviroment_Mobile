@@ -74,7 +74,7 @@
             android:name=".page.profile.user.SettingsProfileUser"
             android:exported="false" />
         <activity
-            android:name=".page.Filter"
+            android:name=".page.filter.FilterAnimal"
             android:exported="false" />
         <activity
             android:name=".page.help.HelpPage"

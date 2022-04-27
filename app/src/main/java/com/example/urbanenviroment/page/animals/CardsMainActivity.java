@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.urbanenviroment.page.Filter;
+import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
@@ -23,13 +22,9 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,7 +154,7 @@ public class CardsMainActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, Filter.class);
+        Intent intent = new Intent(this, FilterAnimal.class);
         startActivity(intent);
     }
 

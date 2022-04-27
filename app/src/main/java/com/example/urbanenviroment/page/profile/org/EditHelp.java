@@ -14,8 +14,7 @@ import android.widget.Toast;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.model.Help;
-import com.example.urbanenviroment.page.Dialog_Search;
-import com.example.urbanenviroment.page.Filter;
+import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -28,7 +27,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -149,7 +147,7 @@ public class EditHelp extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, Filter.class);
+        Intent intent = new Intent(this, FilterAnimal.class);
         startActivity(intent);
     }
 

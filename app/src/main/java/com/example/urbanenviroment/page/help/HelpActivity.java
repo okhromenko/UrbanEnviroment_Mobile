@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.Dialog_Search;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.model.Help;
-import com.example.urbanenviroment.page.Filter;
+import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.animals.HomeActivity;
+import com.example.urbanenviroment.page.filter.FilterHelp;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
@@ -27,7 +27,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -158,7 +157,7 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, Filter.class);
+        Intent intent = new Intent(this, FilterHelp.class);
         startActivity(intent);
     }
 
