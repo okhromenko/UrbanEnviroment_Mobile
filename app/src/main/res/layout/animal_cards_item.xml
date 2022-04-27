@@ -94,6 +94,7 @@
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginEnd="10dp"
                     android:background="@color/transparent"
+                    android:visibility="gone"
                     android:onClick="button_favorite"
                     android:src="@drawable/button_favorite" />
             </FrameLayout>

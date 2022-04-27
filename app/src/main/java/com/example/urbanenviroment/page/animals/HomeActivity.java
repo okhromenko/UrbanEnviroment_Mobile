@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
 
+    boolean flag_org;
     boolean flag = false;
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
     String kind;
@@ -64,11 +65,19 @@ public class HomeActivity extends AppCompatActivity {
         );
 
         setContentView(R.layout.activity_home);
-        init();
+
+        flag_org = getIntent().getBooleanExtra("flag_org", false);
+        init(flag_org);
     }
 
-    public void init() {
+    public void init(boolean flag_org) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+
+        if (flag_org){
+            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
+            query.whereEqualTo("id_user", id_);
+        }
+
         query.orderByAscending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {

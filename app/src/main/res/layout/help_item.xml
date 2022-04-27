@@ -77,6 +77,7 @@
                     android:src="@drawable/button_favorite"
                     android:layout_gravity="right|center_vertical"
                     android:layout_marginEnd="10dp"
+                    android:visibility="gone"
                     android:background="@color/transparent"/>
 
             </FrameLayout>

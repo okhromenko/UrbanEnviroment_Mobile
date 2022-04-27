@@ -26,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -38,20 +39,26 @@ public class CardsMainActivity extends AppCompatActivity {
     AnimalCardsAdapter cardsAdapter;
 
     boolean flag_sort = false;
+    boolean flag_org;
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-    String kind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards_main);
-
-        init();
+        flag_org = getIntent().getBooleanExtra("flag_org", false);
+        init(flag_org);
 
     }
 
-    public void init(){
+    public void init(boolean flag_org){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+
+        if (flag_org){
+            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
+            query.whereEqualTo("id_user", id_);
+        }
+
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
@@ -119,7 +126,6 @@ public class CardsMainActivity extends AppCompatActivity {
 
         cardsAdapter = new AnimalCardsAdapter(this, cardsList);
         AnimalsCardsRecycler.setAdapter(cardsAdapter);
-
     }
 
     public void animals(View view){

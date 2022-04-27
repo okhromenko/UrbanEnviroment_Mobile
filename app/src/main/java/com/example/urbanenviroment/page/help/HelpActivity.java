@@ -40,6 +40,7 @@ public class HelpActivity extends AppCompatActivity {
 
     Dialog_Search dialog_search;
 
+    boolean flag_org;
     boolean flag = false;
 
     @Override
@@ -47,13 +48,20 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        init();
+        flag_org = getIntent().getBooleanExtra("flag_org", false);
+        init(flag_org);
 
         dialog_search = new Dialog_Search();
     }
 
-    public void init(){
+    public void init(boolean flag_org){
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
+
+        if (flag_org){
+            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
+            query.whereEqualTo("id_user", id_);
+        }
+
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {

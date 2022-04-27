@@ -103,13 +103,15 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
             }
         });
 
-        if(!flag){
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        if(!flag && parseUser != null){
             holder.name_org_help.setText(helpList.get(position).getName_org());
             Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
 
             ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
 
-            ParseUser parseUser = ParseUser.getCurrentUser();
+
             ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
 
             if ((Boolean) parseUser.get("is_org")) {
@@ -137,7 +139,6 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 public void onClick(View v) {
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
 
-                    ParseUser parseUser = ParseUser.getCurrentUser();
                     ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
 
                     query.whereEqualTo("id_ads", id_ads);

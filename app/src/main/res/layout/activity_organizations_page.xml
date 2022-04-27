@@ -49,12 +49,13 @@
 
             <ImageButton
                 android:id="@+id/button_org_page"
-                android:layout_width="wrap_content"
+                android:layout_width="12dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/button_favorite"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginEnd="10dp"
-                android:background="@color/transparent"/>
+                android:visibility="gone"
+                android:background="@color/transparent"
+                android:src="@drawable/button_favorite" />
 
             <ImageButton
                 android:id="@+id/button_setting_edit_org"
@@ -165,6 +166,7 @@
                     app:cardCornerRadius="10dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/btn_animal_org_page"
                         android:layout_width="150dp"
                         android:layout_height="45dp"
                         app:cardBackgroundColor="@color/white"
@@ -213,6 +215,7 @@
                     app:cardCornerRadius="10dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/btn_photo_org_page"
                         android:layout_width="150dp"
                         android:layout_height="45dp"
                         app:cardBackgroundColor="@color/white"
@@ -267,6 +270,7 @@
                     app:cardCornerRadius="10dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/btn_ads_org_page"
                         android:layout_width="150dp"
                         android:layout_height="45dp"
                         app:cardBackgroundColor="@color/white"

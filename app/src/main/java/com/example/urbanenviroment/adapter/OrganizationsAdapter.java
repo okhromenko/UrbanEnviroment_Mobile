@@ -58,28 +58,32 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         holder.count_photo_org.setText(organizationsList.get(position).getCount_photo());
         holder.date_org.setText(organizationsList.get(position).getDate());
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
-
         ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_org = ParseObject.createWithoutData("Organization", organizationsList.get(position).getId());
 
-        if ((Boolean) parseUser.get("is_org")) {
-            holder.button_favorite_org.setVisibility(View.GONE);
-        } else {
-            holder.button_favorite_org.setVisibility(View.VISIBLE);
+        if (parseUser != null){
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
+
+            ParseObject id_org = ParseObject.createWithoutData("Organization", organizationsList.get(position).getId());
+
+            if ((Boolean) parseUser.get("is_org")) {
+                holder.button_favorite_org.setVisibility(View.GONE);
+            } else {
+                holder.button_favorite_org.setVisibility(View.VISIBLE);
+            }
+
+            query.whereEqualTo("id_org", id_org);
+            query.whereEqualTo("id_user", parseUser);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    if (object != null)
+                        holder.button_favorite_org.setImageResource(R.drawable.button_favorite_press);
+                    else
+                        holder.button_favorite_org.setImageResource(R.drawable.button_favorite);
+                }
+            });
         }
 
-        query.whereEqualTo("id_org", id_org);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null)
-                    holder.button_favorite_org.setImageResource(R.drawable.button_favorite_press);
-                else
-                    holder.button_favorite_org.setImageResource(R.drawable.button_favorite);
-            }
-        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

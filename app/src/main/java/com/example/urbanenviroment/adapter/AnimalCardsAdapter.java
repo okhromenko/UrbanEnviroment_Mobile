@@ -61,10 +61,12 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
         ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject id_animal = ParseObject.createWithoutData("Animals", animalCardsList.get(position).getId());
 
-        if ((Boolean) parseUser.get("is_org")) {
-            holder.button_favorite_card.setVisibility(View.GONE);
-        } else {
-            holder.button_favorite_card.setVisibility(View.VISIBLE);
+        if (parseUser != null) {
+            if ((Boolean) parseUser.get("is_org"))
+                holder.button_favorite_card.setVisibility(View.GONE);
+            else {
+                holder.button_favorite_card.setVisibility(View.VISIBLE);
+            }
         }
 
         query.whereEqualTo("id_animal", id_animal);

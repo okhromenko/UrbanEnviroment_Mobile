@@ -59,10 +59,12 @@ public class AnimalPage extends AppCompatActivity {
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
-        if ((Boolean) parseUser.get("is_org")) {
-            favorite_button_animal.setVisibility(View.GONE);
-        } else {
-            favorite_button_animal.setVisibility(View.VISIBLE);
+        if (parseUser != null){
+            if ((Boolean) parseUser.get("is_org")) {
+                favorite_button_animal.setVisibility(View.GONE);
+            } else {
+                favorite_button_animal.setVisibility(View.VISIBLE);
+            }
         }
 
         ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
@@ -70,7 +72,7 @@ public class AnimalPage extends AppCompatActivity {
         query_animal.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
-                if (object != null){
+                if (object != null && parseUser != null){
                     if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
                         edit_del_buttons.setVisibility(View.VISIBLE);
                     else edit_del_buttons.setVisibility(View.GONE);

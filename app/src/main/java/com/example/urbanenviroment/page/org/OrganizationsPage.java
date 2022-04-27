@@ -1,6 +1,7 @@
 package com.example.urbanenviroment.page.org;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -65,10 +67,12 @@ public class OrganizationsPage extends AppCompatActivity {
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
-        if ((Boolean) parseUser.get("is_org")) {
-            button_org_page.setVisibility(View.GONE);
-        } else {
-            button_org_page.setVisibility(View.VISIBLE);
+        if (parseUser != null){
+            if ((Boolean) parseUser.get("is_org")) {
+                button_org_page.setVisibility(View.GONE);
+            } else {
+                button_org_page.setVisibility(View.VISIBLE);
+            }
         }
 
         ParseQuery<ParseObject> query_org = ParseQuery.getQuery("Organization");
@@ -76,7 +80,7 @@ public class OrganizationsPage extends AppCompatActivity {
         query_org.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
-                if (object != null){
+                if (object != null && parseUser != null){
                     if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
                         button_org_edit.setVisibility(View.VISIBLE);
                     else button_org_edit.setVisibility(View.GONE);
@@ -132,6 +136,67 @@ public class OrganizationsPage extends AppCompatActivity {
                             button_org_page.setImageResource(R.drawable.button_favorite);
                             object.deleteInBackground();
                         }
+                    }
+                });
+            }
+        });
+
+        CardView btn_animal_org_page = findViewById(R.id.btn_animal_org_page);
+        CardView btn_ads_org_page = findViewById(R.id.btn_ads_org_page);
+        CardView btn_photo_org_page = findViewById(R.id.btn_photo_org_page);
+
+        btn_animal_org_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
+                query_org.whereEqualTo("objectId",  getIntent().getStringExtra("id"));
+                query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object_org, ParseException exp) {
+                        if (exp == null) {
+                            Intent intent = new Intent(OrganizationsPage.this, CardsMainActivity.class);
+                            intent.putExtra("flag_org", true);
+                            intent.putExtra("id_org", object_org.getParseObject("id_user").getObjectId());
+                            startActivity(intent);
+                        }
+
+                    }
+                });
+            }
+        });
+
+        btn_ads_org_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
+                query_org.whereEqualTo("objectId",  getIntent().getStringExtra("id"));
+                query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object_org, ParseException exp) {
+                        if (exp == null) {
+                            Intent intent = new Intent(OrganizationsPage.this, HelpActivity.class);
+                            intent.putExtra("flag_org", true);
+                            intent.putExtra("id_org", object_org.getParseObject("id_user").getObjectId());
+                            startActivity(intent);
+                        }
+
+                    }
+                });
+            }
+        });
+
+        btn_photo_org_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
+                query_org.whereEqualTo("objectId",  getIntent().getStringExtra("id"));
+                query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object_org, ParseException exp) {
+                        if (exp == null) {
+                            Intent intent = new Intent(OrganizationsPage.this, HomeActivity.class);
+                            intent.putExtra("flag_org", true);
+                            intent.putExtra("id_org", object_org.getParseObject("id_user").getObjectId());
+                            startActivity(intent);
+                        }
+
                     }
                 });
             }

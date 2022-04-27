@@ -117,6 +117,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/button_favorite"
                     android:background="@color/transparent"
+                    android:visibility="gone"
                     android:layout_gravity="right|center_vertical"/>
 
                 <LinearLayout

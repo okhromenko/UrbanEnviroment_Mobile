@@ -3,11 +3,13 @@ package com.example.urbanenviroment.page.profile.org;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -17,6 +19,16 @@ import com.example.urbanenviroment.page.profile.settings.SettingNotificationsUse
 import com.example.urbanenviroment.page.profile.settings.SettingOther;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
 import com.example.urbanenviroment.page.profile.settings.SettingProfileUser;
+import com.example.urbanenviroment.page.profile.user.SettingsProfileUser;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingProfileOrg extends AppCompatActivity {
 
@@ -67,8 +79,66 @@ public class SettingProfileOrg extends AppCompatActivity {
     }
 
     public void delete_profile(View view) {
-        Toast.makeText(getApplicationContext(),
-                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
+        query_ads.whereEqualTo("id_user", parseUser);
+        query_ads.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject i : objects) {
+                        i.deleteInBackground();
+                    }
+
+                    ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
+                    query_animal.whereEqualTo("id_user", parseUser);
+                    query_animal.findInBackground(new FindCallback<ParseObject>() {
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (e == null) {
+                                for (ParseObject k : objects) {
+                                    k.deleteInBackground();
+                                }
+
+                                ParseQuery<ParseObject> query_collection = ParseQuery.getQuery("Collection");
+                                query_collection.whereEqualTo("id_user", parseUser);
+                                query_collection.findInBackground(new FindCallback<ParseObject>() {
+                                    public void done(List<ParseObject> objects, ParseException e) {
+                                        if (e == null) {
+                                            for (ParseObject f : objects) {
+                                                f.deleteInBackground();
+                                            }
+
+                                            ParseQuery<ParseObject> query_org = ParseQuery.getQuery("Organization");
+                                            query_org.whereEqualTo("id_user", parseUser);
+                                            query_org.findInBackground(new FindCallback<ParseObject>() {
+                                                public void done(List<ParseObject> objects, ParseException e) {
+                                                    if (e == null) {
+                                                        for (ParseObject p : objects) {
+                                                            p.deleteInBackground();
+                                                        }
+
+                                                        parseUser.deleteInBackground(new DeleteCallback() {
+                                                            @Override
+                                                            public void done(ParseException e) {
+                                                                ParseUser.logOutInBackground();
+
+                                                                Intent intent = new Intent(SettingProfileOrg.this, HomeActivity.class);
+                                                                startActivity(intent);
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
 }
