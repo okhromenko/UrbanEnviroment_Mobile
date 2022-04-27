@@ -248,7 +248,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="left|center_vertical"
                     android:text="Местоположение"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/light_gray"
@@ -259,11 +259,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:text="Местоположение"
+                    android:layout_marginStart="140dp"
                     android:fontFamily="@font/roboto"
-                    android:textStyle="bold"
+                    android:text="Местоположение"
+                    android:textAlignment="textEnd"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </FrameLayout>
             </LinearLayout>
             <androidx.cardview.widget.CardView

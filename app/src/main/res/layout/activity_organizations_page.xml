@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".page.org.OrganizationsPage">
 
-
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/shadowView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="50dp">
 
                 <TextView
                     android:id="@+id/name_org_org_page"
@@ -49,7 +50,7 @@
 
             <ImageButton
                 android:id="@+id/button_org_page"
-                android:layout_width="12dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginEnd="10dp"
@@ -70,8 +71,6 @@
                 app:srcCompat="@drawable/button_setting_edit_animal" />=
 
         </FrameLayout>
-
-
 
 
         <ImageView
@@ -111,6 +110,8 @@
                     android:fontFamily="@font/roboto" />
             </FrameLayout>
 
+        </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,248 +130,251 @@
                     app:cardBackgroundColor="@color/black"/>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/description_animal_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="20dp"
-                android:text="Описание"
-                android:textSize="16sp"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black"/>
-
-            <androidx.cardview.widget.CardView
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:cardBackgroundColor="@color/black"/>
+                android:layout_height="match_parent">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/description_animal_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_marginVertical="20dp"
+                        android:text="Описание"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto"
+                        android:textColor="@color/black"/>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        app:cardBackgroundColor="@color/black"/>
+
+                    <FrameLayout
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="155dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_animal_org_page"
+                                android:layout_width="150dp"
+                                android:layout_height="45dp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="8dp"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|left"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Животные"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/basic_blue"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right">
+
+                                    <ImageView
+                                        android:layout_width="12dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/img_org_animal"
+                                        android:layout_marginEnd="5dp"/>
+
+                                    <TextView
+                                        android:id="@+id/count_animal_org_page"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="14sp"
+                                        android:text="xxx"
+                                        android:textColor="@color/basic_blue"
+                                        android:layout_marginEnd="10dp"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_gravity="right"
+                            android:layout_width="155dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_photo_org_page"
+                                android:layout_width="150dp"
+                                android:layout_height="45dp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="8dp"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|left"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Фотографии"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/basic_blue"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right">
+
+                                    <ImageView
+                                        android:layout_width="12dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/img_org_photo"
+                                        android:layout_gravity="bottom"
+                                        android:layout_marginEnd="5dp"/>
+
+                                    <TextView
+                                        android:id="@+id/count_photo_org_page"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="14sp"
+                                        android:text="xxx"
+                                        android:textColor="@color/basic_blue"
+                                        android:layout_marginEnd="10dp"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_marginHorizontal="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="155dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_ads_org_page"
+                                android:layout_width="150dp"
+                                android:layout_height="45dp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="8dp"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|left"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Объявления"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/basic_blue"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right">
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/img_ads"
+                                        android:layout_marginEnd="5dp"/>
+
+                                    <TextView
+                                        android:id="@+id/count_ads_org_page"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="14sp"
+                                        android:text="xxx"
+                                        android:textColor="@color/basic_blue"
+                                        android:layout_marginEnd="10dp"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:onClick="statistics"
+                            android:layout_gravity="right"
+                            android:layout_width="155dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="150dp"
+                                android:layout_height="45dp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="8dp"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|left"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Статистика"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/basic_blue"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right">
+
+                                    <ImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/img_org_static"
+                                        android:layout_marginEnd="10dp"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp">
+
+                        <TextView
+                            android:id="@+id/date_reg_org_org"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:text="Дата регистрации"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/roboto"
+                            android:textColor="@color/black" />
+
+                        </FrameLayout>
+                    </LinearLayout>
+            </ScrollView>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="15dp">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="10dp">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/basic_blue"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btn_animal_org_page"
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="8dp"
-                        android:layout_gravity="center">
-
-                        <TextView
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|left"
-                            android:fontFamily="@font/roboto"
-                            android:text="Животные"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/basic_blue"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|right">
-
-                            <ImageView
-                                android:layout_width="12dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/img_org_animal"
-                                android:layout_marginEnd="5dp"/>
-
-                            <TextView
-                                android:id="@+id/count_animal_org_page"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="14sp"
-                                android:text="xxx"
-                                android:textColor="@color/basic_blue"
-                                android:layout_marginEnd="10dp"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_gravity="right"
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/basic_blue"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btn_photo_org_page"
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="8dp"
-                        android:layout_gravity="center">
-
-                        <TextView
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|left"
-                            android:fontFamily="@font/roboto"
-                            android:text="Фотографии"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/basic_blue"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|right">
-
-                            <ImageView
-                                android:layout_width="12dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/img_org_photo"
-                                android:layout_gravity="bottom"
-                                android:layout_marginEnd="5dp"/>
-
-                            <TextView
-                                android:id="@+id/count_photo_org_page"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="14sp"
-                                android:text="xxx"
-                                android:textColor="@color/basic_blue"
-                                android:layout_marginEnd="10dp"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.cardview.widget.CardView>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/basic_blue"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/btn_ads_org_page"
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="8dp"
-                        android:layout_gravity="center">
-
-                        <TextView
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|left"
-                            android:fontFamily="@font/roboto"
-                            android:text="Объявления"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/basic_blue"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|right">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/img_ads"
-                                android:layout_marginEnd="5dp"/>
-
-                            <TextView
-                                android:id="@+id/count_ads_org_page"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="14sp"
-                                android:text="xxx"
-                                android:textColor="@color/basic_blue"
-                                android:layout_marginEnd="10dp"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:onClick="statistics"
-                    android:layout_gravity="right"
-                    android:layout_width="155dp"
-                    android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/basic_blue"
-                    app:cardCornerRadius="10dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="150dp"
-                        android:layout_height="45dp"
-                        app:cardBackgroundColor="@color/white"
-                        app:cardCornerRadius="8dp"
-                        android:layout_gravity="center">
-
-                        <TextView
-                            android:layout_marginHorizontal="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|left"
-                            android:fontFamily="@font/roboto"
-                            android:text="Статистика"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/basic_blue"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|right">
-
-                            <ImageView
-                                android:layout_width="15dp"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/img_org_static"
-                                android:layout_marginEnd="10dp"/>
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.cardview.widget.CardView>
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp">
-
-                <TextView
-                    android:id="@+id/date_reg_org_org"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:text="Дата регистрации"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/roboto"
-                    android:textColor="@color/black" />
-
-            </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
