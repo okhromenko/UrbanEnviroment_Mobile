@@ -56,6 +56,7 @@ public class HelpPage extends AppCompatActivity {
         TextView type_help_page = (TextView) findViewById(R.id.type_help_page);
         ImageView type_img_help_page = (ImageView) findViewById(R.id.type_img_help_page);
         TextView date_help_page = (TextView) findViewById(R.id.date_help_page);
+        //TextView first_date_help_page = (TextView) findViewById(R.id.first_date_help_page);
         TextView status_help_page = (TextView) findViewById(R.id.status_help_page);
         TextView description_help_page = (TextView) findViewById(R.id.description_help_page);
         TextView org_help_page = (TextView) findViewById(R.id.org_help_page);
@@ -70,6 +71,7 @@ public class HelpPage extends AppCompatActivity {
         type_help_page.setText(getIntent().getStringExtra("type_ads_help"));
         type_img_help_page.setImageResource(getIntent().getIntExtra("image", 0));
         date_help_page.setText(getIntent().getStringExtra("date_help"));
+        //first_date_help_page.setText(getIntent().getStringExtra("first_date_help"));
         status_help_page.setText(getIntent().getStringExtra("status_help"));
         description_help_page.setText(getIntent().getStringExtra("description_help"));
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
