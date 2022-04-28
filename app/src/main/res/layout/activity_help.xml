@@ -120,14 +120,13 @@
                 app:shadowRadius="10dp">
 
                 <ImageButton
-                    android:id="@+id/button_filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/transparent"
-                    android:onClick="filter"
                     android:src="@drawable/button_filter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
+                    android:onClick="filter"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

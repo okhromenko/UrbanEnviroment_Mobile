@@ -3,12 +3,17 @@ package com.example.urbanenviroment.page.animals;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.icu.util.LocaleData;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,13 +31,39 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    class AnimalsComparator implements Comparator<Animals>{
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Animals o1, Animals o2) {
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("d.M.y");
+
+            Date date_1 = null;
+            Date date_2 = null;
+            try {
+                date_1 = format.parse(o1.getReg_data());
+                date_2 = format.parse(o2.getReg_data());
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+
+            return date_1.compareTo(date_2);
+        }
+    }
+
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
+    List<Animals> animalsList;
 
     boolean flag_org;
     boolean flag = false;
@@ -69,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
-                    List<Animals> animalsList = new ArrayList<>();
+                    animalsList = new ArrayList<>();
                     for (ParseObject i : objects) {
 
                         ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
@@ -182,16 +213,21 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void sort(View view){
         ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
 
         if (flag){
             button_up.setImageResource(R.drawable.img_sort_arrow_up);
             flag = false;
+            Collections.sort(animalsList, new AnimalsComparator().reversed());
+            setAnimalsRecycler(animalsList);
         }
         else{
             button_up.setImageResource(R.drawable.img_sort_arrow_down);
             flag = true;
+            Collections.sort(animalsList, new AnimalsComparator());
+            setAnimalsRecycler(animalsList);
         }
     }
 }

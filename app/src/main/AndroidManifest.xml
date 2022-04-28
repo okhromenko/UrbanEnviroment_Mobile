@@ -77,6 +77,9 @@
             android:name=".page.filter.FilterAnimal"
             android:exported="false" />
         <activity
+            android:name=".page.filter.FilterHelp"
+            android:exported="false" />
+        <activity
             android:name=".page.help.HelpPage"
             android:exported="false" />
         <activity

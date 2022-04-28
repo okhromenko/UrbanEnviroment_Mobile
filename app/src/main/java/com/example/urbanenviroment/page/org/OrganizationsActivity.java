@@ -1,26 +1,33 @@
 package com.example.urbanenviroment.page.org;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.Help;
+import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -40,15 +47,52 @@ import com.parse.ParseQuery;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class OrganizationsActivity extends AppCompatActivity {
 
+    public int check;
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
     String id, name, image, date, address, description, phone, email, count_animal, count_photo, count_ads;
+    List<Organizations> orgList;
+    RadioButton decrease, btn_data_reg, btn_count_animal, btn_count_ads;
 
     Dialog dialog_search;
+
+    class OrgComparator implements Comparator<Organizations> {
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        public int compare(Organizations o1, Organizations o2) {
+            switch (check){
+                case 0:
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("d.M.y");
+
+                    Date date_1 = null;
+                    Date date_2 = null;
+                    try {
+                        date_1 = format.parse(o1.getDate());
+                        date_2 = format.parse(o2.getDate());
+                    } catch (java.text.ParseException e) {
+                        e.printStackTrace();
+                    }
+                    return date_1.compareTo(date_2);
+
+                case 1:
+                    return o1.getCount_animal().compareTo(o2.getCount_animal());
+
+                case 2:
+                    return o1.getCount_ads().compareTo(o2.getCount_ads());
+
+                default:
+                    return o1.getCount_photo().compareTo(o2.getCount_photo());
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +110,7 @@ public class OrganizationsActivity extends AppCompatActivity {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
-                    List<Organizations> orgList = new ArrayList<>();
+                    orgList = new ArrayList<>();
                     for (ParseObject i : objects){
 
                         ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
@@ -180,10 +224,12 @@ public class OrganizationsActivity extends AppCompatActivity {
         sort_text.setTextColor(getResources().getColor(R.color.white));
 
         dialog_search.setContentView(R.layout.dialog_search);
+
         dialog_search.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog_search.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void accept(View view) {
 
         CardView org_view = this.findViewById(R.id.org_cardview);
@@ -195,6 +241,27 @@ public class OrganizationsActivity extends AppCompatActivity {
         sort_text.setTextColor(getResources().getColor(R.color.black));
 
         dialog_search.dismiss();
+
+        decrease = (RadioButton) dialog_search.findViewById(R.id.button_sort_dialog_decrease);
+        btn_data_reg = (RadioButton) dialog_search.findViewById(R.id.button_sort_dialog_data_reg);
+        btn_count_animal = (RadioButton) dialog_search.findViewById(R.id.button_sort_dialog_count_animal);
+        btn_count_ads = (RadioButton) dialog_search.findViewById(R.id.button_sort_dialog_count_ads);
+
+        if (btn_data_reg.isChecked())
+            check = 0;
+        else if (btn_count_animal.isChecked())
+            check = 1;
+        else if (btn_count_ads.isChecked())
+            check = 2;
+        else
+            check = 3;
+
+        if (decrease.isChecked())
+            Collections.sort(orgList, new OrgComparator().reversed());
+        else
+            Collections.sort(orgList, new OrgComparator());
+
+        setOrgRecycler(orgList);
     }
 
 }
