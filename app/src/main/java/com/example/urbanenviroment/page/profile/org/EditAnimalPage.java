@@ -2,13 +2,17 @@ package com.example.urbanenviroment.page.profile.org;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,10 +23,12 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Calendar;
 
 public class EditAnimalPage extends AppCompatActivity {
 
@@ -32,6 +38,9 @@ public class EditAnimalPage extends AppCompatActivity {
 
     private ImageView imageView;
 
+    Calendar calendar_text;
+    DatePickerDialog dpd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +49,11 @@ public class EditAnimalPage extends AppCompatActivity {
         TextView text_name_animal_edit_page = (TextView) findViewById(R.id.text_name_animal_edit_page);
         TextView text_kind_animal_edit_page = (TextView) findViewById(R.id.text_kind_animal_edit_page);
         TextView text_species_animal_edit_page = (TextView) findViewById(R.id.text_species_animal_edit_page);
+        TextView text_sex_animal_edit_page = (TextView) findViewById(R.id.text_sex_animal_edit_page);
+        TextView text_state_animal_edit_page = (TextView) findViewById(R.id.text_state_animal_edit_page);
+        TextView text_age_animal_edit_page = (TextView) findViewById(R.id.text_age_animal_edit_page);
+        TextView text_description_animal_edit_page = (TextView) findViewById(R.id.text_description_animal_edit_page);
+
 
         text_name_animal_edit_page.setText(getIntent().getStringExtra("name_animal"));
         text_kind_animal_edit_page.setText(getIntent().getStringExtra("kind_animal"));
@@ -93,15 +107,13 @@ public class EditAnimalPage extends AppCompatActivity {
         textName.setText("");
     }
 
-    public void change(TextView text, TextView button, LinearLayout layout){
-        text.setVisibility(View.INVISIBLE);
-        button.setVisibility(View.INVISIBLE);
+    public void change(FrameLayout frame, LinearLayout layout){
+        frame.setVisibility(View.GONE);
         layout.setVisibility(View.VISIBLE);
     }
 
-    public void cancel(TextView text, TextView button, LinearLayout layout){
-        text.setVisibility(View.VISIBLE);
-        button.setVisibility(View.VISIBLE);
+    public void cancel(FrameLayout frame, LinearLayout layout){
+        frame.setVisibility(View.VISIBLE);
         layout.setVisibility(View.GONE);
     }
 
@@ -132,94 +144,147 @@ public class EditAnimalPage extends AppCompatActivity {
 
 
     public void change_name_animal_edit_page(View view){
-        TextView textName = (TextView) findViewById(R.id.text_name_animal_edit_page);
-        TextView textchange = (TextView) findViewById(R.id.button_change_name_animal_edit_page);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_name_animal_edit_page);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_name);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_name);
 
-        change(textName, textchange, layout);
+        change(frame, layout);
     }
 
     public void cancel_name_animal_edit_page(View view){
-        TextView textName = (TextView) findViewById(R.id.text_name_animal_edit_page);
-        TextView textchange = (TextView) findViewById(R.id.button_change_name_animal_edit_page);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_name_animal_edit_page);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_name);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_name);
 
-        cancel(textName, textchange, layout);
-        clear(R.id.add_animal_org);
-        clear(R.id.change_password_setting_name_animal);
+        cancel(frame, layout);
+        //clear(R.id.add_animal_org);
     }
 
     public void change_kind_animal_edit_page(View view){
-        TextView textName = (TextView) findViewById(R.id.text_kind_animal_edit_page);
-        TextView textchange = (TextView) findViewById(R.id.button_change_kind_animal_edit_page);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_kind_animal_edit_page);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_kind_animal);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_kind_animal);
 
-        change(textName, textchange, layout);
+        change(frame, layout);
     }
 
     public void cancel_kind_animal_edit_page(View view){
-        TextView textName = (TextView) findViewById(R.id.text_kind_animal_edit_page);
-        TextView textchange = (TextView) findViewById(R.id.button_change_kind_animal_edit_page);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_kind_animal_edit_page);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_kind_animal);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_kind_animal);
 
-        cancel(textName, textchange, layout);
-        clear(R.id.add_kind_org);
-        clear(R.id.change_password_setting_kind_animal);
+        cancel(frame, layout);
+        //clear(R.id.add_kind_org);
     }
 
     public void change_species_animal_edit_page(View view){
-        TextView textName = (TextView) findViewById(R.id.text_species_animal_edit_page);
-        TextView textchange = (TextView) findViewById(R.id.button_change_species_animal_edit_page);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_species_animal_edit_page);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_species_animal);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_species_animal);
 
-        change(textName, textchange, layout);
+        change(frame, layout);
     }
 
     public void cancel_species_animal_edit_page(View view){
-        TextView textName = (TextView) findViewById(R.id.text_species_animal_edit_page);
-        TextView textchange = (TextView) findViewById(R.id.button_change_species_animal_edit_page);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_species_animal_edit_page);
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_species_animal);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_species_animal);
 
-        cancel(textName, textchange, layout);
-        clear(R.id.add_species_org);
-        clear(R.id.change_password_setting_species_animal);
+        cancel(frame, layout);
+        //clear(R.id.add_species_org);
     }
 
+    public void change_sex_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_sex);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_sex);
+
+        change(frame, layout);
+    }
+
+    public void cancel_sex_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_sex);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_sex);
+
+        cancel(frame, layout);
+        //clear(R.id.add_species_org);
+    }
+
+    public void change_state_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_state);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_state);
+
+        change(frame, layout);
+    }
+
+    public void cancel_state_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_state);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_state);
+
+        cancel(frame, layout);
+        //clear(R.id.add_species_org);
+    }
+
+    public void change_age_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_age);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_age);
+
+        change(frame, layout);
+    }
+
+    public void button_date(View view){
+        MaterialEditText age = (MaterialEditText) findViewById(R.id.change_date_animal);
+        calendar_text = Calendar.getInstance();
+
+        int day_first = calendar_text.get(Calendar.DAY_OF_MONTH);
+        int month_first = calendar_text.get(Calendar.MONTH);
+        int year_first = calendar_text.get(Calendar.YEAR);
+
+        dpd = new DatePickerDialog(EditAnimalPage.this, new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                age.setText(dayOfMonth + "." + (month + 1) + "." + year);
+            }
+        }, year_first, month_first, day_first);
+        dpd.show();
+    }
+
+    public void cancel_age_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_age);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_age);
+
+        cancel(frame, layout);
+        //clear(R.id.add_species_org);
+    }
+
+    public void change_description_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_description);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_description);
+
+        change(frame, layout);
+    }
+
+    public void cancel_description_animal_edit_page(View view){
+        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_description);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_description);
+
+        cancel(frame, layout);
+        //clear(R.id.add_species_org);
+    }
+
+    public void edit_photo(View view){
+
+    }
 
 
     public void clear_name(View view){
         clear(R.id.add_animal_org);
     }
 
-    public void clear_name_password(View view){
-        clear(R.id.change_password_setting_name_animal);
-    }
-
     public void clear_kind(View view){
         clear(R.id.add_kind_org);
-    }
-
-    public void clear_kind_password(View view){
-        clear(R.id.change_password_setting_kind_animal);
     }
 
     public void clear_species(View view){
         clear(R.id.add_species_org);
     }
 
-    public void clear_species_password(View view){
-        clear(R.id.change_password_setting_species_animal);
-    }
-
-    public void clear_data(View view){
-        clear(R.id.add_date_animal);
-    }
-
     public void clear_state(View view){
         clear(R.id.add_state_animal);
     }
 
-    public void clear_description(View view){
-        clear(R.id.add_description_animal);
-    }
 }

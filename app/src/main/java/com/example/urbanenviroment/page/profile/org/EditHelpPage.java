@@ -28,12 +28,12 @@ public class EditHelpPage extends AppCompatActivity {
     }
 
     public void change(FrameLayout frame, LinearLayout layout){
-        frame.setVisibility(View.INVISIBLE);
+        frame.setVisibility(View.GONE);
         layout.setVisibility(View.VISIBLE);
     }
 
     public void cancel(FrameLayout frame, LinearLayout layout){
-        frame.setVisibility(View.INVISIBLE);
+        frame.setVisibility(View.VISIBLE);
         layout.setVisibility(View.GONE);
     }
 
