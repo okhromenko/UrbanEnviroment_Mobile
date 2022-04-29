@@ -93,6 +93,15 @@
             android:onClick="goIn"
             app:srcCompat="@drawable/button_go" />
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="forgotten_password"
+            android:src="@drawable/text_forgotten_password"
+            android:background="@color/transparent"
+            android:layout_gravity="center_horizontal"/>
+
     </LinearLayout>
 
     <ImageView

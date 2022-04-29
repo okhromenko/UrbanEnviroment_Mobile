@@ -2,8 +2,11 @@ package com.example.urbanenviroment.page.profile.registr_authoriz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -20,11 +23,14 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     MaterialEditText emailField, passwordField;
+    Dialog dialog_forgotten;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
+
+        dialog_forgotten = new Dialog(this);
 
         progressDialog = new ProgressDialog(AuthorizationActivity.this);
 
@@ -48,6 +54,14 @@ public class AuthorizationActivity extends AppCompatActivity {
     public void registration(View view){
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
+    }
+
+    public void forgotten_password(View view){
+
+        dialog_forgotten.setContentView(R.layout.dialog_forgotten_password);
+
+        dialog_forgotten.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog_forgotten.show();
     }
 
     public void goIn(View view){
