@@ -6,109 +6,374 @@
     android:layout_height="match_parent"
     tools:context=".page.profile.org.EditHelpPage">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+    <ImageView
+        android:id="@+id/imageView35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:srcCompat="@drawable/text_edit_help_org" />
 
-        <ImageView
-            android:id="@+id/imageView35"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/text_edit_help_org"
-            android:layout_marginBottom="40dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="61dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView35">
 
-        <ImageView
-            android:id="@+id/imageView36"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/text_change_help_ads"
-            android:layout_marginBottom="20dp"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
+            android:layout_marginHorizontal="10dp"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/text_type_ads_edit_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Тип объявления" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/roboto"
+                android:text="Изменить тип объявления"
+                android:textColor="@color/basic_blue"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:id="@+id/text_change_type_ads"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/text_type_ads_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Тип объявления"
+                    android:textColor="@color/basic_blue"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/button_change_type_ads_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:fontFamily="@font/roboto"
+                    android:onClick="change_type_ads"
+                    android:text="Изменить"
+                    android:textColor="@color/basic_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layout_change_type_ads"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="center_horizontal">
+
+                    <ImageButton
+                        android:id="@+id/food"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:onClick="btn_food"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:src="@drawable/button_food_type_ad_org" />
+
+                    <ImageButton
+                        android:id="@+id/things"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:onClick="btn_thing"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:src="@drawable/button_things_type_ad_org" />
+
+                    <ImageButton
+                        android:id="@+id/help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:onClick="btn_help"
+                        android:scaleX="0.9"
+                        android:scaleY="0.9"
+                        android:src="@drawable/button_help_type_ad_org" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="150dp"
+                        android:background="@color/transparent"
+                        android:onClick="save_username"
+                        android:src="@drawable/button_save_setting" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@color/transparent"
+                        android:onClick="cancel_name"
+                        android:src="@drawable/button_cancel_setting" />
+                </FrameLayout>
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/button_change_type_ads_edit_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textStyle="bold"
-                android:text="Изменить" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/roboto"
+                android:text="Изменить срок размещения"
+                android:textColor="@color/basic_blue"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        </FrameLayout>
+            <FrameLayout
+                android:id="@+id/text_change_last_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/imageView37"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/text_change_data_help"
-            android:layout_marginBottom="20dp"/>
+                <TextView
+                    android:id="@+id/text_data_ads_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Дата окончания публикации"
+                    android:textColor="@color/basic_blue"
+                    android:textSize="16sp" />
 
+                <TextView
+                    android:id="@+id/button_change_data_ads_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:fontFamily="@font/roboto"
+                    android:onClick="change_last_date"
+                    android:text="Изменить"
+                    android:textColor="@color/basic_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
+            <LinearLayout
+                android:id="@+id/layout_change_last_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="1dp"
+                            app:cardCornerRadius="14dp">
+
+                            <com.rengwuxian.materialedittext.MaterialEditText
+                                android:id="@+id/text_edit_last_date"
+                                android:layout_width="match_parent"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="40dp"
+                                android:fontFamily="@font/roboto"
+                                android:hint="Введите дату завершения"
+                                android:inputType="date"
+                                android:textAlignment="textStart"
+                                android:textSize="16sp"
+                                app:met_floatingLabel="none"
+                                app:met_hideUnderline="true"
+                                app:met_singleLineEllipsis="false" />
+
+                            <ImageButton
+                                android:id="@+id/imageButton19"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:layout_margin="10dp"
+                                android:background="@color/transparent"
+                                android:onClick="calendar"
+                                android:src="@drawable/icon_calendar" />
+
+                        </androidx.cardview.widget.CardView>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="150dp"
+                        android:background="@color/transparent"
+                        android:onClick="save_last_date"
+                        android:src="@drawable/button_save_setting" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@color/transparent"
+                        android:onClick="cancel_last_date"
+                        android:src="@drawable/button_cancel_setting" />
+                </FrameLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/text_data_ads_edit_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Срок размещения" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/roboto"
+                android:text="Изменить описание"
+                android:textColor="@color/basic_blue"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/button_change_data_ads_edit_page"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/text_change_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textStyle="bold"
-                android:text="Изменить" />
+                android:layout_marginBottom="30dp"
+                android:visibility="visible">
 
-        </FrameLayout>
+                <TextView
+                    android:id="@+id/text_description_ads_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="Описание"
+                    android:textColor="@color/basic_blue"
+                    android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/imageView38"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:srcCompat="@drawable/change_description_edit_animal" />
+                <TextView
+                    android:id="@+id/button_change_description_ads_edit_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:fontFamily="@font/roboto"
+                    android:onClick="change_description"
+                    android:text="Изменить"
+                    android:textColor="@color/basic_blue"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <TextView
-                android:id="@+id/text_description_ads_edit_page"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/layout_change_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Описание" />
+                android:layout_marginHorizontal="10dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/button_change_description_ads_edit_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textStyle="bold"
-                android:text="Изменить" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="15dp"
+                    android:padding="5dp"
+                    app:cardBackgroundColor="@color/basic_blue"
+                    app:cardCornerRadius="15dp">
 
-        </FrameLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="1dp"
+                        app:cardCornerRadius="14dp">
 
-    </LinearLayout>
+                        <com.rengwuxian.materialedittext.MaterialEditText
+                            android:id="@+id/text_edit_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:fontFamily="@font/roboto"
+                            android:gravity="start|left"
+                            android:hint="Описание"
+                            android:inputType="textLongMessage|textMultiLine"
+                            android:lines="7"
+                            android:maxLength="200"
+                            android:singleLine="false"
+                            android:textAlignment="textStart"
+                            android:textSize="16sp"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="200"
+                            app:met_floatingLabel="none"
+                            app:met_hideUnderline="true"
+                            app:met_maxCharacters="200"
+                            app:met_singleLineEllipsis="false" />
+
+                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="150dp"
+                        android:background="@color/transparent"
+                        android:onClick="save_description"
+                        android:src="@drawable/button_save_setting" />
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@color/transparent"
+                        android:onClick="cancel_description"
+                        android:src="@drawable/button_cancel_setting" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
@@ -192,5 +457,4 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/menu_map_ex" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
