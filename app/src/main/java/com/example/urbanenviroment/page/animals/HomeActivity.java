@@ -1,5 +1,7 @@
 package com.example.urbanenviroment.page.animals;
 
+import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
+import com.example.urbanenviroment.model.CategoryAnimals;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -41,6 +43,15 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    RecyclerView animalsRecycler;
+    AnimalsAdapter animalsAdapter;
+    List<Animals> animalsList;
+
+    boolean flag_org;
+    boolean flag = false;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+    String kind;
+
     class AnimalsComparator implements Comparator<Animals>{
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -61,14 +72,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    RecyclerView animalsRecycler;
-    AnimalsAdapter animalsAdapter;
-    List<Animals> animalsList;
-
-    boolean flag_org;
-    boolean flag = false;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-    String kind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +180,7 @@ public class HomeActivity extends AppCompatActivity {
         animalsRecycler.setAdapter(animalsAdapter);
 
     }
+
 
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);

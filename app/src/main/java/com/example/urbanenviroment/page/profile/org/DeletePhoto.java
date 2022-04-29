@@ -37,7 +37,6 @@ public class DeletePhoto extends AppCompatActivity {
 
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
 
-    //Dialog_Search dialog_search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +44,6 @@ public class DeletePhoto extends AppCompatActivity {
         setContentView(R.layout.activity_delete_photo);
 
         init();
-
-        //dialog_search = new Dialog_Search();
     }
 
     public void init(){
@@ -116,7 +113,6 @@ public class DeletePhoto extends AppCompatActivity {
     }
 
     public void sort(View view){
-        //dialog_search.show(getSupportFragmentManager(), "fragment");
         ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
         if (flag){
             button_up.setImageResource(R.drawable.img_sort_arrow_up);

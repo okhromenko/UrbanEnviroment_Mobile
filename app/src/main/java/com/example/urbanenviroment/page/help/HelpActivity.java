@@ -40,6 +40,15 @@ import java.util.List;
 
 public class HelpActivity extends AppCompatActivity {
 
+    RecyclerView helpRecycler;
+    HelpAdapter helpAdapter;
+
+    Dialog_Search dialog_search;
+    List<Help> helpList;
+
+    boolean flag_org;
+    boolean flag = false;
+
     class HelpComparator implements Comparator<Help> {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -59,15 +68,6 @@ public class HelpActivity extends AppCompatActivity {
             return date_1.compareTo(date_2);
         }
     }
-
-    RecyclerView helpRecycler;
-    HelpAdapter helpAdapter;
-
-    Dialog_Search dialog_search;
-    List<Help> helpList;
-
-    boolean flag_org;
-    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class HelpActivity extends AppCompatActivity {
                                 String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
                                 String type = i.get("type").toString();
                                 String description = i.get("description").toString();
-                                String first_data = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
+                                String first_data = i.get("first_date").toString();
                                 String last_data = i.get("last_date").toString();
 
                                 helpList.add(new Help(id, name_org, image_org, type, description, last_data, status(first_data, last_data)));

@@ -1,6 +1,9 @@
 package com.example.urbanenviroment.page.profile.org;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -19,7 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.adapter.AnimalPhotoDeleteOrgAdapter;
+import com.example.urbanenviroment.adapter.AnimalsAdapter;
+import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.Animals;
+import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -55,6 +62,10 @@ public class AddPhoto extends AppCompatActivity {
     ParseObject id_a;
 
     ArrayAdapter<String> arrayAdapter;
+
+    RecyclerView categoryRecycler;
+    CategoryAnimalAdapter categoryAnimalAdapter;
+    List<CategoryAnimals> categoryAnimalsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,17 +117,33 @@ public class AddPhoto extends AppCompatActivity {
     }
 
     public void add_list(List<ParseObject> objects){
+        int j = 1;
+
+        categoryAnimalsList = new ArrayList<>();
+
         for (ParseObject i : objects){
             String name_animal = i.get("name").toString();
 
             name.add(name_animal);
             animals.put(name_animal, i);
+
+            categoryAnimalsList.add(new CategoryAnimals("1", name_animal));
+            setCategoryAnimalsRecycler(categoryAnimalsList);
         }
 
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, name);
         listView.setAdapter(arrayAdapter);
     }
 
+    private void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+
+        categoryRecycler = findViewById(R.id.RecyclerView_category_list);
+        categoryRecycler.setLayoutManager(gridLayoutManager);
+
+        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList);
+        categoryRecycler.setAdapter(categoryAnimalAdapter);
+    }
 
     public void loading_photo(View view){
         Intent intent = new Intent();
