@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -136,7 +137,7 @@ public class AddPhoto extends AppCompatActivity {
     }
 
     private void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList){
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
 
         categoryRecycler = findViewById(R.id.RecyclerView_category_list);
         categoryRecycler.setLayoutManager(gridLayoutManager);

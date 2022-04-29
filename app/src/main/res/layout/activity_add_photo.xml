@@ -126,9 +126,10 @@
                     android:id="@+id/RecyclerView_category_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginVertical="10dp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:spanCount="3" />
 
                 <ListView
