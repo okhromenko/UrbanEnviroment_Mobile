@@ -130,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="150dp"
                         android:background="@color/transparent"
-                        android:onClick="save_username"
+                        android:onClick="save_type_ads"
                         android:src="@drawable/button_save_setting" />
 
                     <ImageButton
@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:background="@color/transparent"
-                        android:onClick="cancel_name"
+                        android:onClick="cancel_type_ads"
                         android:src="@drawable/button_cancel_setting" />
                 </FrameLayout>
             </LinearLayout>
@@ -282,8 +282,9 @@
                 android:visibility="visible">
 
                 <TextView
+                    android:id="@+id/text_description_ads_edit_page"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:fontFamily="@font/roboto"
                     android:text="Описание"
                     android:textColor="@color/basic_blue"
@@ -324,7 +325,7 @@
                         app:cardCornerRadius="14dp">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/text_edit_description"
+                            android:id="@+id/text_edit_help_description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"

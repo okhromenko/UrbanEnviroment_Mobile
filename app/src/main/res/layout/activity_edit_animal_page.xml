@@ -831,6 +831,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/button_delete_animal_edit_animal"
+
                 android:background="@color/transparent"
                 android:layout_marginBottom="20dp"/>
 

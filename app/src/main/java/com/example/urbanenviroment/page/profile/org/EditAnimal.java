@@ -36,9 +36,7 @@ public class EditAnimal extends AppCompatActivity {
     AnimalEditOrgAdapter animalEditOrg;
 
     boolean flag = false;
-    //Dialog_Search dialog_search;
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-    String kind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +44,6 @@ public class EditAnimal extends AppCompatActivity {
         setContentView(R.layout.activity_edit_animal);
 
         init();
-
-        //dialog_search = new Dialog_Search();
     }
 
     public void init() {
@@ -59,16 +55,6 @@ public class EditAnimal extends AppCompatActivity {
         query_animal.findInBackground((object_animal, exception) -> {
             if (exception == null) {
                 for (ParseObject j : object_animal) {
-
-                    ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-                    query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
-                    query_kind.findInBackground((object_kind, exp) -> {
-                        if (exp == null) {
-                            for (ParseObject r : object_kind) {
-                                kind = r.getString("name").toString();
-                            }
-                        }
-                    });
 
                     ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
                     query_user.whereEqualTo("objectId", j.getParseObject("id_user").getObjectId());
@@ -83,23 +69,32 @@ public class EditAnimal extends AppCompatActivity {
                                 query_org.getFirstInBackground(new GetCallback<ParseObject>() {
                                     public void done(ParseObject object_org, ParseException exp) {
                                         if (exp == null) {
-                                            id = j.getObjectId();
-                                            image_animal = Uri.parse(j.getParseFile("image").getUrl()).toString();
-                                            date = new SimpleDateFormat("d.M.y").format(j.getCreatedAt());
-                                            name_animal = j.get("name").toString();
-                                            age = j.get("age").toString();
-                                            state = j.get("state").toString();
-                                            kind_animal = kind;
-                                            species = j.get("species").toString();
-                                            description = j.get("description").toString();
-                                            sex = j.get("sex").toString();
-                                            name_org = k.getString("username").toString();
-                                            image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
-                                            address = object_org.get("address").toString();
 
-                                            animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
-                                                    age, state, kind_animal, species, description, sex, date));
-                                            setAnimalsRecycler(animalsList);
+                                            ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
+                                            query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
+                                            query_kind.findInBackground((object_kind, e) -> {
+                                                if (e == null) {
+                                                    for (ParseObject r : object_kind) {
+                                                        id = j.getObjectId();
+                                                        image_animal = Uri.parse(j.getParseFile("image").getUrl()).toString();
+                                                        date = new SimpleDateFormat("d.M.y").format(j.getCreatedAt());
+                                                        name_animal = j.get("name").toString();
+                                                        age = j.get("age").toString();
+                                                        state = j.get("state").toString();
+                                                        kind_animal = r.getString("name").toString();
+                                                        species = j.get("species").toString();
+                                                        description = j.get("description").toString();
+                                                        sex = j.get("sex").toString();
+                                                        name_org = k.getString("username").toString();
+                                                        image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
+                                                        address = object_org.get("address").toString();
+
+                                                        animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                                                                age, state, kind_animal, species, description, sex, date));
+                                                    }
+                                                    setAnimalsRecycler(animalsList);
+                                                }
+                                            });
                                         }
 
                                     }
@@ -155,7 +150,6 @@ public class EditAnimal extends AppCompatActivity {
     }
 
     public void sort(View view){
-        //dialog_search.show(getSupportFragmentManager(), "fragment");
         ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
         if (flag){
             button_up.setImageResource(R.drawable.img_sort_arrow_up);

@@ -27,7 +27,9 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Help;
+import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
+import com.example.urbanenviroment.page.profile.org.EditHelpPage;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -103,6 +105,26 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
             }
         });
 
+        if (flag){
+            holder.button_setting_help_edit_animal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, EditHelpPage.class);
+                    intent.putExtra("id", helpList.get(position).getId());
+                    intent.putExtra("type_ads_help", helpList.get(position).getType_help());
+                    intent.putExtra("status_help", helpList.get(position).getStatus());
+                    intent.putExtra("date_help", helpList.get(position).getDate());
+                    intent.putExtra("description_help", helpList.get(position).getDescription());
+                    intent.putExtra("name_org_help", helpList.get(position).getName_org());
+                    intent.putExtra("image", image);
+                    intent.putExtra("color", color);
+                    intent.putExtra("color_transperent", color_transperent);
+                    context.startActivity(intent);
+                }
+            });
+        }
+
+
         ParseUser parseUser = ParseUser.getCurrentUser();
 
         if(!flag && parseUser != null){
@@ -131,8 +153,6 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                         holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
                 }
             });
-
-
 
             holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -201,7 +221,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
 
     public static final class HelpViewHolder extends RecyclerView.ViewHolder{
 
-        ImageButton button_favorite_help;
+        ImageButton button_favorite_help, button_setting_help_edit_animal, button_delete_edit_animal;
         CardView img_line_help, img_box_help;
         ImageView img_org_help, img_item_help;
         TextView name_org_help, type_ads_help, description_help, status_help, date_help;
@@ -210,6 +230,8 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         public HelpViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            button_setting_help_edit_animal = itemView.findViewById(R.id.button_setting_help_edit_animal);
+            button_delete_edit_animal = itemView.findViewById(R.id.button_delete_edit_animal);
             button_favorite_help = itemView.findViewById(R.id.button_favorite_help);
             img_org_help = itemView.findViewById(R.id.img_org_help);
             name_org_help = itemView.findViewById(R.id.name_org_help);

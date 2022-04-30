@@ -23,6 +23,10 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.ByteArrayOutputStream;
@@ -270,7 +274,6 @@ public class EditAnimalPage extends AppCompatActivity {
 
     }
 
-
     public void clear_name(View view){
         clear(R.id.add_animal_org);
     }
@@ -285,6 +288,23 @@ public class EditAnimalPage extends AppCompatActivity {
 
     public void clear_state(View view){
         clear(R.id.add_state_animal);
+    }
+
+    public void delete_animal(View view){
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+//
+//        query.whereEqualTo("objectId", );
+//        query.getFirstInBackground(new GetCallback<ParseObject>() {
+//            @Override
+//            public void done(ParseObject object, ParseException ex) {
+//                if (object != null){
+//                    object.deleteInBackground();
+//
+//                    Intent intent = new Intent(context, DeletePhoto.class);
+//                    context.startActivity(intent);
+//                }
+//            }
+//        });
     }
 
 }

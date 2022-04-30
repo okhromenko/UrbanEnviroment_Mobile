@@ -70,7 +70,7 @@
                 </FrameLayout>
 
                 <ImageButton
-                    android:id="@+id/button_setting_edit_animal"
+                    android:id="@+id/button_setting_help_edit_animal"
                     android:layout_marginTop="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

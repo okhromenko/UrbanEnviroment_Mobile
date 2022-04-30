@@ -26,14 +26,10 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class SettingPageOrg extends AppCompatActivity {
 
-//    String description;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_page_org);
-
-//        description = "";
 
         TextView text_location = (TextView) findViewById(R.id.text_location);
         TextView text_phone = (TextView) findViewById(R.id.text_phone);

@@ -38,16 +38,12 @@ public class EditHelp extends AppCompatActivity {
     RecyclerView helpRecycler;
     HelpAdapter helpAdapter;
 
-    //Dialog_Search dialog_search;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_help);
 
         init();
-
-        //dialog_search = new Dialog_Search();
     }
 
     public void init(){
@@ -152,7 +148,6 @@ public class EditHelp extends AppCompatActivity {
     }
 
     public void sort(View view){
-        //dialog_search.show(getSupportFragmentManager(), "fragment");
         ImageView button_up = (ImageView) findViewById(R.id.img_sort_arrow_up);
         if (flag){
             button_up.setImageResource(R.drawable.img_sort_arrow_up);

@@ -62,6 +62,7 @@ public class AuthorizationActivity extends AppCompatActivity {
 
         dialog_forgotten.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog_forgotten.show();
+
     }
 
     public void goIn(View view){
