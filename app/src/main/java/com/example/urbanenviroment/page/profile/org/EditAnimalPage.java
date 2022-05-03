@@ -15,7 +15,9 @@ import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -27,12 +29,15 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class EditAnimalPage extends AppCompatActivity {
 
@@ -44,6 +49,8 @@ public class EditAnimalPage extends AppCompatActivity {
 
     Calendar calendar_text;
     DatePickerDialog dpd;
+
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +64,45 @@ public class EditAnimalPage extends AppCompatActivity {
         TextView text_state_animal_edit_page = (TextView) findViewById(R.id.text_state_animal_edit_page);
         TextView text_age_animal_edit_page = (TextView) findViewById(R.id.text_age_animal_edit_page);
         TextView text_description_animal_edit_page = (TextView) findViewById(R.id.text_description_animal_edit_page);
+        ImageView img_main_animal_photo = findViewById(R.id.img_main_animal_photo);
 
 
-        text_name_animal_edit_page.setText(getIntent().getStringExtra("name_animal"));
-        text_kind_animal_edit_page.setText(getIntent().getStringExtra("kind_animal"));
-        text_species_animal_edit_page.setText(getIntent().getStringExtra("species_animal"));
+        if (getIntent().getStringExtra("id_animal_intent") != null){
+            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animals");
+            ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id_animal_intent"));
+            query_3.whereEqualTo("objectId", id_animal.getObjectId());
+            query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        ParseQuery<ParseObject> query_kind = ParseQuery.getQuery("Animal_kind");
+                        query_kind.whereEqualTo("objectId", object.getParseObject("id_kind").getObjectId());
+                        query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject object_kind, ParseException e) {
+                                text_name_animal_edit_page.setText(object.getString("name"));
+                                text_kind_animal_edit_page.setText(object_kind.getString("name"));
+                                text_species_animal_edit_page.setText(object.getString("species"));
+                                text_sex_animal_edit_page.setText(object.getString("sex"));
+                                text_state_animal_edit_page.setText(object.getString("state"));
+                                text_age_animal_edit_page.setText(object.getString("age"));
+                                text_description_animal_edit_page.setText(object.getString("description"));
+                                Picasso.get().load(Uri.parse(object.getParseFile("image").getUrl())).into(img_main_animal_photo);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        else{
+            text_name_animal_edit_page.setText(getIntent().getStringExtra("name_animal"));
+            text_kind_animal_edit_page.setText(getIntent().getStringExtra("kind_animal"));
+            text_species_animal_edit_page.setText(getIntent().getStringExtra("species_animal"));
+            text_sex_animal_edit_page.setText(getIntent().getStringExtra("sex_animal"));
+            text_state_animal_edit_page.setText(getIntent().getStringExtra("state_animal"));
+            text_age_animal_edit_page.setText(getIntent().getStringExtra("age_animal"));
+            text_description_animal_edit_page.setText(getIntent().getStringExtra("description_animal"));
+            Picasso.get().load(getIntent().getStringExtra("image_animal")).into(img_main_animal_photo);
+        }
     }
 
     public void loading_photo(View view){
@@ -78,7 +119,7 @@ public class EditAnimalPage extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
-            imageView = (ImageView) findViewById(R.id.img_add_photo_animal);
+            imageView = (ImageView) findViewById(R.id.img_main_animal_photo);
 
             if (requestCode == RQS_OPEN_IMAGE ||
                     requestCode == RQS_GET_IMAGE ||
@@ -146,6 +187,107 @@ public class EditAnimalPage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void save(String to, String what){
+        id = getIntent().getStringExtra("id");
+
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animals");
+        ParseObject id_animal = ParseObject.createWithoutData("Animals", id);
+        query_3.whereEqualTo("objectId", id_animal.getObjectId());
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    object.put(to, Objects.requireNonNull(what));
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(EditAnimalPage.this, EditAnimalPage.class);
+                                intent.putExtra("id_animal_intent", id);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void save_name_animal_edit_page(View view){
+        MaterialEditText name = findViewById(R.id.add_animal_org);
+        save("name", Objects.requireNonNull(name.getText()).toString());
+    }
+
+    public void save_kind_animal_edit_page(View view){
+        MaterialEditText kind = findViewById(R.id.add_kind_org);
+
+        id = getIntent().getStringExtra("id");
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animals");
+        ParseObject id_animal = ParseObject.createWithoutData("Animals", id);
+        query_3.whereEqualTo("objectId", id_animal.getObjectId());
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    ParseQuery<ParseObject> query_kind = ParseQuery.getQuery("Animal_kind");
+                    query_kind.whereEqualTo("objectId", object.getParseObject("id_kind").getObjectId());
+                    query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object_kind, ParseException e) {
+                            object_kind.put("name", Objects.requireNonNull(kind.getText()).toString());
+                            object_kind.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null) {
+                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(EditAnimalPage.this, EditAnimalPage.class);
+                                        intent.putExtra("id_animal_intent", id);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else
+                                        Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void save_species_animal_edit_page(View view){
+        MaterialEditText species = findViewById(R.id.add_species_org);
+        save("species", Objects.requireNonNull(species.getText()).toString());
+    }
+
+    public void save_sex_animal_edit_page(View view){
+        RadioButton sex = findViewById(R.id.button_switch_man);
+        String sex_string;
+
+        if (!sex.isChecked())
+            sex_string = "Самка";
+        else sex_string = "Самец";
+
+        save("sex", sex_string);
+    }
+
+    public void save_state_animal_edit_page(View view){
+        MaterialEditText state = findViewById(R.id.add_state_animal);
+        save("state", Objects.requireNonNull(state.getText()).toString());
+    }
+
+    public void save_age_animal_edit_page(View view){
+        MaterialEditText age = findViewById(R.id.change_date_animal);
+        save("age", Objects.requireNonNull(age.getText()).toString());
+    }
+
+    public void save_description_animal_edit_page(View view){
+        MaterialEditText description = findViewById(R.id.text_edit_description);
+        save("description", Objects.requireNonNull(description.getText()).toString());
+    }
 
     public void change_name_animal_edit_page(View view){
         FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_name);
@@ -270,10 +412,6 @@ public class EditAnimalPage extends AppCompatActivity {
         //clear(R.id.add_species_org);
     }
 
-    public void edit_photo(View view){
-
-    }
-
     public void clear_name(View view){
         clear(R.id.add_animal_org);
     }
@@ -291,20 +429,20 @@ public class EditAnimalPage extends AppCompatActivity {
     }
 
     public void delete_animal(View view){
-//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
-//
-//        query.whereEqualTo("objectId", );
-//        query.getFirstInBackground(new GetCallback<ParseObject>() {
-//            @Override
-//            public void done(ParseObject object, ParseException ex) {
-//                if (object != null){
-//                    object.deleteInBackground();
-//
-//                    Intent intent = new Intent(context, DeletePhoto.class);
-//                    context.startActivity(intent);
-//                }
-//            }
-//        });
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+
+        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException ex) {
+                if (object != null){
+                    object.deleteInBackground();
+
+                    Intent intent = new Intent(EditAnimalPage.this, EditAnimal.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
 }

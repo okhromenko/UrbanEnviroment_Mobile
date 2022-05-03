@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
     String kind;
 
-    class AnimalsComparator implements Comparator<Animals>{
+    static class AnimalsComparator implements Comparator<Animals>{
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
@@ -68,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            assert date_1 != null;
             return date_1.compareTo(date_2);
         }
     }

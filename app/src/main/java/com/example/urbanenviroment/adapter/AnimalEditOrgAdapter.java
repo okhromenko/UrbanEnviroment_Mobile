@@ -56,6 +56,7 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context, EditAnimalPage.class);
 
+                intent.putExtra("id", animalsList.get(position).getId());
                 intent.putExtra("kind_animal", animalsList.get(position).getKind());
                 intent.putExtra("species_animal", animalsList.get(position).getSpecies());
                 intent.putExtra("reg_date_animal", animalsList.get(position).getReg_data());
@@ -75,6 +76,7 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnimalPage.class);
 
+                intent.putExtra("id", animalsList.get(position).getId());
                 intent.putExtra("kind_animal", animalsList.get(position).getKind());
                 intent.putExtra("species_animal", animalsList.get(position).getSpecies());
                 intent.putExtra("reg_date_animal", animalsList.get(position).getReg_data());

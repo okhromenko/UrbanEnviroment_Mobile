@@ -134,6 +134,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="150dp"
                             android:background="@color/transparent"
+                            android:onClick="save_name_animal_edit_page"
                             android:src="@drawable/button_save_setting" />
 
                         <ImageButton
@@ -237,6 +238,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="150dp"
                             android:background="@color/transparent"
+                            android:onClick="save_kind_animal_edit_page"
                             android:src="@drawable/button_save_setting" />
 
                         <ImageButton
@@ -339,6 +341,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="150dp"
                             android:background="@color/transparent"
+                            android:onClick="save_species_animal_edit_page"
                             android:src="@drawable/button_save_setting" />
 
                         <ImageButton
@@ -391,7 +394,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
-                    android:onClick="edit_photo"
+                    android:onClick="loading_photo"
                     android:text="Изменить"
                     android:textStyle="bold"
                     android:fontFamily="@font/roboto"
@@ -485,6 +488,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="150dp"
                             android:background="@color/transparent"
+                            android:onClick="save_sex_animal_edit_page"
                             android:src="@drawable/button_save_setting" />
 
                         <ImageButton
@@ -589,6 +593,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="150dp"
                             android:background="@color/transparent"
+                            android:onClick="save_state_animal_edit_page"
                             android:src="@drawable/button_save_setting" />
 
                         <ImageButton
@@ -701,6 +706,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="150dp"
                             android:background="@color/transparent"
+                            android:onClick="save_age_animal_edit_page"
                             android:src="@drawable/button_save_setting" />
 
                         <ImageButton
@@ -814,6 +820,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="150dp"
                         android:background="@color/transparent"
+                        android:onClick="save_description_animal_edit_page"
                         android:src="@drawable/button_save_setting" />
 
                     <ImageButton
@@ -831,7 +838,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/button_delete_animal_edit_animal"
-
+                android:onClick="delete_animal"
                 android:background="@color/transparent"
                 android:layout_marginBottom="20dp"/>
 

@@ -49,7 +49,7 @@ public class HelpActivity extends AppCompatActivity {
     boolean flag_org;
     boolean flag = false;
 
-    class HelpComparator implements Comparator<Help> {
+    static class HelpComparator implements Comparator<Help> {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
@@ -65,6 +65,7 @@ public class HelpActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            assert date_1 != null;
             return date_1.compareTo(date_2);
         }
     }
