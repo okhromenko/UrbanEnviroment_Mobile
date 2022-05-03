@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:text="Почта"
                     android:textSize="14sp"
-                    android:fontFamily="@font/roboto"                    />
+                    android:fontFamily="@font/roboto"/>
 
                 <TextView
                     android:id="@+id/phone_org_org_page"
@@ -107,7 +107,7 @@
                     android:layout_gravity="right"
                     android:text="Телефон"
                     android:textSize="14sp"
-                    android:fontFamily="@font/roboto" />
+                    android:fontFamily="@font/roboto"/>
             </FrameLayout>
 
         </LinearLayout>
@@ -370,6 +370,16 @@
                             android:textSize="12sp"
                             android:fontFamily="@font/roboto"
                             android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/org_website"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|bottom"
+                            android:text="Сайт организации"
+                            android:textColor="@color/blue_link"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/roboto"/>
 
                         </FrameLayout>
                     </LinearLayout>

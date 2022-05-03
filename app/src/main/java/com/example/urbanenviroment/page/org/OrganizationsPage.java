@@ -55,6 +55,12 @@ public class OrganizationsPage extends AppCompatActivity {
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         UnderlineLink.setText(content);
 
+        TextView UnderlineWeb = (TextView) findViewById(R.id.org_website);
+        str = "www.Dasha.HelpMe!.ru";
+        SpannableString contentlink = new SpannableString(str);
+        contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
+        UnderlineWeb.setText(contentlink);
+
         name_org_org_page.setText(getIntent().getStringExtra("name"));
         email_org_org_page.setText(getIntent().getStringExtra("email"));
         phone_org_org_page.setText(getIntent().getStringExtra("phone"));

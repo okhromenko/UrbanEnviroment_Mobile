@@ -270,6 +270,117 @@
                     </FrameLayout>
 
                     <TextView
+                        android:id="@+id/text_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/roboto"
+                        android:text="Изменить адрес сайта организации"
+                        android:textColor="@color/basic_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="25dp">
+
+                        <TextView
+                            android:id="@+id/text_website"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:text="Сайт"
+                            android:textColor="@color/basic_blue"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/button_change_website"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:fontFamily="@font/roboto"
+                            android:onClick="change_website"
+                            android:text="Изменить"
+                            android:textColor="@color/basic_blue"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout_change_website"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginBottom="15dp"
+                                android:padding="5dp"
+                                app:cardBackgroundColor="@color/basic_blue"
+                                app:cardCornerRadius="15dp">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    app:cardCornerRadius="14dp">
+
+                                    <com.rengwuxian.materialedittext.MaterialEditText
+                                        android:id="@+id/website_change_setting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="48dp"
+                                        android:layout_marginStart="15dp"
+                                        android:layout_marginEnd="40dp"
+                                        android:fontFamily="@font/roboto"
+                                        android:hint="Введите сайт организации"
+                                        android:inputType="text"
+                                        android:textAlignment="textStart"
+                                        android:textSize="16sp"
+                                        app:met_floatingLabel="none"
+                                        app:met_hideUnderline="true"
+                                        app:met_singleLineEllipsis="false" />
+
+                                    <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical|right"
+                                        android:layout_marginEnd="15dp"
+                                        android:background="@color/transparent"
+                                        android:onClick="clear_website"
+                                        android:src="@drawable/button_clear_cross" />
+                                </androidx.cardview.widget.CardView>
+                            </androidx.cardview.widget.CardView>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal">
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="150dp"
+                                    android:background="@color/transparent"
+                                    android:onClick="save_website"
+                                    android:src="@drawable/button_save_setting" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:background="@color/transparent"
+                                    android:onClick="cancel_website"
+                                    android:src="@drawable/button_cancel_setting" />
+                            </FrameLayout>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <TextView
                         android:id="@+id/text_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

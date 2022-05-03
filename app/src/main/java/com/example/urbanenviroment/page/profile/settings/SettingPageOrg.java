@@ -34,6 +34,7 @@ public class SettingPageOrg extends AppCompatActivity {
         TextView text_location = (TextView) findViewById(R.id.text_location);
         TextView text_phone = (TextView) findViewById(R.id.text_phone);
         MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
+        TextView text_website = (TextView) findViewById(R.id.text_website);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
@@ -48,6 +49,7 @@ public class SettingPageOrg extends AppCompatActivity {
                     text_location.setText(object.get("address").toString());
                     text_phone.setText(object.get("phone").toString());
                     text_description.setText(object.get("description").toString());
+                    text_website.setText(object.get("website").toString());
                 }
             }
         });
@@ -233,5 +235,56 @@ public class SettingPageOrg extends AppCompatActivity {
 
     public void clear_phone(View view){
         clear(R.id.phone_change_setting);
+    }
+
+    public void change_website(View view) {
+        TextView textWebsite = (TextView) findViewById(R.id.text_website);
+        TextView textchange = (TextView) findViewById(R.id.button_change_website);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_website);
+
+        change(textWebsite, textchange, layout);
+    }
+
+    public void clear_website(View view) {
+        TextView textWebsite = (TextView) findViewById(R.id.text_website);
+        TextView textchange = (TextView) findViewById(R.id.button_change_website);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_website);
+
+        cancel(textWebsite, textchange, layout);
+        clear(R.id.website_change_setting);
+    }
+
+    public void save_website(View view) {
+        TextView textWebsite = (TextView) findViewById(R.id.website_change_setting);
+
+        ParseUser parseUser = ParseUser.getCurrentUser();
+
+        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
+        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
+        query_3.whereEqualTo("id_user", id_user);
+        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    object.put("website", textWebsite.getText().toString());
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void cancel_website(View view) {
+        clear(R.id.website_change_setting);
     }
 }
