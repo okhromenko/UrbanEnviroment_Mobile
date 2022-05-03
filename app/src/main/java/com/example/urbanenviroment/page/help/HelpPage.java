@@ -19,6 +19,8 @@ import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
+import com.example.urbanenviroment.page.profile.org.EditHelp;
+import com.example.urbanenviroment.page.profile.org.EditHelpPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -185,7 +187,24 @@ public class HelpPage extends AppCompatActivity {
     }
 
     public void delete_edit_ads(View view){
-        Toast.makeText(getApplicationContext(),
-                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
+
+        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException ex) {
+                if (object != null){
+                    object.deleteInBackground();
+
+                    Intent intent = new Intent(HelpPage.this, HelpActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    public void edit_animal_page(View view) {
+        Toast toast = Toast.makeText(getApplicationContext(),"Пожалуйста, прикрути ко мне редактирование!", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
+import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
@@ -64,31 +65,6 @@ public class AnimalPage extends AppCompatActivity {
 
         try {
 
-            /*DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            LocalDate ageDate = LocalDate.parse(getIntent().getStringExtra("age_animal"), formatter);
-            LocalDate todayDate = LocalDate.now();
-            Period period = Period.between(ageDate, todayDate);
-
-            if (period.getYears() <= 0) {
-
-                String month = "месяцев";
-
-                if (period.getMonths() == 1){
-                    month = "месяц";
-                } else if ((period.getMonths() > 1 ) && (period.getMonths() < 5)) {
-                    month = "месяца";
-                }
-
-                age_animal_page.setText(period.getMonths() + month);
-            } else {
-                String year = "лет";
-
-                if (period.getYears() < 5){
-                    year = "год";
-                }
-                age_animal_page.setText(period.getYears() + year);
-            }*/
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date ageDate = dateFormat.parse(getIntent().getStringExtra("age_animal"));
             Date todayDate = new Date();
@@ -123,8 +99,6 @@ public class AnimalPage extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //age_animal_page.setText(getIntent().getStringExtra("age_animal"));
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
@@ -235,8 +209,24 @@ public class AnimalPage extends AppCompatActivity {
     }
 
     public void delete_edit_animal(View view){
-        Toast.makeText(getApplicationContext(),
-                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+
+        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException ex) {
+                if (object != null){
+                    object.deleteInBackground();
+
+                    Intent intent = new Intent(AnimalPage.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
+    public void edit_animal_page(View view) {
+        Toast toast = Toast.makeText(getApplicationContext(),"Пожалуйста, прикрути ко мне редактирование!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
 }

@@ -109,6 +109,7 @@
                         android:id="@+id/button_setting_edit_animal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="edit_animal_page"
                         android:background="@color/transparent"
                         android:layout_gravity="center_vertical"
                         app:srcCompat="@drawable/button_setting_edit_animal"
