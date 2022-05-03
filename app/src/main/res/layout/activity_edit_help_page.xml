@@ -83,8 +83,8 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_gravity="center_horizontal">
@@ -94,6 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
+                        android:layout_gravity="left"
                         android:onClick="btn_food"
                         android:scaleX="0.9"
                         android:scaleY="0.9"
@@ -104,6 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
+                        android:layout_gravity="center_horizontal"
                         android:onClick="btn_thing"
                         android:scaleX="0.9"
                         android:scaleY="0.9"
@@ -114,11 +116,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
+                        android:layout_gravity="right"
                         android:onClick="btn_help"
                         android:scaleX="0.9"
                         android:scaleY="0.9"
                         android:src="@drawable/button_help_type_ad_org" />
-                </LinearLayout>
+                </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -278,7 +281,7 @@
                 android:id="@+id/text_change_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="40dp"
                 android:visibility="visible">
 
                 <TextView
@@ -307,6 +310,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="40dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -371,6 +375,16 @@
                         android:src="@drawable/button_cancel_setting" />
                 </FrameLayout>
             </LinearLayout>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/button_delete_ads_help"
+                android:onClick="delete_edit_ads"
+                android:background="@color/transparent"
+                android:layout_marginBottom="20dp"/>
+
         </LinearLayout>
     </ScrollView>
 

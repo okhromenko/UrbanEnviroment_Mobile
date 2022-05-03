@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -35,7 +36,7 @@ import java.util.Objects;
 public class EditHelpPage extends AppCompatActivity {
 
     int type_flag = 0;
-    String type, id;
+    String type, id, description;
     MaterialEditText text_edit_last_date;
     Calendar calendar_text;
     DatePickerDialog dpd;
@@ -45,7 +46,6 @@ public class EditHelpPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_help_page);
 
-        // Нужно взять данные: тип объявления, дата, описание и добавить их в поля ввода\правильно окрасить кнопку.
         TextView type_ads = findViewById(R.id.text_type_ads_edit_page);
         TextView date_ads = findViewById(R.id.text_data_ads_edit_page);
         TextView description_ads = findViewById(R.id.text_description_ads_edit_page);
@@ -60,6 +60,7 @@ public class EditHelpPage extends AppCompatActivity {
                         type_ads.setText(object.get("type").toString());
                         date_ads.setText(object.get("last_date").toString());
                         description_ads.setText(object.get("description").toString());
+                        description = object.get("description").toString();
                     }
                 }
             });
@@ -68,6 +69,7 @@ public class EditHelpPage extends AppCompatActivity {
             type_ads.setText(getIntent().getStringExtra("type_ads_help"));
             date_ads.setText(getIntent().getStringExtra("date_help"));
             description_ads.setText(getIntent().getStringExtra("description_help"));
+            description = getIntent().getStringExtra("description_help");
         }
 
     }
@@ -98,11 +100,9 @@ public class EditHelpPage extends AppCompatActivity {
         FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_type_ads);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_type_ads);
 
-        ImageButton food = (ImageButton) findViewById(R.id.food_filter);
-        ImageButton things = (ImageButton) findViewById(R.id.things_filter);
-        ImageButton help = (ImageButton) findViewById(R.id.help_filter);
-
-        //Нужно сделать определение типа и окрасить только ту кнопку, какого типа объявление нажато.
+        ImageButton food = (ImageButton) findViewById(R.id.food);
+        ImageButton things = (ImageButton) findViewById(R.id.things);
+        ImageButton help = (ImageButton) findViewById(R.id.help);
 
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org);
@@ -130,6 +130,9 @@ public class EditHelpPage extends AppCompatActivity {
         FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_description);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_description);
 
+        EditText desc = (EditText) findViewById(R.id.text_edit_help_description);
+        desc.setText(description);
+
         change(frame, layout);
     }
 
@@ -138,7 +141,9 @@ public class EditHelpPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_description);
 
         cancel(frame, layout);
-        clear(R.id.text_edit_help_description);
+
+        EditText desc = (EditText) findViewById(R.id.text_edit_help_description);
+        desc.setText(description);
     }
 
     public void calendar(View view){
@@ -314,5 +319,23 @@ public class EditHelpPage extends AppCompatActivity {
     public void map(View view){
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
+    }
+
+    public void delete_edit_ads(View view) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
+
+        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException ex) {
+                if (object != null){
+                    object.deleteInBackground();
+
+                    Intent intent = new Intent(EditHelpPage.this, EditHelp.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
