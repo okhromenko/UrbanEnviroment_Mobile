@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +50,7 @@ public class EditAnimalPage extends AppCompatActivity {
 
     Calendar calendar_text;
     DatePickerDialog dpd;
+    String description;
 
     String id;
 
@@ -86,6 +88,7 @@ public class EditAnimalPage extends AppCompatActivity {
                                 text_state_animal_edit_page.setText(object.getString("state"));
                                 text_age_animal_edit_page.setText(object.getString("age"));
                                 text_description_animal_edit_page.setText(object.getString("description"));
+                                description = object.getString("description");
                                 Picasso.get().load(Uri.parse(object.getParseFile("image").getUrl())).into(img_main_animal_photo);
                             }
                         });
@@ -101,6 +104,7 @@ public class EditAnimalPage extends AppCompatActivity {
             text_state_animal_edit_page.setText(getIntent().getStringExtra("state_animal"));
             text_age_animal_edit_page.setText(getIntent().getStringExtra("age_animal"));
             text_description_animal_edit_page.setText(getIntent().getStringExtra("description_animal"));
+            description = getIntent().getStringExtra("description_animal");
             Picasso.get().load(getIntent().getStringExtra("image_animal")).into(img_main_animal_photo);
         }
     }
@@ -160,6 +164,11 @@ public class EditAnimalPage extends AppCompatActivity {
     public void cancel(FrameLayout frame, LinearLayout layout){
         frame.setVisibility(View.VISIBLE);
         layout.setVisibility(View.GONE);
+    }
+
+    public void clear_radio(int id){
+        RadioButton RB = (RadioButton) findViewById(id);
+        RB.setChecked(false);
     }
 
     public void animals(View view){
@@ -301,7 +310,7 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_name);
 
         cancel(frame, layout);
-        //clear(R.id.add_animal_org);
+        clear(R.id.add_animal_org);
     }
 
     public void change_kind_animal_edit_page(View view){
@@ -316,7 +325,7 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_kind_animal);
 
         cancel(frame, layout);
-        //clear(R.id.add_kind_org);
+        clear(R.id.add_kind_org);
     }
 
     public void change_species_animal_edit_page(View view){
@@ -331,7 +340,7 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_species_animal);
 
         cancel(frame, layout);
-        //clear(R.id.add_species_org);
+        clear(R.id.add_species_org);
     }
 
     public void change_sex_animal_edit_page(View view){
@@ -346,7 +355,8 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_sex);
 
         cancel(frame, layout);
-        //clear(R.id.add_species_org);
+        clear_radio(R.id.button_switch_man);
+        clear_radio(R.id.button_switch_woman);
     }
 
     public void change_state_animal_edit_page(View view){
@@ -361,7 +371,7 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_state);
 
         cancel(frame, layout);
-        //clear(R.id.add_species_org);
+        clear(R.id.add_state_animal);
     }
 
     public void change_age_animal_edit_page(View view){
@@ -394,12 +404,15 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_age);
 
         cancel(frame, layout);
-        //clear(R.id.add_species_org);
+        clear(R.id.change_date_animal);
     }
 
     public void change_description_animal_edit_page(View view){
         FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_description);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_description);
+
+        EditText desc = (EditText) findViewById(R.id.text_edit_description);
+        desc.setText(description);
 
         change(frame, layout);
     }
@@ -409,7 +422,9 @@ public class EditAnimalPage extends AppCompatActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_description);
 
         cancel(frame, layout);
-        //clear(R.id.add_species_org);
+
+        EditText desc = (EditText) findViewById(R.id.text_edit_description);
+        desc.setText(description);
     }
 
     public void clear_name(View view){
