@@ -43,24 +43,12 @@ public class OrganizationsPage extends AppCompatActivity {
         TextView count_photo_org_page = findViewById(R.id.count_photo_org_page);
         TextView date_reg_org_org = findViewById(R.id.date_reg_org_org);
         TextView org_website = findViewById(R.id.org_website);
+        TextView addres_org_org_page = findViewById(R.id.address_org_org_page);
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_page = findViewById(R.id.button_org_page);
-
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
         img_org_org_page.setImageResource(getIntent().getIntExtra("image", 0));
-
-        TextView UnderlineLink = (TextView) findViewById(R.id.address_org_org_page);
-        String str = getIntent().getStringExtra("address");
-        SpannableString content = new SpannableString(str);
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        UnderlineLink.setText(content);
-
-        TextView UnderlineWeb = (TextView) findViewById(R.id.org_website);
-        str = "www.Dasha.HelpMe!.ru";
-        SpannableString contentlink = new SpannableString(str);
-        contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
-        UnderlineWeb.setText(contentlink);
 
         name_org_org_page.setText(getIntent().getStringExtra("name"));
         email_org_org_page.setText(getIntent().getStringExtra("email"));
@@ -70,7 +58,16 @@ public class OrganizationsPage extends AppCompatActivity {
         count_ads_org_page.setText(getIntent().getStringExtra("count_ads"));
         count_photo_org_page.setText(getIntent().getStringExtra("count_photo"));
         date_reg_org_org.setText(getIntent().getStringExtra("date"));
-        org_website.setText(getIntent().getStringExtra("website"));
+
+        String str = getIntent().getStringExtra("address");
+        SpannableString content = new SpannableString(str);
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        addres_org_org_page.setText(content);
+
+        str = getIntent().getStringExtra("website");
+        SpannableString contentlink = new SpannableString(str);
+        contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
+        org_website.setText(contentlink);
 
 
         ParseUser parseUser = ParseUser.getCurrentUser();

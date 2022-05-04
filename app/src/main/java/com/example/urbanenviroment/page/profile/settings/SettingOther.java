@@ -22,15 +22,18 @@ public class SettingOther extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_other);
 
-        FrameLayout frame_org = (FrameLayout) findViewById(R.id.frame_org_setting);
+        FrameLayout frame_org_number = (FrameLayout) findViewById(R.id.frame_org_setting_number);
+        FrameLayout frame_org_website = (FrameLayout) findViewById(R.id.frame_org_setting_website);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
         if ((Boolean) parseUser.get("is_org")) {
-            frame_org.setVisibility(View.VISIBLE);
+            frame_org_number.setVisibility(View.VISIBLE);
+            frame_org_website.setVisibility(View.VISIBLE);
         }
         else {
-            frame_org.setVisibility(View.GONE);
+            frame_org_number.setVisibility(View.GONE);
+            frame_org_website.setVisibility(View.GONE);
         }
     }
 

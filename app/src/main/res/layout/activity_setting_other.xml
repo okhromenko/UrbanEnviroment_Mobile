@@ -25,12 +25,13 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp">
 
             <TextView
+                android:layout_marginTop="20dp"
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,11 +80,11 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_org_setting"
+                android:id="@+id/frame_org_setting_number"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp">
+                android:layout_marginBottom="20dp">
 
                 <Switch
                     android:id="@+id/switch_phone_other"
@@ -110,6 +111,44 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:text="Если вы скроете номер телефона, никто, кроме вас, его не увидит"
+                        android:textColor="@color/dark_gray"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_org_setting_website"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp">
+
+                <Switch
+                    android:id="@+id/switch_website_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Скрытый сайт организации"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:text="Если вы скроете сайт организации, никто, кроме вас, его не увидит"
                         android:textColor="@color/dark_gray"
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"/>
