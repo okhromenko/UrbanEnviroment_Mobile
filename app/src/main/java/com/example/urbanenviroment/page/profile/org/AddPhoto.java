@@ -1,17 +1,20 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +31,7 @@ import com.example.urbanenviroment.adapter.AnimalsAdapter;
 import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.CategoryAnimals;
+import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -40,12 +44,15 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,13 +63,11 @@ public class AddPhoto extends AppCompatActivity {
     private static final int RQS_PICK_IMAGE = 3;
 
     private ImageView imageView;
-    private ListView listView;
     private byte[] byteArray;
     private ArrayList<String> name = new ArrayList<>();
     private HashMap<String, ParseObject> animals = new HashMap<>();
     ParseObject id_a;
-
-    ArrayAdapter<String> arrayAdapter;
+    public static String name_category;
 
     RecyclerView categoryRecycler;
     CategoryAnimalAdapter categoryAnimalAdapter;
@@ -73,14 +78,10 @@ public class AddPhoto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_photo);
 
-        listView = findViewById(R.id.listview_add_photo);
-
         ParseUser parseUser = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
-
         ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-
         query.whereEqualTo("id_user", id_user);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
@@ -102,24 +103,24 @@ public class AddPhoto extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                arrayAdapter.getFilter().filter(newText);
+                setCategoryAnimalsRecycler(filter(categoryAnimalsList, newText));
                 return false;
-            }
-        });
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                TextView tv = (TextView) view;
-                id_a = animals.get(tv.getText().toString());
             }
         });
     }
 
-    public void add_list(List<ParseObject> objects){
-        int j = 1;
+    private List<CategoryAnimals> filter(List<CategoryAnimals> strings, String text){
+        ArrayList<CategoryAnimals> filterString = new ArrayList<>();
 
+        for (CategoryAnimals word: strings){
+            String item = word.getTitle();
+            if (item.contains(text) || item.toLowerCase().contains(text) || item.toUpperCase().contains(text))
+                filterString.add(word);
+        }
+        return filterString;
+    }
+
+    public void add_list(List<ParseObject> objects){
         categoryAnimalsList = new ArrayList<>();
 
         for (ParseObject i : objects){
@@ -128,12 +129,9 @@ public class AddPhoto extends AppCompatActivity {
             name.add(name_animal);
             animals.put(name_animal, i);
 
-            categoryAnimalsList.add(new CategoryAnimals("1", name_animal));
+            categoryAnimalsList.add(new CategoryAnimals(name_animal));
             setCategoryAnimalsRecycler(categoryAnimalsList);
         }
-
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, name);
-        listView.setAdapter(arrayAdapter);
     }
 
     private void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList){
@@ -171,7 +169,6 @@ public class AddPhoto extends AppCompatActivity {
 
                 Uri mediaUri = data.getData();
                 String mediaPath = mediaUri.getPath();
-
 
                 try {
                     InputStream inputStream = getBaseContext().getContentResolver().openInputStream(mediaUri);
@@ -218,6 +215,8 @@ public class AddPhoto extends AppCompatActivity {
     public void getParameter() {
         ParseUser parseUser = ParseUser.getCurrentUser();
         ParseObject collection = new ParseObject("Collection");
+
+        id_a = animals.get(name_category);
 
         ParseFile photo = new ParseFile(byteArray);
         ParseObject ptr = ParseObject.createWithoutData("Animals", id_a.getObjectId());

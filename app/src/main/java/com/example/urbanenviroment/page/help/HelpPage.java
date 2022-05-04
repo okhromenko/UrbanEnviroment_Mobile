@@ -19,6 +19,7 @@ import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
+import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.EditHelpPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
@@ -204,7 +205,18 @@ public class HelpPage extends AppCompatActivity {
     }
 
     public void edit_animal_page(View view) {
-        Toast toast = Toast.makeText(getApplicationContext(),"Пожалуйста, прикрути ко мне редактирование!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, EditHelpPage.class);
+
+        intent.putExtra("id", getIntent().getStringExtra("id"));
+        intent.putExtra("type_ads_help", getIntent().getStringExtra("type_ads_help"));
+        intent.putExtra("status_help", getIntent().getStringExtra("status_help"));
+        intent.putExtra("date_help", getIntent().getStringExtra("date_help"));
+        intent.putExtra("description_help", getIntent().getStringExtra("description_help"));
+        intent.putExtra("name_org_help", getIntent().getStringExtra("name_org_help"));
+        intent.putExtra("image", getIntent().getStringExtra("image"));
+        intent.putExtra("color", getIntent().getStringExtra("color"));
+        intent.putExtra("color_transperent", getIntent().getStringExtra("color_transperent"));
+
+        startActivity(intent);
     }
 }

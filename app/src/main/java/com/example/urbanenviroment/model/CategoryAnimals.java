@@ -2,19 +2,10 @@ package com.example.urbanenviroment.model;
 
 public class CategoryAnimals {
 
-    String id, title;
+    String title;
 
-    public CategoryAnimals(String id, String title) {
-        this.id = id;
+    public CategoryAnimals(String title) {
         this.title = title;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {

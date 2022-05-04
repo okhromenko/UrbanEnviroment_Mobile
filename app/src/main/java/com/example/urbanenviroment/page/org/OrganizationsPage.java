@@ -42,6 +42,7 @@ public class OrganizationsPage extends AppCompatActivity {
         TextView count_ads_org_page = findViewById(R.id.count_ads_org_page);
         TextView count_photo_org_page = findViewById(R.id.count_photo_org_page);
         TextView date_reg_org_org = findViewById(R.id.date_reg_org_org);
+        TextView org_website = findViewById(R.id.org_website);
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_page = findViewById(R.id.button_org_page);
 
@@ -69,6 +70,7 @@ public class OrganizationsPage extends AppCompatActivity {
         count_ads_org_page.setText(getIntent().getStringExtra("count_ads"));
         count_photo_org_page.setText(getIntent().getStringExtra("count_photo"));
         date_reg_org_org.setText(getIntent().getStringExtra("date"));
+        org_website.setText(getIntent().getStringExtra("website"));
 
 
         ParseUser parseUser = ParseUser.getCurrentUser();

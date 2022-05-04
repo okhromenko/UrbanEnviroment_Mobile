@@ -100,6 +100,7 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
                 intent.putExtra("count_ads", organizationsList.get(position).getCount_ads());
                 intent.putExtra("count_photo", organizationsList.get(position).getCount_photo());
                 intent.putExtra("date", organizationsList.get(position).getDate());
+                intent.putExtra("website", organizationsList.get(position).getWebsite());
                 context.startActivity(intent);
             }
         });

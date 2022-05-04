@@ -132,12 +132,6 @@
                     app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:spanCount="3" />
 
-                <ListView
-                    android:id="@+id/listview_add_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout9"

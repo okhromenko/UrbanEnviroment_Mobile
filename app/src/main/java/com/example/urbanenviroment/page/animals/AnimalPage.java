@@ -16,6 +16,7 @@ import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
+import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -226,7 +227,19 @@ public class AnimalPage extends AppCompatActivity {
     }
 
     public void edit_animal_page(View view) {
-        Toast toast = Toast.makeText(getApplicationContext(),"Пожалуйста, прикрути ко мне редактирование!", Toast.LENGTH_SHORT);
-        toast.show();
+        Intent intent = new Intent(this, EditAnimalPage.class);
+
+        intent.putExtra("id", getIntent().getStringExtra("id"));
+        intent.putExtra("kind_animal", getIntent().getStringExtra("kind_animal"));
+        intent.putExtra("species_animal", getIntent().getStringExtra("species_animal"));
+        intent.putExtra("reg_date_animal", getIntent().getStringExtra("reg_date_animal"));
+        intent.putExtra("name_animal", getIntent().getStringExtra("name_animal"));
+        intent.putExtra("description_animal", getIntent().getStringExtra("description_animal"));
+        intent.putExtra("sex_animal", getIntent().getStringExtra("sex_animal"));
+        intent.putExtra("age_animal", getIntent().getStringExtra("age_animal"));
+        intent.putExtra("state_animal", getIntent().getStringExtra("state_animal"));
+        intent.putExtra("image_animal", getIntent().getStringExtra("image_animal"));
+
+        startActivity(intent);
     }
 }

@@ -57,7 +57,7 @@ public class OrganizationsActivity extends AppCompatActivity {
     public int check;
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
-    String id, name, image, date, address, description, phone, email, count_animal, count_photo, count_ads;
+    String id, name, image, date, address, description, phone, email, website, count_animal, count_photo, count_ads;
     List<Organizations> orgList;
     RadioButton decrease, btn_data_reg, btn_count_animal, btn_count_ads;
 
@@ -143,11 +143,12 @@ public class OrganizationsActivity extends AppCompatActivity {
                                                             description = i.get("description").toString();
                                                             phone = i.get("phone").toString();
                                                             email = object_user.getString("email");
+                                                            website = i.get("website").toString();
                                                             count_animal = Integer.toString(query_count_animal);
                                                             count_ads = Integer.toString(query_count_ads);
                                                             count_photo = Integer.toString(query_count_photo);
 
-                                                            orgList.add(new Organizations(id, name, image, phone, address, email, description,
+                                                            orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
                                                                     count_animal, count_ads, count_photo, date));
                                                             setOrgRecycler(orgList);
                                                         }
