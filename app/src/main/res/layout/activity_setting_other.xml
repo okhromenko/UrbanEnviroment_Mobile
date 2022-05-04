@@ -73,7 +73,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:text="Если вы скроете электронную почту, никто, кроме вас, её не увидит"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/dark_gray_2"
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -111,7 +111,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:text="Если вы скроете номер телефона, никто, кроме вас, его не увидит"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/dark_gray_2"
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -149,7 +149,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:text="Если вы скроете сайт организации, никто, кроме вас, его не увидит"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/dark_gray_2"
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"/>
                 </LinearLayout>
@@ -196,7 +196,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:text="Будет изменена тема, со светлой на тёмную"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/dark_gray_2"
                         android:fontFamily="@font/roboto"
                         android:textSize="14sp"/>
                 </LinearLayout>

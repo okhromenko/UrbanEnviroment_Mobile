@@ -103,7 +103,7 @@
                                 android:layout_gravity="top"
                                 android:text="Местоположение"
                                 android:fontFamily="@font/roboto"
-                                android:textColor="@color/dark_gray"
+                                android:textColor="@color/dark_gray_1"
                                 android:textSize="14sp"/>
                         </LinearLayout>
                     </LinearLayout>

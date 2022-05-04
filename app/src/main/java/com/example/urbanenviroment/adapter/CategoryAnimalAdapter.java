@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -23,6 +25,7 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
 
     Context context;
     List<CategoryAnimals> categoryAnimalsList;
+    int row_index = -1;
 
     public CategoryAnimalAdapter(Context context, List<CategoryAnimals> categoryAnimalsList) {
         this.context = context;
@@ -44,8 +47,19 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
             @Override
             public void onClick(View v) {
                 AddPhoto.name_category = categoryAnimalsList.get(position).getTitle();
+                row_index = position;
+                notifyDataSetChanged();
             }
         });
+
+        if (row_index == position) {
+            holder.background.setCardBackgroundColor(ContextCompat.getColor(context, R.color.basic_blue));
+            holder.name.setTextColor(ContextCompat.getColor(context, R.color.white));
+        } else {
+            holder.background.setCardBackgroundColor(ContextCompat.getColor(context, R.color.light_gray_1));
+            holder.name.setTextColor(ContextCompat.getColor(context, R.color.dark_gray_2));
+        }
+
     }
 
     @Override
@@ -56,11 +70,13 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
     public static final class CategoryAnimalViewHolder extends RecyclerView.ViewHolder{
 
         TextView name;
+        CardView background;
 
         public CategoryAnimalViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.animal_name_category);
+            background = itemView.findViewById(R.id.background_color);
         }
     }
 }

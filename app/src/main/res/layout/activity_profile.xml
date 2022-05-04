@@ -34,7 +34,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    app:cardBackgroundColor="@color/light_gray"
+                    app:cardBackgroundColor="@color/light_gray_2"
                     app:cardCornerRadius="80dp" >
 
                     <ImageView
@@ -107,7 +107,7 @@
                 android:layout_gravity="right"
                 android:text="Дата регистрации"
                 android:textSize="14sp"
-                android:textColor="@color/light_gray"
+                android:textColor="@color/light_gray_2"
                 android:fontFamily="@font/roboto"/>
 
             <TextView
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:text="Электронная почта"
                 android:textSize="14sp"
-                android:textColor="@color/light_gray"
+                android:textColor="@color/light_gray_2"
                 android:fontFamily="@font/roboto"/>
 
         </FrameLayout>
