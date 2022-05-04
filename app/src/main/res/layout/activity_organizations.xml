@@ -16,10 +16,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/button_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22.5dp"
+            android:layout_marginTop="18.5dp"
+            android:layout_gravity="right"
+            android:background="@color/transparent"
+            android:onClick="find"
+            android:src="@drawable/button_loupe_org" />
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
 
         <FrameLayout
             android:id="@+id/rectangle_search_org"
@@ -27,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -35,7 +48,7 @@
                 app:cardCornerRadius="5dp"
                 app:cardBackgroundColor="#F3F3F3">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
+                <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/text_search_org"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -47,7 +60,16 @@
                     android:textSize="16sp"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
-                    app:met_singleLineEllipsis="false" />
+                    app:met_singleLineEllipsis="false" />-->
+
+                <SearchView
+                    android:id="@+id/search_view_org_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layoutDirection="rtl"
+                    android:queryHint="Поиск по организациям"
+                    android:searchIcon="@drawable/button_loupe_org" />
 
             </androidx.cardview.widget.CardView>
 
@@ -102,16 +124,6 @@
         </com.loopeer.shadow.ShadowView>
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/button_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_gravity="right"
-            android:background="@color/transparent"
-            android:onClick="find"
-            android:src="@drawable/button_loupe_org" />
     </FrameLayout>
 
     <FrameLayout

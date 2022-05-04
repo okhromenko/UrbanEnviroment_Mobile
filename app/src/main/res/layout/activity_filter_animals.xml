@@ -55,7 +55,7 @@
                 app:cardCornerRadius="5dp"
                 app:cardBackgroundColor="#F3F3F3">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
+                <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/text_search_animal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,16 +67,17 @@
                     android:textSize="16sp"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
-                    app:met_singleLineEllipsis="false" />
+                    app:met_singleLineEllipsis="false" />-->
 
-                <ImageButton
-                    android:id="@+id/button_search_animal"
-                    android:layout_width="wrap_content"
+                <SearchView
+                    android:id="@+id/search_view_animal_filter_animal"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
                     android:layout_marginEnd="5dp"
-                    android:background="@color/transparent"
-                    android:src="@drawable/button_loupe_org" />
+                    android:layoutDirection="rtl"
+                    android:queryHint="Поиск по животным"
+                    android:searchIcon="@drawable/button_loupe_org" />
+
             </androidx.cardview.widget.CardView>
         </FrameLayout>
 
@@ -258,7 +259,7 @@
                 app:cardCornerRadius="5dp"
                 app:cardBackgroundColor="#F3F3F3">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
+                <!--<com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/text_search_щкп"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -270,16 +271,16 @@
                     android:textSize="16sp"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"
-                    app:met_singleLineEllipsis="false" />
+                    app:met_singleLineEllipsis="false" />-->
 
-                <ImageButton
-                    android:id="@+id/button_search_org"
-                    android:layout_width="wrap_content"
+                <SearchView
+                    android:id="@+id/search_view_animal_filter_org"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
                     android:layout_marginEnd="5dp"
-                    android:background="@color/transparent"
-                    android:src="@drawable/button_loupe_org" />
+                    android:layoutDirection="rtl"
+                    android:queryHint="Поиск по организациям"
+                    android:searchIcon="@drawable/button_loupe_org" />
             </androidx.cardview.widget.CardView>
         </FrameLayout>
 
