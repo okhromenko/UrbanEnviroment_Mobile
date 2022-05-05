@@ -22,10 +22,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.model.Animals;
+import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
@@ -50,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class OrganizationsActivity extends AppCompatActivity {
@@ -101,6 +104,32 @@ public class OrganizationsActivity extends AppCompatActivity {
 
         init();
         dialog_search = new Dialog(this);
+
+
+        SearchView searchView = (SearchView) findViewById(R.id.search_view_org_search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                setOrgRecycler(filter(orgList, newText));
+                return false;
+            }
+        });
+    }
+
+    private List<Organizations> filter(List<Organizations> strings, String text){
+        ArrayList<Organizations> filterString = new ArrayList<>();
+
+        for (Organizations word: strings){
+            String item = word.getName_org();
+            if (item.contains(text) || item.toLowerCase().contains(text) || item.toUpperCase().contains(text))
+                filterString.add(word);
+        }
+        return filterString;
     }
 
     public void init(){

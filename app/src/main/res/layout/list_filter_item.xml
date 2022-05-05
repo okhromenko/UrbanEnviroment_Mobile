@@ -22,6 +22,7 @@
             android:layout_marginVertical="5dp">
 
             <TextView
+                android:id="@+id/text_name_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"

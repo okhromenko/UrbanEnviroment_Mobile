@@ -140,7 +140,7 @@ public class AddPhoto extends AppCompatActivity {
         categoryRecycler = findViewById(R.id.RecyclerView_category_list);
         categoryRecycler.setLayoutManager(gridLayoutManager);
 
-        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList);
+        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, false);
         categoryRecycler.setAdapter(categoryAnimalAdapter);
     }
 

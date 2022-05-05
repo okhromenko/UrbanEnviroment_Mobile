@@ -21,6 +21,7 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
@@ -218,6 +219,23 @@ public class ProfileActivityOrg extends AppCompatActivity {
 
     public void edit_help(View view) {
         Intent intent = new Intent(this, EditHelp.class);
+        startActivity(intent);
+    }
+
+    public void watch(View view){
+        Intent intent = new Intent(this, OrganizationsPage.class);
+        intent.putExtra("id", getIntent().getStringExtra("id"));
+        intent.putExtra("name", getIntent().getStringExtra("name"));
+        intent.putExtra("image", getIntent().getStringExtra("image"));
+        intent.putExtra("address", getIntent().getStringExtra("address"));
+        intent.putExtra("email", getIntent().getStringExtra("email"));
+        intent.putExtra("phone", getIntent().getStringExtra("phone"));
+        intent.putExtra("description", getIntent().getStringExtra("description"));
+        intent.putExtra("count_animal", getIntent().getStringExtra("count_animal"));
+        intent.putExtra("count_ads", getIntent().getStringExtra("count_ads"));
+        intent.putExtra("count_photo", getIntent().getStringExtra("count_photo"));
+        intent.putExtra("date", getIntent().getStringExtra("date"));
+        intent.putExtra("website", getIntent().getStringExtra("website"));
         startActivity(intent);
     }
 

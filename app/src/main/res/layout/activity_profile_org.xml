@@ -276,6 +276,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:layout_gravity="left"
+                android:onClick="watch"
                 app:srcCompat="@drawable/button_user_org" />
         </FrameLayout>
 
