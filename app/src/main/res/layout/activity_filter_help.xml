@@ -148,6 +148,14 @@
             android:layout_height="1dp"
             app:cardBackgroundColor="@color/black"
             android:layout_marginBottom="40dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/button_search"
+            android:background="@color/transparent"/>
+
     </LinearLayout>
 
     <com.loopeer.shadow.ShadowView

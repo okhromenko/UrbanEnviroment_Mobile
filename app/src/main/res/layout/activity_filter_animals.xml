@@ -6,26 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".page.filter.FilterAnimal">
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:layout_margin="10dp"
+        android:onClick="finish"
+        android:src="@drawable/text_filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_marginHorizontal="10dp">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/text_filter"
-            android:background="@color/transparent"
-            android:onClick="finish"
-            android:layout_marginBottom="40dp"/>
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -254,7 +262,18 @@
             android:layout_height="1dp"
             app:cardBackgroundColor="@color/black"
             android:layout_marginBottom="40dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/button_search"
+            android:background="@color/transparent"
+            android:layout_marginBottom="20dp"/>
+
     </LinearLayout>
+
+    </ScrollView>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
