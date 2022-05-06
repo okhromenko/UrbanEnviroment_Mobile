@@ -1,11 +1,13 @@
 package com.example.urbanenviroment.adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,15 +22,17 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.filter.FilterAnimal;
+import com.example.urbanenviroment.page.filter.FilterHelp;
 import com.example.urbanenviroment.page.profile.org.AddPhoto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAdapter.CategoryAnimalViewHolder> {
 
     Context context;
     List<CategoryAnimals> categoryAnimalsList;
-    List<CategoryAnimals> filterCategoryList;
+    public static List<CategoryAnimals> filterCategoryList;
     int row_index = -1;
     boolean flag_item;
 
@@ -66,7 +70,9 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
                     row_index = position;
                     notifyDataSetChanged();
 
+                    filterCategoryList = new ArrayList<>();
                     filterCategoryList.add(new CategoryAnimals(categoryAnimalsList.get(position).getTitle()));
+                    FilterAnimal.click_filter_animal();
                 }
             });
 
@@ -80,6 +86,16 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
         }
         else{
             holder.name_filter.setText(categoryAnimalsList.get(position).getTitle());
+
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onClick(View v) {
+                    FilterHelp.click_org_list.remove(categoryAnimalsList.get(position).getTitle());
+                    categoryAnimalsList.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 
@@ -92,10 +108,13 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
 
         TextView name, name_filter;
         CardView background;
+        ImageView delete;
+
 
         public CategoryAnimalViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            delete = itemView.findViewById(R.id.delete_category_list);
             name_filter = itemView.findViewById(R.id.text_name_filter);
             name = itemView.findViewById(R.id.animal_name_category);
             background = itemView.findViewById(R.id.background_color);

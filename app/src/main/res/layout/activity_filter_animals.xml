@@ -44,11 +44,11 @@
                 android:id="@+id/RecyclerView_animal_sort_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="10dp"
+                android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="3"/>
+                app:spanCount="3" />
 
         </FrameLayout>
 
@@ -249,7 +249,6 @@
                     android:queryHint="Поиск по организациям"
                     android:searchIcon="@drawable/button_loupe_org" />
             </androidx.cardview.widget.CardView>
-
         </FrameLayout>
 
         <ListView

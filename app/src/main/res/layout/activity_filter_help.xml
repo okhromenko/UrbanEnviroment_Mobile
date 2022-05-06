@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/text_filter"
             android:background="@color/transparent"
+            android:onClick="finish"
             android:layout_marginBottom="40dp"/>
 
         <LinearLayout
@@ -116,20 +117,6 @@
                 app:cardCornerRadius="5dp"
                 app:cardBackgroundColor="#F3F3F3">
 
-                <!--<com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/text_search_щкп"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="40dp"
-                    android:hint="Поиск по организациям"
-                    android:textColorHighlight="@color/basic_blue"
-                    android:textColorLink="@color/basic_blue"
-                    android:textSize="16sp"
-                    app:met_floatingLabel="none"
-                    app:met_hideUnderline="true"
-                    app:met_singleLineEllipsis="false" />-->
-
                 <SearchView
                     android:id="@+id/search_view_ads_filter_org"
                     android:layout_width="match_parent"
@@ -142,6 +129,10 @@
             </androidx.cardview.widget.CardView>
         </FrameLayout>
 
+        <ListView
+            android:id="@+id/list_filter_help_org"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -154,6 +145,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/button_search"
+            android:onClick="save_filter"
             android:background="@color/transparent"/>
 
     </LinearLayout>

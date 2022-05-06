@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContentInfo;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -38,14 +41,23 @@ public class FilterAnimal extends AppCompatActivity {
     RecyclerView categoryRecycler;
     ArrayAdapter<String> arrayAdapter;
     CategoryAnimalAdapter categoryAnimalAdapter;
+    public static List<CategoryAnimals> filterCategoryList;
     ListView listViewOrg;
+    @SuppressLint("StaticFieldLeak")
+    static RecyclerView recyclerView;
+    static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_animals);
 
+        filterCategoryList = new ArrayList<>();
+
         init();
+
+        recyclerView = findViewById(R.id.RecyclerView_animal_sort_list);
+        context = this;
 
         SearchView searchViewAnimal = (SearchView) findViewById(R.id.search_view_animal_filter_animal);
         searchViewAnimal.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -122,7 +134,7 @@ public class FilterAnimal extends AppCompatActivity {
         return filterString;
     }
 
-    private void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList, boolean click){
+    public void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList, boolean click){
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
 
         if (click)
@@ -163,6 +175,15 @@ public class FilterAnimal extends AppCompatActivity {
 
     public void finish(View view){
         finish();
+    }
+
+
+    public static void click_filter_animal(){
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, filterCategoryList, true);
+        recyclerView.setAdapter(categoryAnimalAdapter);
     }
 
 }

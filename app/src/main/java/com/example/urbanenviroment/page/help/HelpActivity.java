@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.model.Animals;
+import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.page.Dialog_Search;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.HelpAdapter;
@@ -33,6 +34,7 @@ import com.parse.ParseQuery;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -45,6 +47,7 @@ public class HelpActivity extends AppCompatActivity {
 
     Dialog_Search dialog_search;
     List<Help> helpList;
+    List<Help> filterHelpList;
 
     boolean flag_org;
     boolean flag = false;
@@ -70,6 +73,7 @@ public class HelpActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +95,7 @@ public class HelpActivity extends AppCompatActivity {
 
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
@@ -110,14 +115,15 @@ public class HelpActivity extends AppCompatActivity {
                                 String last_data = i.get("last_date").toString();
 
                                 helpList.add(new Help(id, name_org, image_org, type, description, last_data, status(first_data, last_data)));
-
                                 setHelpRecycler(helpList);
+                                if (getIntent().getBooleanExtra("flag_filter", false))
+                                    filter_click(helpList);
                             }
                         });
                     }
-                } else {
+
+                } else
                     Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                }
             }
         });
     }
@@ -157,6 +163,45 @@ public class HelpActivity extends AppCompatActivity {
 
         TextView count_ads = findViewById(R.id.count_ads_help);
         count_ads.setText(String.valueOf(helpList.size()));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void filter_click(List<Help> helpList){
+
+        filterHelpList = new ArrayList<>(helpList);
+
+        String type_help = getIntent().getStringExtra("type_help");
+
+        if (FilterHelp.click_org_list.size() != 0 && type_help == null){
+            filterHelpList.clear();
+            for (CategoryAnimals word: FilterHelp.click_org_list){
+                helpList.stream().filter(o -> o.getName_org().equals(word.getTitle())).forEach(
+                        o -> {
+                            filterHelpList.add(o);
+                        }
+                );
+            }
+        }
+        else if (FilterHelp.click_org_list.size() != 0 && type_help != null){
+            filterHelpList.clear();
+            for (CategoryAnimals word: FilterHelp.click_org_list){
+                helpList.stream().filter(o -> o.getName_org().equals(word.getTitle()) && o.getType_help().equals(type_help)).forEach(
+                        o -> {
+                            filterHelpList.add(o);
+                        }
+                );
+            }
+        }
+        else if (FilterHelp.click_org_list.size() == 0 && type_help != null){
+            filterHelpList.clear();
+            helpList.stream().filter(o -> o.getType_help().equals(getIntent().getStringExtra("type_help"))).forEach(
+                    o -> {
+                        filterHelpList.add(o);
+                    }
+            );
+        }
+
+        setHelpRecycler(filterHelpList);
     }
 
     public void animals(View view){
