@@ -32,7 +32,6 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
 
     Context context;
     List<CategoryAnimals> categoryAnimalsList;
-    public static List<CategoryAnimals> filterCategoryList;
     int row_index = -1;
     boolean flag_item;
 
@@ -70,8 +69,8 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
                     row_index = position;
                     notifyDataSetChanged();
 
-                    filterCategoryList = new ArrayList<>();
-                    filterCategoryList.add(new CategoryAnimals(categoryAnimalsList.get(position).getTitle()));
+
+                    FilterAnimal.click_animal_list_animal.add(new CategoryAnimals(categoryAnimalsList.get(position).getTitle()));
                     FilterAnimal.click_filter_animal();
                 }
             });

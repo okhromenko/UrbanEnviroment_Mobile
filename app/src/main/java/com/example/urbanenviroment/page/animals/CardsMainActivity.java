@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -37,6 +38,16 @@ import java.util.List;
 
 public class CardsMainActivity extends AppCompatActivity {
 
+    RecyclerView AnimalsCardsRecycler;
+    AnimalCardsAdapter cardsAdapter;
+
+    List<Animals> animalsList;
+    List<Animals> filterAnimalList;
+    boolean flag_sort = false;
+    boolean flag_org;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+
+
     class AnimalsComparator implements Comparator<Animals> {
 
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -56,14 +67,6 @@ public class CardsMainActivity extends AppCompatActivity {
             return date_1.compareTo(date_2);
         }
     }
-
-    RecyclerView AnimalsCardsRecycler;
-    AnimalCardsAdapter cardsAdapter;
-
-    List<Animals> animalsList;
-    boolean flag_sort = false;
-    boolean flag_org;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,7 @@ public class CardsMainActivity extends AppCompatActivity {
                                                 ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
                                                 query_org.whereEqualTo("id_user",  id_org);
                                                 query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.N)
                                                     public void done(ParseObject object_org, ParseException exp) {
                                                         if (exp == null) {
                                                             id = i.getObjectId().toString();
@@ -123,6 +127,8 @@ public class CardsMainActivity extends AppCompatActivity {
                                                             animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));
                                                             setCardsRecycler(animalsList);
+                                                            if (getIntent().getBooleanExtra("flag_filter", false))
+                                                                filter_click(animalsList);
                                                         }
 
                                                     }
@@ -149,6 +155,42 @@ public class CardsMainActivity extends AppCompatActivity {
 
         cardsAdapter = new AnimalCardsAdapter(this, cardsList);
         AnimalsCardsRecycler.setAdapter(cardsAdapter);
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void filter_click(List<Animals> animalsList){
+        filterAnimalList = new ArrayList<>(animalsList);
+
+        if (!FilterAnimal.click_org_list_animal.isEmpty() && FilterAnimal.click_animal_list_animal.isEmpty()){
+            filterAnimalList.clear();
+            for (CategoryAnimals word: FilterAnimal.click_org_list_animal){
+                animalsList.stream().filter(o -> o.getName_org().equals(word.getTitle())).forEach(o -> {
+                    filterAnimalList.add(o);
+                });
+            }
+        }
+        else if (FilterAnimal.click_org_list_animal.isEmpty() && !FilterAnimal.click_animal_list_animal.isEmpty()){
+            filterAnimalList.clear();
+            for (CategoryAnimals word: FilterAnimal.click_animal_list_animal){
+                animalsList.stream().filter(o -> o.getKind().equals(word.getTitle())).forEach(o -> {
+                    filterAnimalList.add(o);
+                });
+            }
+        }
+        else {
+            filterAnimalList.clear();
+            for (CategoryAnimals org : FilterAnimal.click_org_list_animal){
+                for (CategoryAnimals word: FilterAnimal.click_animal_list_animal){
+                    animalsList.stream().filter(o -> o.getKind().equals(word.getTitle()) &&
+                            o.getName_org().equals(org.getTitle())).forEach(o -> {
+                        filterAnimalList.add(o);
+                    });
+                }
+            }
+        }
+
+        setCardsRecycler(filterAnimalList);
     }
 
     public void animals(View view){
@@ -183,6 +225,7 @@ public class CardsMainActivity extends AppCompatActivity {
 
     public void filter(View view){
         Intent intent = new Intent(this, FilterAnimal.class);
+        intent.putExtra("page_last","cards");
         startActivity(intent);
     }
 

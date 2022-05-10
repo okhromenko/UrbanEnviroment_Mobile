@@ -268,6 +268,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/button_search"
             android:background="@color/transparent"
+            android:onClick="save_filter"
             android:layout_marginBottom="20dp"/>
 
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.urbanenviroment.page.animals;
 
 import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.CategoryAnimals;
+import com.example.urbanenviroment.page.filter.FilterHelp;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -46,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
     List<Animals> animalsList;
-
+    List<Animals> filterAnimalList;
     boolean flag_org;
     boolean flag = false;
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
@@ -134,6 +135,7 @@ public class HomeActivity extends AppCompatActivity {
                                                 ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
                                                 query_org.whereEqualTo("id_user",  id_org);
                                                 query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.N)
                                                     public void done(ParseObject object_org, ParseException exp) {
                                                         if (exp == null) {
                                                             id = j.getObjectId().toString();
@@ -153,6 +155,8 @@ public class HomeActivity extends AppCompatActivity {
                                                             animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));
                                                             setAnimalsRecycler(animalsList);
+                                                            if (getIntent().getBooleanExtra("flag_filter", false))
+                                                                filter_click(animalsList);
                                                         }
 
                                                     }
@@ -182,6 +186,40 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void filter_click(List<Animals> animalsList){
+        filterAnimalList = new ArrayList<>(animalsList);
+
+        if (!FilterAnimal.click_org_list_animal.isEmpty() && FilterAnimal.click_animal_list_animal.isEmpty()){
+            filterAnimalList.clear();
+            for (CategoryAnimals word: FilterAnimal.click_org_list_animal){
+                animalsList.stream().filter(o -> o.getName_org().equals(word.getTitle())).forEach(o -> {
+                    filterAnimalList.add(o);
+                });
+            }
+        }
+        else if (FilterAnimal.click_org_list_animal.isEmpty() && !FilterAnimal.click_animal_list_animal.isEmpty()){
+            filterAnimalList.clear();
+            for (CategoryAnimals word: FilterAnimal.click_animal_list_animal){
+                animalsList.stream().filter(o -> o.getKind().equals(word.getTitle())).forEach(o -> {
+                    filterAnimalList.add(o);
+                });
+            }
+        }
+        else {
+            filterAnimalList.clear();
+            for (CategoryAnimals org : FilterAnimal.click_org_list_animal){
+                for (CategoryAnimals word: FilterAnimal.click_animal_list_animal){
+                    animalsList.stream().filter(o -> o.getKind().equals(word.getTitle()) &&
+                            o.getName_org().equals(org.getTitle())).forEach(o -> {
+                        filterAnimalList.add(o);
+                    });
+                }
+            }
+        }
+
+        setAnimalsRecycler(filterAnimalList);
+    }
 
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);
@@ -215,6 +253,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void filter(View view){
         Intent intent = new Intent(this, FilterAnimal.class);
+        intent.putExtra("page_last","photo");
         startActivity(intent);
     }
 

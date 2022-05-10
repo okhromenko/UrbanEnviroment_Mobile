@@ -166,7 +166,7 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void filter_click(List<Help> helpList){
+    private void filter_click(List<Help> helpList){
 
         filterHelpList = new ArrayList<>(helpList);
 

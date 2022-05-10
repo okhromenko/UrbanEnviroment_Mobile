@@ -21,6 +21,7 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.CategoryAnimals;
+import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -36,12 +37,12 @@ public class FilterAnimal extends AppCompatActivity {
 
     ArrayList<CategoryAnimals> kind_list = new ArrayList<>();
     ArrayList<String> name_org_list = new ArrayList<>();
-    ArrayList<CategoryAnimals> click_org_list = new ArrayList<>();
+    public static ArrayList<CategoryAnimals> click_org_list_animal = new ArrayList<>();
 
     RecyclerView categoryRecycler;
     ArrayAdapter<String> arrayAdapter;
     CategoryAnimalAdapter categoryAnimalAdapter;
-    public static List<CategoryAnimals> filterCategoryList;
+    public static List<CategoryAnimals> click_animal_list_animal;
     ListView listViewOrg;
     @SuppressLint("StaticFieldLeak")
     static RecyclerView recyclerView;
@@ -52,7 +53,7 @@ public class FilterAnimal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_animals);
 
-        filterCategoryList = new ArrayList<>();
+        click_animal_list_animal = new ArrayList<>();
 
         init();
 
@@ -93,8 +94,8 @@ public class FilterAnimal extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 TextView tv = (TextView) view;
-                click_org_list.add(new CategoryAnimals(tv.getText().toString()));
-                setCategoryAnimalsRecycler(click_org_list, true);
+                click_org_list_animal.add(new CategoryAnimals(tv.getText().toString()));
+                setCategoryAnimalsRecycler(click_org_list_animal, true);
 
             }
         });
@@ -182,8 +183,23 @@ public class FilterAnimal extends AppCompatActivity {
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, filterCategoryList, true);
+        CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_animal_list_animal, true);
         recyclerView.setAdapter(categoryAnimalAdapter);
+    }
+
+    public void save_filter(View view){
+        String page = getIntent().getStringExtra("page_last");
+
+        if (page.equals("photo")){
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("flag_filter", true);
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(this, CardsMainActivity.class);
+            intent.putExtra("flag_filter", true);
+            startActivity(intent);
+        }
     }
 
 }
