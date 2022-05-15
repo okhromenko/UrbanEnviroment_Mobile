@@ -35,10 +35,12 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
 
     Context context;
     List<Animals> animalsList;
+    boolean flag;
 
-    public AnimalPhotoDeleteOrgAdapter(Context context, List<Animals> animalsList) {
+    public AnimalPhotoDeleteOrgAdapter(Context context, List<Animals> animalsList, boolean flag) {
         this.context = context;
         this.animalsList = animalsList;
+        this.flag = flag;
     }
 
     @NonNull
@@ -52,25 +54,31 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
     public void onBindViewHolder(@NonNull AnimalPhotoDeleteOrgViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_photo_animal_delete);
 
-        holder.btn_delete_collection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+        if (flag)
+            holder.btn_delete_collection.setVisibility(View.GONE);
 
-                query.whereEqualTo("objectId", animalsList.get(position).getId());
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException ex) {
-                        if (object != null){
-                            object.deleteInBackground();
+        else{
+            holder.btn_delete_collection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
 
-                            Intent intent = new Intent(context, DeletePhoto.class);
-                            context.startActivity(intent);
+                    query.whereEqualTo("objectId", animalsList.get(position).getId());
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject object, ParseException ex) {
+                            if (object != null){
+                                object.deleteInBackground();
+
+                                Intent intent = new Intent(context, DeletePhoto.class);
+                                context.startActivity(intent);
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
+
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.example.urbanenviroment.page.animals;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.adapter.AnimalPhotoDeleteOrgAdapter;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -18,6 +23,7 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -30,10 +36,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AnimalPage extends AppCompatActivity {
+
     boolean flag = false;
+    RecyclerView animalsRecycler;
+    AnimalPhotoDeleteOrgAdapter animalsAdapter;
+    List<Animals> animalsList;
+
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +78,8 @@ public class AnimalPage extends AppCompatActivity {
         sex_animal_page.setText(getIntent().getStringExtra("sex_animal"));
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
         address_animal_page.setText(getIntent().getStringExtra("address"));
+
+        init();
 
         try {
 
@@ -176,6 +193,42 @@ public class AnimalPage extends AppCompatActivity {
                 });
             }
         });
+
+    }
+
+    public void init(){
+        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+        query.orderByAscending("createdAt");
+        query.whereEqualTo("id_animal", id_animal);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+
+                    animalsList = new ArrayList<>();
+                    for (ParseObject i : objects) {
+
+                        id = i.getObjectId();
+                        image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+
+                        animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                                age, state, kind_animal, species, description, sex, date));
+                        setAnimalsRecycler(animalsList);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setAnimalsRecycler(List<Animals> animalsList){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+
+        animalsRecycler = findViewById(R.id.RecyclerView_animal_page_photo);
+        animalsRecycler.setLayoutManager(gridLayoutManager);
+
+        animalsAdapter = new AnimalPhotoDeleteOrgAdapter(this, animalsList, true);
+        animalsRecycler.setAdapter(animalsAdapter);
 
     }
 

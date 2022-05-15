@@ -105,7 +105,7 @@ public class DeletePhoto extends AppCompatActivity {
         animalsRecycler = findViewById(R.id.RecyclerView_delete_photo);
         animalsRecycler.setLayoutManager(gridLayoutManager);
 
-        animalsAdapter = new AnimalPhotoDeleteOrgAdapter(this, animalsList);
+        animalsAdapter = new AnimalPhotoDeleteOrgAdapter(this, animalsList, false);
         animalsRecycler.setAdapter(animalsAdapter);
 
     }

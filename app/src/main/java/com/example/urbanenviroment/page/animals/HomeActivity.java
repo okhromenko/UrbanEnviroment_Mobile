@@ -154,7 +154,10 @@ public class HomeActivity extends AppCompatActivity {
 
                                                             animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));
+
+                                                            Collections.sort(animalsList, new AnimalsComparator().reversed());
                                                             setAnimalsRecycler(animalsList);
+
                                                             if (getIntent().getBooleanExtra("flag_filter", false))
                                                                 filter_click(animalsList);
                                                         }

@@ -123,10 +123,14 @@ public class CardsMainActivity extends AppCompatActivity {
                                                             description = i.get("description").toString();
                                                             sex = i.get("sex").toString();
                                                             address = object_org.get("address").toString();
+                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
 
                                                             animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));
+
+                                                            Collections.sort(animalsList, new AnimalsComparator().reversed());
                                                             setCardsRecycler(animalsList);
+
                                                             if (getIntent().getBooleanExtra("flag_filter", false))
                                                                 filter_click(animalsList);
                                                         }
