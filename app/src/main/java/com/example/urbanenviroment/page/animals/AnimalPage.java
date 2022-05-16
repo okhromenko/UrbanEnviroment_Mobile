@@ -89,7 +89,7 @@ public class AnimalPage extends AppCompatActivity {
             long milliseconds = todayDate.getTime() - ageDate.getTime();
             int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
             int month = (int) (days / 30);
-            int year = (int) (month / 12);
+            int year = (int) (days / 365);
 
             if (month == 0) {
                 age_animal_page.setText("Меньше месяца");
