@@ -47,6 +47,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
 
     private ImageView imageView;
     private byte[] byteArray;
+    ParseUser parseUser;
 
     private ProgressDialog progressDialog;
 
@@ -63,7 +64,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
         TextView data_profile_org = findViewById(R.id.data_profile_org);
         ImageView img_profile_image = findViewById(R.id.img_profile_image_org);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        parseUser = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
         query.whereEqualTo("objectId", parseUser.getObjectId());
@@ -94,7 +95,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
         });
     }
 
-    public void loading_photo(View view){
+    public void loading_photo_org(View view){
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -130,8 +131,6 @@ public class ProfileActivityOrg extends AppCompatActivity {
                     byteArray = stream.toByteArray();
 
                     imageView.setImageBitmap(bm);
-
-                    ParseUser parseUser = ParseUser.getCurrentUser();
 
                     ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("_User");
                     query_3.whereEqualTo("objectId", parseUser.getObjectId());

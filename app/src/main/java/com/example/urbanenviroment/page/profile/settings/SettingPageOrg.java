@@ -255,7 +255,7 @@ public class SettingPageOrg extends AppCompatActivity {
     }
 
     public void save_website(View view) {
-        TextView textWebsite = (TextView) findViewById(R.id.website_change_setting);
+        TextView textName = (TextView) findViewById(R.id.website_change_setting);
 
         ParseUser parseUser = ParseUser.getCurrentUser();
 
@@ -265,7 +265,7 @@ public class SettingPageOrg extends AppCompatActivity {
         query_3.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
-                    object.put("website", textWebsite.getText().toString());
+                    object.put("website", textName.getText().toString());
                     object.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

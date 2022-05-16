@@ -26,6 +26,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 public class OrganizationsPage extends AppCompatActivity {
 
@@ -43,12 +44,12 @@ public class OrganizationsPage extends AppCompatActivity {
         TextView count_photo_org_page = findViewById(R.id.count_photo_org_page);
         TextView date_reg_org_org = findViewById(R.id.date_reg_org_org);
         TextView org_website = findViewById(R.id.org_website);
-        TextView addres_org_org_page = findViewById(R.id.address_org_org_page);
+        TextView address_org_org_page = findViewById(R.id.address_org_org_page);
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
-        img_org_org_page.setImageResource(getIntent().getIntExtra("image", 0));
+        Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
         name_org_org_page.setText(getIntent().getStringExtra("name"));
         email_org_org_page.setText(getIntent().getStringExtra("email"));
@@ -62,7 +63,7 @@ public class OrganizationsPage extends AppCompatActivity {
         String str = getIntent().getStringExtra("address");
         SpannableString content = new SpannableString(str);
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        addres_org_org_page.setText(content);
+        address_org_org_page.setText(content);
 
         str = getIntent().getStringExtra("website");
         SpannableString contentlink = new SpannableString(str);

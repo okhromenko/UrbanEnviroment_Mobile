@@ -42,7 +42,7 @@
                         android:scaleType="centerCrop"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:onClick="loading_photo"
+                        android:onClick="loading_photo_org"
                         app:srcCompat="@drawable/img_profile" />
 
                 </androidx.cardview.widget.CardView>

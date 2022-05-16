@@ -2,10 +2,12 @@ package com.example.urbanenviroment.page.profile.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Switch;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -35,6 +37,11 @@ public class SettingOther extends AppCompatActivity {
             frame_org_number.setVisibility(View.GONE);
             frame_org_website.setVisibility(View.GONE);
         }
+    }
+
+    public void switch_email(View view){
+        @SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_email_other = findViewById(R.id.switch_email_other);
+
     }
 
     public void animals(View view){

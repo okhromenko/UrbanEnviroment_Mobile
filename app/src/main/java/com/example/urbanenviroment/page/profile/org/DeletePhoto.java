@@ -81,6 +81,7 @@ public class DeletePhoto extends AppCompatActivity {
         query.orderByAscending("createdAt");
         query.whereEqualTo("id_user", parseUser);
         query.findInBackground(new FindCallback<ParseObject>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
@@ -89,9 +90,12 @@ public class DeletePhoto extends AppCompatActivity {
 
                         id = i.getObjectId();
                         image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+                        date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
 
                         animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
+
+                        Collections.sort(animalsList, new AnimalsComparator().reversed());
                         setAnimalsRecycler(animalsList);
                     }
                 }
