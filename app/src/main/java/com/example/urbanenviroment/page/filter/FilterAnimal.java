@@ -136,7 +136,7 @@ public class FilterAnimal extends AppCompatActivity {
     }
 
     public void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList, boolean click){
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (1, LinearLayoutManager.HORIZONTAL);
 
         if (click)
             categoryRecycler = findViewById(R.id.RecyclerView_org_sort_list);
@@ -180,7 +180,7 @@ public class FilterAnimal extends AppCompatActivity {
 
 
     public static void click_filter_animal(){
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (1, LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_animal_list_animal, true, 1);

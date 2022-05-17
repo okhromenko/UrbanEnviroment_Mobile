@@ -180,7 +180,7 @@ public class FilterHelp extends AppCompatActivity {
     }
 
     public static void click_filter_animal(){
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (1, LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_org_list_help, true, 2);
