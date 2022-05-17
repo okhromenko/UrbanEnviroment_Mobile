@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,11 +36,13 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
     List<CategoryAnimals> categoryAnimalsList;
     int row_index = -1;
     boolean flag_item;
+    int number;
 
-    public CategoryAnimalAdapter(Context context, List<CategoryAnimals> categoryAnimalsList, boolean flag_item) {
+    public CategoryAnimalAdapter(Context context, List<CategoryAnimals> categoryAnimalsList, boolean flag_item, int number) {
         this.context = context;
         this.categoryAnimalsList = categoryAnimalsList;
         this.flag_item = flag_item;
+        this.number = number;
     }
 
     @NonNull
@@ -62,6 +66,7 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
             holder.name.setText(categoryAnimalsList.get(position).getTitle());
 
             holder.name.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
@@ -69,9 +74,16 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
                     row_index = position;
                     notifyDataSetChanged();
 
+                    String name_category = categoryAnimalsList.get(position).getTitle();
 
-                    FilterAnimal.click_animal_list_animal.add(new CategoryAnimals(categoryAnimalsList.get(position).getTitle()));
-                    FilterAnimal.click_filter_animal();
+                    if (number == 1 && FilterAnimal.click_org_list_animal.stream().noneMatch(c -> c.getTitle().equals(name_category))){
+                        FilterAnimal.click_animal_list_animal.add(new CategoryAnimals(name_category));
+                        FilterAnimal.click_filter_animal();
+                    }
+                    else if (number == 2 && FilterHelp.click_org_list_help.stream().noneMatch(c -> c.getTitle().equals(name_category))){
+                        FilterHelp.click_org_list_help.add(new CategoryAnimals(name_category));
+                        FilterHelp.click_filter_animal();
+                    }
                 }
             });
 
@@ -90,7 +102,7 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
-                    FilterHelp.click_org_list.remove(categoryAnimalsList.get(position).getTitle());
+                    FilterHelp.click_org_list_help.remove(categoryAnimalsList.get(position).getTitle());
                     categoryAnimalsList.remove(position);
                     notifyDataSetChanged();
                 }

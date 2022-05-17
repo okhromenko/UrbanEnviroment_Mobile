@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.urbanenviroment.page.filter.FilterAnimal;
@@ -90,6 +91,18 @@ public class HomeActivity extends AppCompatActivity {
 
         flag_org = getIntent().getBooleanExtra("flag_org", false);
         init(flag_org);
+
+        if (getIntent().getBooleanExtra("flag_filter", false)){
+            findViewById(R.id.button_cancel_filter).setVisibility(View.VISIBLE);
+            ImageButton button_cancel = findViewById(R.id.button_filter);
+            button_cancel.setImageResource(R.drawable.button_filter_press);
+        }
+        else{
+            findViewById(R.id.button_cancel_filter).setVisibility(View.GONE);
+            ImageButton button_cancel = findViewById(R.id.button_filter);
+            button_cancel.setImageResource(R.drawable.button_filter);
+        }
+
     }
 
     public void init(boolean flag_org) {
@@ -276,5 +289,11 @@ public class HomeActivity extends AppCompatActivity {
             Collections.sort(animalsList, new AnimalsComparator());
             setAnimalsRecycler(animalsList);
         }
+    }
+
+    public void cancel_filter(View view){
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("flag_filter",false);
+        startActivity(intent);
     }
 }

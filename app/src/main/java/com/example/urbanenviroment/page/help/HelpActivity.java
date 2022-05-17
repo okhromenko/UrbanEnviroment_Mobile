@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,29 @@ public class HelpActivity extends AppCompatActivity {
         init(flag_org);
 
         dialog_search = new Dialog_Search();
+
+        if (getIntent().getBooleanExtra("flag_filter", false)){
+            findViewById(R.id.button_cancel_filter).setVisibility(View.VISIBLE);
+            ImageButton button_cancel = findViewById(R.id.button_filter);
+            button_cancel.setImageResource(R.drawable.button_filter_press);
+        }
+        else{
+            findViewById(R.id.button_cancel_filter).setVisibility(View.GONE);
+            ImageButton button_cancel = findViewById(R.id.button_filter);
+            button_cancel.setImageResource(R.drawable.button_filter);
+        }
+
+        if (getIntent().getBooleanExtra("flag_filter", false)){
+            TextView ads_type_help = findViewById(R.id.ads_type_help);
+            ads_type_help.setVisibility(View.VISIBLE);
+
+            String type_help = getIntent().getStringExtra("type_help");
+
+            if (type_help != null)
+                ads_type_help.setText(type_help);
+            else
+                ads_type_help.setText("Все объявления");
+        }
     }
 
     public void init(boolean flag_org){
@@ -172,9 +196,9 @@ public class HelpActivity extends AppCompatActivity {
 
         String type_help = getIntent().getStringExtra("type_help");
 
-        if (FilterHelp.click_org_list.size() != 0 && type_help == null){
+        if (FilterHelp.click_org_list_help.size() != 0 && type_help == null){
             filterHelpList.clear();
-            for (CategoryAnimals word: FilterHelp.click_org_list){
+            for (CategoryAnimals word: FilterHelp.click_org_list_help){
                 helpList.stream().filter(o -> o.getName_org().equals(word.getTitle())).forEach(
                         o -> {
                             filterHelpList.add(o);
@@ -182,9 +206,9 @@ public class HelpActivity extends AppCompatActivity {
                 );
             }
         }
-        else if (FilterHelp.click_org_list.size() != 0 && type_help != null){
+        else if (FilterHelp.click_org_list_help.size() != 0 && type_help != null){
             filterHelpList.clear();
-            for (CategoryAnimals word: FilterHelp.click_org_list){
+            for (CategoryAnimals word: FilterHelp.click_org_list_help){
                 helpList.stream().filter(o -> o.getName_org().equals(word.getTitle()) && o.getType_help().equals(type_help)).forEach(
                         o -> {
                             filterHelpList.add(o);
@@ -192,7 +216,7 @@ public class HelpActivity extends AppCompatActivity {
                 );
             }
         }
-        else if (FilterHelp.click_org_list.size() == 0 && type_help != null){
+        else if (FilterHelp.click_org_list_help.size() == 0 && type_help != null){
             filterHelpList.clear();
             helpList.stream().filter(o -> o.getType_help().equals(getIntent().getStringExtra("type_help"))).forEach(
                     o -> {
@@ -250,5 +274,11 @@ public class HelpActivity extends AppCompatActivity {
             Collections.sort(helpList, new HelpComparator());
             setHelpRecycler(helpList);
         }
+    }
+
+    public void cancel_filter(View view){
+        Intent intent = new Intent(this, HelpActivity.class);
+        intent.putExtra("flag_filter",false);
+        startActivity(intent);
     }
 }

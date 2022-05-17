@@ -28,236 +28,223 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Поиск по виду:"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto"
-            android:textSize="16dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"/>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RecyclerView_animal_sort_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="3" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/rectangle_search_animal"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="10dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="5dp"
-                app:cardBackgroundColor="#F3F3F3">
+                android:text="Поиск по виду:"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto"
+                android:textSize="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"/>
 
-                <SearchView
-                    android:id="@+id/search_view_animal_filter_animal"
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerView_animal_sort_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:layoutDirection="rtl"
-                    android:queryHint="Поиск по животным"
-                    android:searchIcon="@drawable/button_loupe_org" />
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="3" />
 
-            </androidx.cardview.widget.CardView>
-        </FrameLayout>
+            </FrameLayout>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RecyclerView_animal_list"
+            <FrameLayout
+                android:id="@+id/rectangle_search_animal"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="#F3F3F3">
+
+                    <SearchView
+                        android:id="@+id/search_view_animal_filter_animal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layoutDirection="rtl"
+                        android:queryHint="Поиск по животным"
+                        android:searchIcon="@drawable/button_loupe_org" />
+
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="2" />
+                android:layout_marginBottom="10dp">
 
-        </FrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerView_animal_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="2" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:cardBackgroundColor="@color/black"
-            android:layout_marginBottom="30dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto"
-            android:textSize="16dp"
-            android:text="Поиск по возрасту:"
-            android:layout_marginBottom="20dp"/>
-
-        <FrameLayout
-            android:id="@+id/rectangle_search_age"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
+            </FrameLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="5dp"
-                app:cardBackgroundColor="#F3F3F3">
+                android:layout_height="1dp"
+                app:cardBackgroundColor="@color/black"
+                android:layout_marginBottom="30dp"/>
 
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/filter_age"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto"
+                android:textSize="16dp"
+                android:text="Поиск по возрасту:"
+                android:layout_marginBottom="20dp"/>
+
+            <FrameLayout
+                android:id="@+id/rectangle_search_age"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="15dp"
-                    android:fontFamily="@font/roboto"
-                    android:hint="Введите возраст (в годах)"
-                    android:inputType="number"
-                    android:textAlignment="textStart"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="#F3F3F3">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/filter_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="15dp"
+                        android:fontFamily="@font/roboto"
+                        android:hint="Введите возраст (в годах)"
+                        android:inputType="number"
+                        android:textAlignment="textStart"
+                        android:textSize="16sp"
+                        app:met_floatingLabel="none"
+                        app:met_hideUnderline="true"
+                        app:met_singleLineEllipsis="false" />
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/button_switch_equal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Точное совпадение"
+                    android:textSize="16sp"/>
+                <RadioButton
+                    android:id="@+id/button_switch_before"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="От"
                     android:textSize="16sp"
-                    app:met_floatingLabel="none"
-                    app:met_hideUnderline="true"
-                    app:met_singleLineEllipsis="false" />
-            </androidx.cardview.widget.CardView>
-        </FrameLayout>
+                    android:layout_marginHorizontal="15dp"/>
+                <RadioButton
+                    android:id="@+id/button_switch_after"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="До"
+                    android:textSize="16sp" />
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/button_switch_equal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Точное совпадение"
-                android:textSize="16sp"/>
-            <RadioButton
-                android:id="@+id/button_switch_before"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="От"
-                android:textSize="16sp"
-                android:layout_marginHorizontal="15dp"/>
-            <RadioButton
-                android:id="@+id/button_switch_after"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="До"
-                android:textSize="16sp" />
-
-        </RadioGroup>
-
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:cardBackgroundColor="@color/black"
-            android:layout_marginBottom="30dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Поиск по организации:"
-            android:textColor="@color/black"
-            android:fontFamily="@font/roboto"
-            android:textSize="16dp"
-            android:layout_marginBottom="10dp"/>
-
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RecyclerView_org_sort_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="3" />
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/rectangle_search_org"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="5dp"
-                app:cardBackgroundColor="#F3F3F3">
+                android:layout_height="1dp"
+                app:cardBackgroundColor="@color/black"
+                android:layout_marginBottom="30dp"/>
 
-                <SearchView
-                    android:id="@+id/search_view_animal_filter_org"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Поиск по организации:"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto"
+                android:textSize="16dp"
+                android:layout_marginBottom="10dp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerView_org_sort_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:layoutDirection="rtl"
-                    android:queryHint="Поиск по организациям"
-                    android:searchIcon="@drawable/button_loupe_org" />
-            </androidx.cardview.widget.CardView>
-        </FrameLayout>
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="3" />
 
-        <ListView
-            android:id="@+id/list_filter_org"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            </FrameLayout>
 
-        <!--<FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/RecyclerView_org_list"
+            <FrameLayout
+                android:id="@+id/rectangle_search_org"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="#F3F3F3">
+
+                    <SearchView
+                        android:id="@+id/search_view_animal_filter_org"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:layoutDirection="rtl"
+                        android:queryHint="Поиск по организациям"
+                        android:searchIcon="@drawable/button_loupe_org" />
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <ListView
+                android:id="@+id/list_filter_org"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:cardBackgroundColor="@color/black"
+                android:layout_marginBottom="30dp"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="2" />
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/button_search"
+                android:background="@color/transparent"
+                android:onClick="save_filter"
+                android:layout_marginBottom="20dp"/>
 
-        </FrameLayout> -->
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:cardBackgroundColor="@color/black"
-            android:layout_marginBottom="30dp"/>
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/button_search"
-            android:background="@color/transparent"
-            android:onClick="save_filter"
-            android:layout_marginBottom="20dp"/>
-
-    </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 

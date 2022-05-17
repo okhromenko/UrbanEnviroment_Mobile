@@ -35,9 +35,9 @@ import java.util.List;
 
 public class FilterAnimal extends AppCompatActivity {
 
-    ArrayList<CategoryAnimals> kind_list = new ArrayList<>();
-    ArrayList<String> name_org_list = new ArrayList<>();
-    public static ArrayList<CategoryAnimals> click_org_list_animal = new ArrayList<>();
+    List<CategoryAnimals> kind_list = new ArrayList<>();
+    List<String> name_org_list = new ArrayList<>();
+    public static List<CategoryAnimals> click_org_list_animal = new ArrayList<>();
 
     RecyclerView categoryRecycler;
     ArrayAdapter<String> arrayAdapter;
@@ -145,7 +145,7 @@ public class FilterAnimal extends AppCompatActivity {
 
         categoryRecycler.setLayoutManager(gridLayoutManager);
 
-        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, click);
+        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, click, 1);
         categoryRecycler.setAdapter(categoryAnimalAdapter);
     }
 
@@ -183,23 +183,22 @@ public class FilterAnimal extends AppCompatActivity {
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_animal_list_animal, true);
+        CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_animal_list_animal, true, 1);
         recyclerView.setAdapter(categoryAnimalAdapter);
     }
 
     public void save_filter(View view){
         String page = getIntent().getStringExtra("page_last");
+        Intent intent;
 
-        if (page.equals("photo")){
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.putExtra("flag_filter", true);
-            startActivity(intent);
-        }
-        else{
-            Intent intent = new Intent(this, CardsMainActivity.class);
-            intent.putExtra("flag_filter", true);
-            startActivity(intent);
-        }
+        if (page.equals("photo"))
+            intent = new Intent(this, HomeActivity.class);
+
+        else
+            intent = new Intent(this, CardsMainActivity.class);
+
+        intent.putExtra("flag_filter", true);
+        startActivity(intent);
     }
 
 }
