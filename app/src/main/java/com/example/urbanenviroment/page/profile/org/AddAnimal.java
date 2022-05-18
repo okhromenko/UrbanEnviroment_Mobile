@@ -258,21 +258,93 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void btn_save(View view){
-        name = findViewById(R.id.add_name_animal);
-        age = findViewById(R.id.add_date_animal);
-        state = findViewById(R.id.add_state_animal);
-        kind = findViewById(R.id.add_kind_animal);
-        species = findViewById(R.id.add_species_animal);
-        description = findViewById(R.id.add_description_animal);
+        Boolean flag = true;
 
-        RadioButton sex_man = findViewById(R.id.button_switch_man);
+        name = (MaterialEditText) findViewById(R.id.add_name_animal);
+        age = (MaterialEditText) findViewById(R.id.add_date_animal);
+        state = (MaterialEditText) findViewById(R.id.add_state_animal);
+        kind = (MaterialEditText) findViewById(R.id.add_kind_animal);
+        species = (MaterialEditText) findViewById(R.id.add_species_animal);
+        description = (MaterialEditText) findViewById(R.id.add_description_animal);
 
-        if (sex_man.isChecked())
+        RadioButton sex_man = (RadioButton) findViewById(R.id.button_switch_man);
+        RadioButton sex_woman = (RadioButton) findViewById(R.id.button_switch_woman);
+
+        if (sex_man.isChecked()){
+            goneMessage(R.id.error_animal_sex);
             sex = "Самец";
-        else
+        }
+        else if (sex_woman.isChecked()) {
+            goneMessage(R.id.error_animal_sex);
             sex = "Самка";
+        }
+        else {
+            errorMessage(R.id.error_animal_sex);
+            flag = false;
+        }
 
-        getParameter();
+        if (byteArray == null){
+            errorMessage(R.id.error_animal_image);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_image);
+        }
+
+        if (name.getText().toString().equals("")){
+            errorMessage(R.id.error_animal_name);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_name);
+        }
+
+        if (age.getText().toString().equals("")){
+            errorMessage(R.id.error_animal_age);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_age);
+        }
+
+        if (state.getText().toString().equals("")){
+            errorMessage(R.id.error_animal_state);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_state);
+        }
+
+        if (kind.getText().toString().equals("")){
+            errorMessage(R.id.error_animal_kind);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_kind);
+        }
+
+        if (species.getText().toString().equals("")){
+            errorMessage(R.id.error_animal_species);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_species);
+        }
+
+        if (description.getText().toString().equals("")){
+            errorMessage(R.id.error_animal_description);
+            flag = false;
+        } else {
+            goneMessage(R.id.error_animal_description);
+        }
+
+        if (flag){
+            getParameter();
+        }
+    }
+
+    public void errorMessage(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setVisibility(View.VISIBLE);
+    }
+
+    public void goneMessage(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setVisibility(View.GONE);
     }
 
     public void btn_cancel(View view){

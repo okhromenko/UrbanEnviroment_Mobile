@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                app:spanCount="3" />
+                app:spanCount="1" />
 
         </FrameLayout>
 

@@ -52,12 +52,23 @@
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/error_animal_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:visibility="gone"
+                    android:text="Введите имя животного!"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"/>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:padding="5dp"
                     app:cardBackgroundColor="@color/basic_blue"
-                    app:cardCornerRadius="15dp">
+                    app:cardCornerRadius="15dp"
+                    android:layout_marginBottom="15dp">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -98,12 +109,22 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:id="@+id/error_animal_kind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:textColor="@color/red"
+                    android:text="Введите вид животного!"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"/>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="15dp"
                     app:cardBackgroundColor="@color/basic_blue"
-                    app:cardCornerRadius="15dp">
+                    app:cardCornerRadius="15dp"
+                    android:layout_marginBottom="15dp">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -137,10 +158,19 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <TextView
+                    android:id="@+id/error_animal_species"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:visibility="gone"
+                    android:text="Введите научное название животного!"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"/>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
                     app:cardBackgroundColor="@color/basic_blue"
                     app:cardCornerRadius="15dp">
@@ -189,6 +219,16 @@
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/error_animal_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/red"
+                android:visibility="gone"
+                android:text="Выберете фото животного!"
+                android:layout_marginTop="5dp"/>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -236,14 +276,25 @@
                 android:text="Характеристики"
                 android:textColor="@color/basic_blue"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/error_animal_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:layout_gravity="center_horizontal"
+                android:text="Выберете пол животного!"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"/>
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp">
 
                 <RadioButton
                     android:id="@+id/button_switch_man"
@@ -271,6 +322,16 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/error_animal_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:visibility="gone"
+                    android:text="Введите состояние животного!"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -309,6 +370,16 @@
                             android:src="@drawable/button_clear_cross" />
                     </androidx.cardview.widget.CardView>
                 </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/error_animal_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:visibility="gone"
+                    android:text="Введите дату рождения животного!"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -365,6 +436,16 @@
                 android:textColor="@color/basic_blue"
                 android:textSize="20dp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/error_animal_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:text="Введите описание животного!"
+                android:layout_marginVertical="5dp"/>
 
             <LinearLayout
                 android:id="@+id/linearLayout_change_description"
