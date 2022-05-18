@@ -1,8 +1,7 @@
 package com.example.urbanenviroment.page.filter;
 
-import static com.example.urbanenviroment.page.filter.FilterAnimal.context;
-import static com.example.urbanenviroment.page.filter.FilterAnimal.recyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,13 +38,14 @@ import java.util.List;
 public class FilterHelp extends AppCompatActivity {
 
     public static List<CategoryAnimals> click_org_list_help;
+    static RecyclerView recyclerView;
+    static Context context;
+
     RecyclerView categoryRecycler;
     CategoryAnimalAdapter categoryAnimalAdapter;
     String type_help;
     List<CategoryAnimals> categoryOrgList;
     ImageButton food, things, help;
-    static RecyclerView recyclerView;
-    static Context context;
 
 
     @Override

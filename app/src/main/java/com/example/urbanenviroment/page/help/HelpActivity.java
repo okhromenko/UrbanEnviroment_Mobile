@@ -254,8 +254,11 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterHelp.class);
-        startActivity(intent);
+        if (!getIntent().getBooleanExtra("flag_filter", false)){
+            Intent intent = new Intent(this, FilterHelp.class);
+            startActivity(intent);
+        }
+        else finish();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

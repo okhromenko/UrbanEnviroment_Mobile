@@ -153,7 +153,7 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void button_date(View view){
-        age = (MaterialEditText) findViewById(R.id.add_date_animal);
+        age = findViewById(R.id.add_date_animal);
         calendar_text = Calendar.getInstance();
 
         int day_first = calendar_text.get(Calendar.DAY_OF_MONTH);
@@ -258,14 +258,14 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void btn_save(View view){
-        name = (MaterialEditText) findViewById(R.id.add_name_animal);
-        age = (MaterialEditText) findViewById(R.id.add_date_animal);
-        state = (MaterialEditText) findViewById(R.id.add_state_animal);
-        kind = (MaterialEditText) findViewById(R.id.add_kind_animal);
-        species = (MaterialEditText) findViewById(R.id.add_species_animal);
-        description = (MaterialEditText) findViewById(R.id.add_description_animal);
+        name = findViewById(R.id.add_name_animal);
+        age = findViewById(R.id.add_date_animal);
+        state = findViewById(R.id.add_state_animal);
+        kind = findViewById(R.id.add_kind_animal);
+        species = findViewById(R.id.add_species_animal);
+        description = findViewById(R.id.add_description_animal);
 
-        RadioButton sex_man = (RadioButton) findViewById(R.id.button_switch_man);
+        RadioButton sex_man = findViewById(R.id.button_switch_man);
 
         if (sex_man.isChecked())
             sex = "Самец";

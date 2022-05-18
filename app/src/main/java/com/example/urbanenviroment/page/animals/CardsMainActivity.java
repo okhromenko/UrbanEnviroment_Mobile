@@ -40,13 +40,9 @@ public class CardsMainActivity extends AppCompatActivity {
 
     RecyclerView AnimalsCardsRecycler;
     AnimalCardsAdapter cardsAdapter;
-
-    List<Animals> animalsList;
-    List<Animals> filterAnimalList;
-    boolean flag_sort = false;
-    boolean flag_org;
+    List<Animals> animalsList, filterAnimalList;
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-
+    boolean flag_sort, flag_org;
 
     class AnimalsComparator implements Comparator<Animals> {
 
@@ -72,9 +68,9 @@ public class CardsMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cards_main);
+
         flag_org = getIntent().getBooleanExtra("flag_org", false);
         init(flag_org);
-
     }
 
     public void init(boolean flag_org){
@@ -228,9 +224,12 @@ public class CardsMainActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterAnimal.class);
-        intent.putExtra("page_last","cards");
-        startActivity(intent);
+        if (!getIntent().getBooleanExtra("flag_filter", false)){
+            Intent intent = new Intent(this, FilterAnimal.class);
+            intent.putExtra("page_last","cards");
+            startActivity(intent);
+        }
+        else finish();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

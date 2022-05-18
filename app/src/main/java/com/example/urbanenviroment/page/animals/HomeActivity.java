@@ -47,12 +47,9 @@ public class HomeActivity extends AppCompatActivity {
 
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
-    List<Animals> animalsList;
-    List<Animals> filterAnimalList;
-    boolean flag_org;
-    boolean flag = false;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-    String kind;
+    List<Animals> animalsList, filterAnimalList;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address, kind;
+    boolean flag_org, flag;
 
     static class AnimalsComparator implements Comparator<Animals>{
 
@@ -268,9 +265,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void filter(View view){
-        Intent intent = new Intent(this, FilterAnimal.class);
-        intent.putExtra("page_last","photo");
-        startActivity(intent);
+        if (!getIntent().getBooleanExtra("flag_filter", false)){
+            Intent intent = new Intent(this, FilterAnimal.class);
+            intent.putExtra("page_last","photo");
+            startActivity(intent);
+        }
+        else finish();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

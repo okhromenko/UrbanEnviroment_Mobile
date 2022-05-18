@@ -35,14 +35,14 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
     Context context;
     List<CategoryAnimals> categoryAnimalsList;
     int row_index = -1;
-    boolean flag_item;
-    int number;
+    boolean flag_highlight;
+    int type_recycler;
 
-    public CategoryAnimalAdapter(Context context, List<CategoryAnimals> categoryAnimalsList, boolean flag_item, int number) {
+    public CategoryAnimalAdapter(Context context, List<CategoryAnimals> categoryAnimalsList, boolean flag_highlight, int type_recycler) {
         this.context = context;
         this.categoryAnimalsList = categoryAnimalsList;
-        this.flag_item = flag_item;
-        this.number = number;
+        this.flag_highlight = flag_highlight;
+        this.type_recycler = type_recycler;
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
     public CategoryAnimalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View categoryItem;
 
-        if(flag_item){
+        if(flag_highlight){
             categoryItem = LayoutInflater.from(context).inflate(R.layout.list_filter_item, parent, false);
         }
         else{
@@ -62,7 +62,7 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
     @Override
     public void onBindViewHolder(@NonNull CategoryAnimalViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        if (!flag_item){
+        if (!flag_highlight){
             holder.name.setText(categoryAnimalsList.get(position).getTitle());
 
             holder.name.setOnClickListener(new View.OnClickListener() {
@@ -76,13 +76,17 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
 
                     String name_category = categoryAnimalsList.get(position).getTitle();
 
-                    if (number == 1 && FilterAnimal.click_org_list_animal.stream().noneMatch(c -> c.getTitle().equals(name_category))){
+                    if (type_recycler == 1 && FilterAnimal.click_animal_list_animal.stream().noneMatch(c -> c.getTitle().equals(name_category))){
                         FilterAnimal.click_animal_list_animal.add(new CategoryAnimals(name_category));
-                        FilterAnimal.click_filter_animal();
+                        FilterAnimal.click_filter_animal(1);
                     }
-                    else if (number == 2 && FilterHelp.click_org_list_help.stream().noneMatch(c -> c.getTitle().equals(name_category))){
+                    else if (type_recycler == 2 && FilterHelp.click_org_list_help.stream().noneMatch(c -> c.getTitle().equals(name_category))){
                         FilterHelp.click_org_list_help.add(new CategoryAnimals(name_category));
                         FilterHelp.click_filter_animal();
+                    }
+                    else if (type_recycler == 3 && FilterAnimal.click_org_list_animal.stream().noneMatch(c -> c.getTitle().equals(name_category))){
+                        FilterAnimal.click_org_list_animal.add(new CategoryAnimals(name_category));
+                        FilterAnimal.click_filter_animal(3);
                     }
                 }
             });
@@ -102,7 +106,19 @@ public class CategoryAnimalAdapter extends RecyclerView.Adapter<CategoryAnimalAd
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
-                    FilterHelp.click_org_list_help.remove(categoryAnimalsList.get(position).getTitle());
+                    String category_name = categoryAnimalsList.get(position).getTitle();
+
+                    switch (type_recycler){
+                        case 1:
+                            FilterAnimal.click_animal_list_animal.remove(category_name);
+                            break;
+                        case 2:
+                            FilterHelp.click_org_list_help.remove(category_name);
+                            break;
+                        case 3:
+                            FilterAnimal.click_org_list_animal.remove(category_name);
+                            break;
+                    }
                     categoryAnimalsList.remove(position);
                     notifyDataSetChanged();
                 }

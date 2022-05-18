@@ -42,13 +42,11 @@ import java.util.List;
 
 public class AnimalPage extends AppCompatActivity {
 
-    boolean flag = false;
     RecyclerView animalsRecycler;
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
     List<Animals> animalsList;
 
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

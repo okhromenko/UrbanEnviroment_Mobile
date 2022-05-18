@@ -36,7 +36,6 @@ public class Dialog_Search extends DialogFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Log.d(LOG_TAG, "dialog_search: " + ((Button) v).getText());
-//        dismiss();
     }
 
     @Override

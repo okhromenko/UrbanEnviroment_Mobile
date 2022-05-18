@@ -35,29 +35,28 @@ import java.util.List;
 
 public class FilterAnimal extends AppCompatActivity {
 
-    List<CategoryAnimals> kind_list = new ArrayList<>();
-    List<String> name_org_list = new ArrayList<>();
-    public static List<CategoryAnimals> click_org_list_animal = new ArrayList<>();
-
-    RecyclerView categoryRecycler;
-    ArrayAdapter<String> arrayAdapter;
-    CategoryAnimalAdapter categoryAnimalAdapter;
-    public static List<CategoryAnimals> click_animal_list_animal;
-    ListView listViewOrg;
-    @SuppressLint("StaticFieldLeak")
-    static RecyclerView recyclerView;
+    public static List<CategoryAnimals> click_org_list_animal, click_animal_list_animal;
+    static RecyclerView recyclerViewAnimal, recyclerViewOrg;
     static Context context;
+
+    List<CategoryAnimals> kind_list, name_org_list;
+    RecyclerView categoryRecycler;
+    CategoryAnimalAdapter categoryAnimalAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_animals);
 
+        kind_list = new ArrayList<>();
+        name_org_list = new ArrayList<>();
         click_animal_list_animal = new ArrayList<>();
+        click_org_list_animal = new ArrayList<>();
 
         init();
 
-        recyclerView = findViewById(R.id.RecyclerView_animal_sort_list);
+        recyclerViewAnimal = findViewById(R.id.RecyclerView_animal_sort_list);
+        recyclerViewOrg = findViewById(R.id.RecyclerView_org_sort_list);
         context = this;
 
         SearchView searchViewAnimal = (SearchView) findViewById(R.id.search_view_animal_filter_animal);
@@ -69,12 +68,11 @@ public class FilterAnimal extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                setCategoryAnimalsRecycler(filter(kind_list, newText), false);
+                setCategoryAnimalsRecycler(filter(kind_list, newText), true, 1);
                 return false;
             }
         });
 
-        listViewOrg = findViewById(R.id.list_filter_org);
 
         SearchView searchViewOrg = (SearchView) findViewById(R.id.search_view_animal_filter_org);
         searchViewOrg.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -85,18 +83,8 @@ public class FilterAnimal extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                arrayAdapter.getFilter().filter(newText);
+                setCategoryAnimalsRecycler(filter(name_org_list, newText), false, 3);
                 return false;
-            }
-        });
-
-        listViewOrg.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                TextView tv = (TextView) view;
-                click_org_list_animal.add(new CategoryAnimals(tv.getText().toString()));
-                setCategoryAnimalsRecycler(click_org_list_animal, true);
-
             }
         });
     }
@@ -107,7 +95,7 @@ public class FilterAnimal extends AppCompatActivity {
             if (exp == null) {
                 for (ParseObject r : object_kind)
                     kind_list.add(new CategoryAnimals(r.get("name").toString()));
-                setCategoryAnimalsRecycler(kind_list, false);
+                setCategoryAnimalsRecycler(kind_list, true, 1);
             }
         });
 
@@ -116,10 +104,8 @@ public class FilterAnimal extends AppCompatActivity {
         query_org.findInBackground((object_org, exp) -> {
             if (exp == null) {
                 for (ParseObject r : object_org)
-                    name_org_list.add(r.get("username").toString());
-
-                arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, name_org_list);
-                listViewOrg.setAdapter(arrayAdapter);
+                    name_org_list.add(new CategoryAnimals(r.get("username").toString()));
+                setCategoryAnimalsRecycler(name_org_list, false, 3);
             }
         });
     }
@@ -135,17 +121,16 @@ public class FilterAnimal extends AppCompatActivity {
         return filterString;
     }
 
-    public void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList, boolean click){
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
+    public void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList, boolean click_category, int type_recycler){
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (1, LinearLayoutManager.HORIZONTAL);
 
-        if (click)
-            categoryRecycler = findViewById(R.id.RecyclerView_org_sort_list);
-        else
+        if (click_category)
             categoryRecycler = findViewById(R.id.RecyclerView_animal_list);
+        else categoryRecycler = findViewById(R.id.RecyclerView_filter_org);
 
         categoryRecycler.setLayoutManager(gridLayoutManager);
 
-        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, click, 1);
+        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, false, type_recycler);
         categoryRecycler.setAdapter(categoryAnimalAdapter);
     }
 
@@ -179,12 +164,19 @@ public class FilterAnimal extends AppCompatActivity {
     }
 
 
-    public static void click_filter_animal(){
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
+    public static void click_filter_animal(int number){
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (1, LinearLayoutManager.HORIZONTAL);
 
-        CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_animal_list_animal, true, 1);
-        recyclerView.setAdapter(categoryAnimalAdapter);
+        if (number == 1){
+            recyclerViewAnimal.setLayoutManager(gridLayoutManager);
+            CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_animal_list_animal, true, number);
+            recyclerViewAnimal.setAdapter(categoryAnimalAdapter);
+        }
+        else{
+            recyclerViewOrg.setLayoutManager(gridLayoutManager);
+            CategoryAnimalAdapter categoryAnimalAdapter = new CategoryAnimalAdapter(context, click_org_list_animal, true, number);
+            recyclerViewOrg.setAdapter(categoryAnimalAdapter);
+        }
     }
 
     public void save_filter(View view){

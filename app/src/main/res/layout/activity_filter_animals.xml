@@ -222,12 +222,13 @@
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
 
-            <ListView
-                android:id="@+id/list_filter_org"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerView_filter_org"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:spanCount="2" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
