@@ -258,7 +258,7 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void btn_save(View view){
-        Boolean flag = true;
+        Boolean flagCheckup = true;
 
         name = (MaterialEditText) findViewById(R.id.add_name_animal);
         age = (MaterialEditText) findViewById(R.id.add_date_animal);
@@ -280,60 +280,64 @@ public class AddAnimal extends AppCompatActivity {
         }
         else {
             errorMessage(R.id.error_animal_sex);
-            flag = false;
+            flagCheckup = false;
         }
 
         if (byteArray == null){
             errorMessage(R.id.error_animal_image);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_image);
         }
 
         if (name.getText().toString().equals("")){
             errorMessage(R.id.error_animal_name);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_name);
         }
 
         if (age.getText().toString().equals("")){
             errorMessage(R.id.error_animal_age);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_age);
         }
 
         if (state.getText().toString().equals("")){
             errorMessage(R.id.error_animal_state);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_state);
         }
 
         if (kind.getText().toString().equals("")){
             errorMessage(R.id.error_animal_kind);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_kind);
         }
 
         if (species.getText().toString().equals("")){
             errorMessage(R.id.error_animal_species);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_species);
         }
 
         if (description.getText().toString().equals("")){
             errorMessage(R.id.error_animal_description);
-            flag = false;
+            flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_description);
         }
 
-        if (flag){
+        if (flagCheckup){
             getParameter();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Вы заполнили не все поля!", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 

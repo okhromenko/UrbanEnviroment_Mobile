@@ -42,7 +42,7 @@ public class AddHelp extends AppCompatActivity {
     Calendar calendar_text;
     DatePickerDialog dpd;
     ImageButton food, thing, help;
-    int type_flag = 0;
+    int type_flag = 3;
     boolean flag = false;
 
     @Override
@@ -170,6 +170,7 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void btn_save(View view){
+        Boolean flagCheckup = true;
 
         add_date_help = (MaterialEditText) findViewById(R.id.add_date_help);
         add_description_help = (MaterialEditText) findViewById(R.id.add_description_help);
@@ -179,16 +180,53 @@ public class AddHelp extends AppCompatActivity {
         switch (type_flag){
             case (0):
                 type = "Еда";
+                goneMessage(R.id.error_help_type);
                 break;
             case(1):
                 type = "Вещи";
+                goneMessage(R.id.error_help_type);
                 break;
             case(2):
                 type = "Волонтерство";
+                goneMessage(R.id.error_help_type);
+                break;
+            case(3):
+                errorMessage(R.id.error_help_type);
+                flagCheckup = false;
                 break;
         }
 
-        getParameter();
+        if (add_date_help.getText().toString().equals("")){
+            errorMessage(R.id.error_help_date);
+            flagCheckup = false;
+        } else {
+            goneMessage(R.id.error_help_date);
+        }
+
+        if (add_description_help.getText().toString().equals("")){
+            errorMessage(R.id.error_help_description);
+            flagCheckup = false;
+        } else {
+            goneMessage(R.id.error_help_description);
+        }
+
+        if (flagCheckup){
+            getParameter();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Вы заполнили не все поля!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void errorMessage(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setVisibility(View.VISIBLE);
+    }
+
+    public void goneMessage(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setVisibility(View.GONE);
     }
 
     public void btn_cancel(View view){

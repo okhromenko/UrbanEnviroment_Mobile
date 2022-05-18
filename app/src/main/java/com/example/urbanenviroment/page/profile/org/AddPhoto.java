@@ -239,7 +239,40 @@ public class AddPhoto extends AppCompatActivity {
     }
 
     public void save(View view) {
-        getParameter();
+        Boolean flagCheckup = true;
+
+        if (byteArray == null){
+            errorMessage(R.id.error_photo_image);
+            flagCheckup = false;
+        } else {
+            goneMessage(R.id.error_photo_image);
+        }
+
+        //Проверка, выбрано ли животное из списка
+        if (animals.get(name_category) == null){
+            errorMessage(R.id.error_photo_animal);
+            flagCheckup = false;
+        } else {
+            goneMessage(R.id.error_photo_animal);
+        }
+
+        if (flagCheckup){
+            getParameter();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Вы заполнили не все поля!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    public void errorMessage(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setVisibility(View.VISIBLE);
+    }
+
+    public void goneMessage(int id){
+        TextView textName = (TextView) findViewById(id);
+        textName.setVisibility(View.GONE);
     }
 
     public void cancel(View view){

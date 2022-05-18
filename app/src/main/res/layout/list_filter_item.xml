@@ -32,10 +32,14 @@
 
             <ImageButton
                 android:id="@+id/delete_category_list"
+                android:scaleX="1.1"
+                android:scaleY="1.1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp"
+                android:layout_marginTop="1dp"
+                android:padding="5dp"
+                android:background="@color/transparent"
                 android:src="@drawable/button_cross" />
 
         </LinearLayout>
