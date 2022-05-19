@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +47,7 @@ public class AnimalPage extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
     List<Animals> animalsList;
+    Boolean flag = false;
 
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
 
@@ -53,6 +55,8 @@ public class AnimalPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_page);
+
+        ImageButton hide_button_animal_page = (ImageButton) findViewById(R.id.hide_button_animal_page);
 
         TextView kind_animal_page = (TextView) findViewById(R.id.kind_animal_page);
         TextView species_animal_page = (TextView) findViewById(R.id.species_animal_page);
@@ -294,5 +298,19 @@ public class AnimalPage extends AppCompatActivity {
         intent.putExtra("image_animal", getIntent().getStringExtra("image_animal"));
 
         startActivity(intent);
+    }
+
+    public void hide_animal_info(View view) {
+        ImageButton hide_button_animal_page = (ImageButton) findViewById(R.id.hide_button_animal_page);
+
+        if (!flag){
+            findViewById(R.id.info_layout_animal_page).setVisibility(View.GONE);
+            hide_button_animal_page.setRotation(180F);
+            flag = true;
+        } else {
+            findViewById(R.id.info_layout_animal_page).setVisibility(View.VISIBLE);
+            hide_button_animal_page.setRotation(0F);
+            flag = false;
+        }
     }
 }

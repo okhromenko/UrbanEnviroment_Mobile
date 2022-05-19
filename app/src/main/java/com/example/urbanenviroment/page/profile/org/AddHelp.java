@@ -126,17 +126,13 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void first_date_layout(View view){
+        ImageButton button = (ImageButton) findViewById(R.id.imageButton);
         if (!flag){
-            ImageButton button = (ImageButton) findViewById(R.id.imageButton);
             findViewById(R.id.first_date_layout).setVisibility(View.VISIBLE);
-            float deg = button.getRotation() + 180F;
-            button.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
+            button.setRotation(0F);
             flag = true;
         } else {
-            ImageButton button = (ImageButton) findViewById(R.id.imageButton);
-            findViewById(R.id.first_date_layout).setVisibility(View.GONE);
-            float deg = button.getRotation() + 180F;
-            button.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
+            button.setRotation(180F);
             flag = false;
         }
 
