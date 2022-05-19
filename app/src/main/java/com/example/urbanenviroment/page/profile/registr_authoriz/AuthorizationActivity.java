@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
-import com.example.urbanenviroment.page.profile.org.SettingProfileOrg;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.parse.ParseUser;
 import com.rengwuxian.materialedittext.MaterialEditText;

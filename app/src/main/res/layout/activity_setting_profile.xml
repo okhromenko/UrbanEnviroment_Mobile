@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".page.profile.user.SettingsProfileUser">
+    tools:context=".page.profile.settings.SettingProfile">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,24 +27,53 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/button_setting_notifications"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@color/transparent"
-                android:onClick="setting_notification"
-                app:srcCompat="@drawable/button_setting_notifications" />
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/button_setting_notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="setting_notification"
+                    app:srcCompat="@drawable/button_setting_notifications" />
+
+                 <ImageButton
+                     android:id="@+id/button_setting_page_org"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:background="@color/transparent"
+                     android:src="@drawable/button_setting_page_org"
+                     android:onClick="setting_page"
+                     android:visibility="gone"/>
+            </FrameLayout>
 
 
-            <ImageButton
-                android:id="@+id/button_setting_profile"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@color/transparent"
-                android:onClick="setting_user"
-                app:srcCompat="@drawable/button_setting_profile" />
+                android:layout_marginBottom="10dp">
+
+                <ImageButton
+                    android:id="@+id/button_setting_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="setting_user"
+                    app:srcCompat="@drawable/button_setting_profile" />
+
+                <ImageButton
+                    android:id="@+id/button_setting_org_org"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:src="@drawable/button_setting_org_org"
+                    android:onClick="setting_user"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
 
             <ImageButton
                 android:id="@+id/imageButton6"

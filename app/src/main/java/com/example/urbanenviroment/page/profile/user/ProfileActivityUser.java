@@ -25,6 +25,7 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -176,7 +177,7 @@ public class ProfileActivityUser extends AppCompatActivity {
     }
 
     public void settings(View view){
-        Intent intent = new Intent(this, SettingsProfileUser.class);
+        Intent intent = new Intent(this, SettingProfile.class);
         startActivity(intent);
     }
 

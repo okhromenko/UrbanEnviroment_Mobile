@@ -25,6 +25,7 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
+import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
@@ -197,7 +198,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
     }
 
     public void settings(View view){
-        Intent intent = new Intent(this, SettingProfileOrg.class);
+        Intent intent = new Intent(this, SettingProfile.class);
         startActivity(intent);
     }
 

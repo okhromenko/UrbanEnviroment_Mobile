@@ -59,6 +59,9 @@
             android:name=".page.profile.settings.SettingProfileUser"
             android:exported="false" />
         <activity
+            android:name=".page.profile.settings.SettingProfile"
+            android:exported="false" />
+        <activity
             android:name=".page.profile.settings.SettingNotificationsUser"
             android:exported="false" />
         <activity
@@ -69,9 +72,6 @@
             android:exported="false" />
         <activity
             android:name=".page.profile.user.FavoritesProfileUserAnimals"
-            android:exported="false" />
-        <activity
-            android:name=".page.profile.user.SettingsProfileUser"
             android:exported="false" />
         <activity
             android:name=".page.filter.FilterAnimal"
