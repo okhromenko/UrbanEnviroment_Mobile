@@ -140,7 +140,7 @@ public class AddPhoto extends AppCompatActivity {
         categoryRecycler = findViewById(R.id.RecyclerView_category_list);
         categoryRecycler.setLayoutManager(gridLayoutManager);
 
-        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, false, 3);
+        categoryAnimalAdapter = new CategoryAnimalAdapter(this, categoryAnimalsList, false, 4);
         categoryRecycler.setAdapter(categoryAnimalAdapter);
     }
 
@@ -225,13 +225,14 @@ public class AddPhoto extends AppCompatActivity {
         collection.put("id_animal", ptr);
         collection.put("id_user", parseUser);
 
+        Intent intent = new Intent(AddPhoto.this, AddPhoto.class);
+        startActivity(intent);
         collection.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null) {
                     Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(AddPhoto.this, AddPhoto.class);
-                    startActivity(intent);
+                    name_category = null;
                     finish();
                 }
             }

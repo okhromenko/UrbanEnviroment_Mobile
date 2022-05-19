@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,9 +82,10 @@ public class AnimalPage extends AppCompatActivity {
 
         try {
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date ageDate = dateFormat.parse(getIntent().getStringExtra("age_animal"));
             Date todayDate = new Date();
+            assert ageDate != null;
             long milliseconds = todayDate.getTime() - ageDate.getTime();
             int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
             int month = (int) (days / 30);

@@ -213,13 +213,13 @@ public class AddAnimal extends AppCompatActivity {
                     ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
                     animal.put("id_user", ptr);
 
+                    Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+                    startActivity(intent);
                     animal.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if(e == null) {
                                 Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
-                                startActivity(intent);
                             } else {
                                 ParseUser.logOut();
                                 Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -237,13 +237,13 @@ public class AddAnimal extends AppCompatActivity {
                             animal.put("id_user", ptr);
                             animal.put("id_kind", animal_kind);
 
+                            Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+                            startActivity(intent);
                             animal.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
                                     if(e == null) {
                                         Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
-                                        startActivity(intent);
                                     } else {
                                         ParseUser.logOut();
                                         Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -260,15 +260,15 @@ public class AddAnimal extends AppCompatActivity {
     public void btn_save(View view){
         Boolean flagCheckup = true;
 
-        name = (MaterialEditText) findViewById(R.id.add_name_animal);
-        age = (MaterialEditText) findViewById(R.id.add_date_animal);
-        state = (MaterialEditText) findViewById(R.id.add_state_animal);
-        kind = (MaterialEditText) findViewById(R.id.add_kind_animal);
-        species = (MaterialEditText) findViewById(R.id.add_species_animal);
-        description = (MaterialEditText) findViewById(R.id.add_description_animal);
+        name = findViewById(R.id.add_name_animal);
+        age = findViewById(R.id.add_date_animal);
+        state = findViewById(R.id.add_state_animal);
+        kind = findViewById(R.id.add_kind_animal);
+        species = findViewById(R.id.add_species_animal);
+        description = findViewById(R.id.add_description_animal);
 
-        RadioButton sex_man = (RadioButton) findViewById(R.id.button_switch_man);
-        RadioButton sex_woman = (RadioButton) findViewById(R.id.button_switch_woman);
+        RadioButton sex_man = findViewById(R.id.button_switch_man);
+        RadioButton sex_woman = findViewById(R.id.button_switch_woman);
 
         if (sex_man.isChecked()){
             goneMessage(R.id.error_animal_sex);
@@ -347,7 +347,7 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void goneMessage(int id){
-        TextView textName = (TextView) findViewById(id);
+        TextView textName = findViewById(id);
         textName.setVisibility(View.GONE);
     }
 

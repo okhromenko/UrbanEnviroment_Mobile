@@ -236,6 +236,7 @@ public class OrganizationsPage extends AppCompatActivity {
 
     public void statistics(View view){
         Intent intent = new Intent(this, Organization_statistics.class);
+        intent.putExtra("id", getIntent().getStringExtra("id"));
         startActivity(intent);
     }
 

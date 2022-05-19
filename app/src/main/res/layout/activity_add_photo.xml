@@ -115,7 +115,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="@color/red"
                 android:visibility="gone"
-                android:text="Выберете животное!"
+                android:text="Выберите животное!"
                 android:layout_marginBottom="5dp"/>
 
             <LinearLayout

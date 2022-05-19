@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -25,6 +26,7 @@ import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
+import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -48,6 +50,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
     private ImageView imageView;
     private byte[] byteArray;
     ParseUser parseUser;
+    String id, name, image, date, address, description, phone, email, website;
 
     private ProgressDialog progressDialog;
 
@@ -78,13 +81,20 @@ public class ProfileActivityOrg extends AppCompatActivity {
                     query_org.getFirstInBackground(new GetCallback<ParseObject>() {
                         public void done(ParseObject object_org, ParseException ex) {
                             if (ex == null) {
-                                name_profile_org.setText(object.getString("username"));
-                                email_profile_org.setText(object.getString("email"));
-                                phone_profile_org.setText(object_org.getString("phone"));
-                                @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("d.M.y").format(object_org.getCreatedAt());
-                                data_profile_org.setText(date);
+                                id = object_org.getObjectId();
+                                name = object.getString("username");
+                                email = object.getString("email");
+                                phone = object_org.getString("phone");
+                                website = object_org.getString("website");
+                                address = object_org.getString("address");
+                                description = object_org.getString("description");
+                                date = new SimpleDateFormat("d.M.y").format(object_org.getCreatedAt());
+                                image = Uri.parse(object.getParseFile("image").getUrl()).toString();
 
-                                String image = Uri.parse(object.getParseFile("image").getUrl()).toString();
+                                name_profile_org.setText(name);
+                                email_profile_org.setText(email);
+                                phone_profile_org.setText(phone);
+                                data_profile_org.setText(date);
                                 Picasso.get().load(image).into(img_profile_image);
                             }
 
@@ -222,20 +232,42 @@ public class ProfileActivityOrg extends AppCompatActivity {
     }
 
     public void watch(View view){
-        Intent intent = new Intent(this, OrganizationsPage.class);
-        intent.putExtra("id", getIntent().getStringExtra("id"));
-        intent.putExtra("name", getIntent().getStringExtra("name"));
-        intent.putExtra("image", getIntent().getStringExtra("image"));
-        intent.putExtra("address", getIntent().getStringExtra("address"));
-        intent.putExtra("email", getIntent().getStringExtra("email"));
-        intent.putExtra("phone", getIntent().getStringExtra("phone"));
-        intent.putExtra("description", getIntent().getStringExtra("description"));
-        intent.putExtra("count_animal", getIntent().getStringExtra("count_animal"));
-        intent.putExtra("count_ads", getIntent().getStringExtra("count_ads"));
-        intent.putExtra("count_photo", getIntent().getStringExtra("count_photo"));
-        intent.putExtra("date", getIntent().getStringExtra("date"));
-        intent.putExtra("website", getIntent().getStringExtra("website"));
-        startActivity(intent);
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
+        query_animal.whereEqualTo("id_user", parseUser);
+        query_animal.countInBackground(new CountCallback() {
+            @Override
+            public void done(int query_count_animal, ParseException e) {
+                ParseQuery<ParseObject> query_animal = new ParseQuery<>("Ads");
+                query_animal.whereEqualTo("id_user", parseUser);
+                query_animal.countInBackground(new CountCallback() {
+                    @Override
+                    public void done(int query_count_ads, ParseException e) {
+                        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Collection");
+                        query_animal.whereEqualTo("id_user", parseUser);
+                        query_animal.countInBackground(new CountCallback() {
+                            @Override
+                            public void done(int query_count_photo, ParseException e) {
+                                Intent intent = new Intent(ProfileActivityOrg.this, OrganizationsPage.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("name", name);
+                                intent.putExtra("image", image);
+                                intent.putExtra("address", address);
+                                intent.putExtra("email", email);
+                                intent.putExtra("phone", phone);
+                                intent.putExtra("description", description);
+                                intent.putExtra("count_animal", Integer.toString(query_count_animal));
+                                intent.putExtra("count_ads", Integer.toString(query_count_ads));
+                                intent.putExtra("count_photo", Integer.toString(query_count_photo));
+                                intent.putExtra("date", date);
+                                intent.putExtra("website", website);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     public void exit(View view) {
