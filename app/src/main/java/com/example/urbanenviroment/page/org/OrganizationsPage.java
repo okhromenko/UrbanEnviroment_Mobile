@@ -43,11 +43,29 @@ public class OrganizationsPage extends AppCompatActivity {
         TextView count_ads_org_page = findViewById(R.id.count_ads_org_page);
         TextView count_photo_org_page = findViewById(R.id.count_photo_org_page);
         TextView date_reg_org_org = findViewById(R.id.date_reg_org_org);
-        TextView org_website = findViewById(R.id.org_website);
+        TextView website_org_org_page = findViewById(R.id.website_org_org_page);
         TextView address_org_org_page = findViewById(R.id.address_org_org_page);
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
+
+        if (getIntent().getStringExtra("phone").equals("Номер телефона")) {
+            phone_org_org_page.setVisibility(View.GONE);
+        } else {
+            phone_org_org_page.setVisibility(View.VISIBLE);
+        }
+
+        if (getIntent().getStringExtra("website").equals("Сайт организации")) {
+            website_org_org_page.setVisibility(View.GONE);
+        } else {
+            website_org_org_page.setVisibility(View.VISIBLE);
+        }
+
+        if (getIntent().getStringExtra("address").equals("Адрес")) {
+            address_org_org_page.setVisibility(View.GONE);
+        } else {
+            address_org_org_page.setVisibility(View.VISIBLE);
+        }
 
         Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
@@ -68,7 +86,7 @@ public class OrganizationsPage extends AppCompatActivity {
         str = getIntent().getStringExtra("website");
         SpannableString contentlink = new SpannableString(str);
         contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
-        org_website.setText(contentlink);
+        website_org_org_page.setText(contentlink);
 
 
         ParseUser parseUser = ParseUser.getCurrentUser();
