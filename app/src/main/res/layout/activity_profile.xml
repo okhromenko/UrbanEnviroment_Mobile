@@ -43,8 +43,7 @@
                         android:scaleType="centerCrop"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:onClick="loading_photo_user"
-                        app:srcCompat="@drawable/img_profile" />
+                        app:srcCompat="@drawable/img_profile"/>
 
                 </androidx.cardview.widget.CardView>
             </com.loopeer.shadow.ShadowView>
@@ -143,7 +142,6 @@
             android:background="@color/transparent"
             android:onClick="notifications"
             app:srcCompat="@drawable/button_notification" />
-
 
     </LinearLayout>
 

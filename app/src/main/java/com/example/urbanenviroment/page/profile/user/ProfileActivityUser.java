@@ -41,16 +41,9 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 
 public class ProfileActivityUser extends AppCompatActivity {
-
-    private static final int RQS_OPEN_IMAGE = 1;
-    private static final int RQS_GET_IMAGE = 2;
-    private static final int RQS_PICK_IMAGE = 3;
-
     private ProgressDialog progressDialog;
 
     ParseUser parseUser;
-    private ImageView imageView;
-    private byte[] byteArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +52,9 @@ public class ProfileActivityUser extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(ProfileActivityUser.this);
 
-        TextView name_profile_org = findViewById(R.id.name_profile);
-        TextView email_profile_org = findViewById(R.id.email_profile);
-        TextView data_profile_org = findViewById(R.id.data_profile);
-        ImageView img_profile_image = findViewById(R.id.img_profile_image_user);
+        TextView name = findViewById(R.id.name_profile);
+        TextView email = findViewById(R.id.email_profile);
+        TextView data = findViewById(R.id.data_profile);
 
         parseUser = ParseUser.getCurrentUser();
 
@@ -71,85 +63,16 @@ public class ProfileActivityUser extends AppCompatActivity {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {
-
-                    name_profile_org.setText(object.getString("username"));
-                    email_profile_org.setText(object.getString("email"));
+                    name.setText(object.getString("username"));
+                    email.setText(object.getString("email"));
                     @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("d.M.y").format(object.getCreatedAt());
-                    data_profile_org.setText(date);
-
-                    String image = Uri.parse(object.getParseFile("image").getUrl()).toString();
-                    Picasso.get().load(image).into(img_profile_image);
+                    data.setText(date);
                 }
             }
         });
+
     }
 
-    public void loading_photo_user(View view){
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-
-        startActivityForResult(intent, RQS_OPEN_IMAGE);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-
-            imageView = (ImageView) findViewById(R.id.img_profile_image_user);
-
-            if (requestCode == RQS_OPEN_IMAGE ||
-                    requestCode == RQS_GET_IMAGE ||
-                    requestCode == RQS_PICK_IMAGE) {
-
-                imageView.setImageBitmap(null);
-
-                Uri mediaUri = data.getData();
-                String mediaPath = mediaUri.getPath();
-
-
-                try {
-                    InputStream inputStream = getBaseContext().getContentResolver().openInputStream(mediaUri);
-                    Bitmap bm = BitmapFactory.decodeStream(inputStream);
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    byteArray = stream.toByteArray();
-
-                    imageView.setImageBitmap(bm);
-
-
-                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("_User");
-                    query_3.whereEqualTo("objectId", parseUser.getObjectId());
-                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
-
-                                ParseFile photo = new ParseFile(byteArray);
-                                object.put("image", photo);
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
-                                        }
-                                        else
-                                            Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);

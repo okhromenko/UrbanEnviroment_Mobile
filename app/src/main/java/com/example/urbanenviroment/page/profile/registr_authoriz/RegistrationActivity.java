@@ -79,7 +79,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 @Override
                                 public void done(ParseException e) {
                                     if(e == null) {
-                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Successful; Please verify your email before Login", Toast.LENGTH_LONG).show();
+                                        ParseUser.logOut();
                                         Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
                                         startActivity(intent);
                                         finish();
@@ -91,6 +92,8 @@ public class RegistrationActivity extends AppCompatActivity {
                             });
                         }
                         else{
+                            Toast.makeText(getApplicationContext(), "Successful; Please verify your email before Login", Toast.LENGTH_LONG).show();
+                            ParseUser.logOut();
                             Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
                             startActivity(intent);
                         }
