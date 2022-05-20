@@ -122,7 +122,7 @@ public class FilterAnimal extends AppCompatActivity {
     }
 
     public void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList, boolean click_category, int type_recycler){
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (1, LinearLayoutManager.HORIZONTAL);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
 
         if (click_category)
             categoryRecycler = findViewById(R.id.RecyclerView_animal_list);

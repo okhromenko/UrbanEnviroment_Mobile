@@ -113,9 +113,12 @@ public class AnimalPage extends AppCompatActivity {
                 String yearS = " лет";
 
                 if (year < 5){
+                    yearS = " года";
+                } else if (year == 1) {
                     yearS = " год";
                 }
                 age_animal_page.setText(year + yearS);
+
             }
 
         } catch (Exception e) {

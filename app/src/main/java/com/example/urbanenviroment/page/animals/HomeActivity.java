@@ -9,6 +9,7 @@ import com.parse.Parse;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Animals o1, Animals o2) {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("d.M.y");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
             Date date_1 = null;
             Date date_2 = null;
@@ -76,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))
@@ -150,7 +153,7 @@ public class HomeActivity extends AppCompatActivity {
                                                         if (exp == null) {
                                                             id = j.getObjectId().toString();
                                                             image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
+                                                            date = new SimpleDateFormat("dd.MM.yyyy").format(i.getCreatedAt());
                                                             name_animal = j.get("name").toString();
                                                             age = j.get("age").toString();
                                                             state = j.get("state").toString();

@@ -371,15 +371,33 @@
                     </androidx.cardview.widget.CardView>
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/error_animal_age"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/red"
-                    android:visibility="gone"
-                    android:text="Введите дату рождения животного!"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginBottom="5dp"/>
+                    android:layout_gravity="left"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/error_animal_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:visibility="gone"
+                        android:text="Введите дату рождения животного!"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/error_input_animal_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:visibility="gone"
+                        android:text="Дата введена некорректно!\nСледуйте шаблону: 'ДД.ММ.ГГГГ'."
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="5dp"/>
+
+                </LinearLayout>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"

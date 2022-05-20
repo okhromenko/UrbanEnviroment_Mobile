@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="110dp"
-                    android:text="Добавить главную фотографию животного" />
+                    android:text="Добавить фотографию животного" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="100dp"

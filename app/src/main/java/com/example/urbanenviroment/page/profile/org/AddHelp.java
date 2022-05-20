@@ -58,10 +58,9 @@ public class AddHelp extends AppCompatActivity {
             String firstDate = dateFormat.format(todayDate);
             add_date_help_first.setText(firstDate);
 
-        } catch (Exception e) {
-        e.printStackTrace();
-    }
-
+            } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void animals(View view){
@@ -101,6 +100,15 @@ public class AddHelp extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String Month, Day;
+                Month = Integer.toString(month + 1);
+                if (Month.length() == 1) {
+                    Month = "0" + Month;
+                }
+                Day = Integer.toString(dayOfMonth);
+                if (Day.length() == 1) {
+                    Day = "0" + Day;
+                }
                 add_date_help.setText(dayOfMonth + "." + (month + 1) + "." + year);
             }
         }, year_first, month_first, day_first);
@@ -119,6 +127,15 @@ public class AddHelp extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String Month, Day;
+                Month = Integer.toString(month + 1);
+                if (Month.length() == 1) {
+                    Month = "0" + Month;
+                }
+                Day = Integer.toString(dayOfMonth);
+                if (Day.length() == 1) {
+                    Day = "0" + Day;
+                }
                 add_date_help_first.setText(dayOfMonth + "." + (month + 1) + "." + year);
             }
         }, year_first, month_first, day_first);
@@ -167,11 +184,34 @@ public class AddHelp extends AppCompatActivity {
 
     public void btn_save(View view){
         Boolean flagCheckup = true;
+        Boolean flagInput = true;
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         add_date_help = (MaterialEditText) findViewById(R.id.add_date_help);
         add_description_help = (MaterialEditText) findViewById(R.id.add_description_help);
         add_date_help_first = (MaterialEditText) findViewById(R.id.add_date_help_first);
 
+        try {
+            Date date = dateFormat.parse(add_date_help.getText().toString());
+            add_date_help.setText(dateFormat.format(date));
+            goneMessage(R.id.error_input_help_date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorMessage(R.id.error_input_help_date);
+            flagInput = false;
+        }
+
+        try {
+            Date date = dateFormat.parse(add_date_help_first.getText().toString());
+            add_date_help_first.setText(dateFormat.format(date));
+            goneMessage(R.id.error_input_first_date);
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorMessage(R.id.error_input_first_date);
+            flagInput = false;
+        }
 
         switch (type_flag){
             case (0):
@@ -206,11 +246,15 @@ public class AddHelp extends AppCompatActivity {
             goneMessage(R.id.error_help_description);
         }
 
-        if (flagCheckup){
+        if (flagCheckup && flagInput){
             getParameter();
-        } else {
+        } else if (!flagCheckup) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Вы заполнили не все поля!", Toast.LENGTH_SHORT);
+            toast.show();
+        } else if (!flagInput) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Вы неккоректно заполнили поля!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }

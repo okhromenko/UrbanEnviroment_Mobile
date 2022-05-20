@@ -50,6 +50,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -164,7 +165,16 @@ public class AddAnimal extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                age.setText(dayOfMonth + "." + (month + 1) + "." + year);
+                String Month, Day;
+                Month = Integer.toString(month + 1);
+                if (Month.length() == 1) {
+                    Month = "0" + Month;
+                }
+                Day = Integer.toString(dayOfMonth);
+                if (Day.length() == 1) {
+                    Day = "0" + Day;
+                }
+                age.setText(Day + "." + Month + "." + year);
             }
         }, year_first, month_first, day_first);
         dpd.show();
@@ -259,6 +269,7 @@ public class AddAnimal extends AppCompatActivity {
 
     public void btn_save(View view){
         Boolean flagCheckup = true;
+        Boolean flagInput = true;
 
         name = findViewById(R.id.add_name_animal);
         age = findViewById(R.id.add_date_animal);
@@ -269,6 +280,18 @@ public class AddAnimal extends AppCompatActivity {
 
         RadioButton sex_man = findViewById(R.id.button_switch_man);
         RadioButton sex_woman = findViewById(R.id.button_switch_woman);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+
+        try {
+            Date date = dateFormat.parse(age.getText().toString());
+            age.setText(dateFormat.format(date));
+            goneMessage(R.id.error_input_animal_age);
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorMessage(R.id.error_input_animal_age);
+            flagInput = false;
+        }
 
         if (sex_man.isChecked()){
             goneMessage(R.id.error_animal_sex);
@@ -332,11 +355,15 @@ public class AddAnimal extends AppCompatActivity {
             goneMessage(R.id.error_animal_description);
         }
 
-        if (flagCheckup){
+        if (flagCheckup && flagInput){
             getParameter();
-        } else {
+        } else if (!flagCheckup) {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Вы заполнили не все поля!", Toast.LENGTH_SHORT);
+            toast.show();
+        } else if (!flagInput) {
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "Вы неккоректно заполнили поля!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
