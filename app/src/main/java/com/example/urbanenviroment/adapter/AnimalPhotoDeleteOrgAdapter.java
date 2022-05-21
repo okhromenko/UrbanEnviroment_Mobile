@@ -54,9 +54,15 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
     public void onBindViewHolder(@NonNull AnimalPhotoDeleteOrgViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_photo_animal_delete);
 
-        if (flag)
+        if (flag){
             holder.btn_delete_collection.setVisibility(View.GONE);
-
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AnimalPage.click_image(position);
+                }
+            });
+        }
         else{
             holder.btn_delete_collection.setOnClickListener(new View.OnClickListener() {
                 @Override

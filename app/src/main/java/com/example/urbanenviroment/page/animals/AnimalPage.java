@@ -9,17 +9,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.urbanenviroment.adapter.AnimalPhotoDeleteOrgAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.help.HelpActivity;
-import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
@@ -35,20 +32,18 @@ import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class AnimalPage extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
+    static ImageView image_animal_page;
+    static List<Animals> animalsList;
     RecyclerView animalsRecycler;
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
-    List<Animals> animalsList;
     Boolean flag = false;
-
     String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
 
     @Override
@@ -61,7 +56,7 @@ public class AnimalPage extends AppCompatActivity {
         TextView kind_animal_page = (TextView) findViewById(R.id.kind_animal_page);
         TextView species_animal_page = (TextView) findViewById(R.id.species_animal_page);
         TextView data_animal_page = (TextView) findViewById(R.id.data_animal_page);
-        ImageView image_animal_page = (ImageView) findViewById(R.id.image_animal_page);
+        image_animal_page = (ImageView) findViewById(R.id.image_animal_page);
         TextView name_animal_page = (TextView) findViewById(R.id.name_animal_page);
         TextView description_animal_page = (TextView) findViewById(R.id.description_animal_page);
         TextView sex_animal_page = (TextView) findViewById(R.id.sex_animal_page);
@@ -315,5 +310,9 @@ public class AnimalPage extends AppCompatActivity {
             hide_button_animal_page.setRotation(0F);
             flag = false;
         }
+    }
+
+    public static void click_image(int position){
+        Picasso.get().load(animalsList.get(position).getImg_animal()).into(image_animal_page);
     }
 }
