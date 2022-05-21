@@ -52,6 +52,7 @@
                     android:id="@+id/switch_email_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="switch_email"
                     android:layout_gravity="center_vertical|right"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -90,6 +91,7 @@
                     android:id="@+id/switch_phone_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="switch_phone"
                     android:layout_gravity="center_vertical|right"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 
@@ -128,6 +130,7 @@
                     android:id="@+id/switch_website_other"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="switch_website"
                     android:layout_gravity="center_vertical|right"
                     tools:ignore="UseSwitchCompatOrMaterialXml" />
 

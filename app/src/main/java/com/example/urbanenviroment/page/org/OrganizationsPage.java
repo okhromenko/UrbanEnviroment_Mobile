@@ -3,6 +3,7 @@ package com.example.urbanenviroment.page.org;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +32,14 @@ import com.squareup.picasso.Picasso;
 
 public class OrganizationsPage extends AppCompatActivity {
 
+    ParseUser parseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizations_page);
+
+        parseUser = ParseUser.getCurrentUser();
 
         TextView name_org_org_page = findViewById(R.id.name_org_org_page);
         TextView email_org_org_page = findViewById(R.id.email_org_org_page);
@@ -49,23 +55,34 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
-        if (getIntent().getStringExtra("phone").equals("Номер телефона")) {
-            phone_org_org_page.setVisibility(View.GONE);
-        } else {
-            phone_org_org_page.setVisibility(View.VISIBLE);
-        }
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo("objectId", parseUser.getObjectId());
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    if (getIntent().getStringExtra("phone").equals("Номер телефона"))
+                        phone_org_org_page.setVisibility(View.GONE);
+                    else {
+                        phone_org_org_page.setVisibility(View.VISIBLE);
+                        hidden_other(phone_org_org_page, object.getBoolean("hidden_phone"));
+                    }
 
-        if (getIntent().getStringExtra("website").equals("Сайт организации")) {
-            website_org_org_page.setVisibility(View.GONE);
-        } else {
-            website_org_org_page.setVisibility(View.VISIBLE);
-        }
+                    if (getIntent().getStringExtra("website").equals("Сайт организации"))
+                        website_org_org_page.setVisibility(View.GONE);
+                    else {
+                        website_org_org_page.setVisibility(View.VISIBLE);
+                        hidden_other(website_org_org_page, object.getBoolean("hidden_website"));
+                    }
 
-        if (getIntent().getStringExtra("address").equals("Адрес")) {
-            address_org_org_page.setVisibility(View.GONE);
-        } else {
-            address_org_org_page.setVisibility(View.VISIBLE);
-        }
+                    if (getIntent().getStringExtra("address").equals("Адрес"))
+                        address_org_org_page.setVisibility(View.GONE);
+                    else
+                        address_org_org_page.setVisibility(View.VISIBLE);
+
+                    hidden_other(email_org_org_page, object.getBoolean("hidden_email"));
+                }
+            }
+        });
 
         Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
@@ -89,8 +106,6 @@ public class OrganizationsPage extends AppCompatActivity {
         website_org_org_page.setText(contentlink);
 
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
         if (parseUser != null){
             if ((Boolean) parseUser.get("is_org")) {
                 button_org_page.setVisibility(View.GONE);
@@ -112,11 +127,11 @@ public class OrganizationsPage extends AppCompatActivity {
             }
         });
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
+        ParseQuery<ParseObject> query_fav = ParseQuery.getQuery("FavoriteOrganization");
         ParseObject id_org = ParseObject.createWithoutData("Organization", getIntent().getStringExtra("id"));
-        query.whereEqualTo("id_org", id_org);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+        query_fav.whereEqualTo("id_org", id_org);
+        query_fav.whereEqualTo("id_user", parseUser);
+        query_fav.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (object != null)
@@ -225,6 +240,14 @@ public class OrganizationsPage extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    public void hidden_other(TextView textView, boolean flag){
+        if (flag){
+            textView.setVisibility(View.GONE);
+        }
+        else
+            textView.setVisibility(View.VISIBLE);
     }
 
     public void animals(View view){
