@@ -33,13 +33,22 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Interval;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormat;
+
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -63,8 +72,8 @@ public class HelpActivity extends AppCompatActivity {
             Date date_1 = null;
             Date date_2 = null;
             try {
-                date_1 = format.parse(o1.getDate());
-                date_2 = format.parse(o2.getDate());
+                date_1 = format.parse(o1.getDate_first());
+                date_2 = format.parse(o2.getDate_first());
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
@@ -110,6 +119,7 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     public void init(boolean flag_org){
+        DateTime current_date = new DateTime();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
 
         if (flag_org){
@@ -122,26 +132,35 @@ public class HelpActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-
                     helpList = new ArrayList<>();
                     for (ParseObject i : objects){
-
                         ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                        query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
+                        query_user.whereEqualTo("objectId", Objects.requireNonNull(i.getParseObject("id_user")).getObjectId());
                         query_user.findInBackground((object_user, ex) -> {
                             if (ex == null) {
-                                String id = i.getObjectId();
-                                String name_org = object_user.get(0).getString("username");
-                                String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
-                                String type = i.get("type").toString();
-                                String description = i.get("description").toString();
-                                String first_data = i.get("first_date").toString();
-                                String last_data = i.get("last_date").toString();
+                                DateTime date_ads_create = DateTime.parse(i.getString("first_date"), DateTimeFormat.forPattern("d.M.y"));
+                                DateTime date_ads_delete = DateTime.parse(i.getString("last_date"), DateTimeFormat.forPattern("d.M.y"));
 
-                                helpList.add(new Help(id, name_org, image_org, type, description, last_data, status(first_data, last_data)));
-                                setHelpRecycler(helpList);
-                                if (getIntent().getBooleanExtra("flag_filter", false))
-                                    filter_click(helpList);
+                                if (current_date.compareTo(date_ads_create) >= 0){
+                                    String id = i.getObjectId();
+                                    String name_org = object_user.get(0).getString("username");
+                                    String image_org = Uri.parse(Objects.requireNonNull(object_user.get(0).getParseFile("image")).getUrl()).toString();
+                                    String type = i.getString("type");
+                                    String description = i.getString("description");
+                                    String first_data = i.getString("first_date");
+                                    String last_data = i.getString("last_date");
+
+                                    helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
+                                    setHelpRecycler(helpList);
+                                    if (getIntent().getBooleanExtra("flag_filter", false))
+                                        filter_click(helpList);
+
+                                    Days days = Days.daysBetween(current_date, date_ads_delete);
+                                    //Тут мы устанавливаем срок, после которого объявление будет удалено
+                                    if (days.getDays() > 285){
+                                        i.deleteInBackground();
+                                    }
+                                }
                             }
                         });
                     }

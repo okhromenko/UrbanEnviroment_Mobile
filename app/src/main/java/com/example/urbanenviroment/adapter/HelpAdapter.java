@@ -82,7 +82,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.type_ads_help.setText(helpList.get(position).getType_help());
         holder.description_help.setText(helpList.get(position).getDescription());
         holder.status_help.setText(helpList.get(position).getStatus());
-        holder.date_help.setText(helpList.get(position).getDate());
+        holder.date_help.setText(helpList.get(position).getDate_first());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +94,8 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 intent.putExtra("id", helpList.get(position).getId());
                 intent.putExtra("type_ads_help", helpList.get(position).getType_help());
                 intent.putExtra("status_help", helpList.get(position).getStatus());
-                intent.putExtra("date_help", helpList.get(position).getDate());
+                intent.putExtra("date_first_help", helpList.get(position).getDate_first());
+                intent.putExtra("date_last_help", helpList.get(position).getDate_last());
                 intent.putExtra("description_help", helpList.get(position).getDescription());
                 intent.putExtra("name_org_help", helpList.get(position).getName_org());
                 intent.putExtra("image", image);
@@ -113,7 +114,8 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                     intent.putExtra("id", helpList.get(position).getId());
                     intent.putExtra("type_ads_help", helpList.get(position).getType_help());
                     intent.putExtra("status_help", helpList.get(position).getStatus());
-                    intent.putExtra("date_help", helpList.get(position).getDate());
+                    intent.putExtra("date_first_help", helpList.get(position).getDate_first());
+                    intent.putExtra("date_last_help", helpList.get(position).getDate_last());
                     intent.putExtra("description_help", helpList.get(position).getDescription());
                     intent.putExtra("name_org_help", helpList.get(position).getName_org());
                     intent.putExtra("image", image);

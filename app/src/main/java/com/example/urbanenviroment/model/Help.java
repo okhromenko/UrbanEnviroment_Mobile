@@ -1,15 +1,16 @@
 package com.example.urbanenviroment.model;
 
 public class Help {
-    String id, name_org, img_org, type_help, description, date, status;
+    String id, name_org, img_org, type_help, description, date_last, date_first, status;
 
-    public Help(String id, String name_org, String img_org, String type_help, String description, String date, String status) {
+    public Help(String id, String name_org, String img_org, String type_help, String description, String date_first, String date_last, String status) {
         this.id = id;
         this.name_org = name_org;
         this.img_org = img_org;
         this.type_help = type_help;
         this.description = description;
-        this.date = date;
+        this.date_first = date_first;
+        this.date_last = date_last;
         this.status = status;
     }
 
@@ -53,12 +54,20 @@ public class Help {
         this.description = description;
     }
 
-    public String getDate() {
-        return date;
+    public String getDate_last() {
+        return date_last;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate_last(String date_last) {
+        this.date_last = date_last;
+    }
+
+    public String getDate_first() {
+        return date_first;
+    }
+
+    public void setDate_first(String date_first) {
+        this.date_first = date_first;
     }
 
     public String getStatus() {

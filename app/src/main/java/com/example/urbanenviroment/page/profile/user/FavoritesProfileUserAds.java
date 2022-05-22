@@ -75,7 +75,7 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
                                                 String first_data = new SimpleDateFormat("d.M.y").format(k.getCreatedAt());
                                                 String last_data = k.get("last_date").toString();
 
-                                                helpList.add(new Help(id, name_org, image_org, type, description, last_data, status(first_data, last_data)));
+                                                helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
 
                                                 setHelpRecycler(helpList);
                                             }

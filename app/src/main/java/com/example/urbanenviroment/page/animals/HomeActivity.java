@@ -148,22 +148,23 @@ public class HomeActivity extends AppCompatActivity {
                                                 ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
                                                 query_org.whereEqualTo("id_user",  id_org);
                                                 query_org.getFirstInBackground(new GetCallback<ParseObject>() {
+                                                    @SuppressLint("SimpleDateFormat")
                                                     @RequiresApi(api = Build.VERSION_CODES.N)
                                                     public void done(ParseObject object_org, ParseException exp) {
                                                         if (exp == null) {
                                                             id = j.getObjectId().toString();
                                                             image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
                                                             date = new SimpleDateFormat("dd.MM.yyyy").format(i.getCreatedAt());
-                                                            name_animal = j.get("name").toString();
-                                                            age = j.get("age").toString();
-                                                            state = j.get("state").toString();
+                                                            name_animal = j.getString("name");
+                                                            age = j.getString("age");
+                                                            state = j.getString("state");
                                                             kind_animal = kind;
-                                                            species = j.get("species").toString();
-                                                            description = j.get("description").toString();
-                                                            sex = j.get("sex").toString();
-                                                            name_org = k.getString("username").toString();
+                                                            species = j.getString("species");
+                                                            description = j.getString("description");
+                                                            sex = j.getString("sex");
+                                                            name_org = k.getString("username");
                                                             image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
-                                                            address = object_org.get("address").toString();
+                                                            address = object_org.getString("address");
 
                                                             animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));

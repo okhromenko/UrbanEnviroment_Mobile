@@ -59,7 +59,7 @@ public class HelpPage extends AppCompatActivity {
         TextView type_help_page = (TextView) findViewById(R.id.type_help_page);
         ImageView type_img_help_page = (ImageView) findViewById(R.id.type_img_help_page);
         TextView date_help_page = (TextView) findViewById(R.id.date_help_page);
-        //TextView first_date_help_page = (TextView) findViewById(R.id.first_date_help_page);
+        TextView first_date_help_page = (TextView) findViewById(R.id.first_date_help_page);
         TextView status_help_page = (TextView) findViewById(R.id.status_help_page);
         TextView description_help_page = (TextView) findViewById(R.id.description_help_page);
         TextView org_help_page = (TextView) findViewById(R.id.org_help_page);
@@ -73,8 +73,8 @@ public class HelpPage extends AppCompatActivity {
         panel_text.setCardBackgroundColor(getIntent().getIntExtra("color", 0));
         type_help_page.setText(getIntent().getStringExtra("type_ads_help"));
         type_img_help_page.setImageResource(getIntent().getIntExtra("image", 0));
-        date_help_page.setText(getIntent().getStringExtra("date_help"));
-        //first_date_help_page.setText(getIntent().getStringExtra("first_date_help"));
+        date_help_page.setText(getIntent().getStringExtra("date_last_help"));
+        first_date_help_page.setText(getIntent().getStringExtra("date_first_help"));
         status_help_page.setText(getIntent().getStringExtra("status_help"));
         description_help_page.setText(getIntent().getStringExtra("description_help"));
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
@@ -210,7 +210,8 @@ public class HelpPage extends AppCompatActivity {
         intent.putExtra("id", getIntent().getStringExtra("id"));
         intent.putExtra("type_ads_help", getIntent().getStringExtra("type_ads_help"));
         intent.putExtra("status_help", getIntent().getStringExtra("status_help"));
-        intent.putExtra("date_help", getIntent().getStringExtra("date_help"));
+        intent.putExtra("date_first_help", getIntent().getStringExtra("date_first_help"));
+        intent.putExtra("date_last_help", getIntent().getStringExtra("date_last_help"));
         intent.putExtra("description_help", getIntent().getStringExtra("description_help"));
         intent.putExtra("name_org_help", getIntent().getStringExtra("name_org_help"));
         intent.putExtra("image", getIntent().getStringExtra("image"));

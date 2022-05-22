@@ -34,6 +34,7 @@ import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class AddHelp extends AppCompatActivity {
 
@@ -41,7 +42,7 @@ public class AddHelp extends AppCompatActivity {
     String type;
     Calendar calendar_text;
     DatePickerDialog dpd;
-    ImageButton food, thing, help;
+    ImageButton food, things, help;
     int type_flag = 3;
     boolean flag = false;
 
@@ -50,10 +51,15 @@ public class AddHelp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_help);
 
-        add_date_help_first = (MaterialEditText) findViewById(R.id.add_date_help_first);
+        food = findViewById(R.id.food);
+        things = findViewById(R.id.things);
+        help = findViewById(R.id.help);
+
+        add_date_help = findViewById(R.id.add_date_help);
+        add_date_help_first = findViewById(R.id.add_date_help_first);
 
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date todayDate = new Date();
             String firstDate = dateFormat.format(todayDate);
             add_date_help_first.setText(firstDate);
@@ -89,7 +95,6 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void calendar(View view){
-        add_date_help = (MaterialEditText) findViewById(R.id.add_date_help);
         calendar_text = Calendar.getInstance();
 
         int day_first = calendar_text.get(Calendar.DAY_OF_MONTH);
@@ -116,7 +121,6 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void calendar_first(View view){
-        add_date_help_first = (MaterialEditText) findViewById(R.id.add_date_help_first);
         calendar_text = Calendar.getInstance();
 
         int day_first = calendar_text.get(Calendar.DAY_OF_MONTH);
@@ -163,9 +167,9 @@ public class AddHelp extends AppCompatActivity {
         ads.put("id_user", ptr);
 
         ads.put("type", type);
-        ads.put("last_date", add_date_help.getText().toString());
-        ads.put("first_date", add_date_help_first.getText().toString());
-        ads.put("description",  add_description_help.getText().toString());
+        ads.put("last_date", Objects.requireNonNull(add_date_help.getText()).toString());
+        ads.put("first_date", Objects.requireNonNull(add_date_help_first.getText()).toString());
+        ads.put("description",  Objects.requireNonNull(add_description_help.getText()).toString());
 
         ads.saveInBackground(new SaveCallback() {
             @Override
@@ -183,15 +187,13 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void btn_save(View view){
-        Boolean flagCheckup = true;
-        Boolean flagInput = true;
+        boolean flagCheckup = true;
+        boolean flagInput = true;
 
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        add_date_help = (MaterialEditText) findViewById(R.id.add_date_help);
-        add_description_help = (MaterialEditText) findViewById(R.id.add_description_help);
-        add_date_help_first = (MaterialEditText) findViewById(R.id.add_date_help_first);
+        add_description_help = findViewById(R.id.add_description_help);
+        add_date_help_first = findViewById(R.id.add_date_help_first);
 
         try {
             Date date = dateFormat.parse(add_date_help.getText().toString());
@@ -275,10 +277,6 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void btn_help(View view){
-        ImageButton food = (ImageButton) findViewById(R.id.food);
-        ImageButton things = (ImageButton) findViewById(R.id.things);
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org_press);
@@ -286,10 +284,6 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void btn_thing(View view){
-        ImageButton food = (ImageButton) findViewById(R.id.food);
-        ImageButton things = (ImageButton) findViewById(R.id.things);
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org_press);
         help.setImageResource(R.drawable.button_help_type_ad_org);
@@ -297,10 +291,6 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void btn_food(View view){
-        ImageButton food = (ImageButton) findViewById(R.id.food);
-        ImageButton things = (ImageButton) findViewById(R.id.things);
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-
         food.setImageResource(R.drawable.button_food_type_ad_org_press);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org);

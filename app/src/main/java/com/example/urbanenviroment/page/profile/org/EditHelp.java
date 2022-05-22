@@ -55,8 +55,8 @@ public class EditHelp extends AppCompatActivity {
             Date date_1 = null;
             Date date_2 = null;
             try {
-                date_1 = format.parse(o1.getDate());
-                date_2 = format.parse(o2.getDate());
+                date_1 = format.parse(o1.getDate_first());
+                date_2 = format.parse(o2.getDate_first());
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
@@ -98,7 +98,7 @@ public class EditHelp extends AppCompatActivity {
                                 String first_data = String.valueOf(i.getCreatedAt());
                                 String last_data = i.get("last_date").toString();
 
-                                helpList.add(new Help(id, name_org, image_org, type, description, last_data, status(first_data, last_data)));
+                                helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
 
                                 setHelpRecycler(helpList);
                             }
