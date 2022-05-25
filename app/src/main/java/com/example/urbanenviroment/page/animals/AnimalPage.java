@@ -62,7 +62,7 @@ public class AnimalPage extends AppCompatActivity {
         TextView sex_animal_page = (TextView) findViewById(R.id.sex_animal_page);
         TextView age_animal_page = (TextView) findViewById(R.id.age_animal_page);
         TextView state_animal_page = (TextView) findViewById(R.id.state_animal_page);
-        TextView address_animal_page = (TextView) findViewById(R.id.address_animal_page);
+        TextView org_animal_page = (TextView) findViewById(R.id.org_animal_page);
         ImageButton favorite_button_animal = findViewById(R.id.favorite_button_animal);
 
         LinearLayout edit_del_buttons = findViewById(R.id.edit_delete_buttons);
@@ -75,7 +75,7 @@ public class AnimalPage extends AppCompatActivity {
         description_animal_page.setText(getIntent().getStringExtra("description_animal"));
         sex_animal_page.setText(getIntent().getStringExtra("sex_animal"));
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
-        address_animal_page.setText(getIntent().getStringExtra("address"));
+        org_animal_page.setText(getIntent().getStringExtra("org"));
 
         init();
 

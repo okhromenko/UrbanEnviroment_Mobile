@@ -76,7 +76,7 @@
             </FrameLayout>
 
             <ImageButton
-                android:id="@+id/imageButton6"
+                android:id="@+id/button_other_settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"

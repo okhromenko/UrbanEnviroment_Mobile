@@ -157,7 +157,7 @@ public class HelpActivity extends AppCompatActivity {
 
                                     Days days = Days.daysBetween(current_date, date_ads_delete);
                                     //Тут мы устанавливаем срок, после которого объявление будет удалено
-                                    if (days.getDays() > 285){
+                                    if (days.getDays() > 2){
                                         i.deleteInBackground();
                                     }
                                 }

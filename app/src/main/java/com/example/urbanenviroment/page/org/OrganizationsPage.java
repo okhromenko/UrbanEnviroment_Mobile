@@ -56,7 +56,11 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", parseUser.getObjectId());
+
+        if (parseUser != null)
+            query.whereEqualTo("objectId", parseUser.getObjectId());
+        //Если честно, я не шарю, что делает эта штука выше, но если добавить условие, то страница не вылетает!
+
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 if (e == null) {

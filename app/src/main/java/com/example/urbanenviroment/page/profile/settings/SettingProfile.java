@@ -35,17 +35,20 @@ public class SettingProfile extends AppCompatActivity {
         ImageButton button_setting_profile = (ImageButton) findViewById(R.id.button_setting_profile);
         ImageButton button_setting_page_org = (ImageButton) findViewById(R.id.button_setting_page_org);
         ImageButton button_setting_notifications = (ImageButton) findViewById(R.id.button_setting_notifications);
+        ImageButton button_other_settings = (ImageButton) findViewById(R.id.button_other_settings);
 
         if ((Boolean) parseUser.get("is_org")) {
             button_setting_org_org.setVisibility(View.VISIBLE);
             button_setting_page_org.setVisibility(View.VISIBLE);
             button_setting_profile.setVisibility(View.GONE);
             button_setting_notifications.setVisibility(View.GONE);
+            button_other_settings.setVisibility(View.VISIBLE);
         } else {
             button_setting_profile.setVisibility(View.VISIBLE);
             button_setting_notifications.setVisibility(View.VISIBLE);
             button_setting_org_org.setVisibility(View.GONE);
             button_setting_page_org.setVisibility(View.GONE);
+            button_other_settings.setVisibility(View.GONE);
         }
 
     }

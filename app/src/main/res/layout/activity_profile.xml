@@ -34,6 +34,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:onClick="loading_photo_user"
                     app:cardBackgroundColor="@color/light_gray_2"
                     app:cardCornerRadius="80dp" >
 

@@ -49,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
     List<Animals> animalsList, filterAnimalList;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address, kind;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, org, kind;
     boolean flag_org, flag;
 
     static class AnimalsComparator implements Comparator<Animals>{
@@ -164,9 +164,9 @@ public class HomeActivity extends AppCompatActivity {
                                                             sex = j.getString("sex");
                                                             name_org = k.getString("username");
                                                             image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
-                                                            address = object_org.getString("address");
+                                                            org = object_org.getString("address");
 
-                                                            animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                                                            animalsList.add(new Animals(id, name_org, image_org, org, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));
 
                                                             Collections.sort(animalsList, new AnimalsComparator().reversed());
