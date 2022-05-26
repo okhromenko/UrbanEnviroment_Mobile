@@ -295,7 +295,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:fontFamily="@font/roboto"
                     android:onClick="change_description"
@@ -339,15 +339,12 @@
                             android:hint="Описание"
                             android:inputType="textLongMessage|textMultiLine"
                             android:lines="7"
-                            android:maxLength="200"
                             android:singleLine="false"
                             android:textAlignment="textStart"
                             android:textSize="16sp"
                             app:counterEnabled="true"
-                            app:counterMaxLength="200"
                             app:met_floatingLabel="none"
                             app:met_hideUnderline="true"
-                            app:met_maxCharacters="200"
                             app:met_singleLineEllipsis="false" />
 
                     </androidx.cardview.widget.CardView>

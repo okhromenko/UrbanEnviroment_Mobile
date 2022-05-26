@@ -60,7 +60,8 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
                 intent.putExtra("age_animal", animalsList.get(position).getAge());
                 intent.putExtra("state_animal", animalsList.get(position).getState());
                 intent.putExtra("image_animal", animalsList.get(position).getImg_animal());
-                intent.putExtra("address", animalsList.get(position).getAddress());
+                intent.putExtra("org", animalsList.get(position).getOrg());
+                //intent.putExtra("address", animalsList.get(position).getAddress());
 
                 context.startActivity(intent);
             }

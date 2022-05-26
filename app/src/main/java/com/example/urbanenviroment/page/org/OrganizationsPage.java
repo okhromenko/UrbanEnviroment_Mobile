@@ -59,6 +59,40 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+
+        if (parseUser != null)
+            query.whereEqualTo("objectId", parseUser.getObjectId());
+        //Если честно, я не шарю, что делает эта штука выше, но если добавить условие, то страница не вылетает!
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    if (getIntent().getStringExtra("phone").equals("Номер телефона"))
+                        phone_org_org_page.setVisibility(View.GONE);
+                    else {
+                        phone_org_org_page.setVisibility(View.VISIBLE);
+                        hidden_other(phone_org_org_page, object.getBoolean("hidden_phone"));
+                    }
+
+                    if (getIntent().getStringExtra("website").equals("Сайт организации"))
+                        website_org_org_page.setVisibility(View.GONE);
+                    else {
+                        website_org_org_page.setVisibility(View.VISIBLE);
+                        hidden_other(website_org_org_page, object.getBoolean("hidden_website"));
+                    }
+
+                    if (getIntent().getStringExtra("address").equals("Адрес"))
+                        address_org_org_page.setVisibility(View.GONE);
+                    else
+                        address_org_org_page.setVisibility(View.VISIBLE);
+
+                    hidden_other(email_org_org_page, object.getBoolean("hidden_email"));
+                }
+            }
+        });
+
+
         Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
         name_org_org_page.setText(getIntent().getStringExtra("name"));

@@ -96,7 +96,8 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 intent.putExtra("age_animal", animalCardsList.get(position).getAge());
                 intent.putExtra("state_animal", animalCardsList.get(position).getState());
                 intent.putExtra("image_animal", animalCardsList.get(position).getImg_animal());
-                intent.putExtra("address", animalCardsList.get(position).getAddress());
+                intent.putExtra("org", animalCardsList.get(position).getOrg());
+                //intent.putExtra("address", animalCardsList.get(position).getAddress());
 
                 context.startActivity(intent);
             }
