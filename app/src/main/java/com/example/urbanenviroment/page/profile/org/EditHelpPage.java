@@ -48,7 +48,7 @@ public class EditHelpPage extends AppCompatActivity {
 
         TextView type_ads = findViewById(R.id.text_type_ads_edit_page);
         TextView date_ads = findViewById(R.id.text_data_ads_edit_page);
-        TextView description_ads = findViewById(R.id.text_description_ads_edit_page);
+        EditText description_ads = findViewById(R.id.text_edit_help_description);
 
         if (getIntent().getStringExtra("id_ads_intent") != null){
             ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Ads");
@@ -126,22 +126,8 @@ public class EditHelpPage extends AppCompatActivity {
         clear(R.id.text_edit_last_date);
     }
 
-    public void change_description(View view){
-        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_description);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_description);
-
-        EditText desc = (EditText) findViewById(R.id.text_edit_help_description);
-        desc.setText(description);
-
-        change(frame, layout);
-    }
-
     public void cancel_description(View view){
-        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_description);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_description);
-
-        cancel(frame, layout);
-
         EditText desc = (EditText) findViewById(R.id.text_edit_help_description);
         desc.setText(description);
     }

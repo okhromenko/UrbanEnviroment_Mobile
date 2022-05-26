@@ -54,7 +54,14 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
         holder.name_org_cards.setText(animalCardsList.get(position).getName_org());
         holder.kind_cards.setText(animalCardsList.get(position).getKind());
         holder.name_animal_cards.setText(animalCardsList.get(position).getName_animal());
-        holder.description_animal_cards.setText(animalCardsList.get(position).getDescription());
+
+        String str = animalCardsList.get(position).getDescription();
+        if (str.length() > 200) {
+            str = str.substring(0,200) + "...";
+            holder.description_animal_cards.setText(str);
+        } else {
+            holder.description_animal_cards.setText(animalCardsList.get(position).getDescription());
+        }
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
 

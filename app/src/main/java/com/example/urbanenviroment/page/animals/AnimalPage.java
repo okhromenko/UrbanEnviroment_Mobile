@@ -218,6 +218,12 @@ public class AnimalPage extends AppCompatActivity {
                                 age, state, kind_animal, species, description, sex, date));
                         setAnimalsRecycler(animalsList);
                     }
+                    TextView text_no_photo = (TextView) findViewById(R.id.text_no_photo);
+                    if (animalsList.isEmpty()) {
+                        text_no_photo.setVisibility(View.VISIBLE);
+                    } else {
+                        text_no_photo.setVisibility(View.GONE);
+                    }
                 }
             }
         });

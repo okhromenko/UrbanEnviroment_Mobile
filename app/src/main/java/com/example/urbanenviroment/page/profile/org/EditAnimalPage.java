@@ -65,7 +65,7 @@ public class EditAnimalPage extends AppCompatActivity {
         TextView text_sex_animal_edit_page = (TextView) findViewById(R.id.text_sex_animal_edit_page);
         TextView text_state_animal_edit_page = (TextView) findViewById(R.id.text_state_animal_edit_page);
         TextView text_age_animal_edit_page = (TextView) findViewById(R.id.text_age_animal_edit_page);
-        TextView text_description_animal_edit_page = (TextView) findViewById(R.id.text_description_animal_edit_page);
+        EditText text_edit_description = (EditText) findViewById(R.id.text_edit_description);
         ImageView img_main_animal_photo = findViewById(R.id.img_main_animal_photo);
 
 
@@ -87,7 +87,7 @@ public class EditAnimalPage extends AppCompatActivity {
                                 text_sex_animal_edit_page.setText(object.getString("sex"));
                                 text_state_animal_edit_page.setText(object.getString("state"));
                                 text_age_animal_edit_page.setText(object.getString("age"));
-                                text_description_animal_edit_page.setText(object.getString("description"));
+                                text_edit_description.setText(object.getString("description"));
                                 description = object.getString("description");
                                 Picasso.get().load(Uri.parse(object.getParseFile("image").getUrl())).into(img_main_animal_photo);
                             }
@@ -103,7 +103,7 @@ public class EditAnimalPage extends AppCompatActivity {
             text_sex_animal_edit_page.setText(getIntent().getStringExtra("sex_animal"));
             text_state_animal_edit_page.setText(getIntent().getStringExtra("state_animal"));
             text_age_animal_edit_page.setText(getIntent().getStringExtra("age_animal"));
-            text_description_animal_edit_page.setText(getIntent().getStringExtra("description_animal"));
+            text_edit_description.setText(getIntent().getStringExtra("description_animal"));
             description = getIntent().getStringExtra("description_animal");
             Picasso.get().load(getIntent().getStringExtra("image_animal")).into(img_main_animal_photo);
         }
@@ -407,22 +407,8 @@ public class EditAnimalPage extends AppCompatActivity {
         clear(R.id.change_date_animal);
     }
 
-    public void change_description_animal_edit_page(View view){
-        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_description);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_description);
-
-        EditText desc = (EditText) findViewById(R.id.text_edit_description);
-        desc.setText(description);
-
-        change(frame, layout);
-    }
-
     public void cancel_description_animal_edit_page(View view){
-        FrameLayout frame = (FrameLayout) findViewById(R.id.text_change_animal_description);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_change_animal_description);
-
-        cancel(frame, layout);
-
         EditText desc = (EditText) findViewById(R.id.text_edit_description);
         desc.setText(description);
     }

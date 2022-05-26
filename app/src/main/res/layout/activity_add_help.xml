@@ -345,7 +345,7 @@
                             android:fontFamily="@font/roboto"
                             android:gravity="start|left"
                             android:hint="Описание"
-                            android:inputType="textLongMessage|textMultiLine"
+                            android:inputType="textLongMessage|textMultiLine|textCapSentences"
                             android:lines="7"
                             android:singleLine="false"
                             android:textAlignment="textStart"

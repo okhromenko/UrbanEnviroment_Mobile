@@ -80,7 +80,15 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.img_line_help.setCardBackgroundColor(color);
         holder.img_box_help.setCardBackgroundColor(color);
         holder.type_ads_help.setText(helpList.get(position).getType_help());
-        holder.description_help.setText(helpList.get(position).getDescription());
+
+        String str = helpList.get(position).getDescription();
+        if (str.length() > 200) {
+            str = str.substring(0,200) + "...";
+            holder.description_help.setText(str);
+        } else {
+            holder.description_help.setText(helpList.get(position).getDescription());
+        }
+
         holder.status_help.setText(helpList.get(position).getStatus());
         holder.date_help.setText(helpList.get(position).getDate_first());
 
