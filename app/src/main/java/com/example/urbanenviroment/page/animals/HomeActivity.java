@@ -115,6 +115,8 @@ public class HomeActivity extends AppCompatActivity {
 
         query.orderByAscending("createdAt");
         query.findInBackground(new FindCallback<ParseObject>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @SuppressLint("SimpleDateFormat")
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
 
@@ -142,42 +144,27 @@ public class HomeActivity extends AppCompatActivity {
                                     query_user.findInBackground((object_user, ex) -> {
                                         if (ex == null) {
                                             for (ParseObject k : object_user) {
+                                                id = j.getObjectId().toString();
+                                                image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+                                                date = new SimpleDateFormat("dd.MM.yyyy").format(i.getCreatedAt());
+                                                name_animal = j.getString("name");
+                                                age = j.getString("age");
+                                                state = j.getString("state");
+                                                kind_animal = kind;
+                                                species = j.getString("species");
+                                                description = j.getString("description");
+                                                sex = j.getString("sex");
+                                                name_org = k.getString("username");
+                                                image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
 
-                                                ParseObject id_org = ParseObject.createWithoutData("_User", k.getObjectId());
+                                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                                        age, state, kind_animal, species, description, sex, date));
 
-                                                ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
-                                                query_org.whereEqualTo("id_user",  id_org);
-                                                query_org.getFirstInBackground(new GetCallback<ParseObject>() {
-                                                    @SuppressLint("SimpleDateFormat")
-                                                    @RequiresApi(api = Build.VERSION_CODES.N)
-                                                    public void done(ParseObject object_org, ParseException exp) {
-                                                        if (exp == null) {
-                                                            id = j.getObjectId().toString();
-                                                            image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-                                                            date = new SimpleDateFormat("dd.MM.yyyy").format(i.getCreatedAt());
-                                                            name_animal = j.getString("name");
-                                                            age = j.getString("age");
-                                                            state = j.getString("state");
-                                                            kind_animal = kind;
-                                                            species = j.getString("species");
-                                                            description = j.getString("description");
-                                                            sex = j.getString("sex");
-                                                            name_org = k.getString("username");
-                                                            image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
-                                                            org = object_org.getString("address");
+                                                Collections.sort(animalsList, new AnimalsComparator().reversed());
+                                                setAnimalsRecycler(animalsList);
 
-                                                            animalsList.add(new Animals(id, name_org, image_org, org, name_animal, image_animal,
-                                                                    age, state, kind_animal, species, description, sex, date));
-
-                                                            Collections.sort(animalsList, new AnimalsComparator().reversed());
-                                                            setAnimalsRecycler(animalsList);
-
-                                                            if (getIntent().getBooleanExtra("flag_filter", false))
-                                                                filter_click(animalsList);
-                                                        }
-
-                                                    }
-                                                });
+                                                if (getIntent().getBooleanExtra("flag_filter", false))
+                                                    filter_click(animalsList);
                                             }
 
                                         }

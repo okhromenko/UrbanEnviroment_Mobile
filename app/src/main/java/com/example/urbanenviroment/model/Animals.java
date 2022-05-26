@@ -14,9 +14,8 @@ public class Animals {
     String description;
     String sex;
     String reg_data;
-    String org;
 
-    public Animals(String id, String name_org, String img_org, String org, String name_animal, String img_animal,
+    public Animals(String id, String name_org, String img_org, String name_animal, String img_animal,
                    String age, String state, String kind, String species, String description, String sex, String reg_data) {
         this.id = id;
         this.name_org = name_org;
@@ -30,7 +29,6 @@ public class Animals {
         this.description = description;
         this.sex = sex;
         this.reg_data = reg_data;
-        this.org = org;
     }
 
     public String getId() {
@@ -56,14 +54,6 @@ public class Animals {
     public void setImg_org(String img_org) {
         this.img_org = img_org;
     }
-
-    //public String getAddress() {
-    //    return address;
-    //}
-
-    //public void setAddress(String address) {
-    //    this.address = address;
-    //}
 
     public String getName_animal() {
         return name_animal;
@@ -135,13 +125,5 @@ public class Animals {
 
     public void setReg_data(String reg_data) {
         this.reg_data = reg_data;
-    }
-
-    public String getOrg() {
-        return org;
-    }
-
-    public void setOrg(String org) {
-        this.org = org;
     }
 }

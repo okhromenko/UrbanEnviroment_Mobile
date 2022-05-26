@@ -88,7 +88,7 @@ public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<Favorit
                 intent.putExtra("age_animal", FavoriteAnimalList.get(position).getAge());
                 intent.putExtra("state_animal", FavoriteAnimalList.get(position).getState());
                 intent.putExtra("image_animal", FavoriteAnimalList.get(position).getImg_animal());
-                intent.putExtra("org", FavoriteAnimalList.get(position).getOrg());
+                intent.putExtra("org", FavoriteAnimalList.get(position).getName_org());
 
                 context.startActivity(intent);
             }

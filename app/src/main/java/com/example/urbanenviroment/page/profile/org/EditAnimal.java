@@ -43,7 +43,7 @@ public class EditAnimal extends AppCompatActivity {
     List<Animals> animalsList;
 
     boolean flag = false;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
 
     static class AnimalsComparator implements Comparator<Animals> {
 
@@ -89,42 +89,28 @@ public class EditAnimal extends AppCompatActivity {
                     query_user.findInBackground((object_user, ex) -> {
                         if (ex == null) {
                             for (ParseObject k : object_user) {
+                                ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
+                                query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
+                                query_kind.findInBackground((object_kind, e) -> {
+                                    if (e == null) {
+                                        for (ParseObject r : object_kind) {
+                                            id = j.getObjectId();
+                                            image_animal = Uri.parse(j.getParseFile("image").getUrl()).toString();
+                                            date = new SimpleDateFormat("d.M.y").format(j.getCreatedAt());
+                                            name_animal = j.get("name").toString();
+                                            age = j.get("age").toString();
+                                            state = j.get("state").toString();
+                                            kind_animal = r.getString("name").toString();
+                                            species = j.get("species").toString();
+                                            description = j.get("description").toString();
+                                            sex = j.get("sex").toString();
+                                            name_org = k.getString("username").toString();
+                                            image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
 
-                                ParseObject id_org = ParseObject.createWithoutData("_User", k.getObjectId());
-
-                                ParseQuery<ParseObject> query_org = new ParseQuery<>("Organization");
-                                query_org.whereEqualTo("id_user",  id_org);
-                                query_org.getFirstInBackground(new GetCallback<ParseObject>() {
-                                    public void done(ParseObject object_org, ParseException exp) {
-                                        if (exp == null) {
-
-                                            ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-                                            query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
-                                            query_kind.findInBackground((object_kind, e) -> {
-                                                if (e == null) {
-                                                    for (ParseObject r : object_kind) {
-                                                        id = j.getObjectId();
-                                                        image_animal = Uri.parse(j.getParseFile("image").getUrl()).toString();
-                                                        date = new SimpleDateFormat("d.M.y").format(j.getCreatedAt());
-                                                        name_animal = j.get("name").toString();
-                                                        age = j.get("age").toString();
-                                                        state = j.get("state").toString();
-                                                        kind_animal = r.getString("name").toString();
-                                                        species = j.get("species").toString();
-                                                        description = j.get("description").toString();
-                                                        sex = j.get("sex").toString();
-                                                        name_org = k.getString("username").toString();
-                                                        image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
-                                                        address = object_org.get("address").toString();
-
-                                                        animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
-                                                                age, state, kind_animal, species, description, sex, date));
-                                                    }
-                                                    setAnimalsRecycler(animalsList);
-                                                }
-                                            });
+                                            animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                                    age, state, kind_animal, species, description, sex, date));
                                         }
-
+                                        setAnimalsRecycler(animalsList);
                                     }
                                 });
                             }

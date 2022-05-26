@@ -41,7 +41,7 @@ public class CardsMainActivity extends AppCompatActivity {
     RecyclerView AnimalsCardsRecycler;
     AnimalCardsAdapter cardsAdapter;
     List<Animals> animalsList, filterAnimalList;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
     boolean flag_sort, flag_org;
 
     class AnimalsComparator implements Comparator<Animals> {
@@ -118,10 +118,9 @@ public class CardsMainActivity extends AppCompatActivity {
                                                             species = i.get("species").toString();
                                                             description = i.get("description").toString();
                                                             sex = i.get("sex").toString();
-                                                            address = object_org.get("address").toString();
                                                             date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
 
-                                                            animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                                                            animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                                                     age, state, kind_animal, species, description, sex, date));
 
                                                             Collections.sort(animalsList, new AnimalsComparator().reversed());

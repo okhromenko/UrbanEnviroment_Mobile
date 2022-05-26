@@ -44,7 +44,7 @@ public class AnimalPage extends AppCompatActivity {
     RecyclerView animalsRecycler;
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
     Boolean flag = false;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
+    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +214,7 @@ public class AnimalPage extends AppCompatActivity {
                         id = i.getObjectId();
                         image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
 
-                        animalsList.add(new Animals(id, name_org, image_org, address, name_animal, image_animal,
+                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
                         setAnimalsRecycler(animalsList);
                     }
@@ -294,6 +294,7 @@ public class AnimalPage extends AppCompatActivity {
         intent.putExtra("age_animal", getIntent().getStringExtra("age_animal"));
         intent.putExtra("state_animal", getIntent().getStringExtra("state_animal"));
         intent.putExtra("image_animal", getIntent().getStringExtra("image_animal"));
+        intent.putExtra("org", getIntent().getStringExtra("org"));
 
         startActivity(intent);
     }
