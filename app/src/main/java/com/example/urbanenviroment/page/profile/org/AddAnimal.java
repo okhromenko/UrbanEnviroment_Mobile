@@ -202,6 +202,7 @@ public class AddAnimal extends AppCompatActivity {
 
     public void getParameter(){
         ParseObject animal = new ParseObject("Animals");
+        ParseObject notification = new ParseObject("Notification");
 
         ParseFile photo = new ParseFile(byteArray);
         animal.put("name", name.getText().toString());
@@ -212,6 +213,16 @@ public class AddAnimal extends AppCompatActivity {
         animal.put("sex", sex);
         animal.put("image", photo);
 
+        ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
+
+        String other_info = kind.getText().toString() + " " + name.getText().toString();
+
+        notification.put("id_user", ptr);
+        notification.put("type_notification", "животное");
+        notification.put("other_info", other_info);
+
+        notification.saveInBackground();
+
         ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animal_kind");
         query_3.whereEqualTo("name", kind.getText().toString());
         query_3.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -219,10 +230,7 @@ public class AddAnimal extends AppCompatActivity {
                 if (e == null) {
                     ParseObject id_kind = ParseObject.createWithoutData("Animal_kind", object.getObjectId());
                     animal.put("id_kind", id_kind);
-
-                    ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
                     animal.put("id_user", ptr);
-
                     Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
                     startActivity(intent);
                     animal.saveInBackground(new SaveCallback() {
@@ -243,7 +251,6 @@ public class AddAnimal extends AppCompatActivity {
                     animal_kind.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
                             animal.put("id_user", ptr);
                             animal.put("id_kind", animal_kind);
 

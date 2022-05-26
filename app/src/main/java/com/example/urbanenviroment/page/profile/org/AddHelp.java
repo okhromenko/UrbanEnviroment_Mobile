@@ -161,23 +161,30 @@ public class AddHelp extends AppCompatActivity {
 
     public void getParameter(){
 
+        ParseObject notification = new ParseObject("Notification");
         ParseObject ads = new ParseObject("Ads");
 
         ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
-        ads.put("id_user", ptr);
 
+        notification.put("id_user", ptr);
+        notification.put("type_notification", "объявление");
+        notification.put("other_info", type);
+
+        ads.put("id_user", ptr);
         ads.put("type", type);
         ads.put("last_date", Objects.requireNonNull(add_date_help.getText()).toString());
         ads.put("first_date", Objects.requireNonNull(add_date_help_first.getText()).toString());
         ads.put("description",  Objects.requireNonNull(add_description_help.getText()).toString());
 
+        Intent intent = new Intent(AddHelp.this, ProfileActivityOrg.class);
+        startActivity(intent);
+
+        notification.saveInBackground();
         ads.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if(e == null) {
                     Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(AddHelp.this, ProfileActivityOrg.class);
-                    startActivity(intent);
                 } else {
                     ParseUser.logOut();
                     Toast.makeText(AddHelp.this, e.getMessage(), Toast.LENGTH_LONG).show();

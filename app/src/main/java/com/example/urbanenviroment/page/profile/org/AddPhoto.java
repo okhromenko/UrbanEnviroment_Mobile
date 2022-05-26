@@ -38,6 +38,7 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -214,7 +215,9 @@ public class AddPhoto extends AppCompatActivity {
 
     public void getParameter() {
         ParseUser parseUser = ParseUser.getCurrentUser();
+
         ParseObject collection = new ParseObject("Collection");
+        ParseObject notification = new ParseObject("Notification");
 
         id_a = animals.get(name_category);
 
@@ -227,6 +230,22 @@ public class AddPhoto extends AppCompatActivity {
 
         Intent intent = new Intent(AddPhoto.this, AddPhoto.class);
         startActivity(intent);
+
+        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
+        query_kind.whereEqualTo("objectId", id_a.getParseObject("id_kind").getObjectId());
+        query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                String other_info = object.getString("name") + " " +
+                        name_category;
+
+                notification.put("id_user", parseUser);
+                notification.put("type_notification", "фото");
+                notification.put("other_info", other_info);
+                notification.saveInBackground();
+            }
+        });
+
         collection.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

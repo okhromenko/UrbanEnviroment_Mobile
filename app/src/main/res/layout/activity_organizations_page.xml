@@ -49,6 +49,16 @@
             </LinearLayout>
 
             <ImageButton
+                android:id="@+id/button_notification_org_page"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginEnd="40dp"
+                android:background="@color/transparent"
+                android:onClick="add_org_notification"
+                android:src="@drawable/button_favorite" />
+
+            <ImageButton
                 android:id="@+id/button_org_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

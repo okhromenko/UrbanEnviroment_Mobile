@@ -21,6 +21,8 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.profile.org.AddHelp;
+import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -29,6 +31,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class OrganizationsPage extends AppCompatActivity {
 
@@ -54,35 +58,6 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", parseUser.getObjectId());
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    if (getIntent().getStringExtra("phone").equals("Номер телефона"))
-                        phone_org_org_page.setVisibility(View.GONE);
-                    else {
-                        phone_org_org_page.setVisibility(View.VISIBLE);
-                        hidden_other(phone_org_org_page, object.getBoolean("hidden_phone"));
-                    }
-
-                    if (getIntent().getStringExtra("website").equals("Сайт организации"))
-                        website_org_org_page.setVisibility(View.GONE);
-                    else {
-                        website_org_org_page.setVisibility(View.VISIBLE);
-                        hidden_other(website_org_org_page, object.getBoolean("hidden_website"));
-                    }
-
-                    if (getIntent().getStringExtra("address").equals("Адрес"))
-                        address_org_org_page.setVisibility(View.GONE);
-                    else
-                        address_org_org_page.setVisibility(View.VISIBLE);
-
-                    hidden_other(email_org_org_page, object.getBoolean("hidden_email"));
-                }
-            }
-        });
 
         Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
@@ -119,7 +94,38 @@ public class OrganizationsPage extends AppCompatActivity {
         query_org.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
-                if (object != null && parseUser != null){
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+                query.whereEqualTo("objectId", object.getParseObject("id_user").getObjectId());
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object_user, ParseException e) {
+                        if (e == null) {
+
+                            if (getIntent().getStringExtra("phone").equals("Номер телефона"))
+                                phone_org_org_page.setVisibility(View.GONE);
+                            else {
+                                phone_org_org_page.setVisibility(View.VISIBLE);
+                                hidden_other(phone_org_org_page, object_user.getBoolean("hidden_phone"));
+                            }
+
+                            if (getIntent().getStringExtra("website").equals("Сайт организации"))
+                                website_org_org_page.setVisibility(View.GONE);
+                            else {
+                                website_org_org_page.setVisibility(View.VISIBLE);
+                                hidden_other(website_org_org_page, object_user.getBoolean("hidden_website"));
+                            }
+
+                            if (getIntent().getStringExtra("address").equals("Адрес"))
+                                address_org_org_page.setVisibility(View.GONE);
+                            else
+                                address_org_org_page.setVisibility(View.VISIBLE);
+
+                            hidden_other(email_org_org_page, object_user.getBoolean("hidden_email"));
+                        }
+                    }
+                });
+
+                if (parseUser != null){
                     if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
                         button_org_edit.setVisibility(View.VISIBLE);
                     else button_org_edit.setVisibility(View.GONE);
@@ -281,4 +287,31 @@ public class OrganizationsPage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void add_org_notification(View view){
+        ParseObject notification = new ParseObject("Subscription_notifications");
+
+        ParseObject ptr_user = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
+        ParseObject ptr_org = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id"));
+
+        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Organization");
+        query_kind.whereEqualTo("objectId", ptr_org.getObjectId());
+        query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                notification.put("id_user", ptr_user);
+                notification.put("id_org", object.getParseObject("id_user"));
+
+                notification.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e == null) {
+                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
+    }
 }
