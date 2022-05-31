@@ -81,6 +81,8 @@ public class AddAnimal extends AppCompatActivity {
     private Uri mediaUri;
     private byte[] byteArray;
 
+    private boolean flagCheckup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,15 +270,10 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void btn_save(View view){
-        boolean flagCheckup = true;
+        flagCheckup = true;
         boolean flagInput = true;
 
-        name = findViewById(R.id.add_name_animal);
         age = findViewById(R.id.add_date_animal);
-        state = findViewById(R.id.add_state_animal);
-        kind = findViewById(R.id.add_kind_animal);
-        species = findViewById(R.id.add_species_animal);
-        description = findViewById(R.id.add_description_animal);
 
         RadioButton sex_man = findViewById(R.id.button_switch_man);
         RadioButton sex_woman = findViewById(R.id.button_switch_woman);
@@ -314,47 +311,12 @@ public class AddAnimal extends AppCompatActivity {
             goneMessage(R.id.error_animal_image);
         }
 
-        if (Objects.requireNonNull(name.getText()).toString().equals("")){
-            errorMessage(R.id.error_animal_name);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_animal_name);
-        }
-
-        if (Objects.requireNonNull(age.getText()).toString().equals("")){
-            errorMessage(R.id.error_animal_age);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_animal_age);
-        }
-
-        if (Objects.requireNonNull(state.getText()).toString().equals("")){
-            errorMessage(R.id.error_animal_state);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_animal_state);
-        }
-
-        if (Objects.requireNonNull(kind.getText()).toString().equals("")){
-            errorMessage(R.id.error_animal_kind);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_animal_kind);
-        }
-
-        if (Objects.requireNonNull(species.getText()).toString().equals("")){
-            errorMessage(R.id.error_animal_species);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_animal_species);
-        }
-
-        if (Objects.requireNonNull(description.getText()).toString().equals("")){
-            errorMessage(R.id.error_animal_description);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_animal_description);
-        }
+        check(R.id.add_name_animal, R.id.error_animal_name);
+        check(R.id.add_date_animal, R.id.error_animal_age);
+        check(R.id.add_state_animal, R.id.error_animal_state);
+        check(R.id.add_kind_animal, R.id.error_animal_kind);
+        check(R.id.add_species_animal, R.id.error_animal_species);
+        check(R.id.add_description_animal, R.id.error_animal_description);
 
         if (flagCheckup && flagInput){
             getParameter();
@@ -366,6 +328,16 @@ public class AddAnimal extends AppCompatActivity {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Вы неккоректно заполнили поля!", Toast.LENGTH_SHORT);
             toast.show();
+        }
+    }
+
+    public void check(int id_ET, int id_TV) {
+        MaterialEditText ET = findViewById(id_ET);
+        if ((ET.getText()).toString().equals("")){
+            errorMessage(id_TV);
+            flagCheckup = false;
+        } else {
+            goneMessage(id_TV);
         }
     }
 

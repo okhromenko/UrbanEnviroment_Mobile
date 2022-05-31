@@ -55,7 +55,7 @@ public class AddHelp extends AppCompatActivity {
     DatePickerDialog dpd;
     ImageButton food, things, help;
     int type_flag = 3;
-    boolean flag = false;
+    boolean flag = false, flagInput, flagCheckup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class AddHelp extends AppCompatActivity {
 
         add_date_help = findViewById(R.id.add_date_help);
         add_date_help_first = findViewById(R.id.add_date_help_first);
+        add_description_help = findViewById(R.id.add_description_help);
 
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -164,7 +165,19 @@ public class AddHelp extends AppCompatActivity {
             button.setRotation(0F);
             flag = true;
         } else {
+            findViewById(R.id.first_date_layout).setVisibility(View.GONE);
             button.setRotation(180F);
+            if (add_date_help_first.getText().toString().equals("")){
+                try {
+                    @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+                    Date todayDate = new Date();
+                    String firstDate = dateFormat.format(todayDate);
+                    add_date_help_first.setText(firstDate);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             flag = false;
         }
 
@@ -179,7 +192,6 @@ public class AddHelp extends AppCompatActivity {
         Map<String, Object> ads = new HashMap<>();
         ads.put("userId", mAuth.getCurrentUser().getUid());
         ads.put("username", mAuth.getCurrentUser().getDisplayName());
-        ads.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
 
         ads.put("type", type);
         ads.put("last_date", add_date_help.getText().toString());
@@ -198,33 +210,11 @@ public class AddHelp extends AppCompatActivity {
     }
 
     public void btn_save(View view){
-        boolean flagCheckup = true;
-        boolean flagInput = true;
+        flagCheckup = true;
+        flagInput = true;
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
-        add_description_help = findViewById(R.id.add_description_help);
-        add_date_help_first = findViewById(R.id.add_date_help_first);
-
-        try {
-            Date date = dateFormat.parse(add_date_help.getText().toString());
-            add_date_help.setText(dateFormat.format(date));
-            goneMessage(R.id.error_input_help_date);
-        } catch (Exception e) {
-            e.printStackTrace();
-            errorMessage(R.id.error_input_help_date);
-            flagInput = false;
-        }
-
-        try {
-            Date date = dateFormat.parse(add_date_help_first.getText().toString());
-            add_date_help_first.setText(dateFormat.format(date));
-            goneMessage(R.id.error_input_first_date);
-        } catch (Exception e) {
-            e.printStackTrace();
-            errorMessage(R.id.error_input_first_date);
-            flagInput = false;
-        }
+        checkDate(R.id.add_date_help, R.id.error_input_help_date);
+        checkDate(R.id.add_date_help_first, R.id.error_input_first_date);
 
         switch (type_flag){
             case (0):
@@ -245,19 +235,8 @@ public class AddHelp extends AppCompatActivity {
                 break;
         }
 
-        if (add_date_help.getText().toString().equals("")){
-            errorMessage(R.id.error_help_date);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_help_date);
-        }
-
-        if (add_description_help.getText().toString().equals("")){
-            errorMessage(R.id.error_help_description);
-            flagCheckup = false;
-        } else {
-            goneMessage(R.id.error_help_description);
-        }
+        checkAll(R.id.add_date_help, R.id.error_help_date);
+        checkAll(R.id.add_description_help, R.id.error_help_description);
 
         if (flagCheckup && flagInput){
             getParameter();
@@ -269,6 +248,30 @@ public class AddHelp extends AppCompatActivity {
             Toast toast = Toast.makeText(getApplicationContext(),
                     "Вы неккоректно заполнили поля!", Toast.LENGTH_SHORT);
             toast.show();
+        }
+    }
+
+    public void checkDate(int id_ET, int id_TV){
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        MaterialEditText ET = findViewById(id_ET);
+        try {
+            Date date = dateFormat.parse(ET.getText().toString());
+            ET.setText(dateFormat.format(date));
+            goneMessage(id_TV);
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorMessage(id_TV);
+            flagInput = false;
+        }
+    }
+
+    public void checkAll(int id_ET, int id_TV) {
+        MaterialEditText ET = findViewById(id_ET);
+        if (ET.getText().toString().equals("")){
+            errorMessage(id_TV);
+            flagCheckup = false;
+        } else {
+            goneMessage(id_TV);
         }
     }
 

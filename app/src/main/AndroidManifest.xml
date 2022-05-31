@@ -21,16 +21,20 @@
             android:exported="false" />
         <activity
             android:name=".page.profile.org.AddHelp"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".page.profile.org.EditAnimalPage"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".page.profile.org.EditAnimal"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".page.profile.org.AddAnimal"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".page.profile.org.DeletePhoto"
             android:exported="false" />
@@ -57,10 +61,11 @@
             android:exported="false" />
         <activity
             android:name=".page.profile.settings.SettingProfileUser"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".page.profile.settings.SettingProfile"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".page.profile.settings.SettingNotificationsUser"
             android:exported="false" />
