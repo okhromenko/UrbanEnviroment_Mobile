@@ -15,9 +15,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +25,13 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.org.OrganizationsPage;
+import com.example.urbanenviroment.page.profile.org.AddAnimal;
+import com.example.urbanenviroment.page.profile.org.AddHelp;
+import com.example.urbanenviroment.page.profile.org.AddPhoto;
+import com.example.urbanenviroment.page.profile.org.DeletePhoto;
+import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
-import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,13 +42,11 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.parse.GetCallback;
+import com.parse.CountCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -61,7 +63,9 @@ public class ProfileActivityUser extends AppCompatActivity {
     private static final int RQS_PICK_IMAGE = 3;
 
     private FirebaseAuth mAuth;
-    String image;
+
+    String id, name, image, date, address, description, phone, email, website;
+    Boolean is_org;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +74,14 @@ public class ProfileActivityUser extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(ProfileActivityUser.this);
 
-        TextView name = findViewById(R.id.name_profile);
-        TextView email = findViewById(R.id.email_profile);
-        TextView date = findViewById(R.id.data_profile);
-        ImageView image_user = (ImageView) findViewById(R.id.img_profile_image_user);
+        TextView name_profile = findViewById(R.id.name_profile);
+        TextView email_profile = findViewById(R.id.email_profile);
+        TextView phone_profile = findViewById(R.id.number_profile);
+        TextView date_profile = findViewById(R.id.data_profile);
+        ImageView image_profile = (ImageView) findViewById(R.id.img_profile_image);
+
+        LinearLayout linear_user = (LinearLayout) findViewById(R.id.linear_user);
+        LinearLayout linear_org = (LinearLayout) findViewById(R.id.linear_org);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -85,15 +93,37 @@ public class ProfileActivityUser extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        name.setText(document.getString("name"));
-                        email.setText(document.getString("email"));
-                        String reg_date = new SimpleDateFormat("d.M.y").format(Objects.requireNonNull(document.getDate("reg_date")));
-                        date.setText(reg_date);
+
+                        id = document.getId();
+                        name = document.getString("name");
+                        email = document.getString("email");
+                        phone = document.getString("phone");
+                        website = document.getString("website");
+                        address = document.getString("address");
+                        description = document.getString("description");
+                        is_org = document.getBoolean("is_org");
+                        date = new SimpleDateFormat("dd.MM.yyyy").format(Objects.requireNonNull(document.getDate("reg_date")));
+
 
                         if (mAuth.getCurrentUser().getPhotoUrl() != null){
                             image = Uri.parse(((mAuth.getCurrentUser()).getPhotoUrl()).toString()).toString();
-                            Picasso.get().load(image).into(image_user);
+                            Picasso.get().load(image).into(image_profile);
                         }
+
+                        if (is_org) {
+                            phone_profile.setVisibility(View.VISIBLE);
+                            linear_user.setVisibility(View.GONE);
+                            linear_org.setVisibility(View.VISIBLE);
+                        } else {
+                            phone_profile.setVisibility(View.GONE);
+                            linear_user.setVisibility(View.VISIBLE);
+                            linear_org.setVisibility(View.GONE);
+                        }
+
+                        name_profile.setText(name);
+                        email_profile.setText(email);
+                        phone_profile.setText(phone);
+                        date_profile.setText(date);
 
                     } else {
                         Log.d(TAG, "Проблемы при входе, пользователь не найден");
@@ -103,9 +133,12 @@ public class ProfileActivityUser extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
 
-    public void loading_photo_user(View view){
+    public void loading_photo(View view){
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -120,7 +153,7 @@ public class ProfileActivityUser extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
-            ImageView imageView = (ImageView) findViewById(R.id.img_profile_image_user);
+            ImageView imageView = (ImageView) findViewById(R.id.img_profile_image);
 
             if (requestCode == RQS_OPEN_IMAGE ||
                     requestCode == RQS_GET_IMAGE ||
@@ -159,7 +192,6 @@ public class ProfileActivityUser extends AppCompatActivity {
         }
     }
 
-
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
@@ -187,6 +219,7 @@ public class ProfileActivityUser extends AppCompatActivity {
 
     public void settings(View view){
         Intent intent = new Intent(this, SettingProfile.class);
+        intent.putExtra("is_org", is_org);
         startActivity(intent);
     }
 
@@ -198,6 +231,75 @@ public class ProfileActivityUser extends AppCompatActivity {
     public void notifications(View view){
         Intent intent = new Intent(this, NotificationsProfileUser.class);
         startActivity(intent);
+    }
+
+    public void add_animal_photo_org(View view) {
+        Intent intent = new Intent(this, AddPhoto.class);
+        startActivity(intent);
+    }
+
+    public void delete_photo_animal(View view) {
+        Intent intent = new Intent(this, DeletePhoto.class);
+        startActivity(intent);
+    }
+
+    public void add_animal_description(View view) {
+        Intent intent = new Intent(this, AddAnimal.class);
+        startActivity(intent);
+    }
+
+    public void edit_animal(View view) {
+        Intent intent = new Intent(this, EditAnimal.class);
+        startActivity(intent);
+    }
+
+    public void add_ad_org(View view){
+        Intent intent = new Intent(this, AddHelp.class);
+        startActivity(intent);
+    }
+
+    public void edit_help(View view) {
+        Intent intent = new Intent(this, EditHelp.class);
+        startActivity(intent);
+    }
+
+    public void watch(View view){
+        ParseUser parseUser = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
+        query_animal.whereEqualTo("id_user", parseUser);
+        query_animal.countInBackground(new CountCallback() {
+            @Override
+            public void done(int query_count_animal, ParseException e) {
+                ParseQuery<ParseObject> query_animal = new ParseQuery<>("Ads");
+                query_animal.whereEqualTo("id_user", parseUser);
+                query_animal.countInBackground(new CountCallback() {
+                    @Override
+                    public void done(int query_count_ads, ParseException e) {
+                        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Collection");
+                        query_animal.whereEqualTo("id_user", parseUser);
+                        query_animal.countInBackground(new CountCallback() {
+                            @Override
+                            public void done(int query_count_photo, ParseException e) {
+                                Intent intent = new Intent(ProfileActivityUser.this, OrganizationsPage.class);
+                                intent.putExtra("id", id);
+                                intent.putExtra("name", name);
+                                intent.putExtra("image", image);
+                                intent.putExtra("address", address);
+                                intent.putExtra("email", email);
+                                intent.putExtra("phone", phone);
+                                intent.putExtra("description", description);
+                                intent.putExtra("count_animal", Integer.toString(query_count_animal));
+                                intent.putExtra("count_ads", Integer.toString(query_count_ads));
+                                intent.putExtra("count_photo", Integer.toString(query_count_photo));
+                                intent.putExtra("date", date);
+                                intent.putExtra("website", website);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     }
 
     public void exit(View view) {

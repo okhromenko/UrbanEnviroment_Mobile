@@ -54,9 +54,6 @@
             android:name=".page.org.OrganizationsPage"
             android:exported="false" />
         <activity
-            android:name=".page.profile.org.ProfileActivityOrg"
-            android:exported="false" />
-        <activity
             android:name=".page.profile.settings.SettingOther"
             android:exported="false" />
         <activity

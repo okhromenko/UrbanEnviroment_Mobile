@@ -16,15 +16,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,7 +51,30 @@ public class AuthorizationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = mAuth.getCurrentUser();
+
         if (user != null){
+            DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Log.d(TAG, "Проблемы при входе, пользователь не найден");
+                        }
+                    } else {
+                        Log.d(TAG, "Проблемы при входе ", task.getException());
+                    }
+                }
+            });
+        }
+
+
+        /*if (user != null){
             DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -80,7 +100,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
+        }*/
 
 //        ParseUser parseUser = ParseUser.getCurrentUser();
 //
@@ -135,16 +155,9 @@ public class AuthorizationActivity extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         DocumentSnapshot document = task.getResult();
                                         if (document.exists()) {
-                                            if ((Boolean) document.get("is_org")){
-                                                Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityOrg.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            else{
-                                                Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
+                                            Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
+                                            startActivity(intent);
+                                            finish();
                                         } else {
                                             Log.d(TAG, "Проблемы при входе, пользователь не найден");
                                         }

@@ -1,50 +1,25 @@
 package com.example.urbanenviroment.page.profile.registr_authoriz;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.profile.org.AddAnimal;
-import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.auth.internal.zzx;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseInstallation;
-import com.parse.ParseObject;
-import com.parse.ParseRelation;
-import com.parse.ParseSession;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Date;

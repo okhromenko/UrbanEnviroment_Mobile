@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +17,6 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
-import com.example.urbanenviroment.page.profile.org.AddAnimal;
-import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

@@ -20,34 +20,20 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.profile.org.AddAnimal;
-import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
-import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
-import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.parse.GetCallback;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseSession;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.net.PasswordAuthentication;
 import java.util.Objects;
 
 public class SettingProfileUser extends AppCompatActivity {
