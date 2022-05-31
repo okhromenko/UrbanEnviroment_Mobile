@@ -1,9 +1,14 @@
 package com.example.urbanenviroment.page.profile.settings;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +25,18 @@ import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -30,44 +47,57 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.net.PasswordAuthentication;
+import java.util.Objects;
+
 public class SettingProfileUser extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    Boolean is_org;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile_user);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
         TextView text_user_name = (TextView) findViewById(R.id.text_user_name);
         TextView text_user_email = (TextView) findViewById(R.id.text_user_email);
-
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("_User");
-        query_3.whereEqualTo("objectId", parseUser.getObjectId());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    text_user_name.setText(object.get("username").toString());
-                    text_user_email.setText(object.get("email").toString());
-                }
-
-            }
-        });
-
         ImageView setting_text = (ImageView) findViewById(R.id.imageView6);
         TextView textchangeName = (TextView) findViewById(R.id.text_1);
         MaterialEditText hintchangeName = (MaterialEditText) findViewById(R.id.name_change_setting);
 
-        if ((Boolean) parseUser.get("is_org")) {
-            setting_text.setImageResource(R.drawable.text_setting_org);
-            textchangeName.setText("Изменить название организации");
-            hintchangeName.setHint("Введите новое название");
-        }
-        else {
-            setting_text.setImageResource(R.drawable.text_setting_profile);
-            textchangeName.setText("Изменить имя пользователя");
-            hintchangeName.setHint("Введите новое имя");
-        }
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        text_user_name.setText(document.getString("name"));
+                        text_user_email.setText(document.getString("email"));
+                        is_org = document.getBoolean("is_org");
+
+                        if (Boolean.TRUE.equals(is_org)) {
+                            setting_text.setImageResource(R.drawable.text_setting_org);
+                            textchangeName.setText("Изменить название организации");
+                            hintchangeName.setHint("Введите новое название");
+                        }
+                        else {
+                            setting_text.setImageResource(R.drawable.text_setting_profile);
+                            textchangeName.setText("Изменить имя пользователя");
+                            hintchangeName.setHint("Введите новое имя");
+                        }
+                    } else {
+                        Log.d(TAG, "Данные не найдены");
+                    }
+                }
+            }
+        });
     }
 
     public void animals(View view){
@@ -137,86 +167,79 @@ public class SettingProfileUser extends AppCompatActivity {
 
     }
 
+    private void save_change(String field, String value, String password){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        AuthCredential credential = EmailAuthProvider.getCredential(Objects.requireNonNull(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail()),
+                password);
+
+        assert user != null;
+        user.reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                DocumentReference changeRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+                changeRef.update(field, value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //Не забудь потом поправить - пароль не должен храниться в бд открыто!!!
+                        if (field.equals("password")){
+                            user.updatePassword(value)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                FirebaseAuth.getInstance().signOut();
+                                                Intent intent = new Intent(SettingProfileUser.this, AuthorizationActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        }
+                                    });
+                        }
+
+                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void save_username(View view){
         TextView textName = (TextView) findViewById(R.id.name_change_setting);
         TextView textPassword = (TextView) findViewById(R.id.change_password_setting_name);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    parseUser.setUsername(textName.getText().toString());
-                    parseUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        save_change("name", textName.getText().toString(), textPassword.getText().toString());
     }
 
     public void save_email(View view){
         TextView textEmail = (TextView) findViewById(R.id.email_change_setting);
         TextView textPassword = (TextView) findViewById(R.id.change_password_setting_email);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    parseUser.setEmail(textEmail.getText().toString());
-                    parseUser.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        save_change("email", textEmail.getText().toString(), textPassword.getText().toString());
     }
 
     public void save_password(View view){
         TextView textPass = (TextView) findViewById(R.id.password_change_setting);
         TextView textPassword = (TextView) findViewById(R.id.change_password_setting_pass);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String newPassword = textPass.getText().toString();
 
-        ParseUser.logInInBackground(ParseUser.getCurrentUser().getUsername(), textPassword.getText().toString(), new LogInCallback() {
-            public void done(ParseUser user, ParseException e) {
-                if (user != null) {
-                    parseUser.setPassword(textPass.getText().toString());
-                    parseUser.saveInBackground();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Неверный пароль", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        ParseUser.logOutInBackground(p -> {
-            if (p == null){
-                Toast.makeText(getApplicationContext(), "Введите новый пароль", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        Intent intent = new Intent(SettingProfileUser.this, AuthorizationActivity.class);
-        startActivity(intent);
-        finish();
+        save_change("password", newPassword, textPassword.getText().toString());
     }
 
     public void cancel_name(View view){

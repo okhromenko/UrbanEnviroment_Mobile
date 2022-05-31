@@ -1,5 +1,8 @@
 package com.example.urbanenviroment.page.org;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -15,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +43,12 @@ import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.profile.org.AddHelp;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.Dialog_Search;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.loopeer.shadow.ShadowView;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
@@ -46,6 +56,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,16 +65,17 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class OrganizationsActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
     public int check;
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
-    String id, name, image, date, address, description, phone, email, website, count_animal, count_photo, count_ads;
     List<Organizations> orgList;
     RadioButton decrease, btn_data_reg, btn_count_animal, btn_count_ads;
-
+    String image;
     Dialog dialog_search;
 
     class OrgComparator implements Comparator<Organizations> {
@@ -103,8 +115,8 @@ public class OrganizationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organizations);
 
         init();
-        dialog_search = new Dialog(this);
 
+        dialog_search = new Dialog(this);
 
         SearchView searchView = (SearchView) findViewById(R.id.search_view_org_search);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -133,65 +145,40 @@ public class OrganizationsActivity extends AppCompatActivity {
     }
 
     public void init(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Organization");
-        query.orderByAscending("createdAt");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        orgList = new ArrayList<>();
 
-                    orgList = new ArrayList<>();
-                    for (ParseObject i : objects){
+        DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String id = document.getId();
+                        String name = document.getString("name");
+                        String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
+                        String address = document.getString("address");
+                        String description = document.getString("description");
+                        String phone = document.getString("phone");
+                        String email = document.getString("email");
+                        String website = document.getString("website");
+                        String count_animal = document.getString("count_animal");
+                        String count_ads = document.getString("count_ads");
+                        String count_photo = document.getString("count_photo");
+                        Boolean is_org = document.getBoolean("is_org");
 
-                        ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                        query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
-                        query_user.getFirstInBackground(new GetCallback<ParseObject>() {
-                            public void done(ParseObject object_user, ParseException ex) {
-                                if (ex == null) {
-                                    ParseObject id_user = ParseObject.createWithoutData("_User", object_user.getObjectId());
+                        if (mAuth.getCurrentUser().getPhotoUrl() != null)
+                            image = Uri.parse(((mAuth.getCurrentUser()).getPhotoUrl()).toString()).toString();
 
-                                    ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
-                                    query_animal.whereEqualTo("id_user", id_user);
-                                    query_animal.countInBackground(new CountCallback() {
-                                        @Override
-                                        public void done(int query_count_animal, ParseException e) {
-                                            ParseQuery<ParseObject> query_animal = new ParseQuery<>("Ads");
-                                            query_animal.whereEqualTo("id_user", id_user);
-                                            query_animal.countInBackground(new CountCallback() {
-                                                @Override
-                                                public void done(int query_count_ads, ParseException e) {
-                                                    ParseQuery<ParseObject> query_animal = new ParseQuery<>("Collection");
-                                                    query_animal.whereEqualTo("id_user", id_user);
-                                                    query_animal.countInBackground(new CountCallback() {
-                                                        @Override
-                                                        public void done(int query_count_photo, ParseException e) {
-                                                            id = i.getObjectId();
-                                                            name = object_user.getString("username");
-                                                            image = Uri.parse(object_user.getParseFile("image").getUrl()).toString();
-                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
-                                                            address = i.get("address").toString();
-                                                            description = i.get("description").toString();
-                                                            phone = i.get("phone").toString();
-                                                            email = object_user.getString("email");
-                                                            website = i.get("website").toString();
-                                                            count_animal = Integer.toString(query_count_animal);
-                                                            count_ads = Integer.toString(query_count_ads);
-                                                            count_photo = Integer.toString(query_count_photo);
-
-                                                            orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
-                                                                    count_animal, count_ads, count_photo, date));
-                                                            setOrgRecycler(orgList);
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    });
-                                }
-                            }
-                        });
+                        orgList.add(new Organizations(id, name, image, is_org, phone, address, email, website, description,
+                                count_animal, count_ads, count_photo, date));
+                        setOrgRecycler(orgList);
+                    } else {
+                        Log.d(TAG, "Данные не найдены");
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
                 }
             }
         });

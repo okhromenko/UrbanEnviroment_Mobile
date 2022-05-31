@@ -1,11 +1,16 @@
 package com.example.urbanenviroment.page.profile.settings;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Switch;
@@ -17,44 +22,61 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class SettingOther extends AppCompatActivity {
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch switch_email_other, switch_phone_other, switch_website_other;
-    ParseUser parseUser;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_other);
 
-        parseUser = ParseUser.getCurrentUser();
-
         switch_email_other = findViewById(R.id.switch_email_other);
         switch_phone_other = findViewById(R.id.switch_phone_other);
         switch_website_other = findViewById(R.id.switch_website_other);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", parseUser.getObjectId());
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    switch_onCreate(switch_email_other, object.getBoolean("hidden_email"));
-                    switch_onCreate(switch_phone_other, object.getBoolean("hidden_phone"));
-                    switch_onCreate(switch_website_other, object.getBoolean("hidden_website"));
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("User").document(Objects.requireNonNull(mAuth.getUid()));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        switch_onCreate(switch_email_other, Boolean.TRUE.equals(document.getBoolean("hidden_email")));
+                        switch_onCreate(switch_phone_other, Boolean.TRUE.equals(document.getBoolean("hidden_phone")));
+                        switch_onCreate(switch_website_other, Boolean.TRUE.equals(document.getBoolean("hidden_website")));
+                    } else {
+                        Log.d(TAG, "Проблемы при входе, пользователь не найден");
+                    }
+                } else {
+                    Log.d(TAG, "Проблемы при входе ", task.getException());
                 }
             }
         });
-
     }
 
     public void switch_onCreate(@SuppressLint("UseSwitchCompatOrMaterialCode") Switch switch_other, boolean flag){
@@ -62,23 +84,22 @@ public class SettingOther extends AppCompatActivity {
     }
 
     public void save_switch(String hidden_type, boolean flag){
-        ParseQuery<ParseObject> query_user = ParseQuery.getQuery("_User");
-        query_user.whereEqualTo("objectId", parseUser.getObjectId());
-        query_user.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put(hidden_type, flag);
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Настройки сохранены", Toast.LENGTH_LONG).show();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference changeRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+        changeRef.update(hidden_type, flag).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SettingOther.this, SettingOther.class);
+                startActivity(intent);
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
             }
         });
     }

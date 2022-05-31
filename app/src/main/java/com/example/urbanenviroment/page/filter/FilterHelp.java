@@ -34,6 +34,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class FilterHelp extends AppCompatActivity {
 
@@ -93,17 +94,10 @@ public class FilterHelp extends AppCompatActivity {
     public void init(){
         categoryOrgList = new ArrayList<>();
 
-        ParseQuery<ParseObject> query_org = new ParseQuery<>("_User");
-        query_org.whereEqualTo("is_org", true);
-        query_org.findInBackground((object_org, exp) -> {
-            if (exp == null) {
-                for (ParseObject r : object_org){
-                    categoryOrgList.add(new CategoryAnimals(r.get("username").toString()));
+        for (String nameOrg : (Set<String>) getIntent().getSerializableExtra("list_org"))
+            categoryOrgList.add(new CategoryAnimals(nameOrg));
 
-                    setCategoryAnimalsRecycler(categoryOrgList);
-                }
-            }
-        });
+        setCategoryAnimalsRecycler(categoryOrgList);
     }
 
 

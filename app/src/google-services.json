@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "657574505967",
+    "project_id": "urbanenviroment-4eeab",
+    "storage_bucket": "urbanenviroment-4eeab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657574505967:android:7beea972e2f536ea5a9a1a",
+        "android_client_info": {
+          "package_name": "com.example.urbanenviroment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657574505967-hjb7a63ncuo04337hq5kmtlg2glul046.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.urbanenviroment",
+            "certificate_hash": "6c0bc6b3c08265b4817e558bfe0faf707d131b84"
+          }
+        },
+        {
+          "client_id": "657574505967-c41ps1deafu5g8omiig447f2sjttthqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHfPU2Vt1EPCZZFI66sfhtzcZLm4VbNLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657574505967-c41ps1deafu5g8omiig447f2sjttthqm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

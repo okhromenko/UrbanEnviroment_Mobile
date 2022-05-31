@@ -1,5 +1,8 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +31,16 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.CountCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -41,6 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class ProfileActivityOrg extends AppCompatActivity {
 
@@ -48,12 +63,11 @@ public class ProfileActivityOrg extends AppCompatActivity {
     private static final int RQS_GET_IMAGE = 2;
     private static final int RQS_PICK_IMAGE = 3;
 
-    private ImageView imageView;
-    private byte[] byteArray;
-    ParseUser parseUser;
-    String id, name, image, date, address, description, phone, email, website;
-
+    private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
+
+    String id, name, image, date, address, description, phone, email, website;
+    Boolean is_org;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,39 +82,43 @@ public class ProfileActivityOrg extends AppCompatActivity {
         TextView data_profile_org = findViewById(R.id.data_profile_org);
         ImageView img_profile_image = findViewById(R.id.img_profile_image_org);
 
-        parseUser = ParseUser.getCurrentUser();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", parseUser.getObjectId());
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    ParseObject id_user = ParseObject.createWithoutData("_User", object.getObjectId());
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        id = document.getId();
+                        name = document.getString("name");
+                        email = document.getString("email");
+                        phone = document.getString("phone");
+                        website = document.getString("website");
+                        address = document.getString("address");
+                        description = document.getString("description");
+                        is_org = document.getBoolean("is_org");
 
-                    ParseQuery<ParseObject> query_org = ParseQuery.getQuery("Organization");
-                    query_org.whereEqualTo("id_user", id_user);
-                    query_org.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object_org, ParseException ex) {
-                            if (ex == null) {
-                                id = object_org.getObjectId();
-                                name = object.getString("username");
-                                email = object.getString("email");
-                                phone = object_org.getString("phone");
-                                website = object_org.getString("website");
-                                address = object_org.getString("address");
-                                description = object_org.getString("description");
-                                date = new SimpleDateFormat("d.M.y").format(object_org.getCreatedAt());
-                                image = Uri.parse(object.getParseFile("image").getUrl()).toString();
+                        date = new SimpleDateFormat("d.M.y").format(Objects.requireNonNull(document.getDate("reg_date")));
 
-                                name_profile_org.setText(name);
-                                email_profile_org.setText(email);
-                                phone_profile_org.setText(phone);
-                                data_profile_org.setText(date);
-                                Picasso.get().load(image).into(img_profile_image);
-                            }
-
+                        if (mAuth.getCurrentUser().getPhotoUrl() != null){
+                            image = Uri.parse(((mAuth.getCurrentUser()).getPhotoUrl()).toString()).toString();
+                            Picasso.get().load(image).into(img_profile_image);
                         }
-                    });
+
+                        name_profile_org.setText(name);
+                        email_profile_org.setText(email);
+                        phone_profile_org.setText(phone);
+                        data_profile_org.setText(date);
+
+                    } else {
+                        Log.d(TAG, "Проблемы при входе, пользователь не найден");
+                    }
+                } else {
+                    Log.d(TAG, "Проблемы при входе ", task.getException());
                 }
             }
         });
@@ -121,7 +139,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
-            imageView = (ImageView) findViewById(R.id.img_profile_image_org);
+            ImageView imageView = (ImageView) findViewById(R.id.img_profile_image_org);
 
             if (requestCode == RQS_OPEN_IMAGE ||
                     requestCode == RQS_GET_IMAGE ||
@@ -130,8 +148,6 @@ public class ProfileActivityOrg extends AppCompatActivity {
                 imageView.setImageBitmap(null);
 
                 Uri mediaUri = data.getData();
-                String mediaPath = mediaUri.getPath();
-
 
                 try {
                     InputStream inputStream = getBaseContext().getContentResolver().openInputStream(mediaUri);
@@ -139,28 +155,19 @@ public class ProfileActivityOrg extends AppCompatActivity {
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    byteArray = stream.toByteArray();
 
                     imageView.setImageBitmap(bm);
 
-                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("_User");
-                    query_3.whereEqualTo("objectId", parseUser.getObjectId());
-                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
+                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                            setPhotoUri(mediaUri).build();
 
-                                ParseFile photo = new ParseFile(byteArray);
-                                object.put("image", photo);
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
-                                        }
-                                        else
-                                            Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                    assert firebaseUser != null;
+                    firebaseUser.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -199,6 +206,7 @@ public class ProfileActivityOrg extends AppCompatActivity {
 
     public void settings(View view){
         Intent intent = new Intent(this, SettingProfile.class);
+        intent.putExtra("is_org", is_org);
         startActivity(intent);
     }
 
@@ -272,14 +280,12 @@ public class ProfileActivityOrg extends AppCompatActivity {
     }
 
     public void exit(View view) {
-        ParseUser.logOutInBackground(e -> {
-            progressDialog.dismiss();
-            if (e == null)
-                Toast.makeText(getApplicationContext(), "Bye-bye", Toast.LENGTH_LONG).show();
-        });
+        FirebaseAuth.getInstance().signOut();
+        progressDialog.dismiss();
 
         Intent intent = new Intent(this, AuthorizationActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

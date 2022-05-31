@@ -1,5 +1,8 @@
 package com.example.urbanenviroment.page.help;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +13,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,6 +32,12 @@ import com.example.urbanenviroment.page.filter.FilterHelp;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -39,6 +49,7 @@ import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -47,8 +58,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -58,6 +71,7 @@ public class HelpActivity extends AppCompatActivity {
     Dialog_Search dialog_search;
     List<Help> helpList;
     List<Help> filterHelpList;
+    Set<String> list_org_name;
 
     boolean flag_org;
     boolean flag = false;
@@ -120,53 +134,52 @@ public class HelpActivity extends AppCompatActivity {
 
     public void init(boolean flag_org){
         DateTime current_date = new DateTime();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        if (flag_org){
-            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
-            query.whereEqualTo("id_user", id_);
-        }
+        //        if (flag_org){
+//            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
+//            query.whereEqualTo("id_user", id_);
+//        }
 
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        db.collection("Ads").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
                     helpList = new ArrayList<>();
-                    for (ParseObject i : objects){
-                        ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                        query_user.whereEqualTo("objectId", Objects.requireNonNull(i.getParseObject("id_user")).getObjectId());
-                        query_user.findInBackground((object_user, ex) -> {
-                            if (ex == null) {
-                                DateTime date_ads_create = DateTime.parse(i.getString("first_date"), DateTimeFormat.forPattern("d.M.y"));
-                                DateTime date_ads_delete = DateTime.parse(i.getString("last_date"), DateTimeFormat.forPattern("d.M.y"));
+                    list_org_name = new HashSet<>();
 
-                                if (current_date.compareTo(date_ads_create) >= 0){
-                                    String id = i.getObjectId();
-                                    String name_org = object_user.get(0).getString("username");
-                                    String image_org = Uri.parse(Objects.requireNonNull(object_user.get(0).getParseFile("image")).getUrl()).toString();
-                                    String type = i.getString("type");
-                                    String description = i.getString("description");
-                                    String first_data = i.getString("first_date");
-                                    String last_data = i.getString("last_date");
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        DateTime date_ads_create = DateTime.parse(document.getString("first_date"), DateTimeFormat.forPattern("d.M.y"));
+                        DateTime date_ads_delete = DateTime.parse( document.getString("last_date"), DateTimeFormat.forPattern("d.M.y"));
 
-                                    helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
-                                    setHelpRecycler(helpList);
-                                    if (getIntent().getBooleanExtra("flag_filter", false))
-                                        filter_click(helpList);
+                        if (current_date.compareTo(date_ads_create) >= 0){
+                            String id = document.getId();
+                            String name_org = document.getString("username");
+                            String image_org = document.getString("imageOrg");
+                            String type = document.getString("type");
+                            String description = document.getString("description");
+                            String first_data = document.getString("first_date");
+                            String last_data = document.getString("last_date");
 
-                                    Days days = Days.daysBetween(current_date, date_ads_delete);
-                                    //Тут мы устанавливаем срок, после которого объявление будет удалено
-                                    if (days.getDays() > 2){
-                                        i.deleteInBackground();
-                                    }
-                                }
-                            }
-                        });
+                            helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
+                            list_org_name.add(name_org);
+
+                            setHelpRecycler(helpList);
+                            if (getIntent().getBooleanExtra("flag_filter", false))
+                                filter_click(helpList);
+
+                            Days days = Days.daysBetween(current_date, date_ads_delete);
+                            //Тут мы устанавливаем срок, после которого объявление будет удалено
+//                            if (days.getDays() > 2){
+//                                db.collection("Ads").document(id)
+//                                        .delete();
+//                            }
+                        }
                     }
-
-                } else
-                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
             }
         });
     }
@@ -275,6 +288,7 @@ public class HelpActivity extends AppCompatActivity {
     public void filter(View view){
         if (!getIntent().getBooleanExtra("flag_filter", false)){
             Intent intent = new Intent(this, FilterHelp.class);
+            intent.putExtra("list_org", (Serializable) list_org_name);
             startActivity(intent);
         }
         else finish();

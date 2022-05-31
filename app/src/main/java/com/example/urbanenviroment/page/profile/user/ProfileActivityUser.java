@@ -1,5 +1,8 @@
 package com.example.urbanenviroment.page.profile.user;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,6 +30,14 @@ import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.ProfileActivityOrg;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -39,6 +51,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class ProfileActivityUser extends AppCompatActivity {
     private ProgressDialog progressDialog;
@@ -47,12 +60,8 @@ public class ProfileActivityUser extends AppCompatActivity {
     private static final int RQS_GET_IMAGE = 2;
     private static final int RQS_PICK_IMAGE = 3;
 
-    private ImageView imageView;
-    private byte[] byteArray;
-
+    private FirebaseAuth mAuth;
     String image;
-
-    ParseUser parseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,26 +72,37 @@ public class ProfileActivityUser extends AppCompatActivity {
 
         TextView name = findViewById(R.id.name_profile);
         TextView email = findViewById(R.id.email_profile);
-        TextView data = findViewById(R.id.data_profile);
+        TextView date = findViewById(R.id.data_profile);
         ImageView image_user = (ImageView) findViewById(R.id.img_profile_image_user);
 
-        parseUser = ParseUser.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        name.setText(document.getString("name"));
+                        email.setText(document.getString("email"));
+                        String reg_date = new SimpleDateFormat("d.M.y").format(Objects.requireNonNull(document.getDate("reg_date")));
+                        date.setText(reg_date);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("objectId", parseUser.getObjectId());
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    name.setText(object.getString("username"));
-                    email.setText(object.getString("email"));
-                    image = Uri.parse(object.getParseFile("image").getUrl()).toString();
-                    @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("d.M.y").format(object.getCreatedAt());
-                    data.setText(date);
-                    Picasso.get().load(image).into(image_user);
+                        if (mAuth.getCurrentUser().getPhotoUrl() != null){
+                            image = Uri.parse(((mAuth.getCurrentUser()).getPhotoUrl()).toString()).toString();
+                            Picasso.get().load(image).into(image_user);
+                        }
+
+                    } else {
+                        Log.d(TAG, "Проблемы при входе, пользователь не найден");
+                    }
+                } else {
+                    Log.d(TAG, "Проблемы при входе ", task.getException());
                 }
             }
         });
-
     }
 
     public void loading_photo_user(View view){
@@ -100,7 +120,7 @@ public class ProfileActivityUser extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
-            imageView = (ImageView) findViewById(R.id.img_profile_image_user);
+            ImageView imageView = (ImageView) findViewById(R.id.img_profile_image_user);
 
             if (requestCode == RQS_OPEN_IMAGE ||
                     requestCode == RQS_GET_IMAGE ||
@@ -109,8 +129,6 @@ public class ProfileActivityUser extends AppCompatActivity {
                 imageView.setImageBitmap(null);
 
                 Uri mediaUri = data.getData();
-                String mediaPath = mediaUri.getPath();
-
 
                 try {
                     InputStream inputStream = getBaseContext().getContentResolver().openInputStream(mediaUri);
@@ -118,32 +136,22 @@ public class ProfileActivityUser extends AppCompatActivity {
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    byteArray = stream.toByteArray();
 
                     imageView.setImageBitmap(bm);
 
-                    ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("_User");
-                    query_3.whereEqualTo("objectId", parseUser.getObjectId());
-                    query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (e == null) {
+                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                            setPhotoUri(mediaUri).build();
 
-                                ParseFile photo = new ParseFile(byteArray);
-                                object.put("image", photo);
-                                object.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if(e == null) {
-                                            Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
-                                        }
-                                        else
-                                            Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                    assert firebaseUser != null;
+                    firebaseUser.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
-
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -193,13 +201,11 @@ public class ProfileActivityUser extends AppCompatActivity {
     }
 
     public void exit(View view) {
-        ParseUser.logOutInBackground(e -> {
-            progressDialog.dismiss();
-            if (e == null)
-                Toast.makeText(getApplicationContext(), "Bye-bye", Toast.LENGTH_LONG).show();
-        });
+        FirebaseAuth.getInstance().signOut();
+        progressDialog.dismiss();
 
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 }

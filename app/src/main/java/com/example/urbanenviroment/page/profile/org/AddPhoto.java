@@ -1,5 +1,8 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,6 +19,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +41,18 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -51,11 +67,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddPhoto extends AppCompatActivity {
 
@@ -63,12 +82,13 @@ public class AddPhoto extends AppCompatActivity {
     private static final int RQS_GET_IMAGE = 2;
     private static final int RQS_PICK_IMAGE = 3;
 
-    private ImageView imageView;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
     private byte[] byteArray;
     private ArrayList<String> name = new ArrayList<>();
-    private HashMap<String, ParseObject> animals = new HashMap<>();
-    ParseObject id_a;
+    private HashMap<String, QueryDocumentSnapshot> animals = new HashMap<>();
     public static String name_category;
+    Uri mediaUri;
 
     RecyclerView categoryRecycler;
     CategoryAnimalAdapter categoryAnimalAdapter;
@@ -79,18 +99,27 @@ public class AddPhoto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_photo);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
-        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-        query.whereEqualTo("id_user", id_user);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    add_list(objects);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
+        db.collection("Animal").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    categoryAnimalsList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        String name_animal = document.get("name").toString() + " (" + document.getString("kind")
+                                + ")";
+                        name.add(name_animal);
+                        animals.put(name_animal, document);
+
+                        categoryAnimalsList.add(new CategoryAnimals(name_animal));
+                        setCategoryAnimalsRecycler(categoryAnimalsList);
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
@@ -121,19 +150,6 @@ public class AddPhoto extends AppCompatActivity {
         return filterString;
     }
 
-    public void add_list(List<ParseObject> objects){
-        categoryAnimalsList = new ArrayList<>();
-
-        for (ParseObject i : objects){
-            String name_animal = i.get("name").toString();
-
-            name.add(name_animal);
-            animals.put(name_animal, i);
-
-            categoryAnimalsList.add(new CategoryAnimals(name_animal));
-            setCategoryAnimalsRecycler(categoryAnimalsList);
-        }
-    }
 
     private void setCategoryAnimalsRecycler(List<CategoryAnimals> categoryAnimalsList){
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager (3, LinearLayoutManager.HORIZONTAL);
@@ -160,7 +176,7 @@ public class AddPhoto extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
-            imageView = (ImageView) findViewById(R.id.img_add_photo_animal);
+            ImageView imageView = (ImageView) findViewById(R.id.img_add_photo_animal);
 
             if (requestCode == RQS_OPEN_IMAGE ||
                     requestCode == RQS_GET_IMAGE ||
@@ -168,8 +184,7 @@ public class AddPhoto extends AppCompatActivity {
 
                 imageView.setImageBitmap(null);
 
-                Uri mediaUri = data.getData();
-                String mediaPath = mediaUri.getPath();
+                mediaUri = data.getData();
 
                 try {
                     InputStream inputStream = getBaseContext().getContentResolver().openInputStream(mediaUri);
@@ -214,48 +229,50 @@ public class AddPhoto extends AppCompatActivity {
     }
 
     public void getParameter() {
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        Date date = new Date();
 
-        ParseObject collection = new ParseObject("Collection");
-        ParseObject notification = new ParseObject("Notification");
+        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        id_a = animals.get(name_category);
+        StorageReference storageRef = storage.getReference();
+        StorageReference imgRef = storageRef.child(mediaUri.getPath());
+        UploadTask uploadTask = imgRef.putBytes(byteArray);
 
-        ParseFile photo = new ParseFile(byteArray);
-        ParseObject ptr = ParseObject.createWithoutData("Animals", id_a.getObjectId());
+        QueryDocumentSnapshot id_a = animals.get(name_category);
 
-        collection.put("image", photo);
-        collection.put("id_animal", ptr);
-        collection.put("id_user", parseUser);
+        Map<String, Object> collection = new HashMap<>();
+        collection.put("id_animal", id_a.getId());
+        collection.put("image", imgRef.getPath());
+        collection.put("userId", mAuth.getCurrentUser().getUid());
+        collection.put("username", mAuth.getCurrentUser().getDisplayName());
+        collection.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+        collection.put("reg_date", date);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.w(TAG, "Упс, что-то пошло не так" + exception);
+            }
+        });
+
+        db.collection("Collection")
+                .add(collection)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Упс, что-то пошло не так " + e);
+                    }
+                });
+
 
         Intent intent = new Intent(AddPhoto.this, AddPhoto.class);
         startActivity(intent);
-
-        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-        query_kind.whereEqualTo("objectId", id_a.getParseObject("id_kind").getObjectId());
-        query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                String other_info = object.getString("name") + " " +
-                        name_category;
-
-                notification.put("id_user", parseUser);
-                notification.put("type_notification", "фото");
-                notification.put("other_info", other_info);
-                notification.saveInBackground();
-            }
-        });
-
-        collection.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null) {
-                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                    name_category = null;
-                    finish();
-                }
-            }
-        });
     }
 
     public void save(View view) {

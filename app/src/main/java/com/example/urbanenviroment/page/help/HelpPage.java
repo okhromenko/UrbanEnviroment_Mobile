@@ -23,6 +23,7 @@ import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.EditHelpPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -34,6 +35,7 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 public class HelpPage extends AppCompatActivity {
 
     boolean flag = false;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,82 +81,81 @@ public class HelpPage extends AppCompatActivity {
         description_help_page.setText(getIntent().getStringExtra("description_help"));
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
 
-        if (parseUser != null){
-            if ((Boolean) parseUser.get("is_org")) {
-                button_favorite_help_page.setVisibility(View.GONE);
-            } else {
-                button_favorite_help_page.setVisibility(View.VISIBLE);
-            }
-        }
+//        if (mAuth.getCurrentUser() != null){
+//            if ((Boolean) parseUser.get("is_org")) {
+//                button_favorite_help_page.setVisibility(View.GONE);
+//            } else {
+//                button_favorite_help_page.setVisibility(View.VISIBLE);
+//            }
+//        }
+//
+//
+//        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
+//        query_ads.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+//        query_ads.getFirstInBackground(new GetCallback<ParseObject>() {
+//            @Override
+//            public void done(ParseObject object, ParseException e) {
+//                if (object != null && parseUser != null){
+//                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
+//                        edit_del_buttons.setVisibility(View.VISIBLE);
+//                    else edit_del_buttons.setVisibility(View.GONE);
+//                }
+//            }
+//        });
 
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+//        ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
+//        query.whereEqualTo("id_ads", id_ads);
+//        query.whereEqualTo("id_user", parseUser);
+//        query.getFirstInBackground(new GetCallback<ParseObject>() {
+//            @Override
+//            public void done(ParseObject object, ParseException e) {
+//                if (object != null)
+//                    button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
+//                else
+//                    button_favorite_help_page.setImageResource(R.drawable.button_favorite);
+//            }
+//        });
 
-        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
-        query_ads.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query_ads.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null && parseUser != null){
-                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
-                        edit_del_buttons.setVisibility(View.VISIBLE);
-                    else edit_del_buttons.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-        ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
-        query.whereEqualTo("id_ads", id_ads);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null)
-                    button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
-                else
-                    button_favorite_help_page.setImageResource(R.drawable.button_favorite);
-            }
-        });
-
-        button_favorite_help_page.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-
-                ParseUser parseUser = ParseUser.getCurrentUser();
-                ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
-
-                query.whereEqualTo("id_ads", id_ads);
-                query.whereEqualTo("id_user", parseUser);
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if (object == null){
-                            button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
-
-                            ParseObject favorite_ads = new ParseObject("FavoriteAds");
-                            favorite_ads.put("id_user", parseUser);
-                            favorite_ads.put("id_ads", id_ads);
-
-                            favorite_ads.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Intent intent = new Intent(HelpPage.this, HelpPage.class);
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
-                        }
-                        else {
-                            button_favorite_help_page.setImageResource(R.drawable.button_favorite);
-                            object.deleteInBackground();
-                        }
-                    }
-                });
-            }
-        });
+//        button_favorite_help_page.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+//
+//                ParseUser parseUser = ParseUser.getCurrentUser();
+//                ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id"));
+//
+//                query.whereEqualTo("id_ads", id_ads);
+//                query.whereEqualTo("id_user", parseUser);
+//                query.getFirstInBackground(new GetCallback<ParseObject>() {
+//                    @Override
+//                    public void done(ParseObject object, ParseException e) {
+//                        if (object == null){
+//                            button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
+//
+//                            ParseObject favorite_ads = new ParseObject("FavoriteAds");
+//                            favorite_ads.put("id_user", parseUser);
+//                            favorite_ads.put("id_ads", id_ads);
+//
+//                            favorite_ads.saveInBackground(new SaveCallback() {
+//                                @Override
+//                                public void done(ParseException e) {
+//                                    if (e != null){
+//                                        Intent intent = new Intent(HelpPage.this, HelpPage.class);
+//                                        startActivity(intent);
+//                                    }
+//                                }
+//                            });
+//                        }
+//                        else {
+//                            button_favorite_help_page.setImageResource(R.drawable.button_favorite);
+//                            object.deleteInBackground();
+//                        }
+//                    }
+//                });
+//            }
+//        });
     }
 
     public void animals(View view){

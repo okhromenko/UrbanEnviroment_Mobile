@@ -1,5 +1,6 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 
@@ -33,7 +34,16 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
@@ -54,8 +64,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class AddAnimal extends AppCompatActivity {
 
@@ -63,12 +76,10 @@ public class AddAnimal extends AppCompatActivity {
     private static final int RQS_GET_IMAGE = 2;
     private static final int RQS_PICK_IMAGE = 3;
 
-    private ImageView imageView;
     private String sex;
     private MaterialEditText name, age, state, kind, species, description;
-    byte[] byteArray;
-    Calendar calendar_text;
-    DatePickerDialog dpd;
+    private Uri mediaUri;
+    private byte[] byteArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +102,7 @@ public class AddAnimal extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
-            imageView = (ImageView) findViewById(R.id.img_add_photo_animal);
+            ImageView imageView = (ImageView) findViewById(R.id.img_add_photo_animal);
 
             if (requestCode == RQS_OPEN_IMAGE ||
                     requestCode == RQS_GET_IMAGE ||
@@ -99,8 +110,7 @@ public class AddAnimal extends AppCompatActivity {
 
                 imageView.setImageBitmap(null);
 
-                Uri mediaUri = data.getData();
-                String mediaPath = mediaUri.getPath();
+                mediaUri = data.getData();
 
                 Uri selectedImage = data.getData();
                 String file = selectedImage.getPath();
@@ -155,13 +165,13 @@ public class AddAnimal extends AppCompatActivity {
 
     public void button_date(View view){
         age = findViewById(R.id.add_date_animal);
-        calendar_text = Calendar.getInstance();
+        Calendar calendar_text = Calendar.getInstance();
 
         int day_first = calendar_text.get(Calendar.DAY_OF_MONTH);
         int month_first = calendar_text.get(Calendar.MONTH);
         int year_first = calendar_text.get(Calendar.YEAR);
 
-        dpd = new DatePickerDialog(AddAnimal.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog dpd = new DatePickerDialog(AddAnimal.this, new DatePickerDialog.OnDateSetListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -201,82 +211,65 @@ public class AddAnimal extends AppCompatActivity {
     }
 
     public void getParameter(){
-        ParseObject animal = new ParseObject("Animals");
-        ParseObject notification = new ParseObject("Notification");
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        ParseFile photo = new ParseFile(byteArray);
-        animal.put("name", name.getText().toString());
-        animal.put("state",  state.getText().toString());
-        animal.put("species", species.getText().toString());
-        animal.put("description", description.getText().toString());
-        animal.put("age", age.getText().toString());
-        animal.put("sex", sex);
-        animal.put("image", photo);
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child(mediaUri.getPath());
+        UploadTask uploadTask = imageRef.putBytes(byteArray);
 
-        ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
-
-        String other_info = kind.getText().toString() + " " + name.getText().toString();
-
-        notification.put("id_user", ptr);
-        notification.put("type_notification", "животное");
-        notification.put("other_info", other_info);
-
-        notification.saveInBackground();
-
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animal_kind");
-        query_3.whereEqualTo("name", kind.getText().toString());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    ParseObject id_kind = ParseObject.createWithoutData("Animal_kind", object.getObjectId());
-                    animal.put("id_kind", id_kind);
-                    animal.put("id_user", ptr);
-                    Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
-                    startActivity(intent);
-                    animal.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                            } else {
-                                ParseUser.logOut();
-                                Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                }
-                else{
-                    ParseObject animal_kind = new ParseObject("Animal_kind");
-                    animal_kind.put("name", kind.getText().toString());
-                    animal_kind.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            animal.put("id_user", ptr);
-                            animal.put("id_kind", animal_kind);
-
-                            Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
-                            startActivity(intent);
-                            animal.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e == null) {
-                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        ParseUser.logOut();
-                                        Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(getApplicationContext(), "Небольшие проблемы с загрузкой", Toast.LENGTH_LONG).show();
             }
         });
+
+        Date date_reg = new Date();
+
+        Map<String, Object> animals = new HashMap<>();
+        animals.put("name", name.getText().toString());
+        animals.put("state",  state.getText().toString());
+        animals.put("species", species.getText().toString());
+        animals.put("description", description.getText().toString());
+        animals.put("age", age.getText().toString());
+        animals.put("sex", sex);
+        animals.put("kind", kind.getText().toString());
+        animals.put("date_reg", date_reg);
+        animals.put("userId", mAuth.getCurrentUser().getUid());
+        animals.put("username", mAuth.getCurrentUser().getDisplayName());
+        animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+        animals.put("image", imageRef.getPath());
+
+
+        db.collection("Animal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        HashMap<String, Object> kindMap = new HashMap<>();
+        kindMap.put("name", kind.getText().toString());
+
+        db.collection("AnimalKind").document(kind.getText().toString())
+                .set(kindMap).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+        startActivity(intent);
+        finish();
     }
 
     public void btn_save(View view){
-        Boolean flagCheckup = true;
-        Boolean flagInput = true;
+        boolean flagCheckup = true;
+        boolean flagInput = true;
 
         name = findViewById(R.id.add_name_animal);
         age = findViewById(R.id.add_date_animal);
@@ -288,10 +281,11 @@ public class AddAnimal extends AppCompatActivity {
         RadioButton sex_man = findViewById(R.id.button_switch_man);
         RadioButton sex_woman = findViewById(R.id.button_switch_woman);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
         try {
-            Date date = dateFormat.parse(age.getText().toString());
+            Date date = dateFormat.parse(Objects.requireNonNull(age.getText()).toString());
+            assert date != null;
             age.setText(dateFormat.format(date));
             goneMessage(R.id.error_input_animal_age);
         } catch (Exception e) {
@@ -320,42 +314,42 @@ public class AddAnimal extends AppCompatActivity {
             goneMessage(R.id.error_animal_image);
         }
 
-        if (name.getText().toString().equals("")){
+        if (Objects.requireNonNull(name.getText()).toString().equals("")){
             errorMessage(R.id.error_animal_name);
             flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_name);
         }
 
-        if (age.getText().toString().equals("")){
+        if (Objects.requireNonNull(age.getText()).toString().equals("")){
             errorMessage(R.id.error_animal_age);
             flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_age);
         }
 
-        if (state.getText().toString().equals("")){
+        if (Objects.requireNonNull(state.getText()).toString().equals("")){
             errorMessage(R.id.error_animal_state);
             flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_state);
         }
 
-        if (kind.getText().toString().equals("")){
+        if (Objects.requireNonNull(kind.getText()).toString().equals("")){
             errorMessage(R.id.error_animal_kind);
             flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_kind);
         }
 
-        if (species.getText().toString().equals("")){
+        if (Objects.requireNonNull(species.getText()).toString().equals("")){
             errorMessage(R.id.error_animal_species);
             flagCheckup = false;
         } else {
             goneMessage(R.id.error_animal_species);
         }
 
-        if (description.getText().toString().equals("")){
+        if (Objects.requireNonNull(description.getText()).toString().equals("")){
             errorMessage(R.id.error_animal_description);
             flagCheckup = false;
         } else {

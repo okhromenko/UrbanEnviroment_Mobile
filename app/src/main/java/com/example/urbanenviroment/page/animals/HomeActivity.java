@@ -1,12 +1,30 @@
 package com.example.urbanenviroment.page.animals;
 
+import static android.content.ContentValues.TAG;
+
 import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.CategoryAnimals;
+import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.filter.FilterHelp;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.Parse;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,6 +37,7 @@ import android.icu.util.LocaleData;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -34,7 +53,10 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,14 +64,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class HomeActivity extends AppCompatActivity {
 
     RecyclerView animalsRecycler;
     AnimalsAdapter animalsAdapter;
     List<Animals> animalsList, filterAnimalList;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, org, kind;
+    Set<String> list_org_name;
     boolean flag_org, flag;
 
     static class AnimalsComparator implements Comparator<Animals>{
@@ -78,8 +105,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(getString(R.string.back4app_app_id))
                 .clientKey(getString(R.string.back4app_client_key))
@@ -89,6 +114,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
+        //Флаг подсказывает, что мы зашли по переходу от организации и должны увидеть только ее животных
         flag_org = getIntent().getBooleanExtra("flag_org", false);
         init(flag_org);
 
@@ -105,79 +131,62 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    public void init(boolean flag_org) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+    public void init(boolean flag_org){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
-        if (flag_org){
-            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
-            query.whereEqualTo("id_user", id_);
-        }
+//        if (flag_org){
+//            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
+//            query.whereEqualTo("id_user", id_);
+//        }
+//
+        animalsList = new ArrayList<>();
+        list_org_name = new HashSet<>();
 
-        query.orderByAscending("createdAt");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        db.collection("Animal").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
-            @SuppressLint("SimpleDateFormat")
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String date = new SimpleDateFormat("d.M.y").format(document.getDate("date_reg"));
+                        String name_animal = document.getString("name");
+                        String age = document.getString("age");
+                        String state = document.getString("state");
+                        String kind_animal = document.getString("kind");
+                        String species = document.getString("species");
+                        String description = document.getString("description");
+                        String sex = document.getString("sex");
+                        String name_org = document.getString("username");
+                        String image_org = document.getString("imageOrg");
 
-                    animalsList = new ArrayList<>();
-                    for (ParseObject i : objects) {
+                        list_org_name.add(name_org);
 
-                        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
-                        query_animal.whereEqualTo("objectId", i.getParseObject("id_animal").getObjectId());
-                        query_animal.findInBackground((object_animal, exception) -> {
-                            if (exception == null) {
-                                for (ParseObject j : object_animal) {
+                        storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String image_animal = uri.toString();
 
-                                    ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-                                    query_kind.whereEqualTo("objectId", j.getParseObject("id_kind").getObjectId());
-                                    query_kind.findInBackground((object_kind, exp) -> {
-                                        if (exp == null) {
-                                            for (ParseObject r : object_kind) {
-                                                kind = r.getString("name").toString();
-                                            }
-                                        }
-                                    });
+                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                        age, state, kind_animal, species, description, sex, date));
 
-                                    ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                                    query_user.whereEqualTo("objectId", j.getParseObject("id_user").getObjectId());
-                                    query_user.findInBackground((object_user, ex) -> {
-                                        if (ex == null) {
-                                            for (ParseObject k : object_user) {
-                                                id = j.getObjectId().toString();
-                                                image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-                                                date = new SimpleDateFormat("dd.MM.yyyy").format(i.getCreatedAt());
-                                                name_animal = j.getString("name");
-                                                age = j.getString("age");
-                                                state = j.getString("state");
-                                                kind_animal = kind;
-                                                species = j.getString("species");
-                                                description = j.getString("description");
-                                                sex = j.getString("sex");
-                                                name_org = k.getString("username");
-                                                image_org = Uri.parse(k.getParseFile("image").getUrl()).toString();
+                                Collections.sort(animalsList, new AnimalsComparator().reversed());
+                                setAnimalsRecycler(animalsList);
 
-                                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                                        age, state, kind_animal, species, description, sex, date));
-
-                                                Collections.sort(animalsList, new AnimalsComparator().reversed());
-                                                setAnimalsRecycler(animalsList);
-
-                                                if (getIntent().getBooleanExtra("flag_filter", false))
-                                                    filter_click(animalsList);
-                                            }
-
-                                        }
-                                    });
-                                }
+                                if (getIntent().getBooleanExtra("flag_filter", false))
+                                    filter_click(animalsList);
                             }
                         });
+
                     }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
     }
-
 
     private void setAnimalsRecycler(List<Animals> animalsList){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -259,6 +268,7 @@ public class HomeActivity extends AppCompatActivity {
         if (!getIntent().getBooleanExtra("flag_filter", false)){
             Intent intent = new Intent(this, FilterAnimal.class);
             intent.putExtra("page_last","photo");
+            intent.putExtra("list_org", (Serializable) list_org_name);
             startActivity(intent);
         }
         else finish();

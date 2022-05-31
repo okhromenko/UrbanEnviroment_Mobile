@@ -3,6 +3,7 @@ package com.example.urbanenviroment.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -38,8 +43,8 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
 
     @Override
     public void onBindViewHolder(@NonNull AnimalsViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_animal_home);
 
+        Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_animal_home);
         Picasso.get().load(animalsList.get(position).getImg_org()).into(holder.img_org_home);
 
         holder.name_org_home.setText(animalsList.get(position).getName_org());
@@ -61,7 +66,6 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
                 intent.putExtra("state_animal", animalsList.get(position).getState());
                 intent.putExtra("image_animal", animalsList.get(position).getImg_animal());
                 intent.putExtra("org", animalsList.get(position).getName_org());
-                //intent.putExtra("address", animalsList.get(position).getAddress());
 
                 context.startActivity(intent);
             }

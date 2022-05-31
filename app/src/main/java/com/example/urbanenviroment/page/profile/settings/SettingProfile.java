@@ -13,6 +13,8 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -29,15 +31,13 @@ public class SettingProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
         ImageButton button_setting_org_org = (ImageButton) findViewById(R.id.button_setting_org_org);
         ImageButton button_setting_profile = (ImageButton) findViewById(R.id.button_setting_profile);
         ImageButton button_setting_page_org = (ImageButton) findViewById(R.id.button_setting_page_org);
         ImageButton button_setting_notifications = (ImageButton) findViewById(R.id.button_setting_notifications);
         ImageButton button_other_settings = (ImageButton) findViewById(R.id.button_other_settings);
 
-        if ((Boolean) parseUser.get("is_org")) {
+        if (getIntent().getBooleanExtra("is_org", false)) {
             button_setting_org_org.setVisibility(View.VISIBLE);
             button_setting_page_org.setVisibility(View.VISIBLE);
             button_setting_profile.setVisibility(View.GONE);

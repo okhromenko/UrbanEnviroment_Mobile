@@ -81,6 +81,8 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.img_box_help.setCardBackgroundColor(color);
         holder.type_ads_help.setText(helpList.get(position).getType_help());
 
+        Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
+
         String str = helpList.get(position).getDescription();
         if (str.length() > 200) {
             str = str.substring(0,200) + "...";
@@ -89,6 +91,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
             holder.description_help.setText(helpList.get(position).getDescription());
         }
 
+        holder.name_org_help.setText(helpList.get(position).getName_org());
         holder.status_help.setText(helpList.get(position).getStatus());
         holder.date_help.setText(helpList.get(position).getDate_first());
 
@@ -135,73 +138,73 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         }
 
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        if(!flag && parseUser != null){
-            holder.name_org_help.setText(helpList.get(position).getName_org());
-            Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
-
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-
-
-            ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
-
-            if ((Boolean) parseUser.get("is_org")) {
-                holder.button_favorite_help.setVisibility(View.GONE);
-            } else {
-                holder.button_favorite_help.setVisibility(View.VISIBLE);
-            }
-
-            query.whereEqualTo("id_ads", id_ads);
-            query.whereEqualTo("id_user", parseUser);
-            query.getFirstInBackground(new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    if (object != null)
-                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
-                    else
-                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-                }
-            });
-
-            holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-
-                    ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
-
-                    query.whereEqualTo("id_ads", id_ads);
-                    query.whereEqualTo("id_user", parseUser);
-                    query.getFirstInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, ParseException e) {
-                            if (object == null){
-                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
-
-                                ParseObject favorite_ads = new ParseObject("FavoriteAds");
-                                favorite_ads.put("id_user", parseUser);
-                                favorite_ads.put("id_ads", id_ads);
-
-                                favorite_ads.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e != null){
-                                            Intent intent = new Intent(context, HelpActivity.class);
-                                            context.startActivity(intent);
-                                        }
-                                    }
-                                });
-                            }
-                            else {
-                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-                                object.deleteInBackground();
-                            }
-                        }
-                    });
-                }
-            });
-        }
+//        ParseUser parseUser = ParseUser.getCurrentUser();
+//
+//        if(!flag && parseUser != null){
+//            holder.name_org_help.setText(helpList.get(position).getName_org());
+//            Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
+//
+//            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+//
+//
+//            ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
+//
+//            if ((Boolean) parseUser.get("is_org")) {
+//                holder.button_favorite_help.setVisibility(View.GONE);
+//            } else {
+//                holder.button_favorite_help.setVisibility(View.VISIBLE);
+//            }
+//
+//            query.whereEqualTo("id_ads", id_ads);
+//            query.whereEqualTo("id_user", parseUser);
+//            query.getFirstInBackground(new GetCallback<ParseObject>() {
+//                @Override
+//                public void done(ParseObject object, ParseException e) {
+//                    if (object != null)
+//                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+//                    else
+//                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
+//                }
+//            });
+//
+//            holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
+//
+//                    ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
+//
+//                    query.whereEqualTo("id_ads", id_ads);
+//                    query.whereEqualTo("id_user", parseUser);
+//                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+//                        @Override
+//                        public void done(ParseObject object, ParseException e) {
+//                            if (object == null){
+//                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+//
+//                                ParseObject favorite_ads = new ParseObject("FavoriteAds");
+//                                favorite_ads.put("id_user", parseUser);
+//                                favorite_ads.put("id_ads", id_ads);
+//
+//                                favorite_ads.saveInBackground(new SaveCallback() {
+//                                    @Override
+//                                    public void done(ParseException e) {
+//                                        if (e != null){
+//                                            Intent intent = new Intent(context, HelpActivity.class);
+//                                            context.startActivity(intent);
+//                                        }
+//                                    }
+//                                });
+//                            }
+//                            else {
+//                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
+//                                object.deleteInBackground();
+//                            }
+//                        }
+//                    });
+//                }
+//            });
+//        }
     }
 
     public void find_type(String st){

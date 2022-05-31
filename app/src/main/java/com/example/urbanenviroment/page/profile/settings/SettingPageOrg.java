@@ -1,9 +1,15 @@
 package com.example.urbanenviroment.page.profile.settings;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +21,14 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -23,8 +37,15 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class SettingPageOrg extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +57,24 @@ public class SettingPageOrg extends AppCompatActivity {
         MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
         TextView text_website = (TextView) findViewById(R.id.text_website);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-
-        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-
-        query_3.whereEqualTo("id_user", id_user);
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    text_location.setText(object.get("address").toString());
-                    text_phone.setText(object.get("phone").toString());
-                    text_description.setText(object.get("description").toString());
-                    text_website.setText(object.get("website").toString());
+        DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        text_location.setText(document.getString("address"));
+                        text_phone.setText(document.getString("phone"));
+                        text_description.setText(document.getString("description"));
+                        text_website.setText(document.getString("website"));
+                    } else {
+                        Log.d(TAG, "Данные не найдены");
+                    }
                 }
             }
         });
@@ -114,95 +139,51 @@ public class SettingPageOrg extends AppCompatActivity {
         change(textPhone, textchange, layout);
     }
 
-    public void save_local(View view){
-        TextView textName = (TextView) findViewById(R.id.location_change_setting);
+    public void change_website(View view) {
+        TextView textWebsite = (TextView) findViewById(R.id.text_website);
+        TextView textchange = (TextView) findViewById(R.id.button_change_website);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_website);
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        change(textWebsite, textchange, layout);
+    }
 
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-        query_3.whereEqualTo("id_user", id_user);
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("address", textName.getText().toString());
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+    private void save_change(String field, String value){
+        DocumentReference changeRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+        changeRef.update(field, value).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
+                startActivity(intent);
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void save_local(View view){
+        TextView textName = (TextView) findViewById(R.id.location_change_setting);
+        save_change("address", textName.getText().toString());
     }
 
     public void save_phone(View view){
         TextView textName = (TextView) findViewById(R.id.phone_change_setting);
-
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-        query_3.whereEqualTo("id_user", id_user);
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("phone", textName.getText().toString());
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
+        save_change("phone", textName.getText().toString());
     }
 
     public void save_description(View view){
         TextView textName = (TextView) findViewById(R.id.description_change_setting);
+        save_change("description", textName.getText().toString());
+    }
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-
-        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-        query_3.whereEqualTo("id_user", id_user);
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("description", textName.getText().toString());
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
+    public void save_website(View view) {
+        TextView textName = (TextView) findViewById(R.id.website_change_setting);
+        save_change("website", textName.getText().toString());
     }
 
     public void cancel_location(View view){
@@ -229,20 +210,16 @@ public class SettingPageOrg extends AppCompatActivity {
         text_description.setText(" ");
     }
 
+    public void cancel_website(View view) {
+        clear(R.id.website_change_setting);
+    }
+
     public void clear_location(View view){
         clear(R.id.location_change_setting);
     }
 
     public void clear_phone(View view){
         clear(R.id.phone_change_setting);
-    }
-
-    public void change_website(View view) {
-        TextView textWebsite = (TextView) findViewById(R.id.text_website);
-        TextView textchange = (TextView) findViewById(R.id.button_change_website);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_website);
-
-        change(textWebsite, textchange, layout);
     }
 
     public void clear_website(View view) {
@@ -254,37 +231,4 @@ public class SettingPageOrg extends AppCompatActivity {
         clear(R.id.website_change_setting);
     }
 
-    public void save_website(View view) {
-        TextView textName = (TextView) findViewById(R.id.website_change_setting);
-
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Organization");
-        ParseObject id_user = ParseObject.createWithoutData("_User", parseUser.getObjectId());
-        query_3.whereEqualTo("id_user", id_user);
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("website", textName.getText().toString());
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SettingPageOrg.this, SettingPageOrg.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
-    }
-
-    public void cancel_website(View view) {
-        clear(R.id.website_change_setting);
-    }
 }

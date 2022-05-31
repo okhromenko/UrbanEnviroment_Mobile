@@ -22,6 +22,7 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -39,6 +40,7 @@ import java.util.List;
 public class AnimalPage extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
+    private FirebaseAuth mAuth;
     static ImageView image_animal_page;
     static List<Animals> animalsList;
     RecyclerView animalsRecycler;
@@ -50,6 +52,8 @@ public class AnimalPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_page);
+
+        mAuth = FirebaseAuth.getInstance();
 
         ImageButton hide_button_animal_page = (ImageButton) findViewById(R.id.hide_button_animal_page);
 
@@ -120,113 +124,111 @@ public class AnimalPage extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-
-        if (parseUser != null){
-            if ((Boolean) parseUser.get("is_org")) {
+        if (mAuth.getCurrentUser() != null){
+            if (getIntent().getBooleanExtra("is_org", false)) {
                 favorite_button_animal.setVisibility(View.GONE);
             } else {
                 favorite_button_animal.setVisibility(View.VISIBLE);
             }
         }
 
-        ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
-        query_animal.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query_animal.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null && parseUser != null){
-                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
-                        edit_del_buttons.setVisibility(View.VISIBLE);
-                    else edit_del_buttons.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
-        query.whereEqualTo("id_animal", id_animal);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null)
-                    favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
-                else
-                    favorite_button_animal.setImageResource(R.drawable.button_favorite);
-            }
-        });
-
-        favorite_button_animal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
-
-                ParseUser parseUser = ParseUser.getCurrentUser();
-                ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
-
-                query.whereEqualTo("id_animal", id_animal);
-                query.whereEqualTo("id_user", parseUser);
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if (object == null){
-                            favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
-
-                            ParseObject favorite_animal = new ParseObject("FavoriteAnimal");
-                            favorite_animal.put("id_user", parseUser);
-                            favorite_animal.put("id_animal", id_animal);
-
-                            favorite_animal.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
-                        }
-                        else {
-                            favorite_button_animal.setImageResource(R.drawable.button_favorite);
-                            object.deleteInBackground();
-                        }
-                    }
-                });
-            }
-        });
+//        ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
+//        query_animal.whereEqualTo("objectId", getIntent().getStringExtra("id"));
+//        query_animal.getFirstInBackground(new GetCallback<ParseObject>() {
+//            @Override
+//            public void done(ParseObject object, ParseException e) {
+//                if (object != null && parseUser != null){
+//                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
+//                        edit_del_buttons.setVisibility(View.VISIBLE);
+//                    else edit_del_buttons.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
+//        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+//        query.whereEqualTo("id_animal", id_animal);
+//        query.whereEqualTo("id_user", parseUser);
+//        query.getFirstInBackground(new GetCallback<ParseObject>() {
+//            @Override
+//            public void done(ParseObject object, ParseException e) {
+//                if (object != null)
+//                    favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
+//                else
+//                    favorite_button_animal.setImageResource(R.drawable.button_favorite);
+//            }
+//        });
+//
+//        favorite_button_animal.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
+//
+//                ParseUser parseUser = ParseUser.getCurrentUser();
+//                ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+//
+//                query.whereEqualTo("id_animal", id_animal);
+//                query.whereEqualTo("id_user", parseUser);
+//                query.getFirstInBackground(new GetCallback<ParseObject>() {
+//                    @Override
+//                    public void done(ParseObject object, ParseException e) {
+//                        if (object == null){
+//                            favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
+//
+//                            ParseObject favorite_animal = new ParseObject("FavoriteAnimal");
+//                            favorite_animal.put("id_user", parseUser);
+//                            favorite_animal.put("id_animal", id_animal);
+//
+//                            favorite_animal.saveInBackground(new SaveCallback() {
+//                                @Override
+//                                public void done(ParseException e) {
+//                                    if (e != null){
+//                                        Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
+//                                        startActivity(intent);
+//                                    }
+//                                }
+//                            });
+//                        }
+//                        else {
+//                            favorite_button_animal.setImageResource(R.drawable.button_favorite);
+//                            object.deleteInBackground();
+//                        }
+//                    }
+//                });
+//            }
+//        });
 
     }
 
     public void init(){
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
-        query.orderByAscending("createdAt");
-        query.whereEqualTo("id_animal", id_animal);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-
-                    animalsList = new ArrayList<>();
-                    for (ParseObject i : objects) {
-
-                        id = i.getObjectId();
-                        image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                age, state, kind_animal, species, description, sex, date));
-                        setAnimalsRecycler(animalsList);
-                    }
-                    TextView text_no_photo = (TextView) findViewById(R.id.text_no_photo);
-                    if (animalsList.isEmpty()) {
-                        text_no_photo.setVisibility(View.VISIBLE);
-                    } else {
-                        text_no_photo.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
+//        ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id"));
+//
+//        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+//        query.orderByAscending("createdAt");
+//        query.whereEqualTo("id_animal", id_animal);
+//        query.findInBackground(new FindCallback<ParseObject>() {
+//            public void done(List<ParseObject> objects, ParseException e) {
+//                if (e == null) {
+//
+//                    animalsList = new ArrayList<>();
+//                    for (ParseObject i : objects) {
+//
+//                        id = i.getObjectId();
+//                        image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
+//
+//                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+//                                age, state, kind_animal, species, description, sex, date));
+//                        setAnimalsRecycler(animalsList);
+//                    }
+//                    TextView text_no_photo = (TextView) findViewById(R.id.text_no_photo);
+//                    if (animalsList.isEmpty()) {
+//                        text_no_photo.setVisibility(View.VISIBLE);
+//                    } else {
+//                        text_no_photo.setVisibility(View.GONE);
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void setAnimalsRecycler(List<Animals> animalsList){

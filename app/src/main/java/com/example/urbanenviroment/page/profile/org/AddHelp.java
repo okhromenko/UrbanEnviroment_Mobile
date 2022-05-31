@@ -1,5 +1,6 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -21,6 +22,14 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -34,6 +43,8 @@ import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class AddHelp extends AppCompatActivity {
@@ -161,34 +172,27 @@ public class AddHelp extends AppCompatActivity {
 
     public void getParameter(){
 
-        ParseObject notification = new ParseObject("Notification");
-        ParseObject ads = new ParseObject("Ads");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        ParseObject ptr = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
 
-        notification.put("id_user", ptr);
-        notification.put("type_notification", "объявление");
-        notification.put("other_info", type);
+        Map<String, Object> ads = new HashMap<>();
+        ads.put("userId", mAuth.getCurrentUser().getUid());
+        ads.put("username", mAuth.getCurrentUser().getDisplayName());
+        ads.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
 
-        ads.put("id_user", ptr);
         ads.put("type", type);
-        ads.put("last_date", Objects.requireNonNull(add_date_help.getText()).toString());
-        ads.put("first_date", Objects.requireNonNull(add_date_help_first.getText()).toString());
-        ads.put("description",  Objects.requireNonNull(add_description_help.getText()).toString());
+        ads.put("last_date", add_date_help.getText().toString());
+        ads.put("first_date", add_date_help_first.getText().toString());
+        ads.put("description",  add_description_help.getText().toString());
 
         Intent intent = new Intent(AddHelp.this, ProfileActivityOrg.class);
         startActivity(intent);
 
-        notification.saveInBackground();
-        ads.saveInBackground(new SaveCallback() {
+        db.collection("Ads").add(ads).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void done(ParseException e) {
-                if(e == null) {
-                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                } else {
-                    ParseUser.logOut();
-                    Toast.makeText(AddHelp.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -1,5 +1,9 @@
 package com.example.urbanenviroment.page.filter;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,7 +12,10 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContentInfo;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,11 +34,20 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class FilterAnimal extends AppCompatActivity {
 
@@ -90,24 +106,26 @@ public class FilterAnimal extends AppCompatActivity {
     }
 
     public void init(){
-        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Animal_kind");
-        query_kind.findInBackground((object_kind, exp) -> {
-            if (exp == null) {
-                for (ParseObject r : object_kind)
-                    kind_list.add(new CategoryAnimals(r.get("name").toString()));
-                setCategoryAnimalsRecycler(kind_list, true, 1);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("AnimalKind").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        kind_list.add(new CategoryAnimals(document.get("name").toString()));
+                        setCategoryAnimalsRecycler(kind_list, true, 1);
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
             }
         });
 
-        ParseQuery<ParseObject> query_org = new ParseQuery<>("_User");
-        query_org.whereEqualTo("is_org", true);
-        query_org.findInBackground((object_org, exp) -> {
-            if (exp == null) {
-                for (ParseObject r : object_org)
-                    name_org_list.add(new CategoryAnimals(r.get("username").toString()));
-                setCategoryAnimalsRecycler(name_org_list, false, 3);
-            }
-        });
+        for (String nameOrg : (Set<String>) getIntent().getSerializableExtra("list_org"))
+            name_org_list.add(new CategoryAnimals((String) nameOrg));
+        setCategoryAnimalsRecycler(name_org_list, false, 3);
     }
 
     private List<CategoryAnimals> filter(List<CategoryAnimals> strings, String text){
