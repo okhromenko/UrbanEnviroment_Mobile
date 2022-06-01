@@ -151,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String id = document.getId();
-                        String date = new SimpleDateFormat("d.M.y").format(document.getDate("date_reg"));
+                        String date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("date_reg"));
                         String name_animal = document.getString("name");
                         String age = document.getString("age");
                         String state = document.getString("state");

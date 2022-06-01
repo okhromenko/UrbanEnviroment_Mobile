@@ -8,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
@@ -52,6 +54,8 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
+        LinearLayout layout = findViewById(R.id.layout_user_buttons_org_page);
+
         Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
         name_org_org_page.setText(getIntent().getStringExtra("name"));
@@ -81,9 +85,9 @@ public class OrganizationsPage extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if (getIntent().getBooleanExtra("is_org", false))
-            button_org_page.setVisibility(View.GONE);
+            layout.setVisibility(View.GONE);
         else
-            button_org_page.setVisibility(View.VISIBLE);
+            layout.setVisibility(View.VISIBLE);
 
 
         DocumentReference orgRef = db.collection("User").document(getIntent().getStringExtra("id"));

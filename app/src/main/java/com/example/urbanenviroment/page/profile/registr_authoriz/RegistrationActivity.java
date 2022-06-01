@@ -54,56 +54,60 @@ public class RegistrationActivity extends AppCompatActivity {
         String name = nameFields.getText().toString();
 
         if (!email.isEmpty() && !name.isEmpty()
-                && !password.isEmpty() && !passwordFieldDuplicate.getText().toString().isEmpty()){
+                && !password.isEmpty() && !passwordFieldDuplicate.getText().toString().isEmpty()) {
 
-            if (passwordField.getText().toString().equals(passwordFieldDuplicate.getText().toString())){
+            if (passwordField.getText().toString().length() >= 6) {
 
-                progressDialog.show();
+                if (passwordField.getText().toString().equals(passwordFieldDuplicate.getText().toString())) {
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                mAuth = FirebaseAuth.getInstance();
+                    progressDialog.show();
 
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                Date date = new Date();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    mAuth = FirebaseAuth.getInstance();
 
-                                Map<String, Object> user = new HashMap<>();
-                                user.put("email", email);
-                                user.put("name", name);
-                                user.put("password", password);
-                                user.put("is_org", is_org);
-                                user.put("reg_date", date);
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Date date = new Date();
 
-                                progressDialog.dismiss();
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("email", email);
+                                    user.put("name", name);
+                                    user.put("password", password);
+                                    user.put("is_org", is_org);
+                                    user.put("reg_date", date);
 
-                                db.collection("User").document(mAuth.getUid())
-                                        .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
-                                                startActivity(intent);
+                                    progressDialog.dismiss();
 
-                                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
-                                                        setDisplayName(name).build();
+                                    db.collection("User").document(mAuth.getUid())
+                                            .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
+                                                    startActivity(intent);
 
-                                                assert firebaseUser != null;
-                                                firebaseUser.updateProfile(profileChangeRequest);
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                FirebaseAuth.getInstance().signOut();
-                                            }
-                                        });
-                            }
-                        });
+                                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                                                            setDisplayName(name).build();
+
+                                                    assert firebaseUser != null;
+                                                    firebaseUser.updateProfile(profileChangeRequest);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    FirebaseAuth.getInstance().signOut();
+                                                }
+                                            });
+                                }
+                            });
+                } else
+                    Toast.makeText(getApplicationContext(), "Пароли не совпадают", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "Пароль слишком короткий!", Toast.LENGTH_LONG).show();
             }
-            else
-                Toast.makeText(getApplicationContext(), "Пароли не совпадают", Toast.LENGTH_LONG).show();
         }
         else
             Toast.makeText(getApplicationContext(), "Заполните все поля", Toast.LENGTH_LONG).show();

@@ -113,6 +113,7 @@ public class OrganizationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizations);
+        FrameLayout rectangle = (FrameLayout) findViewById(R.id.rectangle_search_org);
 
         init();
 

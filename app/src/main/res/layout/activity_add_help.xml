@@ -142,6 +142,17 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/wrong_first_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:visibility="gone"
+                    android:text="Дата публикации не может быть раньше текущей даты!"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
                     android:id="@+id/error_input_first_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -223,6 +234,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/wrong_help_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/red"
+                        android:visibility="gone"
+                        android:layout_marginStart="15dp"
+                        android:text="Дата завершения не может быть раньше даты публикации!"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="5dp"/>
 
                     <TextView
                         android:id="@+id/error_help_date"

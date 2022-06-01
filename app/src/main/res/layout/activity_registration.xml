@@ -80,7 +80,7 @@
                     android:layout_marginStart="15dp"
                     android:fontFamily="@font/roboto"
                     android:hint="Введите имя пользователя"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textCapWords"
                     android:textSize="18sp"
                     app:met_floatingLabel="none"
                     app:met_hideUnderline="true"

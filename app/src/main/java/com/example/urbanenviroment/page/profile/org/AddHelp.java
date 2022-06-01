@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -51,7 +52,7 @@ import java.util.Objects;
 public class AddHelp extends AppCompatActivity {
 
     MaterialEditText add_date_help, add_description_help, add_date_help_first;
-    String type;
+    String type, today;
     Calendar calendar_text;
     DatePickerDialog dpd;
     ImageButton food, things, help;
@@ -74,8 +75,8 @@ public class AddHelp extends AppCompatActivity {
         try {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             Date todayDate = new Date();
-            String firstDate = dateFormat.format(todayDate);
-            add_date_help_first.setText(firstDate);
+            today = dateFormat.format(todayDate);
+            add_date_help_first.setText(today);
 
             } catch (Exception e) {
             e.printStackTrace();
@@ -127,7 +128,7 @@ public class AddHelp extends AppCompatActivity {
                 if (Day.length() == 1) {
                     Day = "0" + Day;
                 }
-                add_date_help.setText(dayOfMonth + "." + (month + 1) + "." + year);
+                add_date_help.setText(Day + "." + Month + "." + year);
             }
         }, year_first, month_first, day_first);
         dpd.show();
@@ -153,7 +154,7 @@ public class AddHelp extends AppCompatActivity {
                 if (Day.length() == 1) {
                     Day = "0" + Day;
                 }
-                add_date_help_first.setText(dayOfMonth + "." + (month + 1) + "." + year);
+                add_date_help_first.setText(Day + "." + Month + "." + year);
             }
         }, year_first, month_first, day_first);
         dpd.show();
@@ -174,6 +175,7 @@ public class AddHelp extends AppCompatActivity {
                     Date todayDate = new Date();
                     String firstDate = dateFormat.format(todayDate);
                     add_date_help_first.setText(firstDate);
+                    goneMessage(R.id.error_input_first_date);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -236,8 +238,16 @@ public class AddHelp extends AppCompatActivity {
                 break;
         }
 
+        MaterialEditText first = findViewById(R.id.add_date_help_first);
+        MaterialEditText last = findViewById(R.id.add_date_help);
+
         checkAll(R.id.add_date_help, R.id.error_help_date);
         checkAll(R.id.add_description_help, R.id.error_help_description);
+
+        if (flagInput) {
+            messages(compare(first.getText().toString(), last.getText().toString()) < 0, R.id.wrong_help_date);
+            messages(compare(today, first.getText().toString()) < 1, R.id.wrong_first_date);
+        }
 
         if (flagCheckup && flagInput){
             getParameter();
@@ -250,6 +260,30 @@ public class AddHelp extends AppCompatActivity {
                     "Вы неккоректно заполнили поля!", Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public void messages(boolean flag, int id) {
+        if (flag) {
+            goneMessage(id);
+        } else {
+            errorMessage(id);
+            flagInput = false;
+        }
+    }
+
+    public int compare(String first, String last) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+
+        Date date_first = null;
+        Date date_last = null;
+        try {
+            date_first = format.parse(first);
+            date_last = format.parse(last);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        assert date_first != null;
+        return date_first.compareTo(date_last);
     }
 
     public void checkDate(int id_ET, int id_TV){

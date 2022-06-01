@@ -283,9 +283,17 @@ public class AddAnimal extends AppCompatActivity {
 
         try {
             Date date = dateFormat.parse(Objects.requireNonNull(age.getText()).toString());
+            Date today = new Date();
             assert date != null;
             age.setText(dateFormat.format(date));
             goneMessage(R.id.error_input_animal_age);
+            if (date.before(today)) {
+                goneMessage(R.id.wrong_animal_age);
+            } else {
+                errorMessage(R.id.wrong_animal_age);
+                flagInput = false;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             errorMessage(R.id.error_input_animal_age);
