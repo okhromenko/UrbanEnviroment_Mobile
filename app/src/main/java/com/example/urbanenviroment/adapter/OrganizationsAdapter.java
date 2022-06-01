@@ -63,13 +63,16 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         holder.name_org_org.setText(organizationsList.get(position).getName_org());
         holder.address_org.setText(organizationsList.get(position).getAddress());
 
-        String str = organizationsList.get(position).getDescription();
-        if (str.length() > 200) {
-            str = str.substring(0,200) + "...";
-            holder.description_org.setText(str);
-        } else {
-            holder.description_org.setText(organizationsList.get(position).getDescription());
+        if (organizationsList.get(position).getDescription() != null){
+            String str = organizationsList.get(position).getDescription();
+            if (str.length() > 200) {
+                str = str.substring(0,200) + "...";
+                holder.description_org.setText(str);
+            } else {
+                holder.description_org.setText(organizationsList.get(position).getDescription());
+            }
         }
+
         holder.count_animal_org.setText(organizationsList.get(position).getCount_animal());
         holder.count_ads_org.setText(organizationsList.get(position).getCount_ads());
         holder.count_photo_org.setText(organizationsList.get(position).getCount_photo());

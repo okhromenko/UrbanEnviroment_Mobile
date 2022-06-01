@@ -1,5 +1,6 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.HelpAdapter;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -23,6 +25,16 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -75,37 +87,28 @@ public class EditHelp extends AppCompatActivity {
     }
 
     public void init(){
-        ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
-        query.whereEqualTo("id_user", parseUser);
-        query.orderByDescending("createdAt");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    helpList = new ArrayList<>();
-                    for (ParseObject i : objects){
+        helpList = new ArrayList<>();
 
-                        ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                        query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
-                        query_user.findInBackground((object_user, ex) -> {
-                            if (ex == null) {
-                                String id = i.getObjectId().toString();
-                                String name_org = object_user.get(0).getString("username").toString();
-                                String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
-                                String type = i.get("type").toString();
-                                String description = i.get("description").toString();
-                                String first_data = i.get("first_date").toString();
-                                String last_data = i.get("last_date").toString();
+        db.collection("Ads").whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String description = document.getString("description");
+                        String name_org = document.getString("username");
+                        String image_org = document.getString("imageOrg");
+                        String type = document.getString("type");
+                        String first_data = document.getString("first_date");
+                        String last_data = document.getString("last_date");
 
-                                helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
+                        helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
 
-                                setHelpRecycler(helpList);
-                            }
-                        });
+                        setHelpRecycler(helpList);
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -33,8 +33,10 @@ import com.example.urbanenviroment.page.profile.org.DeletePhoto;
 import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.settings.SettingOther;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,6 +44,9 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -172,7 +177,10 @@ public class ProfileActivityUser extends AppCompatActivity {
 
                     imageView.setImageBitmap(bm);
 
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+
                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
                             setPhotoUri(mediaUri).build();
 
@@ -182,6 +190,8 @@ public class ProfileActivityUser extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
+                                DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
+                                changeRef.update("image", mAuth.getCurrentUser().getPhotoUrl().toString());
                             }
                         }
                     });

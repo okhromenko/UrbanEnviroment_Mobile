@@ -35,6 +35,7 @@ import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -264,7 +265,7 @@ public class AddAnimal extends AppCompatActivity {
                     }
                 });
 
-        Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+        Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);
         startActivity(intent);
         finish();
     }
@@ -359,7 +360,7 @@ public class AddAnimal extends AppCompatActivity {
         species.setText("");
         description.setText("");
 
-        Intent intent = new Intent(AddAnimal.this, ProfileActivityOrg.class);
+        Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);
         startActivity(intent);
     }
 }

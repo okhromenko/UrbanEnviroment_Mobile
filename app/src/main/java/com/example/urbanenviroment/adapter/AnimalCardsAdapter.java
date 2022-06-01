@@ -1,5 +1,7 @@
 package com.example.urbanenviroment.adapter;
 
+import static com.parse.Parse.getApplicationContext;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +20,10 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -25,7 +32,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.AnimalCardsViewHolder> {
     Context context;
@@ -109,6 +118,31 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
         holder.button_favorite_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//
+//                FirebaseFirestore db = FirebaseFirestore.getInstance();
+//                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//
+//                Map<String, Object> animals = new HashMap<>();
+//                animals.put("name", name.getText().toString());
+//                animals.put("state",  state.getText().toString());
+//                animals.put("species", species.getText().toString());
+//                animals.put("description", description.getText().toString());
+//                animals.put("age", age.getText().toString());
+//                animals.put("sex", sex);
+//                animals.put("kind", kind.getText().toString());
+//                animals.put("date_reg", date_reg);
+//                animals.put("userId", mAuth.getCurrentUser().getUid());
+//                animals.put("username", mAuth.getCurrentUser().getDisplayName());
+//                animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+//                animals.put("image", imageRef.getPath());
+//
+//                db.collection("FavoriteAnimal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
 
                 ParseUser parseUser = ParseUser.getCurrentUser();

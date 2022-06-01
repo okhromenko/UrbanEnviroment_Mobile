@@ -41,6 +41,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -313,7 +314,7 @@ public class AddPhoto extends AppCompatActivity {
     }
 
     public void cancel(View view){
-        Intent intent = new Intent(AddPhoto.this, ProfileActivityOrg.class);
+        Intent intent = new Intent(AddPhoto.this, ProfileActivityUser.class);
         startActivity(intent);
     }
 

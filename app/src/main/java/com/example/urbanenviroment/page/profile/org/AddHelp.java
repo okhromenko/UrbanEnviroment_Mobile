@@ -22,6 +22,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -198,7 +199,7 @@ public class AddHelp extends AppCompatActivity {
         ads.put("first_date", add_date_help_first.getText().toString());
         ads.put("description",  add_description_help.getText().toString());
 
-        Intent intent = new Intent(AddHelp.this, ProfileActivityOrg.class);
+        Intent intent = new Intent(AddHelp.this, ProfileActivityUser.class);
         startActivity(intent);
 
         db.collection("Ads").add(ads).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

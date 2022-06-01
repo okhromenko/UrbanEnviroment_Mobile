@@ -30,6 +30,8 @@ import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.EditHelpPage;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -68,6 +70,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HelpViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
         color = Color.GRAY;
         color_transperent = Color.GRAY;
@@ -81,7 +84,10 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.img_box_help.setCardBackgroundColor(color);
         holder.type_ads_help.setText(helpList.get(position).getType_help());
 
-        Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
+        if (!flag && mAuth != null){
+            Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
+            holder.name_org_help.setText(helpList.get(position).getName_org());
+        }
 
         String str = helpList.get(position).getDescription();
         if (str.length() > 200) {
@@ -91,7 +97,6 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
             holder.description_help.setText(helpList.get(position).getDescription());
         }
 
-        holder.name_org_help.setText(helpList.get(position).getName_org());
         holder.status_help.setText(helpList.get(position).getStatus());
         holder.date_help.setText(helpList.get(position).getDate_first());
 

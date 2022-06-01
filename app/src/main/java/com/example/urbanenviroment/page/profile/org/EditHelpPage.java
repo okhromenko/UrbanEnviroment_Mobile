@@ -1,11 +1,16 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -22,6 +27,13 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -29,12 +41,14 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
+import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
 import java.util.Objects;
 
 public class EditHelpPage extends AppCompatActivity {
 
+    private FirebaseFirestore db;
     int type_flag = 0;
     String type, id, description;
     MaterialEditText text_edit_last_date;
@@ -50,17 +64,25 @@ public class EditHelpPage extends AppCompatActivity {
         TextView date_ads = findViewById(R.id.text_data_ads_edit_page);
         EditText description_ads = findViewById(R.id.text_edit_help_description);
 
-        if (getIntent().getStringExtra("id_ads_intent") != null){
-            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Ads");
-            ParseObject id_ads = ParseObject.createWithoutData("Ads", getIntent().getStringExtra("id_ads_intent"));
-            query_3.whereEqualTo("objectId", id_ads.getObjectId());
-            query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                public void done(ParseObject object, ParseException e) {
-                    if (e == null) {
-                        type_ads.setText(object.get("type").toString());
-                        date_ads.setText(object.get("last_date").toString());
-                        description_ads.setText(object.get("description").toString());
-                        description = object.get("description").toString();
+        db = FirebaseFirestore.getInstance();
+
+        if (getIntent().getStringExtra("id") != null){
+
+            DocumentReference docRef = db.collection("Ads").document(getIntent().getStringExtra("id"));
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("SimpleDateFormat")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            description = document.getString("description");
+                            type_ads.setText(document.getString("type"));
+                            date_ads.setText(document.getString("last_date"));
+                            description_ads.setText(description);
+                        } else {
+                            Log.d(TAG, "Данные не найдены");
+                        }
                     }
                 }
             });
@@ -183,6 +205,31 @@ public class EditHelpPage extends AppCompatActivity {
         type_flag = 0;
     }
 
+    private void save(String field, String value){
+        id = getIntent().getStringExtra("id");
+
+        DocumentReference changeRef = db.collection("Ads").document(id);
+
+        changeRef.update(field, value).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(EditHelpPage.this, EditHelpPage.class);
+                intent.putExtra("id_ads_intent", id);
+                startActivity(intent);
+                finish();
+            }
+        });
+    }
+
     public void save_type_ads(View view){
         id = getIntent().getStringExtra("id");
 
@@ -198,88 +245,16 @@ public class EditHelpPage extends AppCompatActivity {
                 break;
         }
 
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Ads");
-        ParseObject id_ads = ParseObject.createWithoutData("Ads", id);
-        query_3.whereEqualTo("objectId", id_ads.getObjectId());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("type", type);
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(EditHelpPage.this, EditHelpPage.class);
-                                intent.putExtra("id_ads_intent", id);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
+        save("type", type);
     }
 
     public void save_last_date(View view){
-        id = getIntent().getStringExtra("id");
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Ads");
-        ParseObject id_ads = ParseObject.createWithoutData("Ads", id);
-        query_3.whereEqualTo("objectId", id_ads.getObjectId());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("last_date", Objects.requireNonNull(text_edit_last_date.getText()).toString());
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(EditHelpPage.this, EditHelpPage.class);
-                                intent.putExtra("id_ads_intent", id);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
+        save("last_date", Objects.requireNonNull(text_edit_last_date.getText()).toString());
     }
 
     public void save_description(View view){
         MaterialEditText text_edit_description = findViewById(R.id.text_edit_help_description);
-        id = getIntent().getStringExtra("id");
-
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Ads");
-        ParseObject id_ads = ParseObject.createWithoutData("Ads", id);
-        query_3.whereEqualTo("objectId", id_ads.getObjectId());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put("description", Objects.requireNonNull(text_edit_description.getText()).toString());
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(EditHelpPage.this, EditHelpPage.class);
-                                intent.putExtra("id_ads_intent", id);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            }
-        });
+        save("description", Objects.requireNonNull(text_edit_description.getText()).toString());
     }
 
     public void animals(View view){

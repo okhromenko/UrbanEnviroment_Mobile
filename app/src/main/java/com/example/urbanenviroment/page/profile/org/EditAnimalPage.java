@@ -1,5 +1,8 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,11 +25,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,6 +54,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class EditAnimalPage extends AppCompatActivity {
@@ -47,7 +65,9 @@ public class EditAnimalPage extends AppCompatActivity {
     private static final int RQS_PICK_IMAGE = 3;
 
     private ImageView imageView;
-
+    private FirebaseFirestore db;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
     Calendar calendar_text;
     DatePickerDialog dpd;
     String description;
@@ -68,30 +88,37 @@ public class EditAnimalPage extends AppCompatActivity {
         EditText text_edit_description = (EditText) findViewById(R.id.text_edit_description);
         ImageView img_main_animal_photo = findViewById(R.id.img_main_animal_photo);
 
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
-        if (getIntent().getStringExtra("id_animal_intent") != null){
-            ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animals");
-            ParseObject id_animal = ParseObject.createWithoutData("Animals", getIntent().getStringExtra("id_animal_intent"));
-            query_3.whereEqualTo("objectId", id_animal.getObjectId());
-            query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-                public void done(ParseObject object, ParseException e) {
-                    if (e == null) {
-                        ParseQuery<ParseObject> query_kind = ParseQuery.getQuery("Animal_kind");
-                        query_kind.whereEqualTo("objectId", object.getParseObject("id_kind").getObjectId());
-                        query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
-                            @Override
-                            public void done(ParseObject object_kind, ParseException e) {
-                                text_name_animal_edit_page.setText(object.getString("name"));
-                                text_kind_animal_edit_page.setText(object_kind.getString("name"));
-                                text_species_animal_edit_page.setText(object.getString("species"));
-                                text_sex_animal_edit_page.setText(object.getString("sex"));
-                                text_state_animal_edit_page.setText(object.getString("state"));
-                                text_age_animal_edit_page.setText(object.getString("age"));
-                                text_edit_description.setText(object.getString("description"));
-                                description = object.getString("description");
-                                Picasso.get().load(Uri.parse(object.getParseFile("image").getUrl())).into(img_main_animal_photo);
-                            }
-                        });
+        if (getIntent().getStringExtra("id") != null){
+            DocumentReference docRef = db.collection("Animal").document(getIntent().getStringExtra("id"));
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @SuppressLint("SimpleDateFormat")
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            text_name_animal_edit_page.setText(document.getString("name"));
+                            text_kind_animal_edit_page.setText(document.getString("kind"));
+                            text_species_animal_edit_page.setText(document.getString("species"));
+                            text_sex_animal_edit_page.setText(document.getString("sex"));
+                            text_state_animal_edit_page.setText(document.getString("state"));
+                            text_age_animal_edit_page.setText(document.getString("age"));
+                            description = document.getString("description");
+                            text_edit_description.setText(description);
+
+                            storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Picasso.get().load(Uri.parse(uri.toString())).into(img_main_animal_photo);
+                                }
+                            });
+                        } else {
+                            Log.d(TAG, "Данные не найдены");
+                        }
                     }
                 }
             });
@@ -132,7 +159,6 @@ public class EditAnimalPage extends AppCompatActivity {
                 imageView.setImageBitmap(null);
 
                 Uri mediaUri = data.getData();
-                String mediaPath = mediaUri.getPath();
 
                 //display the image
                 try {
@@ -140,10 +166,25 @@ public class EditAnimalPage extends AppCompatActivity {
                     Bitmap bm = BitmapFactory.decodeStream(inputStream);
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                     byte[] byteArray = stream.toByteArray();
 
                     imageView.setImageBitmap(bm);
 
+                    StorageReference imageRef = storageRef.child(mediaUri.getPath());
+                    UploadTask uploadTask = imageRef.putBytes(byteArray);
+
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            Toast.makeText(getApplicationContext(), "Небольшие проблемы с загрузкой", Toast.LENGTH_LONG).show();
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            save("image", imageRef.getPath());
+                        }
+                    });
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -199,28 +240,21 @@ public class EditAnimalPage extends AppCompatActivity {
     public void save(String to, String what){
         id = getIntent().getStringExtra("id");
 
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animals");
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", id);
-        query_3.whereEqualTo("objectId", id_animal.getObjectId());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    object.put(to, Objects.requireNonNull(what));
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if(e == null) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(EditAnimalPage.this, EditAnimalPage.class);
-                                intent.putExtra("id_animal_intent", id);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
+        DocumentReference changeRef = db.collection("Animal").document(id);
+
+        changeRef.update(to, Objects.requireNonNull(what)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(EditAnimalPage.this, EditAnimalPage.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -232,39 +266,12 @@ public class EditAnimalPage extends AppCompatActivity {
 
     public void save_kind_animal_edit_page(View view){
         MaterialEditText kind = findViewById(R.id.add_kind_org);
+        save("kind", Objects.requireNonNull(kind.getText()).toString());
 
-        id = getIntent().getStringExtra("id");
-        ParseQuery<ParseObject> query_3 = ParseQuery.getQuery("Animals");
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", id);
-        query_3.whereEqualTo("objectId", id_animal.getObjectId());
-        query_3.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    ParseQuery<ParseObject> query_kind = ParseQuery.getQuery("Animal_kind");
-                    query_kind.whereEqualTo("objectId", object.getParseObject("id_kind").getObjectId());
-                    query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object_kind, ParseException e) {
-                            object_kind.put("name", Objects.requireNonNull(kind.getText()).toString());
-                            object_kind.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e == null) {
-                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(EditAnimalPage.this, EditAnimalPage.class);
-                                        intent.putExtra("id_animal_intent", id);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-                                    else
-                                        Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    });
-                }
-            }
-        });
+        HashMap<String, Object> kindMap = new HashMap<>();
+        kindMap.put("name", kind.getText().toString());
+
+        db.collection("AnimalKind").document(kind.getText().toString()).set(kindMap);
     }
 
     public void save_species_animal_edit_page(View view){

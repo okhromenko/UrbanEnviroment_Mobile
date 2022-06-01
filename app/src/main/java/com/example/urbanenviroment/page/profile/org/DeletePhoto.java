@@ -1,5 +1,6 @@
 package com.example.urbanenviroment.page.profile.org;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,12 +17,23 @@ import android.widget.ImageView;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.AnimalPhotoDeleteOrgAdapter;
 import com.example.urbanenviroment.model.Animals;
+import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -43,7 +55,7 @@ public class DeletePhoto extends AppCompatActivity {
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
     List<Animals> animalsList;
 
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
+    String name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
 
     static class AnimalsComparator implements Comparator<Animals> {
 
@@ -75,28 +87,34 @@ public class DeletePhoto extends AppCompatActivity {
     }
 
     public void init(){
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
-        query.orderByAscending("createdAt");
-        query.whereEqualTo("id_user", parseUser);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        animalsList = new ArrayList<>();
+
+        db.collection("Collection").whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
 
-                    animalsList = new ArrayList<>();
-                    for (ParseObject i : objects) {
+                        storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String image_animal = uri.toString();
 
-                        id = i.getObjectId();
-                        image_animal = Uri.parse(i.getParseFile("image").getUrl()).toString();
-                        date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
+                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                        age, state, kind_animal, species, description, sex, date));
 
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                age, state, kind_animal, species, description, sex, date));
-
-                        Collections.sort(animalsList, new AnimalsComparator().reversed());
-                        setAnimalsRecycler(animalsList);
+                                Collections.sort(animalsList, new AnimalsComparator().reversed());
+                                setAnimalsRecycler(animalsList);
+                            }
+                        });
                     }
                 }
             }

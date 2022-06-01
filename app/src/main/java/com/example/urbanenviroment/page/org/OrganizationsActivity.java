@@ -49,6 +49,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.loopeer.shadow.ShadowView;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
@@ -69,13 +71,11 @@ import java.util.Objects;
 
 public class OrganizationsActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
     public int check;
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
     List<Organizations> orgList;
     RadioButton decrease, btn_data_reg, btn_count_animal, btn_count_ads;
-    String image;
     Dialog dialog_search;
 
     class OrgComparator implements Comparator<Organizations> {
@@ -145,18 +145,14 @@ public class OrganizationsActivity extends AppCompatActivity {
     }
 
     public void init(){
-        mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         orgList = new ArrayList<>();
 
-        DocumentReference docRef = db.collection("User").document(mAuth.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @SuppressLint("SimpleDateFormat")
+        db.collection("User").whereEqualTo("is_org", true).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
                         String id = document.getId();
                         String name = document.getString("name");
                         String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
@@ -169,15 +165,11 @@ public class OrganizationsActivity extends AppCompatActivity {
                         String count_ads = document.getString("count_ads");
                         String count_photo = document.getString("count_photo");
                         Boolean is_org = document.getBoolean("is_org");
-
-                        if (mAuth.getCurrentUser().getPhotoUrl() != null)
-                            image = Uri.parse(((mAuth.getCurrentUser()).getPhotoUrl()).toString()).toString();
+                        String image = document.getString("image");
 
                         orgList.add(new Organizations(id, name, image, is_org, phone, address, email, website, description,
                                 count_animal, count_ads, count_photo, date));
                         setOrgRecycler(orgList);
-                    } else {
-                        Log.d(TAG, "Данные не найдены");
                     }
                 }
             }

@@ -20,6 +20,9 @@ import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.profile.org.DeletePhoto;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -67,20 +70,24 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
             holder.btn_delete_collection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Collection");
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    query.whereEqualTo("objectId", animalsList.get(position).getId());
-                    query.getFirstInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, ParseException ex) {
-                            if (object != null){
-                                object.deleteInBackground();
-
-                                Intent intent = new Intent(context, DeletePhoto.class);
-                                context.startActivity(intent);
-                            }
-                        }
-                    });
+                    db.collection("Collection").document(animalsList.get(position).getId())
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(context, DeletePhoto.class);
+                                    context.startActivity(intent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_LONG).show();
+                                }
+                            });
                 }
             });
         }
