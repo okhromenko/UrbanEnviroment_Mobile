@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -58,6 +59,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Objects;
 
 public class ProfileActivityUser extends AppCompatActivity {
@@ -174,27 +176,49 @@ public class ProfileActivityUser extends AppCompatActivity {
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                    byte[] byteArray = stream.toByteArray();
 
                     imageView.setImageBitmap(bm);
 
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
 
-                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
-                            setPhotoUri(mediaUri).build();
+                    StorageReference storageRef = storage.getReference();
+                    StorageReference imgRef = storageRef.child(mediaUri.getPath());
+                    UploadTask uploadTask = imgRef.putBytes(byteArray);
 
-                    assert firebaseUser != null;
-                    firebaseUser.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    storageRef.child(imgRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
-                                DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
-                                changeRef.update("image", mAuth.getCurrentUser().getPhotoUrl().toString());
-                            }
+                        public void onSuccess(Uri uri) {
+
+                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                                    setPhotoUri(uri).build();
+
+                            assert firebaseUser != null;
+                            firebaseUser.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
+                                        DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
+                                        changeRef.update("image", mAuth.getCurrentUser().getPhotoUrl().toString());
+                                    }
+                                }
+                            });
                         }
                     });
+
+//                    DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
+//                    changeRef.update("image", imgRef.getPath()).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<Void> task) {
+//                            Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
+//
+//                        }
+//                    });
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

@@ -102,19 +102,13 @@ public class DeletePhoto extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String id = document.getId();
                         String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
+                        String image_animal = document.getString("image");
 
-                        storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String image_animal = uri.toString();
+                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                age, state, kind_animal, species, description, sex, date));
 
-                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                        age, state, kind_animal, species, description, sex, date));
-
-                                Collections.sort(animalsList, new AnimalsComparator().reversed());
-                                setAnimalsRecycler(animalsList);
-                            }
-                        });
+                        Collections.sort(animalsList, new AnimalsComparator().reversed());
+                        setAnimalsRecycler(animalsList);
                     }
                 }
             }

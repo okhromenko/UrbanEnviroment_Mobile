@@ -103,7 +103,7 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
                                                                             count_ads = Integer.toString(query_count_ads);
                                                                             count_photo = Integer.toString(query_count_photo);
 
-                                                                            orgList.add(new Organizations(id, name, image, false, phone, address, email, website, description,
+                                                                            orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
                                                                                     count_animal, count_ads, count_photo, date));
                                                                             setOrgRecycler(orgList);
                                                                         }

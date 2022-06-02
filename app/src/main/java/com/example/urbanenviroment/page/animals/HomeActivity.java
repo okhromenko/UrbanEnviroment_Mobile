@@ -161,25 +161,18 @@ public class HomeActivity extends AppCompatActivity {
                         String sex = document.getString("sex");
                         String name_org = document.getString("username");
                         String image_org = document.getString("imageOrg");
+                        String image_animal = document.getString("image");
 
                         list_org_name.add(name_org);
 
-                        storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String image_animal = uri.toString();
+                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                age, state, kind_animal, species, description, sex, date));
 
-                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                        age, state, kind_animal, species, description, sex, date));
+                        Collections.sort(animalsList, new AnimalsComparator().reversed());
+                        setAnimalsRecycler(animalsList);
 
-                                Collections.sort(animalsList, new AnimalsComparator().reversed());
-                                setAnimalsRecycler(animalsList);
-
-                                if (getIntent().getBooleanExtra("flag_filter", false))
-                                    filter_click(animalsList);
-                            }
-                        });
-
+                        if (getIntent().getBooleanExtra("flag_filter", false))
+                            filter_click(animalsList);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

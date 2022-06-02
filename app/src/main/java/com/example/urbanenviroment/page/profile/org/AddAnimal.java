@@ -36,10 +36,13 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -229,30 +232,35 @@ public class AddAnimal extends AppCompatActivity {
             }
         });
 
-        Date date_reg = new Date();
 
-        Map<String, Object> animals = new HashMap<>();
-        animals.put("name", name.getText().toString());
-        animals.put("state",  state.getText().toString());
-        animals.put("species", species.getText().toString());
-        animals.put("description", description.getText().toString());
-        animals.put("age", age.getText().toString());
-        animals.put("sex", sex);
-        animals.put("kind", kind.getText().toString());
-        animals.put("date_reg", date_reg);
-        animals.put("userId", mAuth.getCurrentUser().getUid());
-        animals.put("username", mAuth.getCurrentUser().getDisplayName());
-        animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
-        animals.put("image", imageRef.getPath());
-
-
-        db.collection("Animal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        storageRef.child(imageRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+            public void onSuccess(Uri uri) {
+                Date date_reg = new Date();
+
+                Map<String, Object> animals = new HashMap<>();
+                animals.put("name", name.getText().toString());
+                animals.put("state",  state.getText().toString());
+                animals.put("species", species.getText().toString());
+                animals.put("description", description.getText().toString());
+                animals.put("age", age.getText().toString());
+                animals.put("sex", sex);
+                animals.put("kind", kind.getText().toString());
+                animals.put("date_reg", date_reg);
+                animals.put("userId", mAuth.getCurrentUser().getUid());
+                animals.put("username", mAuth.getCurrentUser().getDisplayName());
+                animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                animals.put("image", uri.toString());
+
+
+                db.collection("Animal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
-
 
         HashMap<String, Object> kindMap = new HashMap<>();
         kindMap.put("name", kind.getText().toString());
@@ -274,7 +282,12 @@ public class AddAnimal extends AppCompatActivity {
         flagCheckup = true;
         boolean flagInput = true;
 
+        name = findViewById(R.id.add_name_animal);
         age = findViewById(R.id.add_date_animal);
+        state = findViewById(R.id.add_state_animal);
+        kind = findViewById(R.id.add_kind_animal);
+        species = findViewById(R.id.add_species_animal);
+        description = findViewById(R.id.add_description_animal);
 
         RadioButton sex_man = findViewById(R.id.button_switch_man);
         RadioButton sex_woman = findViewById(R.id.button_switch_woman);

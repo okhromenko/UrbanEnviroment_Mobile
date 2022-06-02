@@ -22,12 +22,15 @@ import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Organizations;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -36,12 +39,14 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdapter.OrganizationViewHolder> {
 
     Context context;
     List<Organizations> organizationsList;
+    Boolean is_org;
 
     public OrganizationsAdapter(Context context, List<Organizations> helpList) {
         this.context = context;
@@ -83,10 +88,20 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
 
         if (mAuth != null){
 
-            if (organizationsList.get(position).getIs_org())
-                holder.button_favorite_org.setVisibility(View.GONE);
-            else
-                holder.button_favorite_org.setVisibility(View.VISIBLE);
+            DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    is_org = document.getBoolean("is_org");
+
+                    if (is_org)
+                        holder.button_favorite_org.setVisibility(View.GONE);
+                    else
+                         holder.button_favorite_org.setVisibility(View.VISIBLE);
+                }
+            });
+
+
 
 //            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
 //            ParseObject id_org = ParseObject.createWithoutData("Organization", organizationsList.get(position).getId());
@@ -121,7 +136,7 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
                 intent.putExtra("count_photo", organizationsList.get(position).getCount_photo());
                 intent.putExtra("date", organizationsList.get(position).getDate());
                 intent.putExtra("website", organizationsList.get(position).getWebsite());
-                intent.putExtra("is_org", organizationsList.get(position).getIs_org());
+                intent.putExtra("is_org", is_org);
                 context.startActivity(intent);
             }
         });

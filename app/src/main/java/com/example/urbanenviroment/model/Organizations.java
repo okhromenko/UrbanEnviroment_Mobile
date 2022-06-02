@@ -4,14 +4,12 @@ import java.io.Serializable;
 
 public class Organizations{
     String id, name_org, img_org, phone, address, email, website, description, count_animal, count_ads, count_photo, date;
-    Boolean is_org;
 
-    public Organizations(String id, String name_org, String img_org, Boolean is_org, String phone, String address, String email, String website,
+    public Organizations(String id, String name_org, String img_org, String phone, String address, String email, String website,
                          String description, String count_animal, String count_ads, String count_photo, String date) {
         this.id = id;
         this.name_org = name_org;
         this.img_org = img_org;
-        this.is_org = is_org;
         this.phone = phone;
         this.address = address;
         this.email = email;
@@ -45,14 +43,6 @@ public class Organizations{
 
     public void setImg_org(String img_org) {
         this.img_org = img_org;
-    }
-
-    public Boolean getIs_org() {
-        return is_org;
-    }
-
-    public void setIs_org(Boolean is_org) {
-        this.is_org = is_org;
     }
 
     public String getPhone() {

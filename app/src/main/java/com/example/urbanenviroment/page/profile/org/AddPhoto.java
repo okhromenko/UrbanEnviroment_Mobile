@@ -238,16 +238,6 @@ public class AddPhoto extends AppCompatActivity {
         StorageReference imgRef = storageRef.child(mediaUri.getPath());
         UploadTask uploadTask = imgRef.putBytes(byteArray);
 
-        QueryDocumentSnapshot id_a = animals.get(name_category);
-
-        Map<String, Object> collection = new HashMap<>();
-        collection.put("id_animal", id_a.getId());
-        collection.put("image", imgRef.getPath());
-        collection.put("userId", mAuth.getCurrentUser().getUid());
-        collection.put("username", mAuth.getCurrentUser().getDisplayName());
-        collection.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
-        collection.put("reg_date", date);
-
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
@@ -255,22 +245,37 @@ public class AddPhoto extends AppCompatActivity {
             }
         });
 
-        db.collection("Collection")
-                .add(collection)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+        QueryDocumentSnapshot id_a = animals.get(name_category);
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Упс, что-то пошло не так " + e);
-                    }
-                });
+        storageRef.child(imgRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Map<String, Object> collection = new HashMap<>();
+                collection.put("id_animal", id_a.getId());
+                collection.put("image", uri.toString());
+                collection.put("userId", mAuth.getCurrentUser().getUid());
+                collection.put("username", mAuth.getCurrentUser().getDisplayName());
+                collection.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                collection.put("reg_date", date);
 
+                db.collection("Collection")
+                        .add(collection)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Упс, что-то пошло не так " + e);
+                            }
+                        });
+
+            }
+        });
 
         Intent intent = new Intent(AddPhoto.this, AddPhoto.class);
         startActivity(intent);

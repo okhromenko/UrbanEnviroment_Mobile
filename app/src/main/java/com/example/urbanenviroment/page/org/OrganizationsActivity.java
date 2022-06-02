@@ -165,10 +165,9 @@ public class OrganizationsActivity extends AppCompatActivity {
                         String count_animal = document.getString("count_animal");
                         String count_ads = document.getString("count_ads");
                         String count_photo = document.getString("count_photo");
-                        Boolean is_org = document.getBoolean("is_org");
                         String image = document.getString("image");
 
-                        orgList.add(new Organizations(id, name, image, is_org, phone, address, email, website, description,
+                        orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
                                 count_animal, count_ads, count_photo, date));
                         setOrgRecycler(orgList);
                     }

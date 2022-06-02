@@ -109,22 +109,16 @@ public class CardsMainActivity extends AppCompatActivity {
                         String sex = document.getString("sex");
                         String name_org = document.getString("username");
                         String image_org = document.getString("imageOrg");
+                        String image_animal = document.getString("image");
 
-                        storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String image_animal = uri.toString();
+                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                                age, state, kind_animal, species, description, sex, date));
 
-                                animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                        age, state, kind_animal, species, description, sex, date));
+                        Collections.sort(animalsList, new HomeActivity.AnimalsComparator().reversed());
+                        setCardsRecycler(animalsList);
 
-                                Collections.sort(animalsList, new HomeActivity.AnimalsComparator().reversed());
-                                setCardsRecycler(animalsList);
-
-                                if (getIntent().getBooleanExtra("flag_filter", false))
-                                    filter_click(animalsList);
-                            }
-                        });
+                        if (getIntent().getBooleanExtra("flag_filter", false))
+                            filter_click(animalsList);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());

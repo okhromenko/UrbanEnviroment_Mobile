@@ -1,19 +1,27 @@
 package com.example.urbanenviroment.page.org;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,8 +32,17 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -34,16 +51,25 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class Organization_statistics extends AppCompatActivity {
 
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organization_statistics_animal);
+
+        db = FirebaseFirestore.getInstance();
 
         statistic_rectangle(R.id.rectangle_animals_statistics, true);
         statistic_circle(R.id.circle_animals_statistics, true);
@@ -74,78 +100,63 @@ public class Organization_statistics extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //Что-то вылетает, т.ч. это все в процессе
-    public void statistic_rectangle(int addressChart, boolean clickTypeAnimals){
 
-        if (clickTypeAnimals){
+    public void statistic_rectangle(int addressChart, boolean clickTypeAnimals) {
+
+        if (clickTypeAnimals) {
             setContentView(R.layout.activity_organization_statistics_animal);
-        }
-        else{
+        } else {
             setContentView(R.layout.activity_organization_statistics_ads);
         }
 
-        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Organization");
-        query_animal.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query_animal.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-
-                ParseQuery<ParseObject> query_ads = new ParseQuery<>("Ads");
-                query_ads.whereEqualTo("id_user", object.getParseObject("id_user"));
-                query_ads.whereEqualTo("type", "Еда");
-                query_ads.countInBackground(new CountCallback() {
+        db.collection("Ads").whereEqualTo("userId", getIntent().getStringExtra("id"))
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
-                    public void done(int query_count_ads_food, ParseException e) {
-                        query_ads.whereEqualTo("id_user", object.getParseObject("id_user"));
-                        query_ads.whereEqualTo("type", "Волонтерство");
-                        query_ads.countInBackground(new CountCallback() {
-                            @Override
-                            public void done(int query_count_ads_help, ParseException e) {
-                                query_ads.whereEqualTo("id_user", object.getParseObject("id_user"));
-                                query_ads.whereEqualTo("type", "Вещи");
-                                query_ads.countInBackground(new CountCallback() {
-                                    @Override
-                                    public void done(int query_count_ads_things, ParseException e) {
-                                        BarChart barChart = findViewById(addressChart);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<DocumentSnapshot> count_list = new ArrayList<>();
+                            count_list.addAll(task.getResult().getDocuments());
 
-                                        ArrayList<BarEntry> animals_statistic = new ArrayList<>();
+                            long count_food = count_list.stream().filter(i -> i.get("type").equals("Еда")).count();
+                            long count_help = count_list.stream().filter(i -> i.get("type").equals("Волонтерство")).count();
+                            long count_things = count_list.stream().filter(i -> i.get("type").equals("Вещи")).count();
 
-                                        animals_statistic.add(new BarEntry(1, query_count_ads_food));
-                                        animals_statistic.add(new BarEntry(2, query_count_ads_things));
-                                        animals_statistic.add(new BarEntry(3, query_count_ads_help));
+                            BarChart barChart = findViewById(addressChart);
 
-                                        ArrayList<String> labels = new ArrayList<>();
-                                        labels.add("    ");
-                                        labels.add("Еда");
-                                        labels.add("Вещи");
-                                        labels.add("Волонтерство");
+                            ArrayList<BarEntry> animals_statistic = new ArrayList<>();
 
-                                        BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
+                            animals_statistic.add(new BarEntry(1, count_food));
+                            animals_statistic.add(new BarEntry(2, count_things));
+                            animals_statistic.add(new BarEntry(3, count_help));
 
-                                        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-                                        barDataSet.setValueTextColor(Color.BLACK);
-                                        barDataSet.setValueTextSize(10f);
+                            ArrayList<String> labels = new ArrayList<>();
+                            labels.add("    ");
+                            labels.add("Еда");
+                            labels.add("Вещи");
+                            labels.add("Волонтерство");
 
-                                        BarData barData = new BarData(barDataSet);
+                            BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
 
-                                        barChart.setFitBars(true);
-                                        barChart.setData(barData);
+                            barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                            barDataSet.setValueTextColor(Color.BLACK);
+                            barDataSet.setValueTextSize(10f);
 
-                                        XAxis xAxis = barChart.getXAxis();
-                                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                                        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-                                        xAxis.setGranularity(1f);
+                            BarData barData = new BarData(barDataSet);
 
-                                        barChart.animateY(10);
-                                        barChart.getDescription().setText(" ");
-                                    }
-                                });
-                            }
-                        });
+                            barChart.setFitBars(true);
+                            barChart.setData(barData);
+
+                            XAxis xAxis = barChart.getXAxis();
+                            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                            xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+                            xAxis.setGranularity(1f);
+
+                            barChart.animateY(10);
+                            barChart.getDescription().setText(" ");
+                        }
                     }
                 });
-            }
-        });
     }
 
     public void statistic_circle(int addressChart, boolean clickTypeAnimals){
@@ -156,26 +167,49 @@ public class Organization_statistics extends AppCompatActivity {
         else
             typeStatistic = "Ads";
 
-        PieChart pieChart = findViewById(addressChart);
+        db.collection("Animal").whereEqualTo("userId", getIntent().getStringExtra("id"))
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<DocumentSnapshot> count_list = new ArrayList<>();
+                            count_list.addAll(task.getResult().getDocuments());
 
-        ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
-        animals_statistic_circle.add(new PieEntry(1, 9));
-        animals_statistic_circle.add(new PieEntry(2, 7));
-        animals_statistic_circle.add(new PieEntry(3, 9));
+                            long count_woman = count_list.stream().filter(i -> i.get("sex").equals("Самка")).count();
+                            long count_man = count_list.stream().filter(i -> i.get("sex").equals("Самец")).count();
 
-        PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, typeStatistic);
 
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(10f);
 
-        PieData pieData = new PieData(pieDataSet);
+                            PieChart pieChart = findViewById(addressChart);
 
-        pieChart.setData(pieData);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setCenterText(typeStatistic);
-        pieChart.animate();
 
+
+                            ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
+                            animals_statistic_circle.add(new PieEntry(count_woman, "Самка"));
+                            animals_statistic_circle.add(new PieEntry(count_man, "Самец"));
+
+                            PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, typeStatistic);
+
+                            pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                            pieDataSet.setValueTextColor(Color.BLACK);
+                            pieDataSet.setValueTextSize(10f);
+
+
+                            PieData data = new PieData(pieDataSet);
+                            data.setDrawValues(false);
+                            data.setValueFormatter(new PercentFormatter(pieChart));
+                            pieChart.setCenterText(typeStatistic);
+                            data.setValueTextSize(12f);
+                            data.setValueTextColor(Color.BLACK);
+
+                            pieChart.setData(data);
+                            pieChart.invalidate();
+
+                            pieChart.animateY(1400, Easing.EaseInOutQuad);
+                        }
+                    }
+                });
     }
 
     public void button_animal_statistics(View view){
