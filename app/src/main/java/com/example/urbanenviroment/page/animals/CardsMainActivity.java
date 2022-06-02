@@ -41,20 +41,23 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CardsMainActivity extends AppCompatActivity {
 
     RecyclerView AnimalsCardsRecycler;
     AnimalCardsAdapter cardsAdapter;
     List<Animals> animalsList, filterAnimalList;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
     boolean flag_sort, flag_org;
+    Set<String> list_org_name;
 
     class AnimalsComparator implements Comparator<Animals> {
 
@@ -91,6 +94,7 @@ public class CardsMainActivity extends AppCompatActivity {
         StorageReference storageRef = storage.getReference();
 
         animalsList = new ArrayList<>();
+        list_org_name = new HashSet<>();
 
         db.collection("Animal").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -110,6 +114,8 @@ public class CardsMainActivity extends AppCompatActivity {
                         String name_org = document.getString("username");
                         String image_org = document.getString("imageOrg");
                         String image_animal = document.getString("image");
+
+                        list_org_name.add(name_org);
 
                         animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
@@ -213,6 +219,7 @@ public class CardsMainActivity extends AppCompatActivity {
         if (!getIntent().getBooleanExtra("flag_filter", false)){
             Intent intent = new Intent(this, FilterAnimal.class);
             intent.putExtra("page_last","cards");
+            intent.putExtra("list_org", (Serializable) list_org_name);
             startActivity(intent);
         }
         else finish();
