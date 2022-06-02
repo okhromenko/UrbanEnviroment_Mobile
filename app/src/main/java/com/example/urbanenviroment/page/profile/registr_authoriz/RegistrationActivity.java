@@ -78,6 +78,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                     user.put("is_org", is_org);
                                     user.put("reg_date", date);
 
+                                    if (is_org) {
+                                        user.put("address", "Адрес");
+                                        user.put("phone", "Номер телефона");
+                                        user.put("website", "Сайт организации");
+                                    }
+
                                     progressDialog.dismiss();
 
                                     db.collection("User").document(mAuth.getUid())

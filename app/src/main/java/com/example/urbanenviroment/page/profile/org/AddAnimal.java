@@ -259,19 +259,21 @@ public class AddAnimal extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
                     }
                 });
+
+                HashMap<String, Object> kindMap = new HashMap<>();
+                kindMap.put("name", kind.getText().toString());
+
+                db.collection("AnimalKind").document(kind.getText().toString())
+                        .set(kindMap).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         });
 
-        HashMap<String, Object> kindMap = new HashMap<>();
-        kindMap.put("name", kind.getText().toString());
 
-        db.collection("AnimalKind").document(kind.getText().toString())
-                .set(kindMap).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
 
         Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);
         startActivity(intent);

@@ -21,6 +21,7 @@ import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -175,8 +176,7 @@ public class SettingProfileUser extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-                                                FirebaseAuth.getInstance().signOut();
-                                                Intent intent = new Intent(SettingProfileUser.this, AuthorizationActivity.class);
+                                                Intent intent = new Intent(SettingProfileUser.this, ProfileActivityUser.class);
                                                 startActivity(intent);
                                                 finish();
                                             }

@@ -19,13 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardBackgroundColor="@color/help_transperent"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="0dp" />
-
             <LinearLayout
                 android:id="@+id/panel_date"
                 android:layout_width="match_parent"

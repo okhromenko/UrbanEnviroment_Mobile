@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#DEDEDE</color>
     <color name="food">#A9CF64</color>
-    <color name="food_transperent">#80CFFF77</color>
+    <color name="food_transperent">#80A9CF64</color>
     <color name="things">#E3AF64</color>
     <color name="things_transperent">#80E3AF64</color>
     <color name="help">#5EA6D9</color>

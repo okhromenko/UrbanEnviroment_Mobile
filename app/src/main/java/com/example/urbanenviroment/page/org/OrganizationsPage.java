@@ -67,19 +67,26 @@ public class OrganizationsPage extends AppCompatActivity {
         count_photo_org_page.setText(getIntent().getStringExtra("count_photo"));
         date_reg_org_org.setText(getIntent().getStringExtra("date"));
 
-        if (getIntent().getStringExtra("address") != null){
+        /*if (getIntent().getStringExtra("phone") == "Номер телефона")
+            phone_org_org_page.setVisibility(View.GONE);*/
+
+        if (getIntent().getStringExtra("address") != "Адрес"){
             String str = getIntent().getStringExtra("address");
             SpannableString content = new SpannableString(str);
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
             address_org_org_page.setText(content);
-        }
+        } /*else {
+            address_org_org_page.setVisibility(View.GONE);
+        }*/
 
-        if (getIntent().getStringExtra("website") != null){
+        if (getIntent().getStringExtra("website") != "Сайт организации"){
             String str = getIntent().getStringExtra("website");
             SpannableString contentlink = new SpannableString(str);
             contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
             website_org_org_page.setText(contentlink);
-        }
+        }/* else {
+            website_org_org_page.setVisibility(View.GONE);
+        }*/
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -99,21 +106,21 @@ public class OrganizationsPage extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        if (getIntent().getStringExtra("phone") == null)
+                        if (getIntent().getStringExtra("phone") == "Номер телефона")
                             phone_org_org_page.setVisibility(View.GONE);
                         else {
                             phone_org_org_page.setVisibility(View.VISIBLE);
                             hidden_other(phone_org_org_page, Boolean.TRUE.equals(document.getBoolean("hidden_phone")));
                         }
 
-                        if (getIntent().getStringExtra("website") == null)
+                        if (getIntent().getStringExtra("website") == "Сайт организации")
                             website_org_org_page.setVisibility(View.GONE);
                         else {
                             website_org_org_page.setVisibility(View.VISIBLE);
                             hidden_other(website_org_org_page, Boolean.TRUE.equals(document.getBoolean("hidden_website")));
                         }
 
-                        if (getIntent().getStringExtra("address") == null)
+                        if (getIntent().getStringExtra("address") == "Адрес")
                             address_org_org_page.setVisibility(View.GONE);
                         else
                             address_org_org_page.setVisibility(View.VISIBLE);
