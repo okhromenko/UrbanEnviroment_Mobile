@@ -11,6 +11,7 @@
         android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,11 +25,12 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/frameLayout4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
@@ -38,22 +40,24 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Вид"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/basic_blue"
+            android:fontFamily="@font/roboto"/>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/rectangle_animals_statistics"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="25dp" />
+            android:layout_height="250dp"
+            />
 
-    </FrameLayout>
+    </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/frameLayout5"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
@@ -61,11 +65,10 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/circle_animals_statistics"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="50dp" />
+            android:layout_height="250dp"
+            android:layout_gravity="bottom"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

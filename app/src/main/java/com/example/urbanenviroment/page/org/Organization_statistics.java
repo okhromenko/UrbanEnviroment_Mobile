@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -33,6 +35,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -138,19 +141,35 @@ public class Organization_statistics extends AppCompatActivity {
 
                             BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
 
-                            barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+                            int food = getResources().getColor(R.color.food, getTheme());
+                            int things = getResources().getColor(R.color.things, getTheme());
+                            int help = getResources().getColor(R.color.help, getTheme());
+
+                            barDataSet.setColors(new int[] {food, things, help});
                             barDataSet.setValueTextColor(Color.BLACK);
-                            barDataSet.setValueTextSize(10f);
+                            barDataSet.setValueTextSize(12f);
 
                             BarData barData = new BarData(barDataSet);
 
                             barChart.setFitBars(true);
                             barChart.setData(barData);
 
+                            barChart.setTouchEnabled(false);
+                            barChart.setDragEnabled(false);
+                            barChart.setScaleEnabled(false);
+                            barChart.setPinchZoom(false);
+                            barChart.setDoubleTapToZoomEnabled(false);
+
                             XAxis xAxis = barChart.getXAxis();
+                            xAxis.setTextSize(14f);
+                            xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
+                            xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
                             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                             xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
                             xAxis.setGranularity(1f);
+                            xAxis.setAxisLineWidth(1f);
+                            xAxis.setDrawGridLines(false);
+
 
                             barChart.animateY(10);
                             barChart.getDescription().setText(" ");
@@ -163,9 +182,9 @@ public class Organization_statistics extends AppCompatActivity {
         String typeStatistic;
 
         if (clickTypeAnimals)
-            typeStatistic = "Animals";
+            typeStatistic = "Животные";
         else
-            typeStatistic = "Ads";
+            typeStatistic = "Объявления";
 
         db.collection("Animal").whereEqualTo("userId", getIntent().getStringExtra("id"))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -179,11 +198,7 @@ public class Organization_statistics extends AppCompatActivity {
                             long count_woman = count_list.stream().filter(i -> i.get("sex").equals("Самка")).count();
                             long count_man = count_list.stream().filter(i -> i.get("sex").equals("Самец")).count();
 
-
-
                             PieChart pieChart = findViewById(addressChart);
-
-
 
                             ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
                             animals_statistic_circle.add(new PieEntry(count_woman, "Самка"));
@@ -200,6 +215,9 @@ public class Organization_statistics extends AppCompatActivity {
                             data.setDrawValues(false);
                             data.setValueFormatter(new PercentFormatter(pieChart));
                             pieChart.setCenterText(typeStatistic);
+                            pieChart.setCenterTextSize(16f);
+                            pieChart.setCenterTextColor(R.color.basic_blue);
+
                             data.setValueTextSize(12f);
                             data.setValueTextColor(Color.BLACK);
 
