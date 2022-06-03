@@ -101,7 +101,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
                                 android:layout_gravity="top"
-                                android:text="Местоположение"
+                                android:text="Адрес"
                                 android:fontFamily="@font/roboto"
                                 android:textColor="@color/dark_gray_1"
                                 android:textSize="14sp"/>
@@ -125,7 +125,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="Описание объявления"
+                android:text="Организация пока не имеет описания."
                 android:fontFamily="@font/roboto"
                 android:textColor="@color/black"
                 android:textSize="16sp" />

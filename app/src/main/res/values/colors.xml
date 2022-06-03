@@ -15,6 +15,8 @@
     <color name="help">#5EA6D9</color>
     <color name="help_transperent">#805EA6D9</color>
     <color name="transparent">#00000000</color>
+    <color name="blue">#87bcdb</color>
+    <color name="pink">#ff7896</color>
     <color name="basic_blue">#0A0032</color>
     <color name="basic_blue_light">#800A0032</color>
     <color name="light_gray_2">#C4C4C4</color>

@@ -3,10 +3,12 @@ package com.example.urbanenviroment.page.org;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.SpannableString;
@@ -35,6 +37,7 @@ public class OrganizationsPage extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,32 +64,30 @@ public class OrganizationsPage extends AppCompatActivity {
         name_org_org_page.setText(getIntent().getStringExtra("name"));
         email_org_org_page.setText(getIntent().getStringExtra("email"));
         phone_org_org_page.setText(getIntent().getStringExtra("phone"));
-        description_animal_page.setText(getIntent().getStringExtra("description"));
+        if (!(getIntent().getStringExtra("description") == null))
+            description_animal_page.setText(getIntent().getStringExtra("description"));
         count_animal_org_page.setText(getIntent().getStringExtra("count_animal"));
         count_ads_org_page.setText(getIntent().getStringExtra("count_ads"));
         count_photo_org_page.setText(getIntent().getStringExtra("count_photo"));
         date_reg_org_org.setText(getIntent().getStringExtra("date"));
 
-        /*if (getIntent().getStringExtra("phone") == "Номер телефона")
-            phone_org_org_page.setVisibility(View.GONE);*/
-
-        if (getIntent().getStringExtra("address") != "Адрес"){
+        if (!getIntent().getStringExtra("address").equals("Адрес")){
             String str = getIntent().getStringExtra("address");
             SpannableString content = new SpannableString(str);
             content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+            address_org_org_page.setTextColor(getResources().getColor(R.color.blue_link, getTheme()));
             address_org_org_page.setText(content);
-        } /*else {
-            address_org_org_page.setVisibility(View.GONE);
-        }*/
+        } else {
+            address_org_org_page.setText("Адрес не указан");
+            address_org_org_page.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
+        }
 
-        if (getIntent().getStringExtra("website") != "Сайт организации"){
+        if (!getIntent().getStringExtra("website").equals("Сайт организации")){
             String str = getIntent().getStringExtra("website");
             SpannableString contentlink = new SpannableString(str);
             contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
             website_org_org_page.setText(contentlink);
-        }/* else {
-            website_org_org_page.setVisibility(View.GONE);
-        }*/
+        }
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -106,24 +107,19 @@ public class OrganizationsPage extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        if (getIntent().getStringExtra("phone") == "Номер телефона")
+                        if (getIntent().getStringExtra("phone").equals("Номер телефона"))
                             phone_org_org_page.setVisibility(View.GONE);
                         else {
                             phone_org_org_page.setVisibility(View.VISIBLE);
                             hidden_other(phone_org_org_page, Boolean.TRUE.equals(document.getBoolean("hidden_phone")));
                         }
 
-                        if (getIntent().getStringExtra("website") == "Сайт организации")
+                        if (getIntent().getStringExtra("website").equals("Сайт организации"))
                             website_org_org_page.setVisibility(View.GONE);
                         else {
                             website_org_org_page.setVisibility(View.VISIBLE);
                             hidden_other(website_org_org_page, Boolean.TRUE.equals(document.getBoolean("hidden_website")));
                         }
-
-                        if (getIntent().getStringExtra("address") == "Адрес")
-                            address_org_org_page.setVisibility(View.GONE);
-                        else
-                            address_org_org_page.setVisibility(View.VISIBLE);
 
                         hidden_other(email_org_org_page, Boolean.TRUE.equals(document.getBoolean("hidden_email")));
 

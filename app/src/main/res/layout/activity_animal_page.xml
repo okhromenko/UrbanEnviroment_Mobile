@@ -154,7 +154,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="5dp">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -180,10 +181,10 @@
                 android:paddingBottom="10dp">
 
                 <LinearLayout
+                    android:layout_marginTop="5dp"
                     android:id="@+id/info_layout_animal_page"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -197,7 +198,7 @@
                             android:id="@+id/description_animal_page"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="25dp"
+                            android:layout_marginBottom="15dp"
                             android:fontFamily="@font/roboto"
                             android:text="Описание"
                             android:textColor="@color/black"

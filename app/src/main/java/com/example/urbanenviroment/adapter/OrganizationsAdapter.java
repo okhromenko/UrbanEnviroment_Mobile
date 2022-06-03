@@ -66,7 +66,11 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         Picasso.get().load(organizationsList.get(position).getImg_org()).into(holder.img_org_org);
 
         holder.name_org_org.setText(organizationsList.get(position).getName_org());
-        holder.address_org.setText(organizationsList.get(position).getAddress());
+
+        if (organizationsList.get(position).getAddress().equals("Адрес"))
+            holder.address_org.setText(organizationsList.get(position).getAddress() + " не указан");
+        else
+            holder.address_org.setText(organizationsList.get(position).getAddress());
 
         if (organizationsList.get(position).getDescription() != null){
             String str = organizationsList.get(position).getDescription();

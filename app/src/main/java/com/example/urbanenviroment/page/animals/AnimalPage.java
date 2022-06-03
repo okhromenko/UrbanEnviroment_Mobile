@@ -373,11 +373,11 @@ public class AnimalPage extends AppCompatActivity {
         ImageButton hide_button_animal_page = (ImageButton) findViewById(R.id.hide_button_animal_page);
 
         if (!flag){
-            findViewById(R.id.info_layout_animal_page).setVisibility(View.GONE);
+            findViewById(R.id.scrollview1).setVisibility(View.GONE);
             hide_button_animal_page.setRotation(180F);
             flag = true;
         } else {
-            findViewById(R.id.info_layout_animal_page).setVisibility(View.VISIBLE);
+            findViewById(R.id.scrollview1).setVisibility(View.VISIBLE);
             hide_button_animal_page.setRotation(0F);
             flag = false;
         }

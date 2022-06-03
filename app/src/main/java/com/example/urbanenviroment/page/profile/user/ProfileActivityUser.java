@@ -111,7 +111,6 @@ public class ProfileActivityUser extends AppCompatActivity {
                         is_org = document.getBoolean("is_org");
                         date = new SimpleDateFormat("dd.MM.yyyy").format(Objects.requireNonNull(document.getDate("reg_date")));
 
-
                         if (mAuth.getCurrentUser().getPhotoUrl() != null){
                             image = Uri.parse(((mAuth.getCurrentUser()).getPhotoUrl()).toString()).toString();
                             Picasso.get().load(image).into(image_profile);
@@ -127,11 +126,14 @@ public class ProfileActivityUser extends AppCompatActivity {
                             linear_org.setVisibility(View.GONE);
                         }
 
+
+                        if (phone_profile.getText().toString().equals("Номер телефона"))
+                            phone_profile.setVisibility(View.GONE);
+
                         name_profile.setText(name);
                         email_profile.setText(email);
                         phone_profile.setText(phone);
                         date_profile.setText(date);
-
                     } else {
                         Log.d(TAG, "Проблемы при входе, пользователь не найден");
                     }
@@ -140,8 +142,6 @@ public class ProfileActivityUser extends AppCompatActivity {
                 }
             }
         });
-
-
 
     }
 

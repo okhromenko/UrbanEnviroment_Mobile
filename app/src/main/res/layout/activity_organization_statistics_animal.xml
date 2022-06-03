@@ -40,15 +40,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Вид"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
             android:textColor="@color/basic_blue"
             android:fontFamily="@font/roboto"/>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/rectangle_animals_statistics"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="225dp"
             />
 
     </LinearLayout>

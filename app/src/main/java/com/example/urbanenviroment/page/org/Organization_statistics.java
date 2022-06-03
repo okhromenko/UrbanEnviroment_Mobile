@@ -26,7 +26,9 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -160,6 +162,17 @@ public class Organization_statistics extends AppCompatActivity {
                             barChart.setPinchZoom(false);
                             barChart.setDoubleTapToZoomEnabled(false);
 
+                            YAxis rightAxis = barChart.getAxisRight();
+                            YAxis leftAxis = barChart.getAxisLeft();
+                            rightAxis.setEnabled(false);
+                            leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
+                            leftAxis.setTextSize(12f);
+                            leftAxis.setDrawAxisLine(false);
+                            leftAxis.setStartAtZero(true);
+                            leftAxis.setDrawZeroLine(true);
+                            leftAxis.setZeroLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
+                            leftAxis.setZeroLineWidth(2f);
+
                             XAxis xAxis = barChart.getXAxis();
                             xAxis.setTextSize(14f);
                             xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
@@ -167,7 +180,7 @@ public class Organization_statistics extends AppCompatActivity {
                             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                             xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
                             xAxis.setGranularity(1f);
-                            xAxis.setAxisLineWidth(1f);
+                            xAxis.setDrawAxisLine(false);
                             xAxis.setDrawGridLines(false);
 
 
@@ -206,7 +219,7 @@ public class Organization_statistics extends AppCompatActivity {
 
                             PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, typeStatistic);
 
-                            pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                            pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()), getResources().getColor(R.color.blue, getTheme())});
                             pieDataSet.setValueTextColor(Color.BLACK);
                             pieDataSet.setValueTextSize(10f);
 
@@ -216,7 +229,7 @@ public class Organization_statistics extends AppCompatActivity {
                             data.setValueFormatter(new PercentFormatter(pieChart));
                             pieChart.setCenterText(typeStatistic);
                             pieChart.setCenterTextSize(16f);
-                            pieChart.setCenterTextColor(R.color.basic_blue);
+                            pieChart.setCenterTextColor(getResources().getColor(R.color.basic_blue, getTheme()));
 
                             data.setValueTextSize(12f);
                             data.setValueTextColor(Color.BLACK);
