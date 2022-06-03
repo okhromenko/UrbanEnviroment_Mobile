@@ -230,49 +230,51 @@ public class AddAnimal extends AppCompatActivity {
             public void onFailure(@NonNull Exception exception) {
                 Toast.makeText(getApplicationContext(), "Небольшие проблемы с загрузкой", Toast.LENGTH_LONG).show();
             }
-        });
-
-
-        storageRef.child(imageRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(Uri uri) {
-                Date date_reg = new Date();
-
-                Map<String, Object> animals = new HashMap<>();
-                animals.put("name", name.getText().toString());
-                animals.put("state",  state.getText().toString());
-                animals.put("species", species.getText().toString());
-                animals.put("description", description.getText().toString());
-                animals.put("age", age.getText().toString());
-                animals.put("sex", sex);
-                animals.put("kind", kind.getText().toString());
-                animals.put("date_reg", date_reg);
-                animals.put("userId", mAuth.getCurrentUser().getUid());
-                animals.put("username", mAuth.getCurrentUser().getDisplayName());
-                animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
-                animals.put("image", uri.toString());
-
-
-                db.collection("Animal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                storageRef.child(imageRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                    }
-                });
+                    public void onSuccess(Uri uri) {
+                        Date date_reg = new Date();
 
-                HashMap<String, Object> kindMap = new HashMap<>();
-                kindMap.put("name", kind.getText().toString());
+                        Map<String, Object> animals = new HashMap<>();
+                        animals.put("name", name.getText().toString());
+                        animals.put("state",  state.getText().toString());
+                        animals.put("species", species.getText().toString());
+                        animals.put("description", description.getText().toString());
+                        animals.put("age", age.getText().toString());
+                        animals.put("sex", sex);
+                        animals.put("kind", kind.getText().toString());
+                        animals.put("date_reg", date_reg);
+                        animals.put("userId", mAuth.getCurrentUser().getUid());
+                        animals.put("username", mAuth.getCurrentUser().getDisplayName());
+                        animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                        animals.put("image", uri.toString());
 
-                db.collection("AnimalKind").document(kind.getText().toString())
-                        .set(kindMap).addOnFailureListener(new OnFailureListener() {
+
+                        db.collection("Animal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
                             }
                         });
+                    }
+                });
             }
         });
 
+
+        HashMap<String, Object> kindMap = new HashMap<>();
+        kindMap.put("name", kind.getText().toString());
+
+        db.collection("AnimalKind").document(kind.getText().toString())
+                .set(kindMap).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
 
         Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);

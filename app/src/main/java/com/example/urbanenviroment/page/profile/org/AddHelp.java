@@ -190,12 +190,14 @@ public class AddHelp extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
 
 
         Map<String, Object> ads = new HashMap<>();
         ads.put("userId", mAuth.getCurrentUser().getUid());
         ads.put("username", mAuth.getCurrentUser().getDisplayName());
-
+        ads.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
         ads.put("type", type);
         ads.put("last_date", add_date_help.getText().toString());
         ads.put("first_date", add_date_help_first.getText().toString());

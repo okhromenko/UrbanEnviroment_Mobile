@@ -30,8 +30,15 @@ import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.EditHelpPage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -40,14 +47,18 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder> {
 
+    private DocumentSnapshot currentDocument;
+    private FirebaseFirestore db;
     Context context;
     List<Help> helpList;
     int color, image, color_transperent;
     boolean flag;
+    boolean is_org;
 
     public HelpAdapter(Context context, List<Help> helpList, boolean flag) {
         this.context = context;
@@ -70,7 +81,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HelpViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         color = Color.GRAY;
         color_transperent = Color.GRAY;
@@ -84,7 +95,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.img_box_help.setCardBackgroundColor(color);
         holder.type_ads_help.setText(helpList.get(position).getType_help());
 
-        if (!flag && mAuth != null){
+        if (!flag && mAuth.getCurrentUser() != null){
             Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
             holder.name_org_help.setText(helpList.get(position).getName_org());
         }
@@ -137,79 +148,88 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                     intent.putExtra("image", image);
                     intent.putExtra("color", color);
                     intent.putExtra("color_transperent", color_transperent);
+                    intent.putExtra("is_org", is_org);
                     context.startActivity(intent);
                 }
             });
         }
 
 
-//        ParseUser parseUser = ParseUser.getCurrentUser();
-//
-//        if(!flag && parseUser != null){
-//            holder.name_org_help.setText(helpList.get(position).getName_org());
-//            Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
-//
-//            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-//
-//
-//            ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
-//
-//            if ((Boolean) parseUser.get("is_org")) {
-//                holder.button_favorite_help.setVisibility(View.GONE);
-//            } else {
-//                holder.button_favorite_help.setVisibility(View.VISIBLE);
-//            }
-//
-//            query.whereEqualTo("id_ads", id_ads);
-//            query.whereEqualTo("id_user", parseUser);
-//            query.getFirstInBackground(new GetCallback<ParseObject>() {
-//                @Override
-//                public void done(ParseObject object, ParseException e) {
-//                    if (object != null)
-//                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
-//                    else
-//                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-//                }
-//            });
-//
-//            holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-//
-//                    ParseObject id_ads = ParseObject.createWithoutData("Ads", helpList.get(position).getId());
-//
-//                    query.whereEqualTo("id_ads", id_ads);
-//                    query.whereEqualTo("id_user", parseUser);
-//                    query.getFirstInBackground(new GetCallback<ParseObject>() {
-//                        @Override
-//                        public void done(ParseObject object, ParseException e) {
-//                            if (object == null){
-//                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
-//
-//                                ParseObject favorite_ads = new ParseObject("FavoriteAds");
-//                                favorite_ads.put("id_user", parseUser);
-//                                favorite_ads.put("id_ads", id_ads);
-//
-//                                favorite_ads.saveInBackground(new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException e) {
-//                                        if (e != null){
-//                                            Intent intent = new Intent(context, HelpActivity.class);
-//                                            context.startActivity(intent);
-//                                        }
-//                                    }
-//                                });
-//                            }
-//                            else {
-//                                holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-//                                object.deleteInBackground();
-//                            }
-//                        }
-//                    });
-//                }
-//            });
-//        }
+        db = FirebaseFirestore.getInstance();
+
+        if (mAuth.getCurrentUser() != null){
+            db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org"))){
+                        holder.button_favorite_help.setVisibility(View.GONE);
+                        is_org = true;
+                    }
+                    else{
+                        holder.button_favorite_help.setVisibility(View.VISIBLE);
+                        is_org = false;
+                    }
+                }
+            });
+
+            db.collection("FavoriteAds").whereEqualTo("id_ads", helpList.get(position).getId())
+                    .whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                QuerySnapshot document = task.getResult();
+                                if (document.isEmpty()) {
+                                    currentDocument = null;
+                                    holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
+                                }
+                                else{
+                                    currentDocument = document.getDocuments().get(0);
+                                    holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+                                }
+                            }
+                        }
+                    });
+        }
+
+
+            holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentDocument == null) {
+
+                    HashMap<String, Object> favoriteAds = new HashMap<>();
+
+                    favoriteAds.put("id_ads", helpList.get(position).getId());
+                    favoriteAds.put("type", helpList.get(position).getType_help());
+                    favoriteAds.put("last_date", helpList.get(position).getDate_last());
+                    favoriteAds.put("first_date", helpList.get(position).getDate_first());
+                    favoriteAds.put("description",  helpList.get(position).getDescription());
+
+                    favoriteAds.put("userId", mAuth.getUid());
+                    favoriteAds.put("username", mAuth.getCurrentUser().getDisplayName());
+                    favoriteAds.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+
+
+                    db.collection("FavoriteAds").document()
+                            .set(favoriteAds).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    notifyDataSetChanged();
+                                }
+                            });
+                } else {
+                    DocumentReference changeRef = db.collection("FavoriteAds").document(currentDocument.getId());
+                    changeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("NotifyDataSetChanged")
+                        @Override
+                        public void onSuccess(Void unused) {
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void find_type(String st){

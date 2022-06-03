@@ -18,6 +18,9 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -28,6 +31,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
 
     Context context;
     List<Animals> animalsList;
+    boolean is_org;
 
     public AnimalsAdapter(Context context, List<Animals> animalsList) {
         this.context = context;
@@ -43,6 +47,21 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
 
     @Override
     public void onBindViewHolder(@NonNull AnimalsViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+            db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org")))
+                        is_org = true;
+                    else
+                        is_org = false;
+                }
+            });
+        }
 
         Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_animal_home);
         Picasso.get().load(animalsList.get(position).getImg_org()).into(holder.img_org_home);
@@ -66,6 +85,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
                 intent.putExtra("state_animal", animalsList.get(position).getState());
                 intent.putExtra("image_animal", animalsList.get(position).getImg_animal());
                 intent.putExtra("org", animalsList.get(position).getName_org());
+                intent.putExtra("is_org", is_org);
 
                 context.startActivity(intent);
             }

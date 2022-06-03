@@ -20,10 +20,14 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -39,6 +43,10 @@ import java.util.Map;
 public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.AnimalCardsViewHolder> {
     Context context;
     List<Animals> animalCardsList;
+    private DocumentSnapshot currentDocument;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    boolean is_org;
 
     public AnimalCardsAdapter(Context context, List<Animals> animalCardsList) {
         this.context = context;
@@ -69,30 +77,44 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
             holder.description_animal_cards.setText(animalCardsList.get(position).getDescription());
         }
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
 
-        ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", animalCardsList.get(position).getId());
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        if (parseUser != null) {
-            if ((Boolean) parseUser.get("is_org"))
-                holder.button_favorite_card.setVisibility(View.GONE);
-            else {
-                holder.button_favorite_card.setVisibility(View.VISIBLE);
-            }
+        if (mAuth.getCurrentUser() != null){
+            db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org"))){
+                        holder.button_favorite_card.setVisibility(View.GONE);
+                        is_org = true;
+                    }
+
+                    else {
+                        holder.button_favorite_card.setVisibility(View.VISIBLE);
+                        is_org = false;
+                    }
+                }
+            });
+
+            db.collection("FavoriteAnimal").whereEqualTo("id_animal", animalCardsList.get(position).getId())
+                    .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                QuerySnapshot document = task.getResult();
+                                if (document.isEmpty()) {
+                                    currentDocument = null;
+                                    holder.button_favorite_card.setImageResource(R.drawable.button_favorite);
+                                }
+                                else{
+                                    currentDocument = document.getDocuments().get(0);
+                                    holder.button_favorite_card.setImageResource(R.drawable.button_favorite_press);
+                                }
+                            }
+                        }
+                    });
         }
-
-        query.whereEqualTo("id_animal", id_animal);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null)
-                    holder.button_favorite_card.setImageResource(R.drawable.button_favorite_press);
-                else
-                    holder.button_favorite_card.setImageResource(R.drawable.button_favorite);
-            }
-        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +132,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 intent.putExtra("state_animal", animalCardsList.get(position).getState());
                 intent.putExtra("image_animal", animalCardsList.get(position).getImg_animal());
                 intent.putExtra("org", animalCardsList.get(position).getName_org());
+                intent.putExtra("is_org", is_org);
 
                 context.startActivity(intent);
             }
@@ -118,64 +141,43 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
         holder.button_favorite_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//
-//                FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//
-//                Map<String, Object> animals = new HashMap<>();
-//                animals.put("name", name.getText().toString());
-//                animals.put("state",  state.getText().toString());
-//                animals.put("species", species.getText().toString());
-//                animals.put("description", description.getText().toString());
-//                animals.put("age", age.getText().toString());
-//                animals.put("sex", sex);
-//                animals.put("kind", kind.getText().toString());
-//                animals.put("date_reg", date_reg);
-//                animals.put("userId", mAuth.getCurrentUser().getUid());
-//                animals.put("username", mAuth.getCurrentUser().getDisplayName());
-//                animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
-//                animals.put("image", imageRef.getPath());
-//
-//                db.collection("FavoriteAnimal").add(animals).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-//                    }
-//                });
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
+                if (currentDocument == null) {
+                    HashMap<String, Object> favoriteAnimal = new HashMap<>();
+                    favoriteAnimal.put("id_animal", animalCardsList.get(position).getId());
+                    favoriteAnimal.put("name", animalCardsList.get(position).getName_animal());
+                    favoriteAnimal.put("state", animalCardsList.get(position).getState());
+                    favoriteAnimal.put("species", animalCardsList.get(position).getSpecies());
+                    favoriteAnimal.put("description",  animalCardsList.get(position).getDescription());
+                    favoriteAnimal.put("age", animalCardsList.get(position).getAge());
+                    favoriteAnimal.put("sex", animalCardsList.get(position).getSex());
+                    favoriteAnimal.put("kind", animalCardsList.get(position).getKind());
+                    favoriteAnimal.put("date_reg", animalCardsList.get(position).getReg_data());
 
-                ParseUser parseUser = ParseUser.getCurrentUser();
-                ParseObject id_animal = ParseObject.createWithoutData("Animals", animalCardsList.get(position).getId());
+                    favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
+                    favoriteAnimal.put("username", mAuth.getCurrentUser().getDisplayName());
+                    favoriteAnimal.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                    favoriteAnimal.put("image", animalCardsList.get(position).getImg_animal());
 
-                query.whereEqualTo("id_animal", id_animal);
-                query.whereEqualTo("id_user", parseUser);
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if (object == null){
-                            holder.button_favorite_card.setImageResource(R.drawable.button_favorite_press);
 
-                            ParseObject favorite_animal = new ParseObject("FavoriteAnimal");
-                            favorite_animal.put("id_user", parseUser);
-                            favorite_animal.put("id_animal", id_animal);
-
-                            favorite_animal.saveInBackground(new SaveCallback() {
+                    db.collection("FavoriteAnimal").document()
+                            .set(favoriteAnimal).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @SuppressLint("NotifyDataSetChanged")
                                 @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Intent intent = new Intent(context, CardsMainActivity.class);
-                                        context.startActivity(intent);
-                                    }
+                                public void onSuccess(Void unused) {
+                                    notifyDataSetChanged();
                                 }
                             });
+                } else {
+                    DocumentReference changeRef = db.collection("FavoriteAnimal").document(currentDocument.getId());
+                    changeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @SuppressLint("NotifyDataSetChanged")
+                        @Override
+                        public void onSuccess(Void unused) {
+                            notifyDataSetChanged();
                         }
-                        else {
-                            holder.button_favorite_card.setImageResource(R.drawable.button_favorite);
-                            object.deleteInBackground();
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
     }
