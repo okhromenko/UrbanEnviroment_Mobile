@@ -165,6 +165,7 @@
             android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="map"
+            android:visibility="gone"
             android:scaleX="0.9"
             android:scaleY="0.9"
             android:src="@drawable/menu_map_ex" />

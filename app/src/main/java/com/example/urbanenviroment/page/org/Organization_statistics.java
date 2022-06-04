@@ -26,6 +26,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -161,6 +162,10 @@ public class Organization_statistics extends AppCompatActivity {
                             barChart.setScaleEnabled(false);
                             barChart.setPinchZoom(false);
                             barChart.setDoubleTapToZoomEnabled(false);
+                            barChart.setExtraOffsets(0,0,0,10);
+
+                            Legend legend = barChart.getLegend();
+                            legend.setEnabled(false);
 
                             YAxis rightAxis = barChart.getAxisRight();
                             YAxis leftAxis = barChart.getAxisLeft();
@@ -220,19 +225,28 @@ public class Organization_statistics extends AppCompatActivity {
                             PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, typeStatistic);
 
                             pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()), getResources().getColor(R.color.blue, getTheme())});
-                            pieDataSet.setValueTextColor(Color.BLACK);
-                            pieDataSet.setValueTextSize(10f);
+                            //pieDataSet.setValueTextColor(Color.BLACK);
+                            //pieDataSet.setValueTextSize(14f);
 
 
                             PieData data = new PieData(pieDataSet);
-                            data.setDrawValues(false);
+                            data.setDrawValues(true);
                             data.setValueFormatter(new PercentFormatter(pieChart));
+                            data.setValueTextSize(12f);
+                            data.setValueTextColor(Color.WHITE);
+
+                            pieChart.setUsePercentValues(true);
+                            pieChart.setEntryLabelTextSize(14f);
                             pieChart.setCenterText(typeStatistic);
                             pieChart.setCenterTextSize(16f);
                             pieChart.setCenterTextColor(getResources().getColor(R.color.basic_blue, getTheme()));
 
-                            data.setValueTextSize(12f);
-                            data.setValueTextColor(Color.BLACK);
+                            Description description = pieChart.getDescription();
+                            description.setEnabled(false);
+
+                            Legend legend = pieChart.getLegend();
+                            legend.setEnabled(false);
+                            //legend.setTextSize(14f);
 
                             pieChart.setData(data);
                             pieChart.invalidate();

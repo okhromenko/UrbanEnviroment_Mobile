@@ -44,6 +44,7 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -88,7 +89,27 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
     }
 
     public String status(String first_date, String last_date){
-        return "потом сделаю";
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            Date lastDate = dateFormat.parse(last_date);
+            Date todayDate = new Date();
+            if (todayDate.compareTo(lastDate) <= 0){
+                long milliseconds = lastDate.getTime() - todayDate.getTime();
+                int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
+                if (days >= 2){
+                    return "В процессе";
+                }
+                else {
+                    return "Завершается";
+                }
+            }
+            else if (todayDate.compareTo(lastDate) > 0){
+                return "Выполнено";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Формат даты не совпадает!";
     }
 
     private void setHelpRecycler(List<Help> helpList){
