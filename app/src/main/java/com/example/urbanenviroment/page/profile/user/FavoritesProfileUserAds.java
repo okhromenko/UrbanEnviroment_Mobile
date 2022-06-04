@@ -1,15 +1,22 @@
 package com.example.urbanenviroment.page.profile.user;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.urbanenviroment.adapter.FavoriteProfileAdsAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -19,6 +26,11 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -26,14 +38,19 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.format.DateTimeFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class FavoritesProfileUserAds extends AppCompatActivity {
 
     RecyclerView helpRecycler;
-    HelpAdapter helpAdapter;
+    com.example.urbanenviroment.adapter.FavoriteProfileAdsAdapter FavoriteProfileAdsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,49 +61,27 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
     }
 
     public void init(){
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<Help> helpList = new ArrayList<>();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAds");
-        query.orderByAscending("createdAt");
-        query.whereEqualTo("id_user", parseUser);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    List<Help> helpList = new ArrayList<>();
+        db.collection("FavoriteAds").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
 
-                    for (ParseObject i : objects) {
-                        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
-                        query_ads.orderByDescending("createdAt");
-                        query_ads.whereEqualTo("objectId", i.getParseObject("id_ads").getObjectId());
-                        query_ads.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if (e == null) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String name_org = document.getString("username");
+                        String image_org = document.getString("imageOrg");
+                        String type = document.getString("type");
+                        String description = document.getString("description");
+                        String first_data = document.getString("first_date");
+                        String last_data = document.getString("last_date");
 
-                                    for (ParseObject k : objects){
-                                        ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                                        query_user.whereEqualTo("objectId", k.getParseObject("id_user").getObjectId());
-                                        query_user.findInBackground((object_user, ex) -> {
-                                            if (ex == null) {
-                                                String id = k.getObjectId();
-                                                String name_org = object_user.get(0).getString("username");
-                                                String image_org = Uri.parse(object_user.get(0).getParseFile("image").getUrl()).toString();
-                                                String type = k.get("type").toString();
-                                                String description = k.get("description").toString();
-                                                String first_data = new SimpleDateFormat("d.M.y").format(k.getCreatedAt());
-                                                String last_data = k.get("last_date").toString();
-
-                                                helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
-
-                                                setHelpRecycler(helpList);
-                                            }
-                                        });
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                        helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
                     }
+                    setHelpRecycler(helpList);
                 }
             }
         });
@@ -102,8 +97,8 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
         helpRecycler = findViewById(R.id.FavoritesRecyclerHelp);
         helpRecycler.setLayoutManager(layoutManager);
 
-        helpAdapter = new HelpAdapter(this, helpList, true);
-        helpRecycler.setAdapter(helpAdapter);
+        FavoriteProfileAdsAdapter = new FavoriteProfileAdsAdapter(this, helpList);
+        helpRecycler.setAdapter(FavoriteProfileAdsAdapter);
     }
 
     public void animals(View view){

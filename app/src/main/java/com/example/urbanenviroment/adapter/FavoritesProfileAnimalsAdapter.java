@@ -17,6 +17,14 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -25,12 +33,17 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<FavoritesProfileAnimalsAdapter.FavoritesProfileAnimalsViewHolder> {
 
     Context context;
     List<Animals> FavoriteAnimalList;
+    private DocumentSnapshot currentDocument;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    boolean is_org;
 
     public FavoritesProfileAnimalsAdapter(Context context, List<Animals> animalsList) {
         this.context = context;
@@ -56,22 +69,6 @@ public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<Favorit
         holder.sex_animal.setText(FavoriteAnimalList.get(position).getSex());
         holder.state_animal.setText(FavoriteAnimalList.get(position).getState());
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
-
-        ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseObject id_animal = ParseObject.createWithoutData("Animals", FavoriteAnimalList.get(position).getId());
-
-        query.whereEqualTo("id_animal", id_animal);
-        query.whereEqualTo("id_user", parseUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object != null)
-                    holder.button_favorite_profile_animal.setImageResource(R.drawable.button_favorite_press);
-                else
-                    holder.button_favorite_profile_animal.setImageResource(R.drawable.button_favorite);
-            }
-        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,44 +91,33 @@ public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<Favorit
             }
         });
 
-        holder.button_favorite_profile_animal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteAnimal");
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-                ParseUser parseUser = ParseUser.getCurrentUser();
-                ParseObject id_animal = ParseObject.createWithoutData("Animals", FavoriteAnimalList.get(position).getId());
+        if (mAuth.getCurrentUser() != null) {
 
-                query.whereEqualTo("id_animal", id_animal);
-                query.whereEqualTo("id_user", parseUser);
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject object, ParseException e) {
-                        if (object == null){
-                            holder.button_favorite_profile_animal.setImageResource(R.drawable.button_favorite_press);
-
-                            ParseObject favorite_animal = new ParseObject("FavoriteAnimal");
-                            favorite_animal.put("id_user", parseUser);
-                            favorite_animal.put("id_animal", id_animal);
-
-                            favorite_animal.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e != null){
-                                        Intent intent = new Intent(context, CardsMainActivity.class);
-                                        context.startActivity(intent);
-                                    }
-                                }
-                            });
-                        }
-                        else {
-                            holder.button_favorite_profile_animal.setImageResource(R.drawable.button_favorite);
-                            object.deleteInBackground();
-                        }
+            db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org"))) {
+                        holder.button_favorite_profile_animal.setVisibility(View.GONE);
+                        is_org = true;
+                    } else {
+                        holder.button_favorite_profile_animal.setVisibility(View.VISIBLE);
+                        is_org = false;
                     }
-                });
-            }
-        });
+                }
+            });
+
+            holder.button_favorite_profile_animal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.collection("FavoriteAnimal").document(FavoriteAnimalList.get(position).getId()).delete();
+                    FavoriteAnimalList.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override

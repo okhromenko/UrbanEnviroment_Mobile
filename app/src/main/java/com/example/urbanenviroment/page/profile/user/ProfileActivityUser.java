@@ -71,7 +71,7 @@ public class ProfileActivityUser extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    String id, name, image, date, address, description, phone, email, website;
+    String id, name, image, date, address, description, phone, email, website, count_animal, count_photo, count_ads;
     Boolean is_org;
 
     @Override
@@ -109,6 +109,10 @@ public class ProfileActivityUser extends AppCompatActivity {
                         address = document.getString("address");
                         description = document.getString("description");
                         is_org = document.getBoolean("is_org");
+                        count_ads = document.getString("count_ads");
+                        count_animal = document.getString("count_animal");
+                        count_photo = document.getString("count_photo");
+
                         date = new SimpleDateFormat("dd.MM.yyyy").format(Objects.requireNonNull(document.getDate("reg_date")));
 
                         if (mAuth.getCurrentUser().getPhotoUrl() != null){
@@ -298,49 +302,28 @@ public class ProfileActivityUser extends AppCompatActivity {
     }
 
     public void watch(View view){
-        ParseUser parseUser = ParseUser.getCurrentUser();
-        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
-        query_animal.whereEqualTo("id_user", parseUser);
-        query_animal.countInBackground(new CountCallback() {
-            @Override
-            public void done(int query_count_animal, ParseException e) {
-                ParseQuery<ParseObject> query_animal = new ParseQuery<>("Ads");
-                query_animal.whereEqualTo("id_user", parseUser);
-                query_animal.countInBackground(new CountCallback() {
-                    @Override
-                    public void done(int query_count_ads, ParseException e) {
-                        ParseQuery<ParseObject> query_animal = new ParseQuery<>("Collection");
-                        query_animal.whereEqualTo("id_user", parseUser);
-                        query_animal.countInBackground(new CountCallback() {
-                            @Override
-                            public void done(int query_count_photo, ParseException e) {
-                                Intent intent = new Intent(ProfileActivityUser.this, OrganizationsPage.class);
-                                intent.putExtra("id", id);
-                                intent.putExtra("name", name);
-                                intent.putExtra("image", image);
-                                intent.putExtra("address", address);
-                                intent.putExtra("email", email);
-                                intent.putExtra("phone", phone);
-                                intent.putExtra("description", description);
-                                intent.putExtra("count_animal", Integer.toString(query_count_animal));
-                                intent.putExtra("count_ads", Integer.toString(query_count_ads));
-                                intent.putExtra("count_photo", Integer.toString(query_count_photo));
-                                intent.putExtra("date", date);
-                                intent.putExtra("website", website);
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        Intent intent = new Intent(ProfileActivityUser.this, OrganizationsPage.class);
+        intent.putExtra("id", id);
+        intent.putExtra("name", name);
+        intent.putExtra("image", image);
+        intent.putExtra("address", address);
+        intent.putExtra("email", email);
+        intent.putExtra("phone", phone);
+        intent.putExtra("description", description);
+        intent.putExtra("count_animal", count_animal);
+        intent.putExtra("count_ads", count_ads);
+        intent.putExtra("count_photo", count_photo);
+        intent.putExtra("date", date);
+        intent.putExtra("website", website);
+        intent.putExtra("is_org", true);
+        startActivity(intent);
     }
 
     public void exit(View view) {
         FirebaseAuth.getInstance().signOut();
         progressDialog.dismiss();
 
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, AuthorizationActivity.class);
         startActivity(intent);
         finish();
     }

@@ -125,9 +125,6 @@ public class HomeActivity extends AppCompatActivity {
 
     public void init(boolean flag_org){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
 //        if (flag_org){
 //            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
 //            query.whereEqualTo("id_user", id_);
