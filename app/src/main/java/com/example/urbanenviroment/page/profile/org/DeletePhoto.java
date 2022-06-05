@@ -89,8 +89,6 @@ public class DeletePhoto extends AppCompatActivity {
     public void init(){
         FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
 
         animalsList = new ArrayList<>();
 

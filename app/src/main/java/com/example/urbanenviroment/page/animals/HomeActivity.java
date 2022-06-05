@@ -2,39 +2,22 @@ package com.example.urbanenviroment.page.animals;
 
 import static android.content.ContentValues.TAG;
 
-import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.CategoryAnimals;
-import com.example.urbanenviroment.model.Organizations;
-import com.example.urbanenviroment.page.filter.FilterHelp;
+import com.example.urbanenviroment.model.Collection;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.Parse;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.icu.util.LocaleData;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,51 +29,41 @@ import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.adapter.AnimalsAdapter;
+import com.example.urbanenviroment.adapter.PhotoAnimalsAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 public class HomeActivity extends AppCompatActivity {
 
     RecyclerView animalsRecycler;
-    AnimalsAdapter animalsAdapter;
-    List<Animals> animalsList, filterAnimalList;
+    PhotoAnimalsAdapter photoAnimalsAdapter;
+    List<Collection> photoList, filterPhotoList;
     Set<String> list_org_name;
     boolean flag_org, flag;
 
-    static class AnimalsComparator implements Comparator<Animals>{
+    static class AnimalsComparator implements Comparator<Collection>{
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        public int compare(Animals o1, Animals o2) {
+        public int compare(Collection o1, Collection o2) {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
             Date date_1 = null;
             Date date_2 = null;
             try {
-                date_1 = format.parse(o1.getReg_data());
-                date_2 = format.parse(o2.getReg_data());
+                date_1 = format.parse(o1.getReg_date());
+                date_2 = format.parse(o2.getReg_date());
             } catch (java.text.ParseException e) {
                 e.printStackTrace();
             }
@@ -130,38 +103,46 @@ public class HomeActivity extends AppCompatActivity {
 //            query.whereEqualTo("id_user", id_);
 //        }
 //
-        animalsList = new ArrayList<>();
+        photoList = new ArrayList<>();
         list_org_name = new HashSet<>();
 
-        db.collection("Animal").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Collection").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
+
                         String id = document.getId();
-                        String date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("date_reg"));
+                        String image_collection = document.getString("image_collection");
+
+                        String name_org = document.getString("username");
+                        String image_org = document.getString("imageOrg");
+
+                        String id_animal = document.getString("id_animal");
                         String name_animal = document.getString("name");
+                        String image_animal = document.getString("image_animal");
                         String age = document.getString("age");
                         String state = document.getString("state");
-                        String kind_animal = document.getString("kind");
+                        String kind = document.getString("kind");
                         String species = document.getString("species");
                         String description = document.getString("description");
                         String sex = document.getString("sex");
-                        String name_org = document.getString("username");
-                        String image_org = document.getString("imageOrg");
-                        String image_animal = document.getString("image");
+                        String reg_date_animal = document.getString("reg_date_animal");
+
+                        String reg_date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("reg_date"));
+
 
                         list_org_name.add(name_org);
 
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                age, state, kind_animal, species, description, sex, date));
+                        photoList.add(new Collection(id, image_collection, name_org, image_org, id_animal, name_animal,
+                                image_animal, age, state, kind, species, description, sex, reg_date, reg_date_animal));
 
-                        Collections.sort(animalsList, new AnimalsComparator().reversed());
-                        setAnimalsRecycler(animalsList);
+                        Collections.sort(photoList, new AnimalsComparator().reversed());
+                        setAnimalsRecycler(photoList);
 
                         if (getIntent().getBooleanExtra("flag_filter", false))
-                            filter_click(animalsList);
+                            filter_click(photoList);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -170,50 +151,50 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setAnimalsRecycler(List<Animals> animalsList){
+    private void setAnimalsRecycler(List<Collection> photoList){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
         animalsRecycler = findViewById(R.id.AnimalsRecycler);
         animalsRecycler.setLayoutManager(layoutManager);
 
-        animalsAdapter = new AnimalsAdapter(this, animalsList);
-        animalsRecycler.setAdapter(animalsAdapter);
+        photoAnimalsAdapter = new PhotoAnimalsAdapter(this, photoList);
+        animalsRecycler.setAdapter(photoAnimalsAdapter);
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void filter_click(List<Animals> animalsList){
-        filterAnimalList = new ArrayList<>(animalsList);
+    private void filter_click(List<Collection> photoList){
+        filterPhotoList = new ArrayList<>(photoList);
 
         if (!FilterAnimal.click_org_list_animal.isEmpty() && FilterAnimal.click_animal_list_animal.isEmpty()){
-            filterAnimalList.clear();
+            filterPhotoList.clear();
             for (CategoryAnimals word: FilterAnimal.click_org_list_animal){
-                animalsList.stream().filter(o -> o.getName_org().equals(word.getTitle())).forEach(o -> {
-                    filterAnimalList.add(o);
+                photoList.stream().filter(o -> o.getName_org().equals(word.getTitle())).forEach(o -> {
+                    filterPhotoList.add(o);
                 });
             }
         }
         else if (FilterAnimal.click_org_list_animal.isEmpty() && !FilterAnimal.click_animal_list_animal.isEmpty()){
-            filterAnimalList.clear();
+            filterPhotoList.clear();
             for (CategoryAnimals word: FilterAnimal.click_animal_list_animal){
-                animalsList.stream().filter(o -> o.getKind().equals(word.getTitle())).forEach(o -> {
-                    filterAnimalList.add(o);
+                photoList.stream().filter(o -> o.getKind().equals(word.getTitle())).forEach(o -> {
+                    filterPhotoList.add(o);
                 });
             }
         }
         else {
-            filterAnimalList.clear();
+            filterPhotoList.clear();
             for (CategoryAnimals org : FilterAnimal.click_org_list_animal){
                 for (CategoryAnimals word: FilterAnimal.click_animal_list_animal){
-                    animalsList.stream().filter(o -> o.getKind().equals(word.getTitle()) &&
+                    photoList.stream().filter(o -> o.getKind().equals(word.getTitle()) &&
                             o.getName_org().equals(org.getTitle())).forEach(o -> {
-                        filterAnimalList.add(o);
+                        filterPhotoList.add(o);
                     });
                 }
             }
         }
 
-        setAnimalsRecycler(filterAnimalList);
+        setAnimalsRecycler(filterPhotoList);
     }
 
     public void animals(View view){
@@ -264,14 +245,14 @@ public class HomeActivity extends AppCompatActivity {
         if (flag){
             button_up.setImageResource(R.drawable.img_sort_arrow_up);
             flag = false;
-            Collections.sort(animalsList, new AnimalsComparator().reversed());
-            setAnimalsRecycler(animalsList);
+            Collections.sort(photoList, new AnimalsComparator().reversed());
+            setAnimalsRecycler(photoList);
         }
         else{
             button_up.setImageResource(R.drawable.img_sort_arrow_down);
             flag = true;
-            Collections.sort(animalsList, new AnimalsComparator());
-            setAnimalsRecycler(animalsList);
+            Collections.sort(photoList, new AnimalsComparator());
+            setAnimalsRecycler(photoList);
         }
     }
 

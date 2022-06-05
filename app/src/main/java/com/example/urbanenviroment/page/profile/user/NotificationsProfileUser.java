@@ -1,7 +1,6 @@
 package com.example.urbanenviroment.page.profile.user;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,15 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.urbanenviroment.adapter.AnimalCardsAdapter;
-import com.example.urbanenviroment.adapter.AnimalsAdapter;
-import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.adapter.NotificationsAdapter;
-import com.example.urbanenviroment.adapter.OrganizationsAdapter;
-import com.example.urbanenviroment.model.Animals;
-import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.model.Notifications;
-import com.example.urbanenviroment.page.Dialog_Search;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.map.MapActivity;

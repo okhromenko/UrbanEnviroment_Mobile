@@ -82,7 +82,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnimalPage.class);
 
-                intent.putExtra("id", animalCardsList.get(position).getId());
+                intent.putExtra("id_animal", animalCardsList.get(position).getId());
                 intent.putExtra("kind_animal", animalCardsList.get(position).getKind());
                 intent.putExtra("species_animal", animalCardsList.get(position).getSpecies());
                 intent.putExtra("reg_date_animal", animalCardsList.get(position).getReg_data());
@@ -148,7 +148,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 public void onClick(View v) {
                     if (currentDocument[position] == null) {
                         HashMap<String, Object> favoriteAnimal = new HashMap<>();
-                        favoriteAnimal.put("id_animal", animalCardsList.get(position).getId());
+                        favoriteAnimal.put("id", animalCardsList.get(position).getId());
                         favoriteAnimal.put("name", animalCardsList.get(position).getName_animal());
                         favoriteAnimal.put("state", animalCardsList.get(position).getState());
                         favoriteAnimal.put("species", animalCardsList.get(position).getSpecies());
@@ -159,8 +159,8 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                         favoriteAnimal.put("date_reg", animalCardsList.get(position).getReg_data());
 
                         favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
-                        favoriteAnimal.put("username", mAuth.getCurrentUser().getDisplayName());
-                        favoriteAnimal.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                        favoriteAnimal.put("username", animalCardsList.get(position).getName_org());
+                        favoriteAnimal.put("imageOrg", animalCardsList.get(position).getImg_org());
                         favoriteAnimal.put("image", animalCardsList.get(position).getImg_animal());
 
 

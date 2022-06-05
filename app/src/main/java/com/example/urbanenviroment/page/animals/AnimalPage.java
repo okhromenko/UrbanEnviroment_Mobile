@@ -208,7 +208,7 @@ public class AnimalPage extends AppCompatActivity {
                     favoriteAnimal.put("date_reg", getIntent().getStringExtra("reg_date_animal"));
 
                     favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
-                    favoriteAnimal.put("username", mAuth.getCurrentUser().getDisplayName());
+                    favoriteAnimal.put("username", getIntent().getStringExtra("org"));
                     favoriteAnimal.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
                     favoriteAnimal.put("image", getIntent().getStringExtra("image_animal"));
 
@@ -261,7 +261,8 @@ public class AnimalPage extends AppCompatActivity {
 
     public void init(){
 
-        db.collection("Collection").whereEqualTo("id_animal", getIntent().getStringExtra("id")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        String id_a = getIntent().getStringExtra("id_animal");
+        db.collection("Collection").whereEqualTo("id_animal", getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -271,7 +272,7 @@ public class AnimalPage extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
                         id = document.getId();
-                        image_animal = document.getString("image");
+                        image_animal = document.getString("image_collection");
 
                         animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));

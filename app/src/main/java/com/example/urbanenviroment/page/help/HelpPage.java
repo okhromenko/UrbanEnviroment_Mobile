@@ -152,7 +152,7 @@ public class HelpPage extends AppCompatActivity {
                     favoriteAds.put("description",  getIntent().getStringExtra("description_help"));
 
                     favoriteAds.put("userId", mAuth.getUid());
-                    favoriteAds.put("username", mAuth.getCurrentUser().getDisplayName());
+                    favoriteAds.put("username", getIntent().getStringExtra("org"));
                     favoriteAds.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
 
 

@@ -208,8 +208,8 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                         favoriteAds.put("description",  helpList.get(position).getDescription());
 
                         favoriteAds.put("userId", mAuth.getUid());
-                        favoriteAds.put("username", mAuth.getCurrentUser().getDisplayName());
-                        favoriteAds.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                        favoriteAds.put("username", helpList.get(position).getName_org());
+                        favoriteAds.put("imageOrg", helpList.get(position).getImg_org());
 
 
                         db.collection("FavoriteAds").document()

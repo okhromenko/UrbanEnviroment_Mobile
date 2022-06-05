@@ -77,7 +77,6 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(context, DeletePhoto.class);
                                     context.startActivity(intent);
                                 }

@@ -3,7 +3,6 @@ package com.example.urbanenviroment.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,36 +12,33 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.example.urbanenviroment.model.Collection;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.model.Animals;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsViewHolder> {
+public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapter.AnimalsViewHolder> {
 
     Context context;
-    List<Animals> animalsList;
+    List<Collection> collectionList;
     boolean is_org;
 
-    public AnimalsAdapter(Context context, List<Animals> animalsList) {
+    public PhotoAnimalsAdapter(Context context, List<Collection> collectionList) {
         this.context = context;
-        this.animalsList = animalsList;
+        this.collectionList = collectionList;
     }
 
     @NonNull
     @Override
     public AnimalsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View animalItem = LayoutInflater.from(context).inflate(R.layout.animal_item, parent, false);
-        return new AnimalsAdapter.AnimalsViewHolder(animalItem);
+        return new PhotoAnimalsAdapter.AnimalsViewHolder(animalItem);
     }
 
     @Override
@@ -63,28 +59,28 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
             });
         }
 
-        Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_animal_home);
-        Picasso.get().load(animalsList.get(position).getImg_org()).into(holder.img_org_home);
+        Picasso.get().load(collectionList.get(position).getImg_collection()).into(holder.img_animal_home);
+        Picasso.get().load(collectionList.get(position).getImg_org()).into(holder.img_org_home);
 
-        holder.name_org_home.setText(animalsList.get(position).getName_org());
-        holder.date_home.setText(animalsList.get(position).getReg_data());
+        holder.name_org_home.setText(collectionList.get(position).getName_org());
+        holder.date_home.setText(collectionList.get(position).getReg_date());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnimalPage.class);
 
-                intent.putExtra("id", animalsList.get(position).getId());
-                intent.putExtra("kind_animal", animalsList.get(position).getKind());
-                intent.putExtra("species_animal", animalsList.get(position).getSpecies());
-                intent.putExtra("reg_date_animal", animalsList.get(position).getReg_data());
-                intent.putExtra("name_animal", animalsList.get(position).getName_animal());
-                intent.putExtra("description_animal", animalsList.get(position).getDescription());
-                intent.putExtra("sex_animal", animalsList.get(position).getSex());
-                intent.putExtra("age_animal", animalsList.get(position).getAge());
-                intent.putExtra("state_animal", animalsList.get(position).getState());
-                intent.putExtra("image_animal", animalsList.get(position).getImg_animal());
-                intent.putExtra("org", animalsList.get(position).getName_org());
+                intent.putExtra("id_animal", collectionList.get(position).getId_animal());
+                intent.putExtra("kind_animal", collectionList.get(position).getKind());
+                intent.putExtra("species_animal", collectionList.get(position).getSpecies());
+                intent.putExtra("reg_date_animal", collectionList.get(position).getReg_date_animal());
+                intent.putExtra("name_animal", collectionList.get(position).getName_animal());
+                intent.putExtra("description_animal", collectionList.get(position).getDescription());
+                intent.putExtra("sex_animal", collectionList.get(position).getSex());
+                intent.putExtra("age_animal", collectionList.get(position).getAge());
+                intent.putExtra("state_animal", collectionList.get(position).getState());
+                intent.putExtra("image_animal", collectionList.get(position).getImg_animal());
+                intent.putExtra("org", collectionList.get(position).getName_org());
                 intent.putExtra("is_org", is_org);
 
                 context.startActivity(intent);
@@ -94,7 +90,7 @@ public class AnimalsAdapter extends RecyclerView.Adapter<AnimalsAdapter.AnimalsV
 
     @Override
     public int getItemCount() {
-        return animalsList.size();
+        return collectionList.size();
     }
 
     public static final class AnimalsViewHolder extends RecyclerView.ViewHolder{

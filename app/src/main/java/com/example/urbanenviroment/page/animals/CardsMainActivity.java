@@ -120,7 +120,7 @@ public class CardsMainActivity extends AppCompatActivity {
                         animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
 
-                        Collections.sort(animalsList, new HomeActivity.AnimalsComparator().reversed());
+                        Collections.sort(animalsList, new AnimalsComparator().reversed());
                         setCardsRecycler(animalsList);
 
                         if (getIntent().getBooleanExtra("flag_filter", false))

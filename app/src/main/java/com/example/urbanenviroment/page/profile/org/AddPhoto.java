@@ -5,14 +5,12 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,21 +19,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.adapter.AnimalPhotoDeleteOrgAdapter;
-import com.example.urbanenviroment.adapter.AnimalsAdapter;
 import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
-import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.CategoryAnimals;
-import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.map.MapActivity;
@@ -54,28 +45,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class AddPhoto extends AppCompatActivity {
 
@@ -238,42 +218,57 @@ public class AddPhoto extends AppCompatActivity {
         StorageReference imgRef = storageRef.child(mediaUri.getPath());
         UploadTask uploadTask = imgRef.putBytes(byteArray);
 
+        QueryDocumentSnapshot id_a = animals.get(name_category);
+
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 Log.w(TAG, "Упс, что-то пошло не так" + exception);
             }
-        });
-
-        QueryDocumentSnapshot id_a = animals.get(name_category);
-
-        storageRef.child(imgRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(Uri uri) {
-                Map<String, Object> collection = new HashMap<>();
-                collection.put("id_animal", id_a.getId());
-                collection.put("image", uri.toString());
-                collection.put("userId", mAuth.getCurrentUser().getUid());
-                collection.put("username", mAuth.getCurrentUser().getDisplayName());
-                collection.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
-                collection.put("reg_date", date);
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                storageRef.child(imgRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @SuppressLint("SimpleDateFormat")
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Map<String, Object> collection = new HashMap<>();
+                        collection.put("id_animal", id_a.getId());
+                        collection.put("image_collection", uri.toString());
 
-                db.collection("Collection")
-                        .add(collection)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                        collection.put("name", id_a.getString("name"));
+                        collection.put("state",  id_a.getString("state"));
+                        collection.put("species", id_a.getString("species"));
+                        collection.put("description", id_a.getString("description"));
+                        collection.put("age", id_a.getString("age"));
+                        collection.put("sex", id_a.getString("sex"));
+                        collection.put("kind", id_a.getString("kind"));
+                        collection.put("image_animal", id_a.getString("image"));
+                        collection.put("reg_date_animal", new SimpleDateFormat("dd.MM.yyyy").format(Objects.requireNonNull(id_a.getDate("date_reg"))));
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Упс, что-то пошло не так " + e);
-                            }
-                        });
+                        collection.put("userId", mAuth.getCurrentUser().getUid());
+                        collection.put("username", mAuth.getCurrentUser().getDisplayName());
+                        collection.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                        collection.put("reg_date", date);
 
+                        db.collection("Collection")
+                                .add(collection)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Упс, что-то пошло не так " + e);
+                                    }
+                                });
+
+                    }
+                });
             }
         });
 
