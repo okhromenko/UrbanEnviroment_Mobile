@@ -29,7 +29,6 @@ import com.example.urbanenviroment.adapter.CategoryAnimalAdapter;
 import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
@@ -202,11 +201,6 @@ public class AddPhoto extends AppCompatActivity {
 
     public void organization(View view){
         Intent intent = new Intent(this, OrganizationsActivity.class);
-        startActivity(intent);
-    }
-
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 

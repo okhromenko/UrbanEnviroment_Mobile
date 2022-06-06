@@ -36,7 +36,6 @@ import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.OrganizationsAdapter;
 import com.example.urbanenviroment.model.Organizations;
@@ -211,11 +210,6 @@ public class OrganizationsActivity extends AppCompatActivity {
 
     public void organization(View view){
         Intent intent = new Intent(this, OrganizationsActivity.class);
-        startActivity(intent);
-    }
-
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 

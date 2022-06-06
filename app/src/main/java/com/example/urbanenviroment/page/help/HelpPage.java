@@ -19,7 +19,6 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
@@ -215,11 +214,6 @@ public class HelpPage extends AppCompatActivity {
 
     public void organization(View view){
         Intent intent = new Intent(this, OrganizationsActivity.class);
-        startActivity(intent);
-    }
-
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 

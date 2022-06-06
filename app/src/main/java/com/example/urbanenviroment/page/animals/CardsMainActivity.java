@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.page.filter.FilterAnimal;
 import com.example.urbanenviroment.page.help.HelpActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.AnimalCardsAdapter;
 import com.example.urbanenviroment.model.Animals;
@@ -202,11 +201,6 @@ public class CardsMainActivity extends AppCompatActivity {
 
     public void organization(View view){
         Intent intent = new Intent(this, OrganizationsActivity.class);
-        startActivity(intent);
-    }
-
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 

@@ -173,16 +173,6 @@
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:onClick="authorization"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/menu_profile" />
-
-        <ImageButton
-            android:layout_width="73dp"
-            android:layout_height="55dp"
-            android:background="@color/white"
             android:contentDescription="@string/app_name"
             android:onClick="organization"
             android:scaleX="0.9"
@@ -193,12 +183,10 @@
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:onClick="map"
-            android:visibility="gone"
+            android:onClick="authorization"
             android:scaleX="0.9"
             android:scaleY="0.9"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/menu_map_ex" />
+            android:src="@drawable/menu_profile" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

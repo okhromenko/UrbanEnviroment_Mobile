@@ -76,16 +76,6 @@
             android:background="@color/transparent"
             android:onClick="favorites_menu_ads"
             android:src="@drawable/button_ads_menu_profile" />
-
-        <ImageButton
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:id="@+id/button_org_menu_profile"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:onClick="favorites_menu_org"
-            android:src="@drawable/button_org_menu_profile_ex" />
     </LinearLayout>
 
     <com.loopeer.shadow.ShadowView
@@ -144,16 +134,6 @@
             android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
-            android:onClick="authorization"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:src="@drawable/menu_profile" />
-
-        <ImageButton
-            android:layout_width="73dp"
-            android:layout_height="55dp"
-            android:background="@color/white"
-            android:contentDescription="@string/app_name"
             android:onClick="organization"
             android:scaleX="0.9"
             android:scaleY="0.9"
@@ -164,11 +144,9 @@
             android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
-            android:onClick="map"
-            android:visibility="gone"
+            android:onClick="authorization"
             android:scaleX="0.9"
             android:scaleY="0.9"
-            android:src="@drawable/menu_map_ex" />
+            android:src="@drawable/menu_profile" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

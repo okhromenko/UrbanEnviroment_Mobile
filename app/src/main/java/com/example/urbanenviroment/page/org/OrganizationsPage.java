@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,12 +57,13 @@ public class OrganizationsPage extends AppCompatActivity {
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
         LinearLayout layout = findViewById(R.id.layout_user_buttons_org_page);
-
-        Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
+        if (!(getIntent().getStringExtra("image") == null))
+            Picasso.get().load(getIntent().getStringExtra("image")).into(img_org_org_page);
 
         name_org_org_page.setText(getIntent().getStringExtra("name"));
         email_org_org_page.setText(getIntent().getStringExtra("email"));
-        phone_org_org_page.setText(getIntent().getStringExtra("phone"));
+        if (!getIntent().getStringExtra("phone").equals("Номер телефона"))
+            phone_org_org_page.setText(getIntent().getStringExtra("phone"));
         if (!(getIntent().getStringExtra("description") == null))
             description_animal_page.setText(getIntent().getStringExtra("description"));
         count_animal_org_page.setText(getIntent().getStringExtra("count_animal"));
@@ -275,11 +275,6 @@ public class OrganizationsPage extends AppCompatActivity {
 
     public void organization(View view){
         Intent intent = new Intent(this, OrganizationsActivity.class);
-        startActivity(intent);
-    }
-
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 

@@ -45,7 +45,7 @@
             android:name=".page.profile.settings.SettingPageOrg"
             android:exported="false" />
         <activity
-            android:name=".page.profile.user.FavoritesProfileUserOrg"
+            android:name=".page.profile.user.NotificationsProfileUserOrg"
             android:exported="false" />
         <activity
             android:name=".page.org.Organization_statistics"

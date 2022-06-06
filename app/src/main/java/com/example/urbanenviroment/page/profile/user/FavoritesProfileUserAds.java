@@ -1,7 +1,5 @@
 package com.example.urbanenviroment.page.profile.user;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,21 +7,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.urbanenviroment.adapter.FavoriteProfileAdsAdapter;
-import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,21 +23,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.format.DateTimeFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 public class FavoritesProfileUserAds extends AppCompatActivity {
@@ -142,11 +123,6 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
-    }
-
     public void favorites_menu_animal(View view){
         Intent intent = new Intent(this, FavoritesProfileUserAnimals.class);
         startActivity(intent);
@@ -154,11 +130,6 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
 
     public void favorites_menu_ads(View view){
         Intent intent = new Intent(this, FavoritesProfileUserAds.class);
-        startActivity(intent);
-    }
-
-    public void favorites_menu_org(View view){
-        Intent intent = new Intent(this, FavoritesProfileUserOrg.class);
         startActivity(intent);
     }
 }

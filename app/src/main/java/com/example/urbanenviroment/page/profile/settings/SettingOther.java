@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
@@ -135,10 +134,4 @@ public class SettingOther extends AppCompatActivity {
         Intent intent = new Intent(this, OrganizationsActivity.class);
         startActivity(intent);
     }
-
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
-    }
-
 }

@@ -11,15 +11,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.adapter.HelpAdapter;
 import com.example.urbanenviroment.adapter.OrganizationsAdapter;
-import com.example.urbanenviroment.model.Help;
 import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
@@ -33,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FavoritesProfileUserOrg extends AppCompatActivity {
+public class NotificationsProfileUserOrg extends AppCompatActivity {
 
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
@@ -42,13 +38,13 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorites_profile_user_org);
+        setContentView(R.layout.activity_notigications_profile_user_org);
 
         init();
     }
 
     public void init(){
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        /*ParseUser parseUser = ParseUser.getCurrentUser();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
         query.orderByAscending("createdAt");
@@ -124,7 +120,7 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
                     }
                 }
             }
-        });
+        });*/
     }
 
     private void setOrgRecycler(List<Organizations> orgList){
@@ -157,24 +153,13 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
+    public void notification_menu_org(View view){
+        Intent intent = new Intent(this, NotificationsProfileUserOrg.class);
         startActivity(intent);
     }
 
-    public void favorites_menu_animal(View view){
-        Intent intent = new Intent(this, FavoritesProfileUserAnimals.class);
+    public void notification_menu_not(View view){
+        Intent intent = new Intent(this, NotificationsProfileUser.class);
         startActivity(intent);
     }
-
-    public void favorites_menu_ads(View view){
-        Intent intent = new Intent(this, FavoritesProfileUserAds.class);
-        startActivity(intent);
-    }
-
-    public void favorites_menu_org(View view){
-        Intent intent = new Intent(this, FavoritesProfileUserOrg.class);
-        startActivity(intent);
-    }
-
 }

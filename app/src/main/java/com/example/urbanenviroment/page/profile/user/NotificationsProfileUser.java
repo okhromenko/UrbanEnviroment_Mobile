@@ -12,7 +12,6 @@ import com.example.urbanenviroment.adapter.NotificationsAdapter;
 import com.example.urbanenviroment.model.Notifications;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
-import com.example.urbanenviroment.page.map.MapActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
@@ -75,8 +74,13 @@ public class NotificationsProfileUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void map(View view){
-        Intent intent = new Intent(this, MapActivity.class);
+    public void notification_menu_org(View view){
+        Intent intent = new Intent(this, NotificationsProfileUserOrg.class);
+        startActivity(intent);
+    }
+
+    public void notification_menu_not(View view){
+        Intent intent = new Intent(this, NotificationsProfileUser.class);
         startActivity(intent);
     }
 }
