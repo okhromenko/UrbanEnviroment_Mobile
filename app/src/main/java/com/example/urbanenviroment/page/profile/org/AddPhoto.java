@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -266,6 +267,19 @@ public class AddPhoto extends AppCompatActivity {
                                         Log.w(TAG, "Упс, что-то пошло не так " + e);
                                     }
                                 });
+
+                        DocumentReference User = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+                        User.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                long count_animal = 1;
+                                if (documentSnapshot.getLong("count_photo") != null)
+                                    count_animal = documentSnapshot.getLong("count_photo") + 1;
+
+                                User.update("count_photo", count_animal);
+                            }
+                        });
 
                     }
                 });

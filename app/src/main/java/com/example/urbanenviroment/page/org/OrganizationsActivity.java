@@ -162,9 +162,17 @@ public class OrganizationsActivity extends AppCompatActivity {
                         String phone = document.getString("phone");
                         String email = document.getString("email");
                         String website = document.getString("website");
-                        String count_animal = document.getString("count_animal");
-                        String count_ads = document.getString("count_ads");
-                        String count_photo = document.getString("count_photo");
+                        String count_animal = "";
+                        String count_photo = "";
+                        String count_ads = "";
+
+                        if (document.getLong("count_animal") != null)
+                            count_animal = document.getLong("count_animal").toString();
+                        if (document.getLong("count_ads") != null)
+                            count_ads = document.getLong("count_ads").toString();
+                        if (document.getLong("count_photo") != null)
+                            count_photo = document.getLong("count_photo").toString();
+
                         String image = document.getString("image");
 
                         orgList.add(new Organizations(id, name, image, phone, address, email, website, description,

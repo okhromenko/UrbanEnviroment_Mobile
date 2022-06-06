@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,6 +62,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+
                             Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
                             startActivity(intent);
                             finish();
@@ -72,51 +75,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-        /*if (user != null){
-            DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            if ((Boolean) document.get("is_org")){
-                                Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityOrg.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else{
-                                Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        } else {
-                            Log.d(TAG, "Проблемы при входе, пользователь не найден");
-                        }
-                    } else {
-                        Log.d(TAG, "Проблемы при входе ", task.getException());
-                    }
-                }
-            });
-        }*/
-
-//        ParseUser parseUser = ParseUser.getCurrentUser();
-//
-//        if(parseUser != null){
-//
-//            if ((Boolean) parseUser.get("is_org")) {
-//                Intent intent = new Intent(this, ProfileActivityOrg.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//            else {
-//                Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        }
     }
 
     public void registration(View view){
@@ -143,9 +101,21 @@ public class AuthorizationActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressDialog.dismiss();
+
                         if (task.isSuccessful()) {
 
                             mAuth.getCurrentUser().getProviderData();
+
+                            if (!mAuth.getCurrentUser().isEmailVerified()) {
+                                mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(getApplicationContext(), "Подтвердите адрес электронной почты, " +
+                                                "письмо было отправлено на вашу почту", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+
 
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
@@ -159,52 +129,37 @@ public class AuthorizationActivity extends AppCompatActivity {
                                             startActivity(intent);
                                             finish();
                                         } else {
-                                            Log.d(TAG, "Проблемы при входе, пользователь не найден");
+                                            Toast.makeText(getApplicationContext(), "Ошибка, логин/пароль не совпадают", Toast.LENGTH_LONG).show();
                                         }
-                                    } else {
-                                        Log.d(TAG, "Проблемы при входе ", task.getException());
                                     }
                                 }
                             });
+
                         } else {
                             progressDialog.dismiss();
-                            FirebaseAuth.getInstance().signOut();
                         }
                     }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Ошибка, логин/пароль не совпадают", Toast.LENGTH_LONG).show();
+                    }
                 });
-
-//        ParseUser.logInInBackground(emailField.getText().toString().toLowerCase(), passwordField.getText().toString(), (parseUser, e) -> {
-//
-//            progressDialog.dismiss();
-//
-//            if (parseUser != null) {
-//                Toast.makeText(getApplicationContext(), "Successful ", Toast.LENGTH_LONG).show();
-//                if ((Boolean) parseUser.get("is_org")){
-//                    Intent intent = new Intent(this, ProfileActivityOrg.class);
-//                    startActivity(intent);
-//                }
-//                else {
-//                    Intent intent = new Intent(this, ProfileActivityUser.class);
-//                    startActivity(intent);
-//                }
-//            } else {
-//                ParseUser.logOut();
-//                Toast.makeText(AuthorizationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        });
     }
 
     public void send_message(View view){
         MaterialEditText forgotten_passwd_email = dialog_forgotten.findViewById(R.id.forgotten_passwd_email);
         String email = forgotten_passwd_email.getText().toString();
 
-        try {
-            ParseUser.requestPasswordReset(email);
-            Toast.makeText(getApplicationContext(), "Письмо отправлено на почту", Toast.LENGTH_LONG).show();
-            dialog_forgotten.cancel();
-        }
-        catch (ParseException e){
-            Toast.makeText(AuthorizationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Письмо отправлено на почту", Toast.LENGTH_LONG).show();
+                            dialog_forgotten.cancel();
+                        }
+                    }
+                });
     }
 }

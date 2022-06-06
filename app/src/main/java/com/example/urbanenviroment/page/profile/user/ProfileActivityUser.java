@@ -109,9 +109,13 @@ public class ProfileActivityUser extends AppCompatActivity {
                         address = document.getString("address");
                         description = document.getString("description");
                         is_org = document.getBoolean("is_org");
-                        count_ads = document.getString("count_ads");
-                        count_animal = document.getString("count_animal");
-                        count_photo = document.getString("count_photo");
+
+                        if (document.getLong("count_animal") != null)
+                            count_animal = document.getLong("count_animal").toString();
+                        if (document.getLong("count_ads") != null)
+                            count_ads = document.getLong("count_ads").toString();
+                        if (document.getLong("count_photo") != null)
+                            count_photo = document.getLong("count_photo").toString();
 
                         date = new SimpleDateFormat("dd.MM.yyyy").format(Objects.requireNonNull(document.getDate("reg_date")));
 
@@ -194,35 +198,34 @@ public class ProfileActivityUser extends AppCompatActivity {
                     StorageReference imgRef = storageRef.child(mediaUri.getPath());
                     UploadTask uploadTask = imgRef.putBytes(byteArray);
 
-                    storageRef.child(imgRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onSuccess(Uri uri) {
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()){
+                                storageRef.child(imgRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
 
-                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
-                                    setPhotoUri(uri).build();
+                                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                                                setPhotoUri(uri).build();
 
-                            assert firebaseUser != null;
-                            firebaseUser.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
-                                        DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
-                                        changeRef.update("image", mAuth.getCurrentUser().getPhotoUrl().toString());
+                                        assert firebaseUser != null;
+                                        firebaseUser.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
+                                                    DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
+                                                    changeRef.update("image", mAuth.getCurrentUser().getPhotoUrl().toString());
+                                                }
+                                            }
+                                        });
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     });
 
-//                    DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
-//                    changeRef.update("image", imgRef.getPath()).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<Void> task) {
-//                            Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
-//
-//                        }
-//                    });
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

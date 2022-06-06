@@ -44,6 +44,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -249,7 +250,9 @@ public class AddAnimal extends AppCompatActivity {
                         animals.put("date_reg", date_reg);
                         animals.put("userId", mAuth.getCurrentUser().getUid());
                         animals.put("username", mAuth.getCurrentUser().getDisplayName());
-                        animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+
+                        if (mAuth.getCurrentUser().getPhotoUrl() != null)
+                            animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl()).toString();
                         animals.put("image", uri.toString());
 
 
@@ -276,6 +279,18 @@ public class AddAnimal extends AppCompatActivity {
                     }
                 });
 
+        DocumentReference User = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+        User.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                long count_animal = 1;
+                if (documentSnapshot.getLong("count_animal") != null)
+                    count_animal = documentSnapshot.getLong("count_animal") + 1;
+
+                User.update("count_animal", count_animal);
+            }
+        });
 
         Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);
         startActivity(intent);

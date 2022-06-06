@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -192,8 +193,6 @@ public class AddHelp extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
 
-
-
         Map<String, Object> ads = new HashMap<>();
         ads.put("userId", mAuth.getCurrentUser().getUid());
         ads.put("username", mAuth.getCurrentUser().getDisplayName());
@@ -210,6 +209,19 @@ public class AddHelp extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        DocumentReference User = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+        User.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                long count_animal = 1;
+                if (documentSnapshot.getLong("count_ads") != null)
+                    count_animal = documentSnapshot.getLong("count_ads") + 1;
+
+                User.update("count_ads", count_animal);
             }
         });
     }

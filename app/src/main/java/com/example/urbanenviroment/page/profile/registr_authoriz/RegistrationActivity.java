@@ -13,8 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -69,44 +72,60 @@ public class RegistrationActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    Date date = new Date();
 
-                                    Map<String, Object> user = new HashMap<>();
-                                    user.put("email", email);
-                                    user.put("name", name);
-                                    user.put("password", password);
-                                    user.put("is_org", is_org);
-                                    user.put("reg_date", date);
+                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
-                                    if (is_org) {
-                                        user.put("address", "Адрес");
-                                        user.put("phone", "Номер телефона");
-                                        user.put("website", "Сайт организации");
+                                    if (firebaseUser != null) {
+                                        firebaseUser.sendEmailVerification()
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(getApplicationContext(), "Подтвердите адрес электронной почты, " +
+                                                                    "письмо было отправлено на вашу почту", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+
+                                        Date date = new Date();
+
+                                        Map<String, Object> user = new HashMap<>();
+                                        user.put("email", email);
+                                        user.put("name", name);
+                                        user.put("password", password);
+                                        user.put("is_org", is_org);
+                                        user.put("reg_date", date);
+
+                                        if (is_org) {
+                                            user.put("address", "Адрес");
+                                            user.put("phone", "Номер телефона");
+                                            user.put("website", "Сайт организации");
+                                        }
+
+                                        progressDialog.dismiss();
+
+
+                                        db.collection("User").document(mAuth.getUid())
+                                                .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+
+                                                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                                                                setDisplayName(name).build();
+
+                                                        firebaseUser.updateProfile(profileChangeRequest);
+
+                                                        Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        mAuth.signOut();
+                                                    }
+                                                });
                                     }
-
-                                    progressDialog.dismiss();
-
-                                    db.collection("User").document(mAuth.getUid())
-                                            .set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Intent intent = new Intent(RegistrationActivity.this, AuthorizationActivity.class);
-                                                    startActivity(intent);
-
-                                                    FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                                                    UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
-                                                            setDisplayName(name).build();
-
-                                                    assert firebaseUser != null;
-                                                    firebaseUser.updateProfile(profileChangeRequest);
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    FirebaseAuth.getInstance().signOut();
-                                                }
-                                            });
                                 }
                             });
                 } else
