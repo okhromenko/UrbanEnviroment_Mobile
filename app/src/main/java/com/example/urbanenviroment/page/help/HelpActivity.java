@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.parse.FindCallback;
@@ -135,12 +136,12 @@ public class HelpActivity extends AppCompatActivity {
         DateTime current_date = new DateTime();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        //        if (flag_org){
-//            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
-//            query.whereEqualTo("id_user", id_);
-//        }
+        Query docRef = db.collection("Ads");
 
-        db.collection("Ads").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        if (flag_org)
+            docRef = db.collection("Ads").whereEqualTo("userId", getIntent().getStringExtra("id_org"));
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

@@ -38,13 +38,12 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
 
     Context context;
     List<Animals> animalsList;
-    boolean flag;
 
-    public AnimalPhotoDeleteOrgAdapter(Context context, List<Animals> animalsList, boolean flag) {
+    public AnimalPhotoDeleteOrgAdapter(Context context, List<Animals> animalsList) {
         this.context = context;
         this.animalsList = animalsList;
-        this.flag = flag;
     }
+
 
     @NonNull
     @Override
@@ -57,41 +56,31 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
     public void onBindViewHolder(@NonNull AnimalPhotoDeleteOrgViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Picasso.get().load(animalsList.get(position).getImg_animal()).into(holder.img_photo_animal_delete);
 
-        if (flag){
-            holder.btn_delete_collection.setVisibility(View.GONE);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AnimalPage.click_image(position);
-                }
-            });
-        }
-        else{
-            holder.btn_delete_collection.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+        holder.btn_delete_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    db.collection("Collection").document(animalsList.get(position).getId())
-                            .delete()
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Intent intent = new Intent(context, DeletePhoto.class);
-                                    context.startActivity(intent);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                }
-            });
-        }
-
+                db.collection("Collection").document(animalsList.get(position).getId())
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Intent intent = new Intent(context, DeletePhoto.class);
+                                context.startActivity(intent);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {

@@ -244,9 +244,7 @@ public class AddAnimal extends AppCompatActivity {
                         animals.put("date_reg", date_reg);
                         animals.put("userId", mAuth.getCurrentUser().getUid());
                         animals.put("username", mAuth.getCurrentUser().getDisplayName());
-
-                        if (mAuth.getCurrentUser().getPhotoUrl() != null)
-                            animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl()).toString();
+                        animals.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
                         animals.put("image", uri.toString());
 
 
@@ -254,6 +252,19 @@ public class AddAnimal extends AppCompatActivity {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+
+                                DocumentReference User = db.collection("User").document(mAuth.getCurrentUser().getUid());
+
+                                User.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        long count_animal = 1;
+                                        if (documentSnapshot.getLong("count_animal") != null)
+                                            count_animal = documentSnapshot.getLong("count_animal") + 1;
+
+                                        User.update("count_animal", count_animal);
+                                    }
+                                });
                             }
                         });
                     }
@@ -272,19 +283,6 @@ public class AddAnimal extends AppCompatActivity {
                         Toast.makeText(AddAnimal.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-
-        DocumentReference User = db.collection("User").document(mAuth.getCurrentUser().getUid());
-
-        User.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                long count_animal = 1;
-                if (documentSnapshot.getLong("count_animal") != null)
-                    count_animal = documentSnapshot.getLong("count_animal") + 1;
-
-                User.update("count_animal", count_animal);
-            }
-        });
 
         Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);
         startActivity(intent);

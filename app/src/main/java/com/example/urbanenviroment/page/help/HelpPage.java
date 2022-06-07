@@ -97,13 +97,12 @@ public class HelpPage extends AppCompatActivity {
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
 
 
-        if (mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             if (getIntent().getBooleanExtra("is_org", false)) {
                 button_favorite_help_page.setVisibility(View.GONE);
             } else {
                 button_favorite_help_page.setVisibility(View.VISIBLE);
             }
-        }
 
 
 //        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
@@ -119,22 +118,23 @@ public class HelpPage extends AppCompatActivity {
 //            }
 //        });
 
-        db.collection("FavoriteAds").whereEqualTo("id_ads", getIntent().getStringExtra("id"))
-                .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            QuerySnapshot document = task.getResult();
-                            if (document.isEmpty())
-                                button_favorite_help_page.setImageResource(R.drawable.button_favorite);
-                            else{
-                                currentDocument = document.getDocuments().get(0);
-                                button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
+            db.collection("FavoriteAds").whereEqualTo("id_ads", getIntent().getStringExtra("id"))
+                    .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot document = task.getResult();
+                                if (document.isEmpty())
+                                    button_favorite_help_page.setImageResource(R.drawable.button_favorite);
+                                else {
+                                    currentDocument = document.getDocuments().get(0);
+                                    button_favorite_help_page.setImageResource(R.drawable.button_favorite_press);
+                                }
                             }
                         }
-                    }
-                });
+                    });
 
+        }
 
         button_favorite_help_page.setOnClickListener(new View.OnClickListener() {
             @Override

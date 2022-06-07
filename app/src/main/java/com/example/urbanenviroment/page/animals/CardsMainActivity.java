@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -89,13 +90,15 @@ public class CardsMainActivity extends AppCompatActivity {
 
     public void init(boolean flag_org){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
         animalsList = new ArrayList<>();
         list_org_name = new HashSet<>();
 
-        db.collection("Animal").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query docRef = db.collection("Animal");
+
+        if (flag_org)
+            docRef = db.collection("Animal").whereEqualTo("userId", getIntent().getStringExtra("id_org"));
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -130,12 +133,6 @@ public class CardsMainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-//        if (flag_org){
-//            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
-//            query.whereEqualTo("id_user", id_);
-//        }
     }
 
     private void setCardsRecycler(List<Animals> cardsList){

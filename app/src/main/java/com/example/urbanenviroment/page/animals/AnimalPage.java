@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.adapter.AnimalPhotoDeleteOrgAdapter;
+import com.example.urbanenviroment.adapter.CollectionImageAnimalPageAdapter;
 import com.example.urbanenviroment.model.Animals;
+import com.example.urbanenviroment.model.Collection;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
@@ -65,12 +67,14 @@ public class AnimalPage extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private DocumentSnapshot currentDocument;
-    static ImageView image_animal_page;
-    static List<Animals> animalsList;
+
+    ImageView image_animal_page;
+    List<Collection> collectionList;
     RecyclerView animalsRecycler;
-    AnimalPhotoDeleteOrgAdapter animalsAdapter;
-    Boolean flag = false;
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
+    CollectionImageAnimalPageAdapter animalsAdapter;
+    CollectionImageAnimalPageAdapter.OnImageClickListener imageClickListener;
+    Boolean flagHideDescription = false;
+    String image_main_animal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,13 +102,23 @@ public class AnimalPage extends AppCompatActivity {
 
         kind_animal_page.setText(getIntent().getStringExtra("kind_animal"));
         species_animal_page.setText(getIntent().getStringExtra("species_animal"));
-        data_animal_page.setText(getIntent().getStringExtra("reg_date_animal"));
-        Picasso.get().load(getIntent().getStringExtra("image_animal")).into(image_animal_page);
         name_animal_page.setText(getIntent().getStringExtra("name_animal"));
         description_animal_page.setText(getIntent().getStringExtra("description_animal"));
         sex_animal_page.setText(getIntent().getStringExtra("sex_animal"));
         state_animal_page.setText(getIntent().getStringExtra("state_animal"));
         org_animal_page.setText(getIntent().getStringExtra("org"));
+        data_animal_page.setText(getIntent().getStringExtra("reg_date_animal"));
+
+        image_main_animal = getIntent().getStringExtra("image_animal");
+        Picasso.get().load(image_main_animal).into(image_animal_page);
+
+        imageClickListener = new CollectionImageAnimalPageAdapter.OnImageClickListener() {
+            @Override
+            public void onImageClick(String image) {
+                Picasso.get().load(image).into(image_animal_page);
+//                Picasso.get().load(photoList.getImg_collection()).into();
+            }
+        };
 
         init();
 
@@ -150,13 +164,12 @@ public class AnimalPage extends AppCompatActivity {
         }
 
 
-        if (mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             if (getIntent().getBooleanExtra("is_org", false)) {
                 favorite_button_animal.setVisibility(View.GONE);
             } else {
                 favorite_button_animal.setVisibility(View.VISIBLE);
             }
-        }
 
 
 //        ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
@@ -172,24 +185,23 @@ public class AnimalPage extends AppCompatActivity {
 //            }
 //        });
 
-        db.collection("FavoriteAnimal").whereEqualTo("id_animal", getIntent().getStringExtra("id"))
-                .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            QuerySnapshot document = task.getResult();
-                            if (document.isEmpty())
-                                favorite_button_animal.setImageResource(R.drawable.button_favorite);
-                            else{
-                                currentDocument = document.getDocuments().get(0);
-                                favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
+            db.collection("FavoriteAnimal").whereEqualTo("id_animal", getIntent().getStringExtra("id"))
+                    .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot document = task.getResult();
+                                if (document.isEmpty())
+                                    favorite_button_animal.setImageResource(R.drawable.button_favorite);
+                                else {
+                                    currentDocument = document.getDocuments().get(0);
+                                    favorite_button_animal.setImageResource(R.drawable.button_favorite_press);
+                                }
                             }
                         }
-                    }
-                });
+                    });
 
-
-
+        }
         favorite_button_animal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,6 +268,8 @@ public class AnimalPage extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
     public void init(){
@@ -266,21 +280,23 @@ public class AnimalPage extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    animalsList = new ArrayList<>();
+                    collectionList = new ArrayList<>();
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        id = document.getId();
-                        image_animal = document.getString("image_collection");
+                        String id = document.getId();
+                        String image_collection = document.getString("image_collection");
 
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
-                                age, state, kind_animal, species, description, sex, date));
-                        setAnimalsRecycler(animalsList);
+                        collectionList.add(new Collection(id, image_collection, null, null,
+                                null, null, null, null, null,
+                                null, null, null, null, null, null));
+
+                        setAnimalsRecycler(collectionList);
 
                     }
 
                     TextView text_no_photo = (TextView) findViewById(R.id.text_no_photo);
-                    if (animalsList.isEmpty()) {
+                    if (collectionList.isEmpty()) {
                         text_no_photo.setVisibility(View.VISIBLE);
                     } else {
                         text_no_photo.setVisibility(View.GONE);
@@ -293,13 +309,13 @@ public class AnimalPage extends AppCompatActivity {
         });
     }
 
-    private void setAnimalsRecycler(List<Animals> animalsList){
+    private void setAnimalsRecycler(List<Collection> collectionList){
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
 
         animalsRecycler = findViewById(R.id.RecyclerView_animal_page_photo);
         animalsRecycler.setLayoutManager(gridLayoutManager);
 
-        animalsAdapter = new AnimalPhotoDeleteOrgAdapter(this, animalsList, true);
+        animalsAdapter = new CollectionImageAnimalPageAdapter(this, collectionList, imageClickListener, getIntent().getStringExtra("image_animal"));
         animalsRecycler.setAdapter(animalsAdapter);
 
     }
@@ -367,18 +383,14 @@ public class AnimalPage extends AppCompatActivity {
     public void hide_animal_info(View view) {
         ImageButton hide_button_animal_page = (ImageButton) findViewById(R.id.hide_button_animal_page);
 
-        if (!flag){
+        if (!flagHideDescription){
             findViewById(R.id.scrollview1).setVisibility(View.GONE);
             hide_button_animal_page.setRotation(180F);
-            flag = true;
+            flagHideDescription = true;
         } else {
             findViewById(R.id.scrollview1).setVisibility(View.VISIBLE);
             hide_button_animal_page.setRotation(0F);
-            flag = false;
+            flagHideDescription = false;
         }
-    }
-
-    public static void click_image(int position){
-        Picasso.get().load(animalsList.get(position).getImg_animal()).into(image_animal_page);
     }
 }

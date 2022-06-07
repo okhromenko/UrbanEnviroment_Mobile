@@ -6,7 +6,9 @@ import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.model.Collection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -97,15 +99,16 @@ public class HomeActivity extends AppCompatActivity {
 
     public void init(boolean flag_org){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        if (flag_org){
-//            ParseObject id_ = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id_org"));
-//            query.whereEqualTo("id_user", id_);
-//        }
-//
+
         photoList = new ArrayList<>();
         list_org_name = new HashSet<>();
 
-        db.collection("Collection").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query docRef = db.collection("Collection");
+
+        if (flag_org)
+            docRef = db.collection("Collection").whereEqualTo("userId", getIntent().getStringExtra("id_org"));
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
