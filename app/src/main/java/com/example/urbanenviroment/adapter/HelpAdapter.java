@@ -27,6 +27,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.help.HelpPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Help;
+import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.EditHelpPage;
@@ -150,6 +151,19 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                     intent.putExtra("color_transperent", color_transperent);
                     intent.putExtra("is_org", is_org);
                     context.startActivity(intent);
+                }
+            });
+
+            holder.button_delete_edit_animal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.collection("Ads").document( helpList.get(position).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Intent intent = new Intent(context, EditHelp.class);
+                            context.startActivity(intent);
+                        }
+                    });
                 }
             });
         }

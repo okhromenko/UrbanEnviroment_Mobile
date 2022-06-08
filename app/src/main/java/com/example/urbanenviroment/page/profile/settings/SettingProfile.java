@@ -5,15 +5,27 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
+import com.example.urbanenviroment.page.profile.org.DeletePhoto;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -21,6 +33,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 public class SettingProfile extends AppCompatActivity {
@@ -93,113 +107,93 @@ public class SettingProfile extends AppCompatActivity {
     }
 
     public void delete_profile(View view) {
-        ParseUser parseUser = ParseUser.getCurrentUser();
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
-        if ((Boolean) parseUser.get("is_org")) {
-            ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
-            query_ads.whereEqualTo("id_user", parseUser);
-            query_ads.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        for (ParseObject i : objects) {
-                            i.deleteInBackground();
-                        }
+        String id = mAuth.getUid();
 
-                        ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
-                        query_animal.whereEqualTo("id_user", parseUser);
-                        query_animal.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if (e == null) {
-                                    for (ParseObject k : objects) {
-                                        k.deleteInBackground();
-                                    }
+        db.collection("User").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
 
-                                    ParseQuery<ParseObject> query_collection = ParseQuery.getQuery("Collection");
-                                    query_collection.whereEqualTo("id_user", parseUser);
-                                    query_collection.findInBackground(new FindCallback<ParseObject>() {
-                                        public void done(List<ParseObject> objects, ParseException e) {
-                                            if (e == null) {
-                                                for (ParseObject f : objects) {
-                                                    f.deleteInBackground();
-                                                }
-
-                                                ParseQuery<ParseObject> query_org = ParseQuery.getQuery("Organization");
-                                                query_org.whereEqualTo("id_user", parseUser);
-                                                query_org.findInBackground(new FindCallback<ParseObject>() {
-                                                    public void done(List<ParseObject> objects, ParseException e) {
-                                                        if (e == null) {
-                                                            for (ParseObject p : objects) {
-                                                                p.deleteInBackground();
-                                                            }
-
-                                                            parseUser.deleteInBackground(new DeleteCallback() {
-                                                                @Override
-                                                                public void done(ParseException e) {
-                                                                    ParseUser.logOutInBackground();
-
-                                                                    Intent intent = new Intent(SettingProfile.this, HomeActivity.class);
-                                                                    startActivity(intent);
-                                                                }
-                                                            });
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-
-                                }
+                if (Boolean.FALSE.equals(document.getBoolean("is_org"))){
+                    db.collection("FavoriteAds").whereEqualTo("userId", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection("FavoriteAds").document(document.getId()).delete();
                             }
-                        });
-                    }
-                }
-            });
-        } else {
-            ParseQuery<ParseObject> query_favorite_ads = ParseQuery.getQuery("FavoriteAds");
-            query_favorite_ads.whereEqualTo("user_id", parseUser);
-            query_favorite_ads.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> objects, ParseException ex) {
-                    if (ex == null) {
-                        for (ParseObject j : objects) {
-                            j.deleteInBackground();
                         }
+                    });
 
-                        ParseQuery<ParseObject> query_favorite_animal = ParseQuery.getQuery("FavoriteAnimal");
-                        query_favorite_animal.whereEqualTo("user_id", parseUser);
-                        query_favorite_animal.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> objects, ParseException ex) {
-                                if (ex == null) {
-                                    for (ParseObject i : objects) {
-                                        i.deleteInBackground();
-                                    }
-
-                                    ParseQuery<ParseObject> query_favorite_org = ParseQuery.getQuery("FavoriteOrganization");
-                                    query_favorite_org.whereEqualTo("user_id", parseUser);
-                                    query_favorite_org.findInBackground(new FindCallback<ParseObject>() {
-                                        public void done(List<ParseObject> objects, ParseException ex) {
-                                            if (ex == null) {
-                                                for (ParseObject k : objects) {
-                                                    k.deleteInBackground();
-                                                }
-
-                                                parseUser.deleteInBackground(new DeleteCallback() {
-                                                    @Override
-                                                    public void done(ParseException e) {
-                                                        ParseUser.logOutInBackground();
-
-                                                        Intent intent = new Intent(SettingProfile.this, HomeActivity.class);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    });
-                                }
+                    db.collection("FavoriteAnimal").whereEqualTo("userId", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection("FavoriteAnimal").document(document.getId()).delete();
                             }
-                        });
-                    }
+                        }
+                    });
                 }
-            });
-        }
+
+                if (document.getString("image") != null){
+                    storageRef.getStorage().getReferenceFromUrl(document.getString("image")).delete();
+                }
+
+                db.collection("User").document(document.getId()).delete();
+            }
+        });
+
+        db.collection("Ads").whereEqualTo("userId", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    db.collection("Ads").document(document.getId()).delete();
+                }
+            }
+        });
+
+        db.collection("Animal").whereEqualTo("userId", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    storageRef.getStorage().getReferenceFromUrl(document.getString("image")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            db.collection("Animal").document(document.getId()).delete();
+                        }
+                    });
+
+                }
+            }
+        });
+
+        db.collection("Collection").whereEqualTo("userId", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                    storageRef.getStorage().getReferenceFromUrl(document.getString("image_animal")).delete();
+                    storageRef.getStorage().getReferenceFromUrl(document.getString("image_collection")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            db.collection("Collection").document(document.getId()).delete();
+                        }
+                    });
+                }
+            }
+        });
+
+
+        mAuth.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Intent intent = new Intent(SettingProfile.this, AuthorizationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -82,7 +82,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnimalPage.class);
 
-                intent.putExtra("id_animal", animalCardsList.get(position).getId());
+                intent.putExtra("id", animalCardsList.get(position).getId());
                 intent.putExtra("kind_animal", animalCardsList.get(position).getKind());
                 intent.putExtra("species_animal", animalCardsList.get(position).getSpecies());
                 intent.putExtra("reg_date_animal", animalCardsList.get(position).getReg_data());
@@ -142,13 +142,12 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
 
 
 
-
             holder.button_favorite_card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (currentDocument[position] == null) {
                         HashMap<String, Object> favoriteAnimal = new HashMap<>();
-                        favoriteAnimal.put("id", animalCardsList.get(position).getId());
+                        favoriteAnimal.put("id_animal", animalCardsList.get(position).getId());
                         favoriteAnimal.put("name", animalCardsList.get(position).getName_animal());
                         favoriteAnimal.put("state", animalCardsList.get(position).getState());
                         favoriteAnimal.put("species", animalCardsList.get(position).getSpecies());

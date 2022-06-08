@@ -220,7 +220,8 @@ public class AnimalPage extends AppCompatActivity {
 
                     favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
                     favoriteAnimal.put("username", getIntent().getStringExtra("org"));
-                    favoriteAnimal.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                    if (mAuth.getCurrentUser().getPhotoUrl() != null)
+                        favoriteAnimal.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
                     favoriteAnimal.put("image", getIntent().getStringExtra("image_animal"));
 
 

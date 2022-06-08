@@ -19,6 +19,13 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.profile.org.DeletePhoto;
 import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -77,6 +84,7 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
                 Intent intent = new Intent(context, AnimalPage.class);
 
                 intent.putExtra("id", animalsList.get(position).getId());
+                intent.putExtra("is_org", true);
                 intent.putExtra("kind_animal", animalsList.get(position).getKind());
                 intent.putExtra("species_animal", animalsList.get(position).getSpecies());
                 intent.putExtra("reg_date_animal", animalsList.get(position).getReg_data());
@@ -94,18 +102,27 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
         holder.button_delete_edit_animal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
 
-                query.whereEqualTo("objectId", animalsList.get(position).getId());
-                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                db.collection("Animal").document(animalsList.get(position).getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void done(ParseObject object, ParseException ex) {
-                        if (object != null){
-                            object.deleteInBackground();
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
 
-                            Intent intent = new Intent(context, EditAnimal.class);
-                            context.startActivity(intent);
-                        }
+                        storageRef.getStorage().getReferenceFromUrl(document.getString("image")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                db.collection("Animal").document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Intent intent = new Intent(context, EditAnimal.class);
+                                        context.startActivity(intent);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }

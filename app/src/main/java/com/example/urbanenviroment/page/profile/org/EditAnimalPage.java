@@ -35,9 +35,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -431,18 +435,24 @@ public class EditAnimalPage extends AppCompatActivity {
     }
 
     public void delete_animal(View view){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
-
-        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+        db.collection("Animal").document(getIntent().getStringExtra("id")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void done(ParseObject object, ParseException ex) {
-                if (object != null){
-                    object.deleteInBackground();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
 
-                    Intent intent = new Intent(EditAnimalPage.this, EditAnimal.class);
-                    startActivity(intent);
-                }
+                storageRef.getStorage().getReferenceFromUrl(document.getString("image")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        db.collection("Animal").document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Intent intent = new Intent(EditAnimalPage.this, EditAnimal.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
+                });
             }
         });
     }

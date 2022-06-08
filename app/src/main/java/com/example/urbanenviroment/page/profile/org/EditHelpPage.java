@@ -277,19 +277,11 @@ public class EditHelpPage extends AppCompatActivity {
     }
 
     public void delete_edit_ads(View view) {
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
-
-        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+        db.collection("Ads").document(getIntent().getStringExtra("id")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void done(ParseObject object, ParseException ex) {
-                if (object != null){
-                    object.deleteInBackground();
-
-                    Intent intent = new Intent(EditHelpPage.this, EditHelp.class);
-                    startActivity(intent);
-                }
+            public void onSuccess(Void unused) {
+                Intent intent = new Intent(EditHelpPage.this, EditHelp.class);
+                startActivity(intent);
             }
         });
     }

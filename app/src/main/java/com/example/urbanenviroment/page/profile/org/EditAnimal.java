@@ -52,6 +52,9 @@ public class EditAnimal extends AppCompatActivity {
     RecyclerView animalEditRecycler;
     AnimalEditOrgAdapter animalEditOrg;
     List<Animals> animalsList;
+    FirebaseUser mAuth;
+    FirebaseFirestore db;
+    StorageReference storageRef;
 
     boolean flag = false;
 
@@ -81,15 +84,16 @@ public class EditAnimal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_animal);
 
+        mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
         init();
     }
 
     public void init() {
-        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
         animalsList = new ArrayList<>();
 
         db.collection("Animal").whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -171,10 +175,5 @@ public class EditAnimal extends AppCompatActivity {
             Collections.sort(animalsList, new AnimalsComparator());
             setAnimalsRecycler(animalsList);
         }
-    }
-
-    public void delete_edit_animal(View view){
-        Toast.makeText(getApplicationContext(),
-                "Ты все удалил :(", Toast.LENGTH_SHORT).show();
     }
 }

@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -63,8 +64,11 @@ import org.joda.time.format.DateTimeFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class Organization_statistics extends AppCompatActivity {
 
@@ -76,8 +80,8 @@ public class Organization_statistics extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        statistic_rectangle(R.id.rectangle_animals_statistics, true);
-        statistic_circle(R.id.circle_animals_statistics, true);
+        @SuppressLint("ResourceType") View view = findViewById(R.layout.activity_organization_statistics_animal);
+        button_animal_statistics(view);
     }
 
     public void animals(View view){
@@ -100,102 +104,247 @@ public class Organization_statistics extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void statistic_rectangle(int addressChart, boolean clickTypeAnimals) {
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void statistic_animal_rectangle(Map<String, Integer> count_kind){
 
-        if (clickTypeAnimals) {
-            setContentView(R.layout.activity_organization_statistics_animal);
-        } else {
-            setContentView(R.layout.activity_organization_statistics_ads);
+        BarChart barChart = findViewById(R.id.rectangle_animals_statistics);
+
+        ArrayList<BarEntry> animals_statistic = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("    ");
+
+        int number = 1;
+
+        for (Map.Entry<String, Integer> i : count_kind.entrySet()){
+            animals_statistic.add(new BarEntry(number++, i.getValue()));
+            labels.add(i.getKey());
         }
 
-        db.collection("Ads").whereEqualTo("userId", getIntent().getStringExtra("id"))
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<DocumentSnapshot> count_list = new ArrayList<>();
-                            count_list.addAll(task.getResult().getDocuments());
 
-                            long count_food = count_list.stream().filter(i -> i.get("type").equals("Еда")).count();
-                            long count_help = count_list.stream().filter(i -> i.get("type").equals("Волонтерство")).count();
-                            long count_things = count_list.stream().filter(i -> i.get("type").equals("Вещи")).count();
+        BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
 
-                            BarChart barChart = findViewById(addressChart);
+//        int food = getResources().getColor(R.color.food, getTheme());
+//        int things = getResources().getColor(R.color.things, getTheme());
+//        int help = getResources().getColor(R.color.help, getTheme());
+//
+//        barDataSet.setColors(new int[] {food, things, help});
+        barDataSet.setValueTextColor(Color.BLACK);
+//        barDataSet.setValueTextSize(12f);
 
-                            ArrayList<BarEntry> animals_statistic = new ArrayList<>();
+        BarData barData = new BarData(barDataSet);
 
-                            animals_statistic.add(new BarEntry(1, count_food));
-                            animals_statistic.add(new BarEntry(2, count_things));
-                            animals_statistic.add(new BarEntry(3, count_help));
+        barChart.setFitBars(true);
+        barChart.setData(barData);
 
-                            ArrayList<String> labels = new ArrayList<>();
-                            labels.add("    ");
-                            labels.add("Еда");
-                            labels.add("Вещи");
-                            labels.add("Волонтерство");
+        barChart.setTouchEnabled(false);
+        barChart.setDragEnabled(false);
+        barChart.setScaleEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setExtraOffsets(0,0,0,10);
 
-                            BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false);
 
-                            int food = getResources().getColor(R.color.food, getTheme());
-                            int things = getResources().getColor(R.color.things, getTheme());
-                            int help = getResources().getColor(R.color.help, getTheme());
+        YAxis rightAxis = barChart.getAxisRight();
+        YAxis leftAxis = barChart.getAxisLeft();
+        rightAxis.setEnabled(false);
+        leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
+        leftAxis.setTextSize(12f);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setStartAtZero(true);
+        leftAxis.setDrawZeroLine(true);
+        leftAxis.setZeroLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
+        leftAxis.setZeroLineWidth(2f);
 
-                            barDataSet.setColors(new int[] {food, things, help});
-                            barDataSet.setValueTextColor(Color.BLACK);
-                            barDataSet.setValueTextSize(12f);
-
-                            BarData barData = new BarData(barDataSet);
-
-                            barChart.setFitBars(true);
-                            barChart.setData(barData);
-
-                            barChart.setTouchEnabled(false);
-                            barChart.setDragEnabled(false);
-                            barChart.setScaleEnabled(false);
-                            barChart.setPinchZoom(false);
-                            barChart.setDoubleTapToZoomEnabled(false);
-                            barChart.setExtraOffsets(0,0,0,10);
-
-                            Legend legend = barChart.getLegend();
-                            legend.setEnabled(false);
-
-                            YAxis rightAxis = barChart.getAxisRight();
-                            YAxis leftAxis = barChart.getAxisLeft();
-                            rightAxis.setEnabled(false);
-                            leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
-                            leftAxis.setTextSize(12f);
-                            leftAxis.setDrawAxisLine(false);
-                            leftAxis.setStartAtZero(true);
-                            leftAxis.setDrawZeroLine(true);
-                            leftAxis.setZeroLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
-                            leftAxis.setZeroLineWidth(2f);
-
-                            XAxis xAxis = barChart.getXAxis();
-                            xAxis.setTextSize(14f);
-                            xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
-                            xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
-                            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                            xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
-                            xAxis.setGranularity(1f);
-                            xAxis.setDrawAxisLine(false);
-                            xAxis.setDrawGridLines(false);
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextSize(14f);
+        xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
+        xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
 
 
-                            barChart.animateY(10);
-                            barChart.getDescription().setText(" ");
-                        }
-                    }
-                });
+        barChart.animateY(10);
+        barChart.getDescription().setText(" ");
     }
 
-    public void statistic_circle(int addressChart, boolean clickTypeAnimals){
-        String typeStatistic;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void statistic_animal_circle(long count_woman, long count_man){
+        setContentView(R.layout.activity_organization_statistics_animal);
 
-        if (clickTypeAnimals)
-            typeStatistic = "Животные";
-        else
-            typeStatistic = "Объявления";
+        PieChart pieChart = findViewById(R.id.circle_animals_statistics);
+
+        ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
+        animals_statistic_circle.add(new PieEntry(count_woman, "Самка"));
+        animals_statistic_circle.add(new PieEntry(count_man, "Самец"));
+
+        PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, "Животные");
+
+        pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()),
+                getResources().getColor(R.color.blue, getTheme())});
+
+        PieData data = new PieData(pieDataSet);
+        data.setDrawValues(true);
+        data.setValueFormatter(new PercentFormatter(pieChart));
+        data.setValueTextSize(12f);
+        data.setValueTextColor(Color.WHITE);
+
+        pieChart.setUsePercentValues(true);
+        pieChart.setEntryLabelTextSize(14f);
+        pieChart.setCenterText("Животные");
+        pieChart.setCenterTextSize(16f);
+        pieChart.setCenterTextColor(getResources().getColor(R.color.basic_blue, getTheme()));
+
+        Description description = pieChart.getDescription();
+        description.setEnabled(false);
+
+        Legend legend = pieChart.getLegend();
+        legend.setEnabled(false);
+
+        pieChart.setData(data);
+        pieChart.invalidate();
+
+        pieChart.animateY(1400, Easing.EaseInOutQuad);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void statistic_ads_circle(long count_in_progress, long count_completion, long count_complete){
+        PieChart pieChart = findViewById(R.id.circle_ads_statistics);
+
+        ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
+        animals_statistic_circle.add(new PieEntry(count_in_progress, "В процессе"));
+        animals_statistic_circle.add(new PieEntry(count_completion, "Завершается"));
+        animals_statistic_circle.add(new PieEntry(count_complete, "Выполнено"));
+
+
+        PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, "Объявления");
+
+        pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()), getResources().getColor(R.color.blue, getTheme())});
+
+        PieData data = new PieData(pieDataSet);
+        data.setDrawValues(true);
+        data.setValueFormatter(new PercentFormatter(pieChart));
+        data.setValueTextSize(12f);
+        data.setValueTextColor(Color.WHITE);
+
+        pieChart.setUsePercentValues(true);
+        pieChart.setEntryLabelTextSize(14f);
+        pieChart.setCenterText("Объявления");
+        pieChart.setCenterTextSize(16f);
+        pieChart.setCenterTextColor(getResources().getColor(R.color.basic_blue, getTheme()));
+
+        Description description = pieChart.getDescription();
+        description.setEnabled(false);
+
+        Legend legend = pieChart.getLegend();
+        legend.setEnabled(false);
+
+        pieChart.setData(data);
+        pieChart.invalidate();
+
+        pieChart.animateY(1400, Easing.EaseInOutQuad);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void statistic_ads_rectangle(long count_food, long count_ads, long count_things){
+
+        setContentView(R.layout.activity_organization_statistics_ads);
+
+        BarChart barChart = findViewById(R.id.rectangle_ads_statistics);
+
+        ArrayList<BarEntry> animals_statistic = new ArrayList<>();
+
+        animals_statistic.add(new BarEntry(1, count_food));
+        animals_statistic.add(new BarEntry(2, count_things));
+        animals_statistic.add(new BarEntry(3, count_ads));
+
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("    ");
+        labels.add("Еда");
+        labels.add("Вещи");
+        labels.add("Волонтерство");
+
+        BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
+
+        int food = getResources().getColor(R.color.food, getTheme());
+        int things = getResources().getColor(R.color.things, getTheme());
+        int help = getResources().getColor(R.color.help, getTheme());
+
+        barDataSet.setColors(new int[] {food, things, help});
+        barDataSet.setValueTextColor(Color.BLACK);
+        barDataSet.setValueTextSize(12f);
+
+        BarData barData = new BarData(barDataSet);
+
+        barChart.setFitBars(true);
+        barChart.setData(barData);
+
+        barChart.setTouchEnabled(false);
+        barChart.setDragEnabled(false);
+        barChart.setScaleEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setExtraOffsets(0,0,0,10);
+
+        Legend legend = barChart.getLegend();
+        legend.setEnabled(false);
+
+        YAxis rightAxis = barChart.getAxisRight();
+        YAxis leftAxis = barChart.getAxisLeft();
+        rightAxis.setEnabled(false);
+        leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
+        leftAxis.setTextSize(12f);
+        leftAxis.setDrawAxisLine(false);
+        leftAxis.setStartAtZero(true);
+        leftAxis.setDrawZeroLine(true);
+        leftAxis.setZeroLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
+        leftAxis.setZeroLineWidth(2f);
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextSize(14f);
+        xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
+        xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setGranularity(1f);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+
+
+        barChart.animateY(10);
+        barChart.getDescription().setText(" ");
+    }
+
+    private String status(String first_date, String last_date){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            Date lastDate = dateFormat.parse(last_date);
+            Date todayDate = new Date();
+            if (todayDate.compareTo(lastDate) <= 0){
+                long milliseconds = lastDate.getTime() - todayDate.getTime();
+                int days = (int) (milliseconds / (24 * 60 * 60 * 1000));
+                if (days >= 2){
+                    return "В процессе";
+                }
+                else {
+                    return "Завершается";
+                }
+            }
+            else if (todayDate.compareTo(lastDate) > 0){
+                return "Выполнено";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Формат даты не совпадает!";
+    }
+
+    public void button_animal_statistics(View view){
+        Map<String, Integer> count_kind = new HashMap<>();
 
         db.collection("Animal").whereEqualTo("userId", getIntent().getStringExtra("id"))
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -209,55 +358,50 @@ public class Organization_statistics extends AppCompatActivity {
                             long count_woman = count_list.stream().filter(i -> i.get("sex").equals("Самка")).count();
                             long count_man = count_list.stream().filter(i -> i.get("sex").equals("Самец")).count();
 
-                            PieChart pieChart = findViewById(addressChart);
+                            for (DocumentSnapshot i : count_list){
+                                String kind = i.getString("kind");
+                                if (count_kind.containsKey(kind))
+                                    count_kind.put(kind, count_kind.get(kind) + 1);
+                                else
+                                    count_kind.put(kind, 1);
+                            }
 
-                            ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
-                            animals_statistic_circle.add(new PieEntry(count_woman, "Самка"));
-                            animals_statistic_circle.add(new PieEntry(count_man, "Самец"));
-
-                            PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, typeStatistic);
-
-                            pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()), getResources().getColor(R.color.blue, getTheme())});
-                            //pieDataSet.setValueTextColor(Color.BLACK);
-                            //pieDataSet.setValueTextSize(14f);
-
-
-                            PieData data = new PieData(pieDataSet);
-                            data.setDrawValues(true);
-                            data.setValueFormatter(new PercentFormatter(pieChart));
-                            data.setValueTextSize(12f);
-                            data.setValueTextColor(Color.WHITE);
-
-                            pieChart.setUsePercentValues(true);
-                            pieChart.setEntryLabelTextSize(14f);
-                            pieChart.setCenterText(typeStatistic);
-                            pieChart.setCenterTextSize(16f);
-                            pieChart.setCenterTextColor(getResources().getColor(R.color.basic_blue, getTheme()));
-
-                            Description description = pieChart.getDescription();
-                            description.setEnabled(false);
-
-                            Legend legend = pieChart.getLegend();
-                            legend.setEnabled(false);
-                            //legend.setTextSize(14f);
-
-                            pieChart.setData(data);
-                            pieChart.invalidate();
-
-                            pieChart.animateY(1400, Easing.EaseInOutQuad);
+                            statistic_animal_circle(count_woman, count_man);
+                            statistic_animal_rectangle(count_kind);
                         }
                     }
                 });
     }
 
-    public void button_animal_statistics(View view){
-        statistic_rectangle(R.id.rectangle_animals_statistics, true);
-        statistic_circle(R.id.circle_animals_statistics, true);
-    }
-
     public void button_ads_statistics(View view){
-        statistic_rectangle(R.id.rectangle_ads_statistics, false);
-        statistic_circle(R.id.circle_ads_statistics, false);
+        db.collection("Ads").whereEqualTo("userId", getIntent().getStringExtra("id"))
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<DocumentSnapshot> count_list = new ArrayList<>();
+                            count_list.addAll(task.getResult().getDocuments());
+
+                            long count_food = count_list.stream().filter(i -> i.get("type").equals("Еда")).count();
+                            long count_help = count_list.stream().filter(i -> i.get("type").equals("Волонтерство")).count();
+                            long count_things = count_list.stream().filter(i -> i.get("type").equals("Вещи")).count();
+
+                            long count_in_progress = count_list.stream().filter(i -> status(i.getString("first_date"),
+                                    i.getString("last_date")).equals("В процессе")).count();
+
+                            long count_completion = count_list.stream().filter(i -> status(i.getString("first_date"),
+                                    i.getString("last_date")).equals("Завершается")).count();
+
+                            long count_complete = count_list.stream().filter(i -> status(i.getString("first_date"),
+                                    i.getString("last_date")).equals("Выполнено")).count();
+
+
+                            statistic_ads_rectangle(count_food, count_help, count_things);
+                            statistic_ads_circle(count_in_progress, count_completion, count_complete);
+                        }
+                    }
+                });
     }
 
 }
