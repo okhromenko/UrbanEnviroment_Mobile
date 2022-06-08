@@ -54,7 +54,6 @@ public class OrganizationsPage extends AppCompatActivity {
         TextView website_org_org_page = findViewById(R.id.website_org_org_page);
         TextView address_org_org_page = findViewById(R.id.address_org_org_page);
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
-        ImageButton button_org_page = findViewById(R.id.button_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
 
         LinearLayout layout = findViewById(R.id.layout_user_buttons_org_page);

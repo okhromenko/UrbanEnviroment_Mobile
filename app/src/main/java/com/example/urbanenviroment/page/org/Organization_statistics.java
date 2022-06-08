@@ -123,13 +123,9 @@ public class Organization_statistics extends AppCompatActivity {
 
         BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
 
-//        int food = getResources().getColor(R.color.food, getTheme());
-//        int things = getResources().getColor(R.color.things, getTheme());
-//        int help = getResources().getColor(R.color.help, getTheme());
-//
-//        barDataSet.setColors(new int[] {food, things, help});
+        barDataSet.setColor(getResources().getColor(R.color.blue_light, getTheme()));
         barDataSet.setValueTextColor(Color.BLACK);
-//        barDataSet.setValueTextSize(12f);
+        barDataSet.setValueTextSize(12f);
 
         BarData barData = new BarData(barDataSet);
 
@@ -159,6 +155,7 @@ public class Organization_statistics extends AppCompatActivity {
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setTextSize(14f);
+        xAxis.setLabelRotationAngle(90);
         xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
         xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -223,16 +220,17 @@ public class Organization_statistics extends AppCompatActivity {
 
         PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, "Объявления");
 
-        pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()), getResources().getColor(R.color.blue, getTheme())});
+        pieDataSet.setColors(new int[] {getResources().getColor(R.color.food, getTheme()), getResources().getColor(R.color.things, getTheme()), getResources().getColor(R.color.red_static, getTheme())});
 
         PieData data = new PieData(pieDataSet);
         data.setDrawValues(true);
         data.setValueFormatter(new PercentFormatter(pieChart));
         data.setValueTextSize(12f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
 
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelTextSize(14f);
+        pieChart.setEntryLabelColor(Color.BLACK);
         pieChart.setCenterText("Объявления");
         pieChart.setCenterTextSize(16f);
         pieChart.setCenterTextColor(getResources().getColor(R.color.basic_blue, getTheme()));
@@ -270,11 +268,7 @@ public class Organization_statistics extends AppCompatActivity {
 
         BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
 
-        int food = getResources().getColor(R.color.food, getTheme());
-        int things = getResources().getColor(R.color.things, getTheme());
-        int help = getResources().getColor(R.color.help, getTheme());
-
-        barDataSet.setColors(new int[] {food, things, help});
+        barDataSet.setColors(new int[] {getResources().getColor(R.color.food, getTheme()), getResources().getColor(R.color.things, getTheme()), getResources().getColor(R.color.help, getTheme())});
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(12f);
 

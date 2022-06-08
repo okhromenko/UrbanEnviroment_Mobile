@@ -60,16 +60,6 @@ public class HelpPage extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                |View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE;
-        decorView.setSystemUiVisibility(uiOptions);
-
         LinearLayout panel_date = (LinearLayout) findViewById(R.id.panel_date);
         CardView panel_top = (CardView) findViewById(R.id.panel_top);
         CardView panel_text = (CardView) findViewById(R.id.panel_text);

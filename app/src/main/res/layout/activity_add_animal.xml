@@ -435,7 +435,7 @@
                                 android:layout_marginEnd="40dp"
                                 android:fontFamily="@font/roboto"
                                 android:hint="Введите дату рождения"
-                                android:inputType="text"
+                                android:inputType="datetime"
                                 android:textAlignment="textStart"
                                 android:textSize="16sp"
                                 app:met_floatingLabel="none"

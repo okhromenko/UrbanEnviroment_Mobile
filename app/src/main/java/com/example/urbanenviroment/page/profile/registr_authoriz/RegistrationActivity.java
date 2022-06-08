@@ -100,6 +100,9 @@ public class RegistrationActivity extends AppCompatActivity {
                                             user.put("address", "Адрес");
                                             user.put("phone", "Номер телефона");
                                             user.put("website", "Сайт организации");
+                                            user.put("count_ads", 0);
+                                            user.put("count_animal", 0);
+                                            user.put("count_photo", 0);
                                         }
 
                                         progressDialog.dismiss();

@@ -66,14 +66,6 @@
                     android:onClick="add_org_notification"
                     android:src="@drawable/button_notification" />
 
-                <ImageButton
-                    android:id="@+id/button_org_page"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/transparent"
-                    android:src="@drawable/button_favorite" />
-
             </LinearLayout>
 
             <ImageButton

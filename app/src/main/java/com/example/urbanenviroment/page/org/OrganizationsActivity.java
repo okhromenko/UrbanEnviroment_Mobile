@@ -155,7 +155,7 @@ public class OrganizationsActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String id = document.getId();
                         String name = document.getString("name");
-                        String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
+                        String date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("reg_date"));
                         String address = document.getString("address");
                         String description = document.getString("description");
                         String phone = document.getString("phone");
