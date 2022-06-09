@@ -32,9 +32,6 @@ public class FavoritesProfileUserAnimals extends AppCompatActivity {
     RecyclerView FavoritesRecyclerProfileAnimals;
     FavoritesProfileAnimalsAdapter animalsAdapter;
 
-    String id, image_animal, date, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal, address;
-    String kind;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

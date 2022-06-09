@@ -38,10 +38,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -153,7 +149,7 @@ public class HelpActivity extends AppCompatActivity {
                         DateTime date_ads_create = DateTime.parse(document.getString("first_date"), DateTimeFormat.forPattern("d.M.y"));
                         DateTime date_ads_delete = DateTime.parse( document.getString("last_date"), DateTimeFormat.forPattern("d.M.y"));
 
-                        if (current_date.compareTo(date_ads_create) >= 0){
+                        if (current_date.compareTo(date_ads_create) >= 0) {
                             String id = document.getId();
                             String name_org = document.getString("username");
                             String image_org = document.getString("imageOrg");
@@ -170,11 +166,10 @@ public class HelpActivity extends AppCompatActivity {
                                 filter_click(helpList);
 
                             Days days = Days.daysBetween(current_date, date_ads_delete);
-                            //Тут мы устанавливаем срок, после которого объявление будет удалено
-//                            if (days.getDays() > 2){
-//                                db.collection("Ads").document(id)
-//                                        .delete();
-//                            }
+
+                            if (days.getDays() < -2) {
+                                db.collection("Ads").document(id).delete();
+                            }
                         }
                     }
                 } else {

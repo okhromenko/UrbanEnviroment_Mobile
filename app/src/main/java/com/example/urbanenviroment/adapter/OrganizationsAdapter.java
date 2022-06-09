@@ -31,12 +31,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -104,23 +98,6 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
                          holder.button_favorite_org.setVisibility(View.VISIBLE);
                 }
             });
-
-
-
-//            ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
-//            ParseObject id_org = ParseObject.createWithoutData("Organization", organizationsList.get(position).getId());
-//
-//            query.whereEqualTo("id_org", id_org);
-//            query.whereEqualTo("id_user", parseUser);
-//            query.getFirstInBackground(new GetCallback<ParseObject>() {
-//                @Override
-//                public void done(ParseObject object, ParseException e) {
-//                    if (object != null)
-//                        holder.button_favorite_org.setImageResource(R.drawable.button_favorite_press);
-//                    else
-//                        holder.button_favorite_org.setImageResource(R.drawable.button_favorite);
-//                }
-//            });
         }
 
 
@@ -144,46 +121,6 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
                 context.startActivity(intent);
             }
         });
-
-//        holder.button_favorite_org.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
-//
-//                ParseUser parseUser = ParseUser.getCurrentUser();
-//                ParseObject id_org = ParseObject.createWithoutData("Organization", organizationsList.get(position).getId());
-//
-//                query.whereEqualTo("id_org", id_org);
-//                query.whereEqualTo("id_user", parseUser);
-//                query.getFirstInBackground(new GetCallback<ParseObject>() {
-//                    @Override
-//                    public void done(ParseObject object, ParseException e) {
-//                        if (object == null){
-//                            holder.button_favorite_org.setImageResource(R.drawable.button_favorite_press);
-//
-//                            ParseObject favorite_org = new ParseObject("FavoriteOrganization");
-//                            favorite_org.put("id_user", parseUser);
-//                            favorite_org.put("id_org", id_org);
-//
-//                            favorite_org.saveInBackground(new SaveCallback() {
-//                                @Override
-//                                public void done(ParseException e) {
-//                                    if (e != null){
-//                                        Intent intent = new Intent(context, OrganizationsActivity.class);
-//                                        context.startActivity(intent);
-//                                    }
-//                                }
-//                            });
-//                        }
-//                        else {
-//                            holder.button_favorite_org.setImageResource(R.drawable.button_favorite);
-//                            object.deleteInBackground();
-//                        }
-//                    }
-//                });
-//            }
-//        });
-
     }
 
     @Override

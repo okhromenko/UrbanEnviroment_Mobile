@@ -1,7 +1,5 @@
 package com.example.urbanenviroment.adapter;
 
-import static com.parse.Parse.getApplicationContext;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;

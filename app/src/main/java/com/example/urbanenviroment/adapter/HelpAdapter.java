@@ -40,12 +40,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -96,7 +90,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.img_box_help.setCardBackgroundColor(color);
         holder.type_ads_help.setText(helpList.get(position).getType_help());
 
-        if (!flag && mAuth.getCurrentUser() != null){
+        if (!flag){
             Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
             holder.name_org_help.setText(helpList.get(position).getName_org());
         }
@@ -129,45 +123,11 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 intent.putExtra("image", image);
                 intent.putExtra("color", color);
                 intent.putExtra("color_transperent", color_transperent);
+                intent.putExtra("is_org", is_org);
 
                 context.startActivity(intent);
             }
         });
-
-        if (flag){
-            holder.button_setting_help_edit_animal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, EditHelpPage.class);
-                    intent.putExtra("id", helpList.get(position).getId());
-                    intent.putExtra("type_ads_help", helpList.get(position).getType_help());
-                    intent.putExtra("status_help", helpList.get(position).getStatus());
-                    intent.putExtra("date_first_help", helpList.get(position).getDate_first());
-                    intent.putExtra("date_last_help", helpList.get(position).getDate_last());
-                    intent.putExtra("description_help", helpList.get(position).getDescription());
-                    intent.putExtra("name_org_help", helpList.get(position).getName_org());
-                    intent.putExtra("image", image);
-                    intent.putExtra("color", color);
-                    intent.putExtra("color_transperent", color_transperent);
-                    intent.putExtra("is_org", is_org);
-                    context.startActivity(intent);
-                }
-            });
-
-            holder.button_delete_edit_animal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    db.collection("Ads").document( helpList.get(position).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            Intent intent = new Intent(context, EditHelp.class);
-                            context.startActivity(intent);
-                        }
-                    });
-                }
-            });
-        }
-
 
         db = FirebaseFirestore.getInstance();
 
@@ -247,6 +207,53 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 }
             });
         }
+
+        if (flag){
+            holder.button_setting_help_edit_animal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, EditHelpPage.class);
+                    intent.putExtra("id", helpList.get(position).getId());
+                    intent.putExtra("type_ads_help", helpList.get(position).getType_help());
+                    intent.putExtra("status_help", helpList.get(position).getStatus());
+                    intent.putExtra("date_first_help", helpList.get(position).getDate_first());
+                    intent.putExtra("date_last_help", helpList.get(position).getDate_last());
+                    intent.putExtra("description_help", helpList.get(position).getDescription());
+                    intent.putExtra("name_org_help", helpList.get(position).getName_org());
+                    intent.putExtra("image", image);
+                    intent.putExtra("color", color);
+                    intent.putExtra("color_transperent", color_transperent);
+                    intent.putExtra("is_org", is_org);
+                    context.startActivity(intent);
+                }
+            });
+
+            holder.button_delete_edit_animal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+                    db.collection("User").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot document_user = task.getResult();
+                            db.collection("User").document(mAuth.getUid()).update("count_ads",
+                                    document_user.getLong("count_ads") - 1);
+                        }
+                    });
+
+                    db.collection("Ads").document( helpList.get(position).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Intent intent = new Intent(context, EditHelp.class);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+            });
+        }
+
 
     }
 

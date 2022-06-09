@@ -28,8 +28,7 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
+
 
 import java.util.ArrayList;
 import java.util.List;

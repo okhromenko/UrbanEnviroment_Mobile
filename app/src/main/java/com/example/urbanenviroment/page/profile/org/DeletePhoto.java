@@ -33,11 +33,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,7 +94,7 @@ public class DeletePhoto extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String id = document.getId();
                         String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
-                        String image_animal = document.getString("image");
+                        String image_animal = document.getString("image_collection");
 
                         animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));

@@ -45,11 +45,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
@@ -435,6 +430,30 @@ public class EditAnimalPage extends AppCompatActivity {
     }
 
     public void delete_animal(View view){
+
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+        db.collection("User").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document_user = task.getResult();
+                db.collection("User").document(mAuth.getUid()).update("count_animal",
+                        document_user.getLong("count_animal") - 1);
+
+                db.collection("Collection").whereEqualTo("id_animal", getIntent().getStringExtra("id"))
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    db.collection("Collection").document(document.getId()).delete();
+                                    db.collection("User").document(mAuth.getUid()).update("count_photo",
+                                            document_user.getLong("count_photo") - 1);
+                                }
+                            }
+                        });
+            }
+        });
+
         db.collection("Animal").document(getIntent().getStringExtra("id")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -456,5 +475,4 @@ public class EditAnimalPage extends AppCompatActivity {
             }
         });
     }
-
 }

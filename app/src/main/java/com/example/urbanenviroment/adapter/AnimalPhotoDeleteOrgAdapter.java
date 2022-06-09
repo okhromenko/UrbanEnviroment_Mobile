@@ -1,7 +1,5 @@
 package com.example.urbanenviroment.adapter;
 
-import static com.parse.Parse.getApplicationContext;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -20,16 +18,16 @@ import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.profile.org.DeletePhoto;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.parse.DeleteCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -60,6 +58,16 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
             @Override
             public void onClick(View v) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
+                FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+                db.collection("User").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document_user = task.getResult();
+                        db.collection("User").document(mAuth.getUid()).update("count_photo",
+                                document_user.getLong("count_photo") - 1);
+                    }
+                });
 
                 db.collection("Collection").document(animalsList.get(position).getId())
                         .delete()
@@ -68,12 +76,6 @@ public class AnimalPhotoDeleteOrgAdapter extends RecyclerView.Adapter<AnimalPhot
                             public void onSuccess(Void aVoid) {
                                 Intent intent = new Intent(context, DeletePhoto.class);
                                 context.startActivity(intent);
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_LONG).show();
                             }
                         });
             }

@@ -22,14 +22,14 @@ import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -105,6 +105,31 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageRef = storage.getReference();
+
+                FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+
+                db.collection("User").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document_user = task.getResult();
+                        db.collection("User").document(mAuth.getUid()).update("count_animal",
+                                document_user.getLong("count_animal") - 1);
+
+                        db.collection("Collection").whereEqualTo("id_animal", animalsList.get(position).getId())
+                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                        db.collection("User").document(mAuth.getUid()).update("count_photo",
+                                                document_user.getLong("count_photo") - 1);
+
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            db.collection("Collection").document(document.getId()).delete();
+                                        }
+                                    }
+                                });
+                    }
+                });
 
                 db.collection("Animal").document(animalsList.get(position).getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override

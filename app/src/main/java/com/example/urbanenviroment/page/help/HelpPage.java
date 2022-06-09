@@ -28,16 +28,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
@@ -94,19 +89,16 @@ public class HelpPage extends AppCompatActivity {
                 button_favorite_help_page.setVisibility(View.VISIBLE);
             }
 
+            db.collection("Ads").document(getIntent().getStringExtra("id")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.getString("userId").equals(mAuth.getCurrentUser().getUid()))
+                        edit_del_buttons.setVisibility(View.VISIBLE);
+                    else edit_del_buttons.setVisibility(View.GONE);
+                }
+            });
 
-//        ParseQuery<ParseObject> query_ads = ParseQuery.getQuery("Ads");
-//        query_ads.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-//        query_ads.getFirstInBackground(new GetCallback<ParseObject>() {
-//            @Override
-//            public void done(ParseObject object, ParseException e) {
-//                if (object != null && parseUser != null){
-//                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
-//                        edit_del_buttons.setVisibility(View.VISIBLE);
-//                    else edit_del_buttons.setVisibility(View.GONE);
-//                }
-//            }
-//        });
 
             db.collection("FavoriteAds").whereEqualTo("id_ads", getIntent().getStringExtra("id"))
                     .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -213,18 +205,22 @@ public class HelpPage extends AppCompatActivity {
     }
 
     public void delete_edit_ads(View view){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Ads");
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
-        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+        db.collection("User").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void done(ParseObject object, ParseException ex) {
-                if (object != null){
-                    object.deleteInBackground();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document_user = task.getResult();
+                db.collection("User").document(mAuth.getUid()).update("count_ads",
+                        document_user.getLong("count_ads") - 1);
+            }
+        });
 
-                    Intent intent = new Intent(HelpPage.this, HelpActivity.class);
-                    startActivity(intent);
-                }
+        db.collection("Ads").document(getIntent().getStringExtra("id")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Intent intent = new Intent(HelpPage.this, HelpActivity.class);
+                startActivity(intent);
             }
         });
     }

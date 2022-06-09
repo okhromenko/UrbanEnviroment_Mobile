@@ -25,6 +25,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -193,32 +194,14 @@ public class OrganizationsPage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void setting(View view){
+        Intent intent = new Intent(OrganizationsPage.this, SettingProfile.class);
+        intent.putExtra("is_org", true);
+        startActivity(intent);
+    }
+
 
     public void add_org_notification(View view){
-//        ParseObject notification = new ParseObject("Subscription_notifications");
-//
-//        ParseObject ptr_user = ParseObject.createWithoutData("_User", ParseUser.getCurrentUser().getObjectId());
-//        ParseObject ptr_org = ParseObject.createWithoutData("_User", getIntent().getStringExtra("id"));
-//
-//        ParseQuery<ParseObject> query_kind = new ParseQuery<>("Organization");
-//        query_kind.whereEqualTo("objectId", ptr_org.getObjectId());
-//        query_kind.getFirstInBackground(new GetCallback<ParseObject>() {
-//            @Override
-//            public void done(ParseObject object, ParseException e) {
-//                notification.put("id_user", ptr_user);
-//                notification.put("id_org", object.getParseObject("id_user"));
-//
-//                notification.saveInBackground(new SaveCallback() {
-//                    @Override
-//                    public void done(ParseException e) {
-//                        if(e == null) {
-//                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-//                        } else {
-//                            Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
-//                        }
-//                    }
-//                });
-//            }
-//        });
+
     }
 }

@@ -52,8 +52,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         int img_org_notifications_id = context.getResources().getIdentifier(
                 notificationsList.get(position).getImg_org(), "drawable", context.getPackageName());
         holder.img_org_notifications.setImageResource(img_org_notifications_id);
-        //holder.name_org_notifications.setText(notificationsList.get(position).getName_org());
-        //holder.type_notifications.setText(notificationsList.get(position).getType_notifications());
+
 
         name_org = notificationsList.get(position).getName_org();
         type = notificationsList.get(position).getType_notifications();
@@ -86,7 +85,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public static final class NotificationsViewHolder extends RecyclerView.ViewHolder{
 
         ImageView img_org_notifications;
-        //TextView name_org_notifications, type_notifications;
         TextView text_notifications;
 
 
@@ -94,8 +92,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             super(itemView);
 
             img_org_notifications = itemView.findViewById(R.id.img_org_notifications);
-            //name_org_notifications = itemView.findViewById(R.id.name_org_notifications);
-            //type_notifications = itemView.findViewById(R.id.type_notifications);
             text_notifications = itemView.findViewById(R.id.text_notification);
         }
     }

@@ -29,6 +29,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.org.AddAnimal;
+import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,13 +45,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -172,18 +167,16 @@ public class AnimalPage extends AppCompatActivity {
             }
 
 
-//        ParseQuery<ParseObject> query_animal = ParseQuery.getQuery("Animals");
-//        query_animal.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-//        query_animal.getFirstInBackground(new GetCallback<ParseObject>() {
-//            @Override
-//            public void done(ParseObject object, ParseException e) {
-//                if (object != null && parseUser != null){
-//                    if (parseUser.getObjectId().equals(object.getParseObject("id_user").getObjectId()))
-//                        edit_del_buttons.setVisibility(View.VISIBLE);
-//                    else edit_del_buttons.setVisibility(View.GONE);
-//                }
-//            }
-//        });
+             db.collection("Animal").document(getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                 @Override
+                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                     DocumentSnapshot document = task.getResult();
+                     if (document.getString("userId").equals(mAuth.getCurrentUser().getUid()))
+                         edit_del_buttons.setVisibility(View.VISIBLE);
+                    else edit_del_buttons.setVisibility(View.GONE);
+                 }
+             });
+
 
             db.collection("FavoriteAnimal").whereEqualTo("id_animal", getIntent().getStringExtra("id"))
                     .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -202,6 +195,7 @@ public class AnimalPage extends AppCompatActivity {
                     });
 
         }
+
         favorite_button_animal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,7 +270,7 @@ public class AnimalPage extends AppCompatActivity {
     public void init(){
 
         String id_a = getIntent().getStringExtra("id_animal");
-        db.collection("Collection").whereEqualTo("id_animal", getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("Collection").whereEqualTo("id_animal", id_a).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -347,18 +341,50 @@ public class AnimalPage extends AppCompatActivity {
     }
 
     public void delete_edit_animal(View view){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Animals");
+        FirebaseUser Auth = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
-        query.whereEqualTo("objectId", getIntent().getStringExtra("id"));
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+
+        db.collection("User").document(Auth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void done(ParseObject object, ParseException ex) {
-                if (object != null){
-                    object.deleteInBackground();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document_user = task.getResult();
+                db.collection("User").document(Auth.getUid()).update("count_animal",
+                        document_user.getLong("count_animal") - 1);
 
-                    Intent intent = new Intent(AnimalPage.this, HomeActivity.class);
-                    startActivity(intent);
-                }
+                db.collection("Collection").whereEqualTo("id_animal", getIntent().getStringExtra("id"))
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    db.collection("Collection").document(document.getId()).delete();
+                                    db.collection("User").document(Auth.getUid()).update("count_photo",
+                                            document_user.getLong("count_photo") - 1);
+                                }
+                            }
+                        });
+            }
+        });
+
+        db.collection("Animal").document(getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+
+                storageRef.getStorage().getReferenceFromUrl(document.getString("image")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        db.collection("Animal").document(document.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Intent intent = new Intent(AnimalPage.this, CardsMainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
+                });
             }
         });
     }

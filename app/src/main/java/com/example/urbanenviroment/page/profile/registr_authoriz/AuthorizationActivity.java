@@ -27,8 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 public class AuthorizationActivity extends AppCompatActivity {
