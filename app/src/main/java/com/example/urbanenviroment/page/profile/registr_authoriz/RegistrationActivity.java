@@ -42,7 +42,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(RegistrationActivity.this);
 
-//        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
     public void button_registration(View view){
@@ -129,6 +128,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                                     }
                                                 });
                                     }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Данный email уже занят", Toast.LENGTH_LONG).show();
                                 }
                             });
                 } else
