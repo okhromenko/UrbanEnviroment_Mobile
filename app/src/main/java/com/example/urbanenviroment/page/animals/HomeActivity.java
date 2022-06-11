@@ -6,6 +6,8 @@ import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.model.Collection;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -119,6 +121,7 @@ public class HomeActivity extends AppCompatActivity {
                         String image_collection = document.getString("image_collection");
 
                         String name_org = document.getString("username");
+
                         String image_org = document.getString("imageOrg");
 
                         String id_animal = document.getString("id_animal");

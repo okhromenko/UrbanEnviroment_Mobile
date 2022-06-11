@@ -29,6 +29,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -164,18 +165,20 @@ public class SettingProfileUser extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         //Не забудь потом поправить - пароль не должен храниться в бд открыто!!!
-                        if (field.equals("password")){
-                            user.updatePassword(value)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Intent intent = new Intent(SettingProfileUser.this, ProfileActivityUser.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                        }
-                                    });
+
+                        switch (field){
+                            case "password":
+                                user.updatePassword(value);
+                                break;
+                            case "email":
+                                user.updateEmail(value);
+                                break;
+                            case "name":
+                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                                        setDisplayName(value).build();
+
+                                user.updateProfile(profileChangeRequest);
+                                break;
                         }
 
                         Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
