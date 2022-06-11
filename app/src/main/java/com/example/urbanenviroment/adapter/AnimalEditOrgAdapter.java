@@ -131,6 +131,15 @@ public class AnimalEditOrgAdapter extends RecyclerView.Adapter<AnimalEditOrgAdap
                     }
                 });
 
+                db.collection("FavoriteAnimal").whereEqualTo("id_animal", animalsList.get(position).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("FavoriteAnimal").document(document.getId()).delete();
+                        }
+                    }
+                });
+
                 db.collection("Animal").document(animalsList.get(position).getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {

@@ -122,23 +122,13 @@ public class HomeActivity extends AppCompatActivity {
                         String image_org = document.getString("imageOrg");
 
                         String id_animal = document.getString("id_animal");
-                        String name_animal = document.getString("name");
-                        String image_animal = document.getString("image_animal");
-                        String age = document.getString("age");
-                        String state = document.getString("state");
                         String kind = document.getString("kind");
-                        String species = document.getString("species");
-                        String description = document.getString("description");
-                        String sex = document.getString("sex");
-                        String reg_date_animal = document.getString("reg_date_animal");
 
                         String reg_date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("reg_date"));
 
-
                         list_org_name.add(name_org);
 
-                        photoList.add(new Collection(id, image_collection, name_org, image_org, id_animal, name_animal,
-                                image_animal, age, state, kind, species, description, sex, reg_date, reg_date_animal));
+                        photoList.add(new Collection(id, image_collection, name_org, image_org, id_animal, kind, reg_date));
 
                         Collections.sort(photoList, new AnimalsComparator().reversed());
                         setAnimalsRecycler(photoList);

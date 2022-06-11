@@ -53,7 +53,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class EditAnimalPage extends AppCompatActivity {
@@ -107,13 +109,7 @@ public class EditAnimalPage extends AppCompatActivity {
                             text_age_animal_edit_page.setText(document.getString("age"));
                             description = document.getString("description");
                             text_edit_description.setText(description);
-
-                            storageRef.child(document.getString("image")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Picasso.get().load(Uri.parse(uri.toString())).into(img_main_animal_photo);
-                                }
-                            });
+                            Picasso.get().load(Uri.parse(document.getString("image"))).into(img_main_animal_photo);
                         } else {
                             Log.d(TAG, "Данные не найдены");
                         }
@@ -180,7 +176,12 @@ public class EditAnimalPage extends AppCompatActivity {
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            save("image", imageRef.getPath());
+                            storageRef.child(imageRef.getPath()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    save("image", uri.toString());
+                                }
+                            });
                         }
                     });
                 } catch (FileNotFoundException e) {
@@ -239,10 +240,7 @@ public class EditAnimalPage extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(EditAnimalPage.this, EditAnimalPage.class);
-                intent.putExtra("id", id);
-                startActivity(intent);
-                finish();
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -451,6 +449,16 @@ public class EditAnimalPage extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+
+
+        db.collection("FavoriteAnimal").whereEqualTo("id_animal", getIntent().getStringExtra("id")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    db.collection("FavoriteAnimal").document(document.getId()).delete();
+                }
             }
         });
 

@@ -132,9 +132,9 @@ public class HelpPage extends AppCompatActivity {
                     favoriteAds.put("first_date", getIntent().getStringExtra("date_first_help"));
                     favoriteAds.put("description",  getIntent().getStringExtra("description_help"));
 
-                    favoriteAds.put("userId", mAuth.getUid());
-                    favoriteAds.put("username", getIntent().getStringExtra("org"));
-                    favoriteAds.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                    favoriteAds.put("userId", mAuth.getCurrentUser().getUid());
+                    favoriteAds.put("username", getIntent().getStringExtra("name_org_help"));
+                    favoriteAds.put("imageOrg", getIntent().getStringExtra("image"));
 
 
                     db.collection("FavoriteAds").document()
@@ -142,6 +142,7 @@ public class HelpPage extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Intent intent = new Intent(HelpPage.this, HelpPage.class);
+                                    intent.putExtra("id", getIntent().getStringExtra("id"));
                                     intent.putExtra("color_transperent", getIntent().getIntExtra("color_transperent", 0));
                                     intent.putExtra("color", getIntent().getIntExtra("color", 0));
                                     intent.putExtra("type_ads_help", getIntent().getStringExtra("type_ads_help"));
@@ -161,6 +162,7 @@ public class HelpPage extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(HelpPage.this, HelpPage.class);
+                            intent.putExtra("id", getIntent().getStringExtra("id"));
                             intent.putExtra("color_transperent", getIntent().getIntExtra("color_transperent", 0));
                             intent.putExtra("color", getIntent().getIntExtra("color", 0));
                             intent.putExtra("type_ads_help", getIntent().getStringExtra("type_ads_help"));

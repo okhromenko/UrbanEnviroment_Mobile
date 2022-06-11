@@ -84,8 +84,8 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 intent.putExtra("age_animal", animalCardsList.get(position).getAge());
                 intent.putExtra("state_animal", animalCardsList.get(position).getState());
                 intent.putExtra("image_animal", animalCardsList.get(position).getImg_animal());
+                intent.putExtra("imageOrg", animalCardsList.get(position).getImg_org());
                 intent.putExtra("org", animalCardsList.get(position).getName_org());
-                intent.putExtra("is_org", is_org);
 
                 context.startActivity(intent);
             }
@@ -103,12 +103,10 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 public void onSuccess(DocumentSnapshot document) {
                     if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org"))){
                         holder.button_favorite_card.setVisibility(View.GONE);
-                        is_org = true;
                     }
 
                     else {
                         holder.button_favorite_card.setVisibility(View.VISIBLE);
-                        is_org = false;
                     }
                 }
             });
@@ -139,7 +137,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                 public void onClick(View v) {
                     if (currentDocument[position] == null) {
                         HashMap<String, Object> favoriteAnimal = new HashMap<>();
-                        favoriteAnimal.put("id", animalCardsList.get(position).getId());
+                        favoriteAnimal.put("id_animal", animalCardsList.get(position).getId());
                         favoriteAnimal.put("name", animalCardsList.get(position).getName_animal());
                         favoriteAnimal.put("state", animalCardsList.get(position).getState());
                         favoriteAnimal.put("species", animalCardsList.get(position).getSpecies());

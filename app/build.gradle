@@ -53,5 +53,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
-    implementation "com.github.bumptech.glide:okhttp3-integration:4.13.0"
 }

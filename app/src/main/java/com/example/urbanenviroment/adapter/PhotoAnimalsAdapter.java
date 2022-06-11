@@ -15,12 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.model.Collection;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapter.AnimalsViewHolder> {
@@ -43,21 +47,8 @@ public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull AnimalsViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        if (mAuth.getCurrentUser() != null) {
-            db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot document) {
-                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org")))
-                        is_org = true;
-                    else
-                        is_org = false;
-                }
-            });
-        }
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
 
         Picasso.get().load(collectionList.get(position).getImg_collection()).into(holder.img_animal_home);
         Picasso.get().load(collectionList.get(position).getImg_org()).into(holder.img_org_home);
@@ -65,25 +56,41 @@ public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapte
         holder.name_org_home.setText(collectionList.get(position).getName_org());
         holder.date_home.setText(collectionList.get(position).getReg_date());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        db.collection("Animal").document(collectionList.get(position).getId_animal()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AnimalPage.class);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
 
-                intent.putExtra("id_animal", collectionList.get(position).getId_animal());
-                intent.putExtra("kind_animal", collectionList.get(position).getKind());
-                intent.putExtra("species_animal", collectionList.get(position).getSpecies());
-                intent.putExtra("reg_date_animal", collectionList.get(position).getReg_date_animal());
-                intent.putExtra("name_animal", collectionList.get(position).getName_animal());
-                intent.putExtra("description_animal", collectionList.get(position).getDescription());
-                intent.putExtra("sex_animal", collectionList.get(position).getSex());
-                intent.putExtra("age_animal", collectionList.get(position).getAge());
-                intent.putExtra("state_animal", collectionList.get(position).getState());
-                intent.putExtra("image_animal", collectionList.get(position).getImg_animal());
-                intent.putExtra("org", collectionList.get(position).getName_org());
-                intent.putExtra("is_org", is_org);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, AnimalPage.class);
 
-                context.startActivity(intent);
+                        if (mAuth != null && document.getString("userId").equals(mAuth.getUid()))
+                            intent.putExtra("edit_del_buttons", true);
+
+                        intent.putExtra("id_animal", collectionList.get(position).getId_animal());
+                        intent.putExtra("name_animal", document.getString("name"));
+                        intent.putExtra("state_animal", document.getString("state"));
+                        intent.putExtra("species_animal", document.getString("species"));
+                        intent.putExtra("description_animal", document.getString("description"));
+                        intent.putExtra("age_animal", document.getString("age"));
+                        intent.putExtra("sex_animal", document.getString("sex"));
+                        intent.putExtra("image_animal", collectionList.get(position).getImg_collection());
+                        intent.putExtra("main_animal", document.getString("image"));
+                        intent.putExtra("photoPage", true);
+
+                        String reg_date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("date_reg"));
+                        intent.putExtra("date_reg_animal", reg_date);
+
+
+                        intent.putExtra("kind_animal", collectionList.get(position).getKind());
+                        intent.putExtra("org", collectionList.get(position).getName_org());
+
+
+                        context.startActivity(intent);
+                    }
+                });
             }
         });
     }

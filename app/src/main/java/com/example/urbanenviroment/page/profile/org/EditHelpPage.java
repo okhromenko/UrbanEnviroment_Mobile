@@ -286,6 +286,15 @@ public class EditHelpPage extends AppCompatActivity {
             }
         });
 
+        db.collection("FavoriteAds").whereEqualTo("id_ads", getIntent().getStringExtra("id")).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    db.collection("FavoriteAds").document(document.getId()).delete();
+                }
+            }
+        });
+
         db.collection("Ads").document(getIntent().getStringExtra("id")).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

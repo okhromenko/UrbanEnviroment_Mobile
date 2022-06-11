@@ -213,7 +213,9 @@ public class AddPhoto extends AppCompatActivity {
         StorageReference imgRef = storageRef.child(mediaUri.getPath());
         UploadTask uploadTask = imgRef.putBytes(byteArray);
 
+
         QueryDocumentSnapshot id_a = animals.get(name_category);
+        name_category = null;
 
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -231,15 +233,8 @@ public class AddPhoto extends AppCompatActivity {
                         collection.put("id_animal", id_a.getId());
                         collection.put("image_collection", uri.toString());
 
-                        collection.put("name", id_a.getString("name"));
-                        collection.put("state",  id_a.getString("state"));
-                        collection.put("species", id_a.getString("species"));
-                        collection.put("description", id_a.getString("description"));
-                        collection.put("age", id_a.getString("age"));
-                        collection.put("sex", id_a.getString("sex"));
                         collection.put("kind", id_a.getString("kind"));
-                        collection.put("image_animal", id_a.getString("image"));
-                        collection.put("reg_date_animal", new SimpleDateFormat("dd.MM.yyyy").format(Objects.requireNonNull(id_a.getDate("date_reg"))));
+
 
                         collection.put("userId", mAuth.getCurrentUser().getUid());
                         collection.put("username", mAuth.getCurrentUser().getDisplayName());

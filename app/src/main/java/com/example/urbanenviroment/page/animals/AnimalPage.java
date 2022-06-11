@@ -95,6 +95,7 @@ public class AnimalPage extends AppCompatActivity {
 
         LinearLayout edit_del_buttons = findViewById(R.id.edit_delete_buttons);
 
+
         kind_animal_page.setText(getIntent().getStringExtra("kind_animal"));
         species_animal_page.setText(getIntent().getStringExtra("species_animal"));
         name_animal_page.setText(getIntent().getStringExtra("name_animal"));
@@ -111,7 +112,6 @@ public class AnimalPage extends AppCompatActivity {
             @Override
             public void onImageClick(String image) {
                 Picasso.get().load(image).into(image_animal_page);
-//                Picasso.get().load(photoList.getImg_collection()).into();
             }
         };
 
@@ -158,27 +158,36 @@ public class AnimalPage extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         if (mAuth.getCurrentUser() != null) {
-            if (getIntent().getBooleanExtra("is_org", false)) {
-                favorite_button_animal.setVisibility(View.GONE);
-            } else {
-                favorite_button_animal.setVisibility(View.VISIBLE);
+            db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org")))
+                        favorite_button_animal.setVisibility(View.GONE);
+                    else
+                        favorite_button_animal.setVisibility(View.VISIBLE);
+                }
+            });
+
+            if (getIntent().getBooleanExtra("photoPage", true)) {
+                db.collection("Animal").document(getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.getString("userId").equals(mAuth.getCurrentUser().getUid()))
+                            edit_del_buttons.setVisibility(View.VISIBLE);
+                        else edit_del_buttons.setVisibility(View.GONE);
+                    }
+                });
+            }
+            else {
+                if (getIntent().getBooleanExtra("edit_del_buttons", false))
+                    edit_del_buttons.setVisibility(View.VISIBLE);
+                else edit_del_buttons.setVisibility(View.GONE);
             }
 
 
-             db.collection("Animal").document(getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                 @Override
-                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                     DocumentSnapshot document = task.getResult();
-                     if (document.getString("userId").equals(mAuth.getCurrentUser().getUid()))
-                         edit_del_buttons.setVisibility(View.VISIBLE);
-                    else edit_del_buttons.setVisibility(View.GONE);
-                 }
-             });
-
-
-            db.collection("FavoriteAnimal").whereEqualTo("id_animal", getIntent().getStringExtra("id"))
+            db.collection("FavoriteAnimal").whereEqualTo("id_animal", getIntent().getStringExtra("id_animal"))
                     .whereEqualTo("userId", mAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -202,7 +211,7 @@ public class AnimalPage extends AppCompatActivity {
 
                 if (currentDocument == null) {
                     HashMap<String, Object> favoriteAnimal = new HashMap<>();
-                    favoriteAnimal.put("id_animal", getIntent().getStringExtra("id"));
+                    favoriteAnimal.put("id_animal", getIntent().getStringExtra("id_animal"));
                     favoriteAnimal.put("name", getIntent().getStringExtra("name_animal"));
                     favoriteAnimal.put("state", getIntent().getStringExtra("state_animal"));
                     favoriteAnimal.put("species", getIntent().getStringExtra("species_animal"));
@@ -214,8 +223,7 @@ public class AnimalPage extends AppCompatActivity {
 
                     favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
                     favoriteAnimal.put("username", getIntent().getStringExtra("org"));
-                    if (mAuth.getCurrentUser().getPhotoUrl() != null)
-                        favoriteAnimal.put("imageOrg", mAuth.getCurrentUser().getPhotoUrl().toString());
+                    favoriteAnimal.put("imageOrg", getIntent().getStringExtra("imageOrg"));
                     favoriteAnimal.put("image", getIntent().getStringExtra("image_animal"));
 
 
@@ -224,7 +232,7 @@ public class AnimalPage extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
-                                    intent.putExtra("id", getIntent().getStringExtra("id"));
+                                    intent.putExtra("id_animal", getIntent().getStringExtra("id_animal"));
                                     intent.putExtra("name_animal", getIntent().getStringExtra("name_animal"));
                                     intent.putExtra("state_animal", getIntent().getStringExtra("state_animal"));
                                     intent.putExtra("species_animal", getIntent().getStringExtra("species_animal"));
@@ -245,7 +253,7 @@ public class AnimalPage extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
-                            intent.putExtra("id", getIntent().getStringExtra("id"));
+                            intent.putExtra("id_animal", getIntent().getStringExtra("id_animal"));
                             intent.putExtra("name_animal", getIntent().getStringExtra("name_animal"));
                             intent.putExtra("state_animal", getIntent().getStringExtra("state_animal"));
                             intent.putExtra("species_animal", getIntent().getStringExtra("species_animal"));
@@ -282,13 +290,17 @@ public class AnimalPage extends AppCompatActivity {
                         String id = document.getId();
                         String image_collection = document.getString("image_collection");
 
-                        collectionList.add(new Collection(id, image_collection, null, null,
-                                null, null, null, null, null,
-                                null, null, null, null, null, null));
-
-                        setAnimalsRecycler(collectionList);
-
+                        collectionList.add(new Collection(id, image_collection, null, null, null,
+                        null, null));
                     }
+
+                    if (getIntent().getStringExtra("main_animal") != null){
+                        collectionList.add(new Collection(null, getIntent().getStringExtra("main_animal"),
+                                null, null, null,
+                                null, null));
+                    }
+
+                    setAnimalsRecycler(collectionList);
 
                     TextView text_no_photo = (TextView) findViewById(R.id.text_no_photo);
                     if (collectionList.isEmpty()) {
@@ -392,7 +404,7 @@ public class AnimalPage extends AppCompatActivity {
     public void edit_animal_page(View view) {
         Intent intent = new Intent(this, EditAnimalPage.class);
 
-        intent.putExtra("id", getIntent().getStringExtra("id"));
+        intent.putExtra("id", getIntent().getStringExtra("id_animal"));
         intent.putExtra("kind_animal", getIntent().getStringExtra("kind_animal"));
         intent.putExtra("species_animal", getIntent().getStringExtra("species_animal"));
         intent.putExtra("reg_date_animal", getIntent().getStringExtra("reg_date_animal"));

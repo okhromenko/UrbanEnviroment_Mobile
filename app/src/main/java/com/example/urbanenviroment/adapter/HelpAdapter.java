@@ -39,6 +39,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -120,7 +121,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 intent.putExtra("date_last_help", helpList.get(position).getDate_last());
                 intent.putExtra("description_help", helpList.get(position).getDescription());
                 intent.putExtra("name_org_help", helpList.get(position).getName_org());
-                intent.putExtra("image", image);
+                intent.putExtra("image",  helpList.get(position).getImg_org());
                 intent.putExtra("color", color);
                 intent.putExtra("color_transperent", color_transperent);
                 intent.putExtra("is_org", is_org);
@@ -243,7 +244,16 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                         }
                     });
 
-                    db.collection("Ads").document( helpList.get(position).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    db.collection("FavoriteAds").whereEqualTo("id_ads", helpList.get(position).getId()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection("FavoriteAds").document(document.getId()).delete();
+                            }
+                        }
+                    });
+
+                    db.collection("Ads").document(helpList.get(position).getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(context, EditHelp.class);
