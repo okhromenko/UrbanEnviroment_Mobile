@@ -63,7 +63,7 @@ public class EditHelpPage extends AppCompatActivity {
         setContentView(R.layout.activity_edit_help_page);
 
         TextView type_ads = findViewById(R.id.text_type_ads_edit_page);
-        TextView date_ads = findViewById(R.id.text_data_ads_edit_page);
+        TextView last_date_ads = findViewById(R.id.text_last_data_ads_edit_page);
         TextView first_date_ads = findViewById(R.id.text_first_data_ads_edit_page);
         EditText description_ads = findViewById(R.id.text_edit_help_description);
 
@@ -81,8 +81,9 @@ public class EditHelpPage extends AppCompatActivity {
                         if (document.exists()) {
                             description = document.getString("description");
                             type_ads.setText(document.getString("type"));
-                            date_ads.setText(document.getString("last_date"));
+                            last_date_ads.setText(document.getString("last_date"));
                             first_date_ads.setText(document.getString("first_date"));
+
                             description_ads.setText(description);
 
                             LinearLayout first_date_ll = (LinearLayout) findViewById(R.id.layout_change_first_date);
@@ -112,7 +113,7 @@ public class EditHelpPage extends AppCompatActivity {
         }
         else{
             type_ads.setText(getIntent().getStringExtra("type_ads_help"));
-            date_ads.setText(getIntent().getStringExtra("date_first_help"));
+            last_date_ads.setText(getIntent().getStringExtra("date_first_help"));
             first_date_ads.setText(getIntent().getStringExtra("date_help"));
             description_ads.setText(getIntent().getStringExtra("description_help"));
             description = getIntent().getStringExtra("description_help");
@@ -279,17 +280,15 @@ public class EditHelpPage extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(EditHelpPage.this, EditHelpPage.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-
-                Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(EditHelpPage.this, EditHelpPage.class);
-                intent.putExtra("id_ads_intent", id);
-                startActivity(intent);
-                finish();
             }
         });
     }

@@ -308,7 +308,7 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/text_data_ads_edit_page"
+                    android:id="@+id/text_last_data_ads_edit_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
