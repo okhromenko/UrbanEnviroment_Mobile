@@ -15,7 +15,7 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.adapter.FavoritesProfileAnimalsAdapter;
+import com.example.urbanenviroment.adapter.FavoriteProfileAnimalsAdapter;
 import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,7 +30,7 @@ import java.util.List;
 public class FavoritesProfileUserAnimals extends AppCompatActivity {
 
     RecyclerView FavoritesRecyclerProfileAnimals;
-    FavoritesProfileAnimalsAdapter animalsAdapter;
+    FavoriteProfileAnimalsAdapter animalsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class FavoritesProfileUserAnimals extends AppCompatActivity {
         FavoritesRecyclerProfileAnimals = findViewById(R.id.FavoritesRecyclerProfileAnimals);
         FavoritesRecyclerProfileAnimals.setLayoutManager(layoutManager);
 
-        animalsAdapter = new FavoritesProfileAnimalsAdapter(this, animalsList);
+        animalsAdapter = new FavoriteProfileAnimalsAdapter(this, animalsList);
         FavoritesRecyclerProfileAnimals.setAdapter(animalsAdapter);
     }
 

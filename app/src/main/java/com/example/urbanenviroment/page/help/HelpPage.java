@@ -74,24 +74,12 @@ public class HelpPage extends AppCompatActivity {
         panel_top.setCardBackgroundColor(getIntent().getIntExtra("color", 0));
         panel_text.setCardBackgroundColor(getIntent().getIntExtra("color", 0));
         type_help_page.setText(getIntent().getStringExtra("type_ads_help"));
-        //type_img_help_page.setImageResource(getIntent().getIntExtra("image", 0));
+        type_img_help_page.setImageResource(getIntent().getIntExtra("image", 0));
         date_help_page.setText(getIntent().getStringExtra("date_last_help"));
         first_date_help_page.setText(getIntent().getStringExtra("date_first_help"));
         status_help_page.setText(getIntent().getStringExtra("status_help"));
         description_help_page.setText(getIntent().getStringExtra("description_help"));
         org_help_page.setText(getIntent().getStringExtra("name_org_help"));
-
-        switch (getIntent().getStringExtra("type_ads_help")) {
-            case ("Еда"):
-                type_img_help_page.setImageResource(R.drawable.img_food_item);
-                break;
-            case ("Вещи"):
-                type_img_help_page.setImageResource(R.drawable.img_things_item);
-                break;
-            case ("Волонтерство"):
-                type_img_help_page.setImageResource(R.drawable.img_help_item);
-                break;
-        }
 
 
         if (mAuth.getCurrentUser() != null) {

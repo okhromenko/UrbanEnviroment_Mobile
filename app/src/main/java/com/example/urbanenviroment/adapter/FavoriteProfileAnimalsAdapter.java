@@ -16,21 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Animals;
-import com.example.urbanenviroment.page.animals.CardsMainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
 
-public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<FavoritesProfileAnimalsAdapter.FavoritesProfileAnimalsViewHolder> {
+public class FavoriteProfileAnimalsAdapter extends RecyclerView.Adapter<FavoriteProfileAnimalsAdapter.FavoritesProfileAnimalsViewHolder> {
 
     Context context;
     List<Animals> FavoriteAnimalList;
@@ -39,7 +33,7 @@ public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<Favorit
     private FirebaseFirestore db;
     boolean is_org;
 
-    public FavoritesProfileAnimalsAdapter(Context context, List<Animals> animalsList) {
+    public FavoriteProfileAnimalsAdapter(Context context, List<Animals> animalsList) {
         this.context = context;
         this.FavoriteAnimalList = animalsList;
     }
@@ -48,7 +42,7 @@ public class FavoritesProfileAnimalsAdapter extends RecyclerView.Adapter<Favorit
     @Override
     public FavoritesProfileAnimalsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View cardsItem = LayoutInflater.from(context).inflate(R.layout.favorites_profile_animals_item, parent, false);
-        return new FavoritesProfileAnimalsAdapter.FavoritesProfileAnimalsViewHolder(cardsItem);
+        return new FavoriteProfileAnimalsAdapter.FavoritesProfileAnimalsViewHolder(cardsItem);
     }
 
     @Override

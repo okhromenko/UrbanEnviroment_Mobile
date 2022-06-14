@@ -121,7 +121,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 intent.putExtra("date_last_help", helpList.get(position).getDate_last());
                 intent.putExtra("description_help", helpList.get(position).getDescription());
                 intent.putExtra("name_org_help", helpList.get(position).getName_org());
-                intent.putExtra("image",  helpList.get(position).getImg_org());
+                intent.putExtra("image",  image);
                 intent.putExtra("color", color);
                 intent.putExtra("color_transperent", color_transperent);
                 intent.putExtra("is_org", is_org);
