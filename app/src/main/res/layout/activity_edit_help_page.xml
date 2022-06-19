@@ -566,7 +566,7 @@
             android:layout_width="73dp"
             android:layout_height="55dp"
             android:background="@color/white"
-            android:onClick="authorization"
+            android:onClick="profile"
             android:scaleX="0.9"
             android:scaleY="0.9"
             android:contentDescription="@string/app_name"

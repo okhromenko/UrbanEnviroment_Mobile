@@ -56,6 +56,7 @@ public class FavoriteProfileAnimalsAdapter extends RecyclerView.Adapter<Favorite
         holder.age_animal.setText(FavoriteAnimalList.get(position).getAge());
         holder.sex_animal.setText(FavoriteAnimalList.get(position).getSex());
         holder.state_animal.setText(FavoriteAnimalList.get(position).getState());
+        holder.button_favorite_profile_animal.setImageResource(R.drawable.button_favorite_press);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

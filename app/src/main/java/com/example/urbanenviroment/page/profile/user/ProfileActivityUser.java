@@ -33,6 +33,7 @@ import com.example.urbanenviroment.page.profile.org.DeletePhoto;
 import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingOther;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +45,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -64,6 +67,7 @@ public class ProfileActivityUser extends AppCompatActivity {
     private static final int RQS_PICK_IMAGE = 3;
 
     private FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
     String id, name, image, date, address, description, phone, email, website, count_animal, count_photo, count_ads;
     Boolean is_org;
@@ -85,7 +89,8 @@ public class ProfileActivityUser extends AppCompatActivity {
         LinearLayout linear_org = (LinearLayout) findViewById(R.id.linear_org);
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         DocumentReference docRef = db.collection("User").document(mAuth.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @SuppressLint("SimpleDateFormat")
@@ -182,7 +187,6 @@ public class ProfileActivityUser extends AppCompatActivity {
 
                     imageView.setImageBitmap(bm);
 
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
                     FirebaseStorage storage = FirebaseStorage.getInstance();
 
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
@@ -211,6 +215,7 @@ public class ProfileActivityUser extends AppCompatActivity {
                                                     Toast.makeText(getApplicationContext(), "Новое изображение загружено", Toast.LENGTH_LONG).show();
                                                     DocumentReference changeRef = db.collection("User").document(firebaseUser.getUid());
                                                     changeRef.update("image", mAuth.getCurrentUser().getPhotoUrl().toString());
+                                                    edit_fields_image(mAuth.getCurrentUser().getPhotoUrl().toString());
                                                 }
                                             }
                                         });
@@ -227,6 +232,64 @@ public class ProfileActivityUser extends AppCompatActivity {
         }
     }
 
+    private void edit_fields_image(String img){
+
+        db.collection("Animal").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Animal").document(document.getId())
+                                    .update("imageOrg", img);
+                        }
+                    }
+                });
+
+        db.collection("Ads").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Ads").document(document.getId())
+                                    .update("imageOrg", img);
+                        }
+                    }
+                });
+
+        db.collection("Collection").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Collection").document(document.getId())
+                                    .update("imageOrg", img);
+                        }
+                    }
+                });
+
+        db.collection("FavoriteAds").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("FavoriteAds").document(document.getId())
+                                    .update("imageOrg", img);
+                        }
+                    }
+                });
+
+        db.collection("FavoriteAnimal").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("FavoriteAnimal").document(document.getId())
+                                    .update("imageOrg", img);
+                        }
+                    }
+                });
+    }
+
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
@@ -237,8 +300,15 @@ public class ProfileActivityUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 

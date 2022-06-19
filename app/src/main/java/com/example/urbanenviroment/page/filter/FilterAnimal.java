@@ -33,9 +33,13 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -159,8 +163,15 @@ public class FilterAnimal extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 

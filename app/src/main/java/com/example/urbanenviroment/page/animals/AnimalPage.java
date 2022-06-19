@@ -32,6 +32,8 @@ import com.example.urbanenviroment.page.profile.org.AddAnimal;
 import com.example.urbanenviroment.page.profile.org.EditAnimal;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,6 +68,7 @@ public class AnimalPage extends AppCompatActivity {
     ImageView image_animal_page;
     List<Collection> collectionList;
     RecyclerView animalsRecycler;
+    boolean is_org;
     CollectionImageAnimalPageAdapter animalsAdapter;
     CollectionImageAnimalPageAdapter.OnImageClickListener imageClickListener;
     Boolean flagHideDescription = false;
@@ -162,7 +165,8 @@ public class AnimalPage extends AppCompatActivity {
             db.collection("User").document(mAuth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot document) {
-                    if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org")))
+                    is_org =  Boolean.TRUE.equals(document.getBoolean("is_org"));
+                    if (is_org)
                         favorite_button_animal.setVisibility(View.GONE);
                     else
                         favorite_button_animal.setVisibility(View.VISIBLE);
@@ -337,8 +341,14 @@ public class AnimalPage extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        Intent intent;
+
+        if (mAuth.getCurrentUser() != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 

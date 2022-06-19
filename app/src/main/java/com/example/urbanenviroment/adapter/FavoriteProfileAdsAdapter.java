@@ -73,6 +73,7 @@ public class FavoriteProfileAdsAdapter extends RecyclerView.Adapter<FavoriteProf
 
         Picasso.get().load(helpList.get(position).getImg_org()).into(holder.img_org_help);
         holder.name_org_help.setText(helpList.get(position).getName_org());
+        holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
 
 
         String str = helpList.get(position).getDescription();

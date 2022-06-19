@@ -41,6 +41,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -145,8 +146,15 @@ public class AddAnimal extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 

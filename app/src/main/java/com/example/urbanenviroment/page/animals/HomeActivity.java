@@ -4,6 +4,8 @@ import static android.content.ContentValues.TAG;
 
 import com.example.urbanenviroment.model.CategoryAnimals;
 import com.example.urbanenviroment.model.Collection;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,10 +62,12 @@ public class HomeActivity extends AppCompatActivity {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public int compare(Collection o1, Collection o2) {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+            @SuppressLint("SimpleDateFormat") SimpleDateFormat format =
+                    new SimpleDateFormat("dd.MM.yyyy");
 
             Date date_1 = null;
             Date date_2 = null;
+
             try {
                 date_1 = format.parse(o1.getReg_date());
                 date_2 = format.parse(o2.getReg_date());
@@ -119,18 +123,13 @@ public class HomeActivity extends AppCompatActivity {
 
                         String id = document.getId();
                         String image_collection = document.getString("image_collection");
-
                         String name_org = document.getString("username");
-
                         String image_org = document.getString("imageOrg");
-
                         String id_animal = document.getString("id_animal");
                         String kind = document.getString("kind");
-
                         String reg_date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("reg_date"));
 
                         list_org_name.add(name_org);
-
                         photoList.add(new Collection(id, image_collection, name_org, image_org, id_animal, kind, reg_date));
 
                         Collections.sort(photoList, new AnimalsComparator().reversed());
@@ -202,8 +201,15 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 
@@ -225,7 +231,6 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         }
         else finish();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

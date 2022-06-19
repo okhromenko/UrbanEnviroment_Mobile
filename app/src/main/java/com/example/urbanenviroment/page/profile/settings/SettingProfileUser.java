@@ -19,7 +19,9 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.page.profile.org.EditHelpPage;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +35,9 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Objects;
@@ -97,8 +102,15 @@ public class SettingProfileUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 
@@ -149,6 +161,64 @@ public class SettingProfileUser extends AppCompatActivity {
 
     }
 
+    private void edit_fields_name(String name){
+        db.collection("Animal").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    db.collection("Animal").document(document.getId())
+                            .update("username", name);
+                }
+            }
+        });
+
+        db.collection("Ads").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Ads").document(document.getId())
+                                    .update("username", name);
+                        }
+                    }
+                });
+
+        db.collection("Collection").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("Collection").document(document.getId())
+                                    .update("username", name);
+                        }
+                    }
+                });
+
+        db.collection("FavoriteAds").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("FavoriteAds").document(document.getId())
+                                    .update("username", name);
+                        }
+                    }
+                });
+
+        db.collection("FavoriteAnimal").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+                get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("FavoriteAnimal").document(document.getId())
+                                    .update("username", name);
+                        }
+                    }
+                });
+    }
+
+
     private void save_change(String field, String value, String password){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -178,6 +248,7 @@ public class SettingProfileUser extends AppCompatActivity {
                                         setDisplayName(value).build();
 
                                 user.updateProfile(profileChangeRequest);
+                                edit_fields_name(value);
                                 break;
                         }
 
@@ -206,6 +277,8 @@ public class SettingProfileUser extends AppCompatActivity {
         TextView textPassword = (TextView) findViewById(R.id.change_password_setting_name);
 
         save_change("name", textName.getText().toString(), textPassword.getText().toString());
+
+
     }
 
     public void save_email(View view){

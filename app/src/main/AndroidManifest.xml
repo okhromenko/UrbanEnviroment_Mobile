@@ -103,9 +103,6 @@
             android:name=".page.org.OrganizationsActivity"
             android:exported="false" />
         <activity
-            android:name=".page.map.MapActivity"
-            android:exported="false" />
-        <activity
             android:name=".page.help.HelpActivity"
             android:exported="false" />
         <activity
@@ -135,7 +132,9 @@
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
 
+
     </application>
+
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />

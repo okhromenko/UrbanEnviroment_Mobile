@@ -145,7 +145,7 @@
             android:layout_height="55dp"
             android:background="@color/white"
             android:contentDescription="@string/app_name"
-            android:onClick="authorization"
+            android:onClick="profile"
             android:scaleX="0.9"
             android:scaleY="0.9"
             android:src="@drawable/menu_profile" />

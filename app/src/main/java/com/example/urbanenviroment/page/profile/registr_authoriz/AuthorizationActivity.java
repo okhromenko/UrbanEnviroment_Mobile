@@ -44,7 +44,6 @@ public class AuthorizationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authorization);
 
         dialog_forgotten = new Dialog(this);
-
         progressDialog = new ProgressDialog(AuthorizationActivity.this);
 
         db = FirebaseFirestore.getInstance();
@@ -103,17 +102,6 @@ public class AuthorizationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             mAuth.getCurrentUser().getProviderData();
-
-                            if (!mAuth.getCurrentUser().isEmailVerified()) {
-                                mAuth.getCurrentUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(getApplicationContext(), "Подтвердите адрес электронной почты, " +
-                                                "письмо было отправлено на вашу почту", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-
 
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());

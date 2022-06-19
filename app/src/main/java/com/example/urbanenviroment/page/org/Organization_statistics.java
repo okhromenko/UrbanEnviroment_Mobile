@@ -22,6 +22,8 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -44,6 +46,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -87,8 +91,15 @@ public class Organization_statistics extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
         startActivity(intent);
     }
 
@@ -330,35 +341,35 @@ public class Organization_statistics extends AppCompatActivity {
         return "Формат даты не совпадает!";
     }
 
-    public void button_animal_statistics(View view){
-        Map<String, Integer> count_kind = new HashMap<>();
+public void button_animal_statistics(View view){
+    Map<String, Integer> count_kind = new HashMap<>();
 
-        db.collection("Animal").whereEqualTo("userId", getIntent().getStringExtra("id"))
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<DocumentSnapshot> count_list = new ArrayList<>();
-                            count_list.addAll(task.getResult().getDocuments());
+    db.collection("Animal").whereEqualTo("userId", getIntent().getStringExtra("id"))
+            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<DocumentSnapshot> count_list = new ArrayList<>();
+                        count_list.addAll(task.getResult().getDocuments());
 
-                            long count_woman = count_list.stream().filter(i -> i.get("sex").equals("Самка")).count();
-                            long count_man = count_list.stream().filter(i -> i.get("sex").equals("Самец")).count();
+                        long count_woman = count_list.stream().filter(i -> i.get("sex").equals("Самка")).count();
+                        long count_man = count_list.stream().filter(i -> i.get("sex").equals("Самец")).count();
 
-                            for (DocumentSnapshot i : count_list){
-                                String kind = i.getString("kind");
-                                if (count_kind.containsKey(kind))
-                                    count_kind.put(kind, count_kind.get(kind) + 1);
-                                else
-                                    count_kind.put(kind, 1);
-                            }
-
-                            statistic_animal_circle(count_woman, count_man);
-                            statistic_animal_rectangle(count_kind);
+                        for (DocumentSnapshot i : count_list){
+                            String kind = i.getString("kind");
+                            if (count_kind.containsKey(kind))
+                                count_kind.put(kind, count_kind.get(kind) + 1);
+                            else
+                                count_kind.put(kind, 1);
                         }
+
+                        statistic_animal_circle(count_woman, count_man);
+                        statistic_animal_rectangle(count_kind);
                     }
-                });
-    }
+                }
+            });
+}
 
     public void button_ads_statistics(View view){
         db.collection("Ads").whereEqualTo("userId", getIntent().getStringExtra("id"))
