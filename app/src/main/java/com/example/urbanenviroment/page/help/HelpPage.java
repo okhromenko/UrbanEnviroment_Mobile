@@ -209,6 +209,14 @@ public class HelpPage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void requisits(View view){
+        //Должно открывать диалоговое окно с реквизитами, но я пока его не нарисовала.
+    }
+
+    public void org_page(View view){
+        //Должна открываться страница организации, которой принадлежит объявление.
+    }
+
     public void card(View view){
         Intent intent = new Intent(this, CardsMainActivity.class);
         startActivity(intent);

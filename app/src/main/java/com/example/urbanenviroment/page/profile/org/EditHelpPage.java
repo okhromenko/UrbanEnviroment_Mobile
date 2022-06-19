@@ -55,6 +55,7 @@ public class EditHelpPage extends AppCompatActivity {
     private FirebaseFirestore db;
     int type_flag = 0;
     String type, id, description;
+    ImageButton food, things, help, other, money;
     MaterialEditText text_edit_last_date, text_edit_first_date;
     Calendar calendar_text;
     DatePickerDialog dpd;
@@ -68,6 +69,12 @@ public class EditHelpPage extends AppCompatActivity {
         TextView last_date_ads = findViewById(R.id.text_last_data_ads_edit_page);
         TextView first_date_ads = findViewById(R.id.text_first_data_ads_edit_page);
         EditText description_ads = findViewById(R.id.text_edit_help_description);
+
+        food = findViewById(R.id.food);
+        things = findViewById(R.id.things);
+        help = findViewById(R.id.help);
+        money = findViewById(R.id.money);
+        other = findViewById(R.id.other);
 
         db = FirebaseFirestore.getInstance();
 
@@ -241,36 +248,48 @@ public class EditHelpPage extends AppCompatActivity {
     }
 
     public void btn_help(View view){
-        ImageButton food = (ImageButton) findViewById(R.id.food);
-        ImageButton things = (ImageButton) findViewById(R.id.things);
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org_press);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
         type_flag = 2;
     }
 
     public void btn_thing(View view){
-        ImageButton food = (ImageButton) findViewById(R.id.food);
-        ImageButton things = (ImageButton) findViewById(R.id.things);
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org_press);
         help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
         type_flag = 1;
     }
 
     public void btn_food(View view){
-        ImageButton food = (ImageButton) findViewById(R.id.food);
-        ImageButton things = (ImageButton) findViewById(R.id.things);
-        ImageButton help = (ImageButton) findViewById(R.id.help);
-
         food.setImageResource(R.drawable.button_food_type_ad_org_press);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
         type_flag = 0;
+    }
+
+    public void btn_money(View view){
+        food.setImageResource(R.drawable.button_food_type_ad_org);
+        things.setImageResource(R.drawable.button_things_type_ad_org);
+        help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org_press);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
+        type_flag = 3;
+    }
+
+    public void btn_other(View view){
+        food.setImageResource(R.drawable.button_food_type_ad_org);
+        things.setImageResource(R.drawable.button_things_type_ad_org);
+        help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org_press);
+        type_flag = 4;
     }
 
     private void save(String field, String value){

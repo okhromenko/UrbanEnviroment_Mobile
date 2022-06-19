@@ -36,8 +36,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp">
+                android:layout_height="wrap_content">
 
                 <ImageButton
                     android:id="@+id/food_filter"
@@ -71,8 +70,34 @@
                     android:layout_gravity="top|right"
                     android:src="@drawable/button_help_type_ad_org"
                     android:background="@color/transparent"/>
-
             </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:scaleX="0.9"
+                android:scaleY="0.9">
+
+                <ImageButton
+                    android:id="@+id/money_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="money_check"
+                    android:layout_marginEnd="3dp"
+                    android:src="@drawable/button_money_type_ad_org" />
+
+                <ImageButton
+                    android:id="@+id/other_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="other_check"
+                    android:src="@drawable/button_other_type_ad_org" />
+
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

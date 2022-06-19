@@ -159,7 +159,7 @@ public class Organization_statistics extends AppCompatActivity {
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setTextSize(14f);
-        xAxis.setLabelRotationAngle(90);
+        xAxis.setLabelRotationAngle(75);
         xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
         xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -252,7 +252,7 @@ public class Organization_statistics extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void statistic_ads_rectangle(long count_food, long count_ads, long count_things){
+    private void statistic_ads_rectangle(long count_food, long count_ads, long count_things, long count_money, long count_other){
 
         setContentView(R.layout.activity_organization_statistics_ads);
 
@@ -263,16 +263,20 @@ public class Organization_statistics extends AppCompatActivity {
         animals_statistic.add(new BarEntry(1, count_food));
         animals_statistic.add(new BarEntry(2, count_things));
         animals_statistic.add(new BarEntry(3, count_ads));
+        animals_statistic.add(new BarEntry(4, count_money));
+        animals_statistic.add(new BarEntry(5, count_other));
 
         ArrayList<String> labels = new ArrayList<>();
         labels.add("    ");
         labels.add("Еда");
         labels.add("Вещи");
         labels.add("Волонтерство");
+        labels.add("Финансы");
+        labels.add("Другое");
 
         BarDataSet barDataSet = new BarDataSet(animals_statistic, "");
 
-        barDataSet.setColors(new int[] {getResources().getColor(R.color.food, getTheme()), getResources().getColor(R.color.things, getTheme()), getResources().getColor(R.color.help, getTheme())});
+        barDataSet.setColors(new int[] {getResources().getColor(R.color.food, getTheme()), getResources().getColor(R.color.things, getTheme()), getResources().getColor(R.color.help, getTheme()), getResources().getColor(R.color.money, getTheme()), getResources().getColor(R.color.other, getTheme())});
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(12f);
 
@@ -304,6 +308,7 @@ public class Organization_statistics extends AppCompatActivity {
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setTextSize(14f);
+        xAxis.setLabelRotationAngle(75);
         xAxis.setGridColor(getResources().getColor(R.color.light_gray_2, getTheme()));
         xAxis.setAxisLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -384,6 +389,8 @@ public void button_animal_statistics(View view){
                             long count_food = count_list.stream().filter(i -> i.get("type").equals("Еда")).count();
                             long count_help = count_list.stream().filter(i -> i.get("type").equals("Волонтерство")).count();
                             long count_things = count_list.stream().filter(i -> i.get("type").equals("Вещи")).count();
+                            long count_money = count_list.stream().filter(i -> i.get("type").equals("Финансы")).count();
+                            long count_other = count_list.stream().filter(i -> i.get("type").equals("Другое")).count();
 
                             long count_in_progress = count_list.stream().filter(i -> status(i.getString("first_date"),
                                     i.getString("last_date")).equals("В процессе")).count();
@@ -395,7 +402,7 @@ public void button_animal_statistics(View view){
                                     i.getString("last_date")).equals("Выполнено")).count();
 
 
-                            statistic_ads_rectangle(count_food, count_help, count_things);
+                            statistic_ads_rectangle(count_food, count_help, count_things, count_money,count_other);
                             statistic_ads_circle(count_in_progress, count_completion, count_complete);
                         }
                     }

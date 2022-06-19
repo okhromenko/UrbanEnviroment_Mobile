@@ -48,7 +48,7 @@ public class FilterHelp extends AppCompatActivity {
     CategoryAnimalAdapter categoryAnimalAdapter;
     String type_help;
     List<CategoryAnimals> categoryOrgList;
-    ImageButton food, things, help;
+    ImageButton food, things, help, money, other;
 
 
     @Override
@@ -62,6 +62,8 @@ public class FilterHelp extends AppCompatActivity {
         food = findViewById(R.id.food_filter);
         things = findViewById(R.id.things_filter);
         help = findViewById(R.id.help_filter);
+        money = findViewById(R.id.money_filter);
+        other = findViewById(R.id.other_filter);
 
         context = this;
 
@@ -119,6 +121,8 @@ public class FilterHelp extends AppCompatActivity {
         food.setImageResource(R.drawable.button_food_type_ad_org_press);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
 
         type_help = "Еда";
     }
@@ -127,6 +131,8 @@ public class FilterHelp extends AppCompatActivity {
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org_press);
         help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
 
         type_help = "Вещи";
     }
@@ -135,8 +141,29 @@ public class FilterHelp extends AppCompatActivity {
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org_press);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
 
         type_help = "Волонтерство";
+    }
+
+    public void money_check(View view){
+        food.setImageResource(R.drawable.button_food_type_ad_org);
+        things.setImageResource(R.drawable.button_things_type_ad_org);
+        help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org_press);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
+
+        type_help = "Финансы";
+    }
+    public void other_check(View view){
+        food.setImageResource(R.drawable.button_food_type_ad_org);
+        things.setImageResource(R.drawable.button_things_type_ad_org);
+        help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org_press);
+
+        type_help = "Другое";
     }
 
     public void save_filter(View view){

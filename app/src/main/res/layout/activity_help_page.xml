@@ -165,7 +165,6 @@
                         android:scaleX="0.75"
                         android:scaleY="0.75" />
                 </LinearLayout>
-
             </FrameLayout>
 
             <LinearLayout
@@ -225,11 +224,87 @@
                         android:layout_marginTop="10dp"
                         android:textSize="16sp"
                         android:text="Название организации"/>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="155dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_animal_org_page"
+                                android:layout_width="150dp"
+                                android:layout_height="45dp"
+                                app:cardBackgroundColor="@color/white"
+                                android:onClick="requisits"
+                                app:cardCornerRadius="8dp"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|left"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Реквизиты"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/basic_blue"/>
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:src="@drawable/img_requisites"
+                                    android:layout_marginEnd="10dp"/>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_gravity="right"
+                            android:layout_width="155dp"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/basic_blue"
+                            app:cardCornerRadius="10dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/btn_photo_org_page"
+                                android:layout_width="150dp"
+                                android:layout_height="45dp"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="8dp"
+                                android:onClick="org_page"
+                                android:layout_gravity="center">
+
+                                <TextView
+                                    android:layout_marginHorizontal="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical|left"
+                                    android:fontFamily="@font/roboto"
+                                    android:text="Организация"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/basic_blue"/>
+
+                                <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/img_org_icon"
+                                        android:layout_gravity="center_vertical|right"
+                                        android:layout_marginEnd="10dp"/>
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+                    </FrameLayout>
                 </LinearLayout>
             </ScrollView>
-
         </LinearLayout>
-
     </LinearLayout>
 
     <com.loopeer.shadow.ShadowView

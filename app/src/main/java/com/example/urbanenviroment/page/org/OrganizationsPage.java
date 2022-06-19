@@ -176,6 +176,10 @@ public class OrganizationsPage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void requisits(View view){
+        //Должно открывать диалоговое окно с реквизитами, но я пока его не нарисовала.
+    }
+
     public void statistics(View view){
         Intent intent = new Intent(this, Organization_statistics.class);
         intent.putExtra("id", getIntent().getStringExtra("id"));

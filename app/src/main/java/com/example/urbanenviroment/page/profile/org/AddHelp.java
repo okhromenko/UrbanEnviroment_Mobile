@@ -50,8 +50,8 @@ public class AddHelp extends AppCompatActivity {
     String type, today;
     Calendar calendar_text;
     DatePickerDialog dpd;
-    ImageButton food, things, help;
-    int type_flag = 3;
+    ImageButton food, things, help, other, money;
+    int type_flag = 5;
     boolean flag = false, flagInput, flagCheckup;
 
     @Override
@@ -62,6 +62,8 @@ public class AddHelp extends AppCompatActivity {
         food = findViewById(R.id.food);
         things = findViewById(R.id.things);
         help = findViewById(R.id.help);
+        money = findViewById(R.id.money);
+        other = findViewById(R.id.other);
 
         add_date_help = findViewById(R.id.add_date_help);
         add_date_help_first = findViewById(R.id.add_date_help_first);
@@ -243,6 +245,14 @@ public class AddHelp extends AppCompatActivity {
                 goneMessage(R.id.error_help_type);
                 break;
             case(3):
+                type = "Финансы";
+                goneMessage(R.id.error_help_type);
+                break;
+            case(4):
+                type = "Другое";
+                goneMessage(R.id.error_help_type);
+                break;
+            case(5):
                 errorMessage(R.id.error_help_type);
                 flagCheckup = false;
                 break;
@@ -339,6 +349,8 @@ public class AddHelp extends AppCompatActivity {
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org_press);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
         type_flag = 2;
     }
 
@@ -346,6 +358,8 @@ public class AddHelp extends AppCompatActivity {
         food.setImageResource(R.drawable.button_food_type_ad_org);
         things.setImageResource(R.drawable.button_things_type_ad_org_press);
         help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
         type_flag = 1;
     }
 
@@ -353,6 +367,26 @@ public class AddHelp extends AppCompatActivity {
         food.setImageResource(R.drawable.button_food_type_ad_org_press);
         things.setImageResource(R.drawable.button_things_type_ad_org);
         help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
         type_flag = 0;
+    }
+
+    public void btn_money(View view){
+        food.setImageResource(R.drawable.button_food_type_ad_org);
+        things.setImageResource(R.drawable.button_things_type_ad_org);
+        help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org_press);
+        other.setImageResource(R.drawable.button_other_type_ad_org);
+        type_flag = 3;
+    }
+
+    public void btn_other(View view){
+        food.setImageResource(R.drawable.button_food_type_ad_org);
+        things.setImageResource(R.drawable.button_things_type_ad_org);
+        help.setImageResource(R.drawable.button_help_type_ad_org);
+        money.setImageResource(R.drawable.button_money_type_ad_org);
+        other.setImageResource(R.drawable.button_other_type_ad_org_press);
+        type_flag = 4;
     }
 }
