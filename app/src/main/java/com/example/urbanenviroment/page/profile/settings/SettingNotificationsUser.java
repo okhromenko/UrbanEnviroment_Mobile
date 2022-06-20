@@ -2,9 +2,11 @@ package com.example.urbanenviroment.page.profile.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
@@ -15,6 +17,7 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationAct
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class SettingNotificationsUser extends AppCompatActivity {
 
@@ -22,6 +25,21 @@ public class SettingNotificationsUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_notifications_user);
+
+        @SuppressLint("UseSwitchCompatOrMaterialCode")
+        Switch switch_ads = findViewById(R.id.switch_ads_notif);
+        @SuppressLint("UseSwitchCompatOrMaterialCode")
+        Switch switch_animal = findViewById(R.id.switch_animal_notif);
+
+        if (switch_ads.isChecked())
+            FirebaseMessaging.getInstance().subscribeToTopic("AdsNotification");
+        else
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("AdsNotification");
+
+        if (switch_animal.isChecked())
+            FirebaseMessaging.getInstance().subscribeToTopic("AnimalNotification");
+        else
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("AnimalNotification");
     }
 
     public void animals(View view){

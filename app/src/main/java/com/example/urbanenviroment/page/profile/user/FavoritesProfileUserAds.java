@@ -60,11 +60,12 @@ public class FavoritesProfileUserAds extends AppCompatActivity {
                         String name_org = document.getString("username");
                         String image_org = document.getString("imageOrg");
                         String type = document.getString("type");
+                        String id_org = document.getString("userId");
                         String description = document.getString("description");
                         String first_data = document.getString("first_date");
                         String last_data = document.getString("last_date");
 
-                        helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
+                        helpList.add(new Help(id, id_org, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
                     }
                     setHelpRecycler(helpList);
                 }

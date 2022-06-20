@@ -20,6 +20,7 @@ import com.example.urbanenviroment.page.animals.AnimalPage;
 import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
+import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.page.profile.org.EditAnimalPage;
 import com.example.urbanenviroment.page.profile.org.EditHelp;
 import com.example.urbanenviroment.page.profile.org.EditHelpPage;
@@ -214,7 +215,11 @@ public class HelpPage extends AppCompatActivity {
     }
 
     public void org_page(View view){
-        //Должна открываться страница организации, которой принадлежит объявление.
+        Intent intent = new Intent(this, OrganizationsPage.class);
+        intent.putExtra("id", getIntent().getStringExtra("userId"));
+        intent.putExtra("flagHelpPage", true);
+        intent.putExtra("is_org", intent.getBooleanExtra("is_org", false));
+        startActivity(intent);
     }
 
     public void card(View view){

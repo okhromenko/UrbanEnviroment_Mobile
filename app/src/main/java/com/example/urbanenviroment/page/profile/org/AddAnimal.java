@@ -66,7 +66,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class AddAnimal extends AppCompatActivity {
+public class AddAnimal extends AppCompatActivity{
 
     private static final int RQS_OPEN_IMAGE = 1;
     private static final int RQS_GET_IMAGE = 2;

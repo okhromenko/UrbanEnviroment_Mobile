@@ -155,6 +155,7 @@ public class HelpActivity extends AppCompatActivity {
 
                         if (current_date.compareTo(date_ads_create) >= 0) {
                             String id = document.getId();
+                            String id_org = document.getString("userId");
                             String name_org = document.getString("username");
                             String image_org = document.getString("imageOrg");
                             String type = document.getString("type");
@@ -162,7 +163,7 @@ public class HelpActivity extends AppCompatActivity {
                             String first_data = document.getString("first_date");
                             String last_data = document.getString("last_date");
 
-                            helpList.add(new Help(id, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
+                            helpList.add(new Help(id, id_org, name_org, image_org, type, description, first_data, last_data, status(first_data, last_data)));
                             list_org_name.add(name_org);
 
                             setHelpRecycler(helpList);

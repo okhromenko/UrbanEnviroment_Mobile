@@ -13,6 +13,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
 
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".page.profile.org.EditHelpPage"
             android:exported="false" />

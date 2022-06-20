@@ -121,6 +121,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 intent.putExtra("date_last_help", helpList.get(position).getDate_last());
                 intent.putExtra("description_help", helpList.get(position).getDescription());
                 intent.putExtra("name_org_help", helpList.get(position).getName_org());
+                intent.putExtra("userId", helpList.get(position).getId_org());
                 intent.putExtra("image",  image);
                 intent.putExtra("color", color);
                 intent.putExtra("color_transperent", color_transperent);
@@ -283,6 +284,16 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 color = ContextCompat.getColor(context, R.color.help);
                 color_transperent = ContextCompat.getColor(context, R.color.help_transperent);
                 image = R.drawable.img_help_item;
+                break;
+            case "Финансы":
+                color = ContextCompat.getColor(context, R.color.money);
+                color_transperent = ContextCompat.getColor(context, R.color.money_transperent);
+                image = R.drawable.img_money_item;
+                break;
+            case "Другое":
+                color = ContextCompat.getColor(context, R.color.other);
+                color_transperent = ContextCompat.getColor(context, R.color.other_transperent);
+                image = R.drawable.img_other_item;
                 break;
         }
     }
