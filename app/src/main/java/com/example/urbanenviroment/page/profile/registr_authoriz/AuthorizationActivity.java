@@ -91,46 +91,53 @@ public class AuthorizationActivity extends AppCompatActivity {
         passwordField = (MaterialEditText) findViewById(R.id.passField);
         String email = emailField.getText().toString().toLowerCase();
         String password = passwordField.getText().toString();
-        progressDialog.show();
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
+        if (!email.isEmpty() && !password.isEmpty()) {
 
-                        if (task.isSuccessful()) {
+            progressDialog.show();
 
-                            mAuth.getCurrentUser().getProviderData();
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressDialog.dismiss();
 
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
-                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "Ошибка, логин/пароль не совпадают", Toast.LENGTH_LONG).show();
+                            if (task.isSuccessful()) {
+
+                                mAuth.getCurrentUser().getProviderData();
+
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                DocumentReference docRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
+                                                Intent intent = new Intent(AuthorizationActivity.this, ProfileActivityUser.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Ошибка, логин/пароль не совпадают", Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                     }
-                                }
-                            });
+                                });
 
-                        } else {
-                            progressDialog.dismiss();
+                            } else {
+                                progressDialog.dismiss();
+                            }
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Ошибка, логин/пароль не совпадают", Toast.LENGTH_LONG).show();
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Ошибка, логин/пароль не совпадают", Toast.LENGTH_LONG).show();
+                        }
+                    });
+            }
+        else {
+            Toast.makeText(getApplicationContext(), "Введите данные!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void send_message(View view){

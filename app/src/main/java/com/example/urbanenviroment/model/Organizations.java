@@ -3,10 +3,10 @@ package com.example.urbanenviroment.model;
 import java.io.Serializable;
 
 public class Organizations{
-    String id, name_org, img_org, phone, address, email, website, description, count_animal, count_ads, count_photo, date;
+    String id, name_org, img_org, phone, address, email, website, description, count_animal, count_ads, count_photo, date, requisits;
 
     public Organizations(String id, String name_org, String img_org, String phone, String address, String email, String website,
-                         String description, String count_animal, String count_ads, String count_photo, String date) {
+                         String description, String count_animal, String count_ads, String count_photo, String date, String requisits) {
         this.id = id;
         this.name_org = name_org;
         this.img_org = img_org;
@@ -19,6 +19,7 @@ public class Organizations{
         this.count_ads = count_ads;
         this.count_photo = count_photo;
         this.date = date;
+        this.requisits = requisits;
     }
 
     public String getId() {
@@ -115,5 +116,13 @@ public class Organizations{
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getRequisits() {
+        return requisits;
+    }
+
+    public void setRequisits(String date) {
+        this.requisits = requisits;
     }
 }

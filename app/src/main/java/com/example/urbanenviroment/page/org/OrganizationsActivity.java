@@ -158,6 +158,7 @@ public class OrganizationsActivity extends AppCompatActivity {
                         String phone = document.getString("phone");
                         String email = document.getString("email");
                         String website = document.getString("website");
+                        String requisits = document.getString("requisits");
                         String count_animal = "";
                         String count_photo = "";
                         String count_ads = "";
@@ -172,7 +173,7 @@ public class OrganizationsActivity extends AppCompatActivity {
                         String image = document.getString("image");
 
                         orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
-                                count_animal, count_ads, count_photo, date));
+                                count_animal, count_ads, count_photo, date, requisits));
                         setOrgRecycler(orgList);
                     }
                 }

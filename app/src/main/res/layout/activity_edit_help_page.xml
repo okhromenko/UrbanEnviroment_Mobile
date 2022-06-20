@@ -57,6 +57,7 @@
                     android:id="@+id/text_type_ads_edit_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="75dp"
                     android:text="Тип объявления"
                     android:fontFamily="@font/roboto"
                     android:textColor="@color/basic_blue"
@@ -209,6 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
+                    android:layout_marginEnd="75dp"
                     android:text="Дата публикации"
                     android:textColor="@color/basic_blue"
                     android:textSize="16sp" />
@@ -339,6 +341,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
                     android:text="Дата окончания публикации"
+                    android:layout_marginEnd="75dp"
                     android:textColor="@color/basic_blue"
                     android:textSize="16sp" />
 

@@ -72,7 +72,7 @@
                 <TextView
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:text="Получать уведомления о новых объявлениях организации"
+                    android:text="Не получать уведомления о новых объявлениях организации"
                     android:textColor="@color/dark_gray_2"
                     android:fontFamily="@font/roboto"
                     android:textSize="14sp"/>
@@ -108,7 +108,7 @@
                 <TextView
                     android:layout_width="280dp"
                     android:layout_height="wrap_content"
-                    android:text="Получать уведомления о новых животных организации"
+                    android:text="Не получать уведомления о новых животных организации"
                     android:textColor="@color/dark_gray_2"
                     android:fontFamily="@font/roboto"
                     android:textSize="14sp"/>

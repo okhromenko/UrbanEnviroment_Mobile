@@ -41,6 +41,7 @@ public class SettingPageOrg extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    String description, requisits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class SettingPageOrg extends AppCompatActivity {
                         text_location.setText(document.getString("address"));
                         text_phone.setText(document.getString("phone"));
                         text_description.setText(document.getString("description"));
+                        description = document.getString("description");
+                        requisits = document.getString("requisits");
                         text_website.setText(document.getString("website"));
                     } else {
                         Log.d(TAG, "Данные не найдены");
@@ -136,6 +139,14 @@ public class SettingPageOrg extends AppCompatActivity {
         change(textPhone, textchange, layout);
     }
 
+    public void change_requisits(View view){
+        TextView textRequisits = (TextView) findViewById(R.id.text_requisits);
+        TextView textchange = (TextView) findViewById(R.id.button_change_requisits);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_requisits);
+
+        change(textRequisits, textchange, layout);
+    }
+
     public void change_website(View view) {
         TextView textWebsite = (TextView) findViewById(R.id.text_website);
         TextView textchange = (TextView) findViewById(R.id.button_change_website);
@@ -173,6 +184,11 @@ public class SettingPageOrg extends AppCompatActivity {
         save_change("phone", textName.getText().toString());
     }
 
+    public void save_requisits(View view){
+        TextView textName = (TextView) findViewById(R.id.requisits_change_setting);
+        save_change("requisits", textName.getText().toString());
+    }
+
     public void save_description(View view){
         TextView textName = (TextView) findViewById(R.id.description_change_setting);
         save_change("description", textName.getText().toString());
@@ -204,11 +220,32 @@ public class SettingPageOrg extends AppCompatActivity {
     public void cancel_description(View view){
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_description);
         MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
-        text_description.setText(" ");
+        if (description != null)
+            text_description.setText(description);
+        else
+            text_description.setText("");
     }
 
     public void cancel_website(View view) {
+        TextView textWebsite = (TextView) findViewById(R.id.text_website);
+        TextView textchange = (TextView) findViewById(R.id.button_change_website);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_website);
+
+        cancel(textWebsite, textchange, layout);
         clear(R.id.website_change_setting);
+    }
+
+    public void cancel_requisits(View view) {
+        TextView textRequisits = (TextView) findViewById(R.id.text_requisits);
+        TextView textchange = (TextView) findViewById(R.id.button_change_requisits);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_requisits);
+        MaterialEditText text_requisits = (MaterialEditText) findViewById(R.id.requisits_change_setting);
+
+        cancel(textRequisits, textchange, layout);
+        if (requisits != null)
+            text_requisits.setText(requisits);
+        else
+            text_requisits.setText("");
     }
 
     public void clear_location(View view){
@@ -220,11 +257,6 @@ public class SettingPageOrg extends AppCompatActivity {
     }
 
     public void clear_website(View view) {
-        TextView textWebsite = (TextView) findViewById(R.id.text_website);
-        TextView textchange = (TextView) findViewById(R.id.button_change_website);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_website);
-
-        cancel(textWebsite, textchange, layout);
         clear(R.id.website_change_setting);
     }
 

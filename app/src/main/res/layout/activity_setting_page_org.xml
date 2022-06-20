@@ -65,7 +65,7 @@
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/roboto"
                             android:text="Адрес"
-                            android:layout_marginEnd="85dp"
+                            android:layout_marginEnd="75dp"
                             android:textColor="@color/basic_blue"
                             android:textSize="16sp" />
 
@@ -111,14 +111,18 @@
                                         <com.rengwuxian.materialedittext.MaterialEditText
                                             android:id="@+id/location_change_setting"
                                             android:layout_width="match_parent"
-                                            android:layout_height="48dp"
+                                            android:layout_height="wrap_content"
                                             android:layout_marginStart="15dp"
-                                            android:layout_marginEnd="40dp"
+                                            android:layout_marginEnd="5dp"
                                             android:fontFamily="@font/roboto"
-                                            android:hint="Введите местоположение"
-                                            android:inputType="text"
+                                            android:gravity="start|left"
+                                            android:hint="Описание"
+                                            android:inputType="textLongMessage|textMultiLine|textCapSentences"
+                                            android:lines="7"
+                                            android:singleLine="false"
                                             android:textAlignment="textStart"
                                             android:textSize="16sp"
+                                            app:counterEnabled="true"
                                             app:met_floatingLabel="none"
                                             app:met_hideUnderline="true"
                                             app:met_singleLineEllipsis="false" />
@@ -182,6 +186,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="Номер телефона"
+                            android:layout_marginEnd="75dp"
                             android:textColor="@color/basic_blue"
                             android:textSize="16sp" />
 
@@ -276,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/roboto"
-                        android:text="Изменить адрес сайта организации"
+                        android:text="Изменить адрес сайта"
                         android:textColor="@color/basic_blue"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -293,6 +298,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
                             android:text="Сайт организации"
+                            android:layout_marginEnd="75dp"
                             android:textColor="@color/basic_blue"
                             android:textSize="16sp" />
 
@@ -376,6 +382,112 @@
                                     android:layout_gravity="right"
                                     android:background="@color/transparent"
                                     android:onClick="cancel_website"
+                                    android:src="@drawable/button_cancel_setting" />
+                            </FrameLayout>
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/roboto"
+                        android:text="Изменить реквизиты"
+                        android:textColor="@color/basic_blue"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="25dp">
+
+                        <TextView
+                            android:id="@+id/text_requisits"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto"
+                            android:layout_marginEnd="75dp"
+                            android:text="Реквизиты"
+                            android:textColor="@color/basic_blue"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/button_change_requisits"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:fontFamily="@font/roboto"
+                            android:onClick="change_requisits"
+                            android:text="Изменить"
+                            android:textColor="@color/basic_blue"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/linearLayout_change_requisits"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_marginVertical="5dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="150dp"
+                                android:layout_marginBottom="15dp"
+                                android:padding="5dp"
+                                app:cardBackgroundColor="@color/basic_blue"
+                                app:cardCornerRadius="15dp">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="1dp"
+                                    app:cardCornerRadius="14dp">
+
+                                    <com.rengwuxian.materialedittext.MaterialEditText
+                                        android:id="@+id/requisits_change_setting"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="15dp"
+                                        android:layout_marginEnd="5dp"
+                                        android:fontFamily="@font/roboto"
+                                        android:gravity="start|left"
+                                        android:hint="Реквизиты"
+                                        android:inputType="textLongMessage|textMultiLine|textCapSentences"
+                                        android:lines="7"
+                                        android:singleLine="false"
+                                        android:textAlignment="textStart"
+                                        android:textSize="16sp"
+                                        app:counterEnabled="true"
+                                        app:met_floatingLabel="none"
+                                        app:met_hideUnderline="true"
+                                        app:met_singleLineEllipsis="false" />
+                                </androidx.cardview.widget.CardView>
+                            </androidx.cardview.widget.CardView>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal">
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="150dp"
+                                    android:background="@color/transparent"
+                                    android:onClick="save_requisits"
+                                    android:src="@drawable/button_save_setting" />
+
+                                <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:background="@color/transparent"
+                                    android:onClick="cancel_requisits"
                                     android:src="@drawable/button_cancel_setting" />
                             </FrameLayout>
                         </LinearLayout>

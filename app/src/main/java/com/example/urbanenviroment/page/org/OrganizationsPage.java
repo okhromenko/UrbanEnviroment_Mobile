@@ -7,7 +7,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Layout;
@@ -43,13 +46,16 @@ public class OrganizationsPage extends AppCompatActivity {
 
     private FirebaseUser mAuth;
     private String name, email, phone, description, count_animal, count_ads, count_photo, date_reg,
-            website, address, img_org;
+            website, address, img_org, requisits;
+    Dialog dialog_requisites;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_organizations_page);
+
+        dialog_requisites = new Dialog(this);
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -90,16 +96,15 @@ public class OrganizationsPage extends AppCompatActivity {
                             phone = document.getString("phone");
                             email = document.getString("email");
                             website = document.getString("website");
+                            requisits = document.getString("requisits");
+
                             count_animal = "";
                             count_photo = "";
                             count_ads = "";
 
-                            if (document.getLong("count_animal") != null)
-                                count_animal = document.getLong("count_animal").toString();
-                            if (document.getLong("count_ads") != null)
-                                count_ads = document.getLong("count_ads").toString();
-                            if (document.getLong("count_photo") != null)
-                                count_photo = document.getLong("count_photo").toString();
+                            count_animal = document.getLong("count_animal").toString();
+                            count_ads = document.getLong("count_ads").toString();
+                            count_photo = document.getLong("count_photo").toString();
 
                             img_org = document.getString("image");
                         }
@@ -115,6 +120,7 @@ public class OrganizationsPage extends AppCompatActivity {
                             count_photo = getIntent().getStringExtra("count_photo");
                             count_ads = getIntent().getStringExtra("count_ads");
                             img_org = getIntent().getStringExtra("image");
+                            requisits = getIntent().getStringExtra("requisits");
                         }
 
                         if (mAuth != null && mAuth.getUid().equals(userId))
@@ -213,7 +219,14 @@ public class OrganizationsPage extends AppCompatActivity {
     }
 
     public void requisits(View view){
-        //Должно открывать диалоговое окно с реквизитами, но я пока его не нарисовала.
+
+        TextView requisits_text = (TextView) findViewById(R.id.requisits_text);
+
+        //Можешь прикрутить сюда передачу данных реквезита?
+
+        dialog_requisites.setContentView(R.layout.dialog_requisites);
+        dialog_requisites.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog_requisites.show();
     }
 
     public void statistics(View view){
