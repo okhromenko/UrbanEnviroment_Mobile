@@ -36,6 +36,7 @@ import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationAc
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingOther;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
+import com.example.urbanenviroment.page.profile.settings.SettingProfileUser;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -318,8 +319,15 @@ public class ProfileActivityUser extends AppCompatActivity {
     }
 
     public void settings(View view){
-        Intent intent = new Intent(this, SettingProfile.class);
-        intent.putExtra("is_org", is_org);
+        Intent intent;
+
+        if (is_org){
+            intent = new Intent(this, SettingProfile.class);
+            intent.putExtra("is_org", is_org);
+        }
+        else
+            intent = new Intent(this, SettingProfileUser.class);
+
         startActivity(intent);
     }
 

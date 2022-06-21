@@ -1,30 +1,24 @@
 package com.example.urbanenviroment.page.profile.org;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,17 +26,18 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.onesignal.OneSignal;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import java.lang.reflect.Field;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class AddHelp extends AppCompatActivity {
 
@@ -389,4 +384,28 @@ public class AddHelp extends AppCompatActivity {
         other.setImageResource(R.drawable.button_other_type_ad_org_press);
         type_flag = 4;
     }
+
+//    private void goNotification() throws IOException {
+//        String topic = "AnimalNotification";
+//
+//        String userId = OneSignal.getDeviceState().getUserId();
+//
+//        try {
+//            OneSignal.postNotification(new JSONObject("{'contents': {'en':'Новое объявление'}, 'include_player_ids': ['" + userId + "']}"),
+//                    new OneSignal.PostNotificationResponseHandler() {
+//                        @Override
+//                        public void onSuccess(JSONObject response) {
+//                            Log.i("OneSignalExample", "postNotification Success: " + response.toString());
+//                        }
+//
+//                        @Override
+//                        public void onFailure(JSONObject response) {
+//                            Log.e("OneSignalExample", "postNotification Failure: " + response.toString());
+//                        }
+//                    });
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

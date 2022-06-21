@@ -2,26 +2,18 @@ package com.example.urbanenviroment.page.profile.org;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.CursorLoader;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.SyncStateContract;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -31,40 +23,33 @@ import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
-import com.example.urbanenviroment.page.profile.settings.SettingPageOrg;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.onesignal.OneSignal;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public class AddAnimal extends AppCompatActivity{
 
@@ -394,4 +379,27 @@ public class AddAnimal extends AppCompatActivity{
         Intent intent = new Intent(AddAnimal.this, ProfileActivityUser.class);
         startActivity(intent);
     }
+
+//    private void goNotification(){
+//        String topic = "AnimalNotification";
+//
+//        String userId = OneSignal.getDeviceState().getUserId();
+//
+//        try {
+////            OneSignal.postNotification(new JSONObject("{'contents': {'en':'Новое животное'}, 'include_player_ids': ['" + userId + "']}"),
+////                    new OneSignal.PostNotificationResponseHandler() {
+////                        @Override
+////                        public void onSuccess(JSONObject response) {
+////                            Log.i("OneSignalExample", "postNotification Success: " + response.toString());
+////                        }
+////
+////                        @Override
+////                        public void onFailure(JSONObject response) {
+////                            Log.e("OneSignalExample", "postNotification Failure: " + response.toString());
+////                        }
+////                    });
+////        } catch (JSONException e) {
+////            e.printStackTrace();
+////        }
+//    }
 }

@@ -31,15 +31,15 @@ public class SettingNotificationsUser extends AppCompatActivity {
         @SuppressLint("UseSwitchCompatOrMaterialCode")
         Switch switch_animal = findViewById(R.id.switch_animal_notif);
 
-        if (switch_ads.isChecked())
-            FirebaseMessaging.getInstance().subscribeToTopic("AdsNotification");
-        else
-            FirebaseMessaging.getInstance().unsubscribeFromTopic("AdsNotification");
-
-        if (switch_animal.isChecked())
-            FirebaseMessaging.getInstance().subscribeToTopic("AnimalNotification");
-        else
-            FirebaseMessaging.getInstance().unsubscribeFromTopic("AnimalNotification");
+//        if (switch_ads.isChecked())
+//            FirebaseMessaging.getInstance().subscribeToTopic("AdsNotification");
+//        else
+//            FirebaseMessaging.getInstance().unsubscribeFromTopic("AdsNotification");
+//
+//        if (switch_animal.isChecked())
+//            FirebaseMessaging.getInstance().subscribeToTopic("AnimalNotification");
+//        else
+//            FirebaseMessaging.getInstance().unsubscribeFromTopic("AnimalNotification");
     }
 
     public void animals(View view){

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+    id 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 }
 
 android {
@@ -55,4 +56,5 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 }

@@ -50,8 +50,9 @@ public class SettingPageOrg extends AppCompatActivity {
 
         TextView text_location = (TextView) findViewById(R.id.text_location);
         TextView text_phone = (TextView) findViewById(R.id.text_phone);
-        MaterialEditText text_description = (MaterialEditText) findViewById(R.id.description_change_setting);
+        MaterialEditText text_description = findViewById(R.id.description_change_setting);
         TextView text_website = (TextView) findViewById(R.id.text_website);
+        TextView text_requisits = findViewById(R.id.text_requisits);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -64,11 +65,13 @@ public class SettingPageOrg extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        text_location.setText(document.getString("address"));
-                        text_phone.setText(document.getString("phone"));
-                        text_description.setText(document.getString("description"));
                         description = document.getString("description");
                         requisits = document.getString("requisits");
+
+                        text_location.setText(document.getString("address"));
+                        text_phone.setText(document.getString("phone"));
+                        text_description.setText(description);
+                        text_requisits.setText(requisits);
                         text_website.setText(document.getString("website"));
                     } else {
                         Log.d(TAG, "Данные не найдены");
@@ -239,7 +242,7 @@ public class SettingPageOrg extends AppCompatActivity {
         TextView textRequisits = (TextView) findViewById(R.id.text_requisits);
         TextView textchange = (TextView) findViewById(R.id.button_change_requisits);
         LinearLayout layout = (LinearLayout) findViewById(R.id.linearLayout_change_requisits);
-        MaterialEditText text_requisits = (MaterialEditText) findViewById(R.id.requisits_change_setting);
+        MaterialEditText text_requisits = findViewById(R.id.requisits_change_setting);
 
         cancel(textRequisits, textchange, layout);
         if (requisits != null)

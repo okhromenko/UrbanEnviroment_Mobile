@@ -219,14 +219,12 @@ public class OrganizationsPage extends AppCompatActivity {
     }
 
     public void requisits(View view){
-
-        TextView requisits_text = (TextView) findViewById(R.id.requisits_text);
-
-        //Можешь прикрутить сюда передачу данных реквезита?
-
         dialog_requisites.setContentView(R.layout.dialog_requisites);
         dialog_requisites.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog_requisites.show();
+
+        TextView requisits_text = dialog_requisites.findViewById(R.id.requisits_text);
+        requisits_text.setText(requisits);
     }
 
     public void statistics(View view){

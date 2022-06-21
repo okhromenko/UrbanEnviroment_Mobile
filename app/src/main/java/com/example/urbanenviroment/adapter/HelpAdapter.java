@@ -107,31 +107,37 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         holder.status_help.setText(helpList.get(position).getStatus());
         holder.date_help.setText(helpList.get(position).getDate_first());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        db = FirebaseFirestore.getInstance();
+
+        db.collection("User").document(helpList.get(position).getId_org()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HelpPage.class);
+            public void onSuccess(DocumentSnapshot document) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, HelpPage.class);
 
-                find_type(helpList.get(position).getType_help());
+                        find_type(helpList.get(position).getType_help());
 
-                intent.putExtra("id", helpList.get(position).getId());
-                intent.putExtra("type_ads_help", helpList.get(position).getType_help());
-                intent.putExtra("status_help", helpList.get(position).getStatus());
-                intent.putExtra("date_first_help", helpList.get(position).getDate_first());
-                intent.putExtra("date_last_help", helpList.get(position).getDate_last());
-                intent.putExtra("description_help", helpList.get(position).getDescription());
-                intent.putExtra("name_org_help", helpList.get(position).getName_org());
-                intent.putExtra("userId", helpList.get(position).getId_org());
-                intent.putExtra("image",  image);
-                intent.putExtra("color", color);
-                intent.putExtra("color_transperent", color_transperent);
-                intent.putExtra("is_org", is_org);
-
-                context.startActivity(intent);
+                        intent.putExtra("id", helpList.get(position).getId());
+                        intent.putExtra("type_ads_help", helpList.get(position).getType_help());
+                        intent.putExtra("status_help", helpList.get(position).getStatus());
+                        intent.putExtra("date_first_help", helpList.get(position).getDate_first());
+                        intent.putExtra("date_last_help", helpList.get(position).getDate_last());
+                        intent.putExtra("description_help", helpList.get(position).getDescription());
+                        intent.putExtra("name_org_help", helpList.get(position).getName_org());
+                        intent.putExtra("userId", helpList.get(position).getId_org());
+                        intent.putExtra("image",  image);
+                        intent.putExtra("color", color);
+                        intent.putExtra("color_transperent", color_transperent);
+                        intent.putExtra("is_org", is_org);
+                        intent.putExtra("requisits", document.getString("requisits"));
+                        context.startActivity(intent);
+                    }
+                });
             }
         });
 
-        db = FirebaseFirestore.getInstance();
 
         if (mAuth.getCurrentUser() != null && !flag){
 

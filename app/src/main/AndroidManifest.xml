@@ -11,15 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UrbanEnviroment"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
-
-        <service
-            android:name="com.google.firebase.messaging.FirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+        tools:targetApi="m"
+        android:name=".notification.ApplicationClass">
 
         <activity
             android:name=".page.profile.org.EditHelpPage"
@@ -151,7 +144,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -169,8 +161,6 @@
         <meta-data
             android:name="com.parse.CLIENT_KEY"
             android:value="@string/back4app_client_key" />
-
-
     </application>
 
 

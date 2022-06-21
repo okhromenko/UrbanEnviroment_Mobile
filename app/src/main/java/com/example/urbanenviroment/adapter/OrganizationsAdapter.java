@@ -112,7 +112,7 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
                 intent.putExtra("email", organizationsList.get(position).getEmail());
                 intent.putExtra("phone", organizationsList.get(position).getPhone());
                 intent.putExtra("description", organizationsList.get(position).getDescription());
-                intent.putExtra("requisits", organizationsList.get(position).getDescription());
+                intent.putExtra("requisits", organizationsList.get(position).getRequisits());
                 intent.putExtra("count_animal", organizationsList.get(position).getCount_animal());
                 intent.putExtra("count_ads", organizationsList.get(position).getCount_ads());
                 intent.putExtra("count_photo", organizationsList.get(position).getCount_photo());

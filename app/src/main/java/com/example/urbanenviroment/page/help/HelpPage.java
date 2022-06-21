@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -46,11 +49,14 @@ public class HelpPage extends AppCompatActivity {
     boolean flag = false;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    Dialog dialog_requisites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_page);
+
+        dialog_requisites = new Dialog(this);
 
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -211,7 +217,12 @@ public class HelpPage extends AppCompatActivity {
     }
 
     public void requisits(View view){
-        //Должно открывать диалоговое окно с реквизитами, но я пока его не нарисовала.
+        dialog_requisites.setContentView(R.layout.dialog_requisites);
+        dialog_requisites.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog_requisites.show();
+
+        TextView requisits_text = dialog_requisites.findViewById(R.id.requisits_text);
+        requisits_text.setText(getIntent().getStringExtra("requisits"));
     }
 
     public void org_page(View view){
