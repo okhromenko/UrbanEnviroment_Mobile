@@ -173,7 +173,13 @@ public class AnimalPage extends AppCompatActivity {
                 }
             });
 
-            if (getIntent().getBooleanExtra("photoPage", true)) {
+            if (getIntent().getBooleanExtra("photoPage", false)) {
+
+                if (getIntent().getBooleanExtra("edit_del_buttons", false))
+                    edit_del_buttons.setVisibility(View.VISIBLE);
+                else edit_del_buttons.setVisibility(View.GONE);
+            }
+            else {
                 db.collection("Animal").document(getIntent().getStringExtra("id_animal")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -183,11 +189,6 @@ public class AnimalPage extends AppCompatActivity {
                         else edit_del_buttons.setVisibility(View.GONE);
                     }
                 });
-            }
-            else {
-                if (getIntent().getBooleanExtra("edit_del_buttons", false))
-                    edit_del_buttons.setVisibility(View.VISIBLE);
-                else edit_del_buttons.setVisibility(View.GONE);
             }
 
 

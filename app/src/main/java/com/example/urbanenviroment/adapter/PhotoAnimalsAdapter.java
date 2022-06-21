@@ -31,7 +31,6 @@ public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapte
 
     Context context;
     List<Collection> collectionList;
-    boolean is_org;
 
     public PhotoAnimalsAdapter(Context context, List<Collection> collectionList) {
         this.context = context;
@@ -74,6 +73,7 @@ public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapte
                         intent.putExtra("state_animal", document.getString("state"));
                         intent.putExtra("species_animal", document.getString("species"));
                         intent.putExtra("description_animal", document.getString("description"));
+
                         intent.putExtra("age_animal", document.getString("age"));
                         intent.putExtra("sex_animal", document.getString("sex"));
                         intent.putExtra("image_animal", collectionList.get(position).getImg_collection());
@@ -81,8 +81,7 @@ public class PhotoAnimalsAdapter extends RecyclerView.Adapter<PhotoAnimalsAdapte
                         intent.putExtra("photoPage", true);
 
                         String reg_date = new SimpleDateFormat("dd.MM.yyyy").format(document.getDate("date_reg"));
-                        intent.putExtra("date_reg_animal", reg_date);
-
+                        intent.putExtra("reg_date_animal", reg_date);
 
                         intent.putExtra("kind_animal", collectionList.get(position).getKind());
                         intent.putExtra("org", collectionList.get(position).getName_org());
