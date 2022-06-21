@@ -76,6 +76,16 @@
             android:background="@color/transparent"
             android:onClick="favorites_menu_ads"
             android:src="@drawable/button_ads_menu_profile_ex" />
+
+        <ImageButton
+            android:scaleX="0.9"
+            android:scaleY="0.9"
+            android:id="@+id/button_org_menu_profile"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:onClick="favorites_menu_org"
+            android:src="@drawable/button_org_menu_profile_ex" />
     </LinearLayout>
 
     <com.loopeer.shadow.ShadowView

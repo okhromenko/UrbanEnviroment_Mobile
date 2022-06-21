@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -53,6 +54,7 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -261,13 +263,24 @@ public class EditAnimalPage extends AppCompatActivity {
 
     public void save_name_animal_edit_page(View view){
         MaterialEditText name = findViewById(R.id.add_animal_org);
+
+        if (name.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите имя животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("name", Objects.requireNonNull(name.getText()).toString());
     }
 
     public void save_kind_animal_edit_page(View view){
         MaterialEditText kind = findViewById(R.id.add_kind_org);
-        save("kind", Objects.requireNonNull(kind.getText()).toString());
 
+        if (kind.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите вид животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        save("kind", Objects.requireNonNull(kind.getText()).toString());
         HashMap<String, Object> kindMap = new HashMap<>();
         kindMap.put("name", kind.getText().toString());
 
@@ -276,32 +289,73 @@ public class EditAnimalPage extends AppCompatActivity {
 
     public void save_species_animal_edit_page(View view){
         MaterialEditText species = findViewById(R.id.add_species_org);
+
+        if (species.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите научный вид животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("species", Objects.requireNonNull(species.getText()).toString());
     }
 
     public void save_sex_animal_edit_page(View view){
-        RadioButton sex = findViewById(R.id.button_switch_man);
+        RadioButton man = findViewById(R.id.button_switch_man);
+        RadioButton woman = findViewById(R.id.button_switch_woman);
+
         String sex_string;
 
-        if (!sex.isChecked())
+        if (man.isChecked())
             sex_string = "Самка";
-        else sex_string = "Самец";
+        else if (woman.isChecked())
+            sex_string = "Самка";
+        else {
+            Toast.makeText(getApplicationContext(), "Выберите пол животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         save("sex", sex_string);
     }
 
     public void save_state_animal_edit_page(View view){
         MaterialEditText state = findViewById(R.id.add_state_animal);
+
+        if (state.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите состояние животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("state", Objects.requireNonNull(state.getText()).toString());
     }
 
     public void save_age_animal_edit_page(View view){
         MaterialEditText age = findViewById(R.id.change_date_animal);
+
+        if (age.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите возраст животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date data = null;
+        try {
+            data = dateFormat.parse(age.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Возраст введен некорректно!\nСледуйте шаблону ДД.ММ.ГГГГ", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("age", Objects.requireNonNull(age.getText()).toString());
     }
 
     public void save_description_animal_edit_page(View view){
         MaterialEditText description = findViewById(R.id.text_edit_description);
+
+        if (description.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите описание животного!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("description", Objects.requireNonNull(description.getText()).toString());
     }
 

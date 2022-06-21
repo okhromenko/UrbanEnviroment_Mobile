@@ -55,7 +55,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".page.profile.user.NotificationsProfileUserOrg"
+            android:name=".page.profile.user.FavoritesProfileUserOrg"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

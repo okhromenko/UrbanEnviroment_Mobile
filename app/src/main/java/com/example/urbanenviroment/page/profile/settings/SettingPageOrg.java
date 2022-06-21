@@ -52,7 +52,7 @@ public class SettingPageOrg extends AppCompatActivity {
         TextView text_phone = (TextView) findViewById(R.id.text_phone);
         MaterialEditText text_description = findViewById(R.id.description_change_setting);
         TextView text_website = (TextView) findViewById(R.id.text_website);
-        TextView text_requisits = findViewById(R.id.text_requisits);
+        MaterialEditText text_requisits = findViewById(R.id.requisits_change_setting);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -68,11 +68,14 @@ public class SettingPageOrg extends AppCompatActivity {
                         description = document.getString("description");
                         requisits = document.getString("requisits");
 
-                        text_location.setText(document.getString("address"));
-                        text_phone.setText(document.getString("phone"));
+                        if (!document.getString("address").isEmpty())
+                            text_location.setText(document.getString("address"));
+                        if (!document.getString("phone").isEmpty())
+                            text_phone.setText(document.getString("phone"));
                         text_description.setText(description);
                         text_requisits.setText(requisits);
-                        text_website.setText(document.getString("website"));
+                        if (!document.getString("website").isEmpty())
+                            text_website.setText(document.getString("website"));
                     } else {
                         Log.d(TAG, "Данные не найдены");
                     }

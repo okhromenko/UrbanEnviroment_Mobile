@@ -7,7 +7,27 @@
     android:background="@color/white"
     tools:context=".page.org.Organization_statistics">
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context="com.shppandroid1.app.MainActivity"
+        tools:ignore="MissingConstraints">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
         android:id="@+id/frameLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,85 +43,87 @@
             android:layout_gravity="center_horizontal|top"
             app:srcCompat="@drawable/text_statistics" />
 
-    </FrameLayout>
+        </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/frameLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
-
-        <TextView
+            <LinearLayout
+            android:id="@+id/frameLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Вид"
-            android:textSize="16sp"
-            android:textColor="@color/basic_blue"
-            android:fontFamily="@font/roboto"/>
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
 
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/rectangle_animals_statistics"
-            android:layout_width="match_parent"
-            android:layout_height="225dp"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/frameLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/circle_animals_statistics"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_gravity="bottom"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout5">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal">
-
-            <ImageButton
-                android:id="@+id/imageButton14"
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:background="@color/transparent"
-                android:onClick="button_animal_statistics"
-                app:srcCompat="@drawable/button_animal_statistics" />
+                android:gravity="center_horizontal"
+                android:text="Вид"
+                android:textSize="16sp"
+                android:textColor="@color/basic_blue"
+                android:fontFamily="@font/roboto"/>
 
-            <ImageButton
-                android:id="@+id/imageButton15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="button_ads_statistics"
-                app:srcCompat="@drawable/button_ads_statistics_ex" />
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/rectangle_animals_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                />
+
         </LinearLayout>
 
-    </FrameLayout>
+            <LinearLayout
+            android:id="@+id/frameLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/circle_animals_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_gravity="bottom"/>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+            <FrameLayout
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:onClick="button_animal_statistics"
+                    app:srcCompat="@drawable/button_animal_statistics" />
+
+                <ImageButton
+                    android:id="@+id/imageButton15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="button_ads_statistics"
+                    app:srcCompat="@drawable/button_ads_statistics_ex" />
+            </LinearLayout>
+
+        </FrameLayout>
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

@@ -7,7 +7,18 @@
     android:background="@color/white"
     tools:context=".page.org.OrganizationsPage">
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context="com.shppandroid1.app.MainActivity"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,14 +68,14 @@
                 >
 
                 <ImageButton
-                    android:id="@+id/button_notification_org_page"
+                    android:id="@+id/button_favorite_org_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_gravity="center_vertical"
                     android:background="@color/transparent"
-                    android:onClick="add_org_notification"
-                    android:src="@drawable/button_notification" />
+                    android:onClick="add_org_favorite"
+                    android:src="@drawable/button_favorite" />
 
             </LinearLayout>
 
@@ -103,6 +114,7 @@
 
                 <TextView
                     android:id="@+id/email_org_org_page"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
@@ -112,6 +124,7 @@
 
                 <TextView
                     android:id="@+id/phone_org_org_page"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
@@ -188,28 +201,26 @@
                                 app:cardCornerRadius="8dp"
                                 android:layout_gravity="center">
 
-                                <FrameLayout
-                                    android:layout_width="match_parent"
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="5dp"
+                                    android:layout_gravity="center_horizontal">
 
                                     <ImageView
                                         android:layout_width="21dp"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/img_org_animal"
-                                        android:layout_gravity="left"
-                                        android:layout_marginStart="10dp"/>
+                                        android:layout_marginEnd="5dp"/>
 
                                     <TextView
                                         android:id="@+id/count_animal_org_page"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="right"
+                                        android:layout_gravity="center_vertical"
                                         android:textSize="14sp"
-                                        android:text="xxx"
-                                        android:textColor="@color/basic_blue"
-                                        android:layout_marginEnd="10dp"/>
-                                </FrameLayout>
+                                        android:textColor="@color/basic_blue"/>
+                                </LinearLayout>
 
                                 <TextView
                                     android:layout_marginBottom="5dp"
@@ -241,28 +252,26 @@
                                 app:cardCornerRadius="8dp"
                                 android:layout_gravity="center">
 
-                                <FrameLayout
-                                    android:layout_width="match_parent"
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="5dp"
+                                    android:layout_gravity="center_horizontal">
 
                                     <ImageView
                                         android:layout_width="21dp"
                                         android:layout_height="26dp"
-                                        android:layout_gravity="left"
                                         android:src="@drawable/img_ads"
-                                        android:layout_marginStart="10dp"/>
+                                        android:layout_marginEnd="5dp"/>
 
                                     <TextView
                                         android:id="@+id/count_ads_org_page"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="right"
+                                        android:layout_gravity="center_vertical"
                                         android:textSize="14sp"
-                                        android:text="xxx"
-                                        android:textColor="@color/basic_blue"
-                                        android:layout_marginEnd="10dp"/>
-                                </FrameLayout>
+                                        android:textColor="@color/basic_blue"/>
+                                </LinearLayout>
 
                                 <TextView
                                     android:layout_marginBottom="5dp"
@@ -294,28 +303,27 @@
                                 android:onClick="page_photo_org"
                                 android:layout_gravity="center">
 
-                                <FrameLayout
-                                    android:layout_width="match_parent"
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="5dp"
+                                    android:layout_gravity="center_horizontal">
 
                                     <ImageView
-                                        android:layout_width="21dp"
+                                        android:layout_width="24dp"
+                                        android:padding="3dp"
                                         android:layout_height="wrap_content"
                                         android:src="@drawable/img_org_photo"
-                                        android:layout_gravity="left"
-                                        android:layout_marginStart="10dp"/>
+                                        android:layout_marginEnd="5dp"/>
 
                                     <TextView
                                         android:id="@+id/count_photo_org_page"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="right"
+                                        android:layout_gravity="center_vertical"
                                         android:textSize="14sp"
-                                        android:text="xxx"
-                                        android:textColor="@color/basic_blue"
-                                        android:layout_marginEnd="10dp"/>
-                                </FrameLayout>
+                                        android:textColor="@color/basic_blue"/>
+                                </LinearLayout>
 
                                 <TextView
                                     android:layout_marginBottom="5dp"
@@ -436,6 +444,7 @@
                             android:id="@+id/website_org_org_page"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:layout_gravity="left|bottom"
                             android:textColor="@color/blue_link"
                             android:textSize="14sp"
@@ -445,6 +454,8 @@
                     </LinearLayout>
             </ScrollView>
         </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

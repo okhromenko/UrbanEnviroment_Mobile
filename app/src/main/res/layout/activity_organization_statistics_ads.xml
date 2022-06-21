@@ -5,76 +5,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <FrameLayout
-        android:id="@+id/frameLayout3"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            app:srcCompat="@drawable/text_statistics" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/frameLayout4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Вид"
-            android:textSize="16sp"
-            android:textColor="@color/basic_blue"
-            android:fontFamily="@font/roboto"/>
-
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/rectangle_ads_statistics"
-            android:layout_width="match_parent"
-            android:layout_height="225dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/frameLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/circle_ads_statistics"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"/>
-
-    </LinearLayout>
+        <!--tools:context="com.shppandroid1.app.MainActivity"
+        tools:ignore="MissingConstraints"-->
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/frameLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                app:srcCompat="@drawable/text_statistics" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/frameLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout3"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Вид"
+                android:textSize="16sp"
+                android:textColor="@color/basic_blue"
+                android:fontFamily="@font/roboto"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/rectangle_ads_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="225dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/frameLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/circle_ads_statistics"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout5">
+            android:layout_gravity="bottom|center_horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -101,6 +119,9 @@
 
     </FrameLayout>
 
+    </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

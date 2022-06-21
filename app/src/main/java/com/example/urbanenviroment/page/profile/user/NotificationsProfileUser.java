@@ -14,7 +14,6 @@ import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,7 +30,7 @@ public class NotificationsProfileUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications_profile);
+        setContentView(R.layout.activity_notification_profile);
 
         init();
 
@@ -85,7 +84,7 @@ public class NotificationsProfileUser extends AppCompatActivity {
     }
 
     public void notification_menu_org(View view){
-        Intent intent = new Intent(this, NotificationsProfileUserOrg.class);
+        Intent intent = new Intent(this, FavoritesProfileUserOrg.class);
         startActivity(intent);
     }
 

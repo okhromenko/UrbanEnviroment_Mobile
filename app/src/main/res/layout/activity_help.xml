@@ -10,8 +10,8 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/shadowView"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -84,10 +84,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:cornerRadius="5dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:shadowColor="#1A000000"
                         app:shadowMargin="10dp"
                         app:shadowRadius="10dp">
@@ -130,10 +126,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         app:cornerRadius="5dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:shadowColor="#1A000000"
                         app:shadowMargin="10dp"
                         app:shadowRadius="10dp">
@@ -177,7 +169,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="2dp"
-                android:layout_marginBottom="6dp"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView

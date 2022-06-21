@@ -102,9 +102,12 @@ public class OrganizationsPage extends AppCompatActivity {
                             count_photo = "";
                             count_ads = "";
 
-                            count_animal = document.getLong("count_animal").toString();
-                            count_ads = document.getLong("count_ads").toString();
-                            count_photo = document.getLong("count_photo").toString();
+                            if (document.getLong("count_animal") != null)
+                                count_animal = document.getLong("count_animal").toString();
+                            if (document.getLong("count_ads") != null)
+                                count_ads = document.getLong("count_ads").toString();
+                            if (document.getLong("count_photo") != null)
+                                count_photo = document.getLong("count_photo").toString();
 
                             img_org = document.getString("image");
                         }
@@ -155,9 +158,10 @@ public class OrganizationsPage extends AppCompatActivity {
                     name_org_org_page.setText(name);
                     email_org_org_page.setText(email);
 
-                    if (!phone.equals("Номер телефона"))
+                    if (!phone.equals("Номер телефона") && !phone.isEmpty())
                         phone_org_org_page.setText(phone);
-                    if (description != null)
+
+                    if (description != null && !description.isEmpty())
                         description_animal_page.setText(description);
 
                     count_animal_org_page.setText(count_animal);
@@ -165,7 +169,7 @@ public class OrganizationsPage extends AppCompatActivity {
                     count_photo_org_page.setText(count_photo);
                     date_reg_org_org.setText(date_reg);
 
-                    if (!address.equals("Адрес")){
+                    if (!address.equals("Адрес") && !address.isEmpty()){
                         SpannableString content = new SpannableString(address);
                         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                         address_org_org_page.setTextColor(getResources().getColor(R.color.blue_link, getTheme()));
@@ -175,7 +179,7 @@ public class OrganizationsPage extends AppCompatActivity {
                         address_org_org_page.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
                     }
 
-                    if (!website.equals("Сайт организации")){
+                    if (!website.equals("Сайт организации") && !website.isEmpty()){
                         SpannableString contentlink = new SpannableString(website);
                         contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
                         website_org_org_page.setText(contentlink);
@@ -222,9 +226,10 @@ public class OrganizationsPage extends AppCompatActivity {
         dialog_requisites.setContentView(R.layout.dialog_requisites);
         dialog_requisites.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog_requisites.show();
-
-        TextView requisits_text = dialog_requisites.findViewById(R.id.requisits_text);
-        requisits_text.setText(requisits);
+        if (requisits != null && !requisits.isEmpty()) {
+            TextView requisits_text = dialog_requisites.findViewById(R.id.requisits_text);
+            requisits_text.setText(requisits);
+        }
     }
 
     public void statistics(View view){

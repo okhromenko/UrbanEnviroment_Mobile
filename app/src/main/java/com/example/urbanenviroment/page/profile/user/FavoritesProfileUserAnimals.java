@@ -123,4 +123,9 @@ public class FavoritesProfileUserAnimals extends AppCompatActivity {
         Intent intent = new Intent(this, FavoritesProfileUserAds.class);
         startActivity(intent);
     }
+
+    public void favorites_menu_org(View view) {
+        Intent intent = new Intent(this, FavoritesProfileUserOrg.class);
+        startActivity(intent);
+    }
 }

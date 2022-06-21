@@ -35,14 +35,18 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -58,8 +62,10 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -108,7 +114,7 @@ public class Organization_statistics extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+        @RequiresApi(api = Build.VERSION_CODES.M)
     private void statistic_animal_rectangle(Map<String, Integer> count_kind){
 
         BarChart barChart = findViewById(R.id.rectangle_animals_statistics);
@@ -120,7 +126,7 @@ public class Organization_statistics extends AppCompatActivity {
         int number = 1;
 
         for (Map.Entry<String, Integer> i : count_kind.entrySet()){
-            animals_statistic.add(new BarEntry(number++, i.getValue()));
+            animals_statistic.add(new BarEntry(number++, (int)i.getValue()));
             labels.add(i.getKey());
         }
 
@@ -130,6 +136,7 @@ public class Organization_statistics extends AppCompatActivity {
         barDataSet.setColor(getResources().getColor(R.color.blue_light, getTheme()));
         barDataSet.setValueTextColor(Color.BLACK);
         barDataSet.setValueTextSize(12f);
+
 
         BarData barData = new BarData(barDataSet);
 
@@ -152,10 +159,12 @@ public class Organization_statistics extends AppCompatActivity {
         leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
         leftAxis.setTextSize(12f);
         leftAxis.setDrawAxisLine(false);
+
         leftAxis.setStartAtZero(true);
         leftAxis.setDrawZeroLine(true);
         leftAxis.setZeroLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
         leftAxis.setZeroLineWidth(2f);
+        leftAxis.setLabelCount(5, false);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setTextSize(14f);
@@ -165,6 +174,7 @@ public class Organization_statistics extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         xAxis.setGranularity(1f);
+        //xAxis.setGranularityEnabled(true);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
 
@@ -180,8 +190,10 @@ public class Organization_statistics extends AppCompatActivity {
         PieChart pieChart = findViewById(R.id.circle_animals_statistics);
 
         ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
-        animals_statistic_circle.add(new PieEntry(count_woman, "Самка"));
-        animals_statistic_circle.add(new PieEntry(count_man, "Самец"));
+        if (count_woman != 0)
+            animals_statistic_circle.add(new PieEntry(count_woman, "Самка"));
+        if (count_man != 0)
+            animals_statistic_circle.add(new PieEntry(count_man, "Самец"));
 
         PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, "Животные");
 
@@ -217,9 +229,12 @@ public class Organization_statistics extends AppCompatActivity {
         PieChart pieChart = findViewById(R.id.circle_ads_statistics);
 
         ArrayList<PieEntry> animals_statistic_circle = new ArrayList<>();
-        animals_statistic_circle.add(new PieEntry(count_in_progress, "В процессе"));
-        animals_statistic_circle.add(new PieEntry(count_completion, "Завершается"));
-        animals_statistic_circle.add(new PieEntry(count_complete, "Выполнено"));
+        if (count_in_progress != 0)
+            animals_statistic_circle.add(new PieEntry(count_in_progress, "В процессе"));
+        if (count_completion != 0)
+            animals_statistic_circle.add(new PieEntry(count_completion, "Завершается"));
+        if (count_complete != 0)
+            animals_statistic_circle.add(new PieEntry(count_complete, "Выполнено"));
 
 
         PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, "Объявления");

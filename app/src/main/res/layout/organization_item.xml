@@ -112,12 +112,13 @@
                     android:id="@+id/button_favorite_org"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="favorite"
                     android:visibility="gone"
                     android:layout_gravity="right"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:background="@color/transparent"
-                    android:src="@drawable/button_notification" />
+                    android:src="@drawable/button_favorite" />
             </FrameLayout>
 
             <TextView

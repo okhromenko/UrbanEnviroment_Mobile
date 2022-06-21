@@ -61,12 +61,12 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
 
         holder.name_org_org.setText(organizationsList.get(position).getName_org());
 
-        if (organizationsList.get(position).getAddress().equals("Адрес"))
-            holder.address_org.setText(organizationsList.get(position).getAddress() + " не указан");
+        if (organizationsList.get(position).getAddress().equals("Адрес") || organizationsList.get(position).getAddress().isEmpty())
+            holder.address_org.setText("Адрес не указан");
         else
             holder.address_org.setText(organizationsList.get(position).getAddress());
 
-        if (organizationsList.get(position).getDescription() != null){
+        if (organizationsList.get(position).getDescription() != null && !organizationsList.get(position).getDescription().isEmpty()){
             String str = organizationsList.get(position).getDescription();
             if (str.length() > 200) {
                 str = str.substring(0,200) + "...";

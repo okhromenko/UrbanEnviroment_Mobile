@@ -276,14 +276,29 @@ public class SettingProfileUser extends AppCompatActivity {
         TextView textName = (TextView) findViewById(R.id.name_change_setting);
         TextView textPassword = (TextView) findViewById(R.id.change_password_setting_name);
 
+        if (textName.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите имя!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (textPassword.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите пароль!", Toast.LENGTH_LONG).show();
+            return;
+        }
         save_change("name", textName.getText().toString(), textPassword.getText().toString());
-
-
     }
 
     public void save_email(View view){
         TextView textEmail = (TextView) findViewById(R.id.email_change_setting);
         TextView textPassword = (TextView) findViewById(R.id.change_password_setting_email);
+
+        if (textEmail.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите электронную почту!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (textPassword.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите пароль!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         save_change("email", textEmail.getText().toString(), textPassword.getText().toString());
     }
@@ -294,6 +309,15 @@ public class SettingProfileUser extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String newPassword = textPass.getText().toString();
+
+        if (textPass.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите новый пароль!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (textPassword.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите пароль!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         save_change("password", newPassword, textPassword.getText().toString());
     }

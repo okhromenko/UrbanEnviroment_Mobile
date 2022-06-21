@@ -7,85 +7,76 @@
     android:background="@color/white"
     tools:context=".page.animals.HomeActivity">
 
-
-    <FrameLayout
-        android:id="@+id/frameLayout6"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="2dp"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shadowView2">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context="com.shppandroid1.app.MainActivity"
+        tools:ignore="MissingConstraints">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/AnimalsRecycler"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="40dp" />
+            android:orientation="vertical">
 
-    </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <com.loopeer.shadow.ShadowView
-        android:layout_marginTop="5dp"
-        android:id="@+id/shadowView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shadowColor="#1A000000"
-        app:shadowMargin="10dp"
-        app:shadowRadius="10dp">
-
-        <FrameLayout
+                <com.loopeer.shadow.ShadowView
+            android:layout_marginTop="5dp"
+            android:layout_gravity="right"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cornerRadius="5dp"
+            app:shadowColor="#1A000000"
+            app:shadowMargin="10dp"
+            app:shadowRadius="10dp">
 
-            <ImageButton
-                android:id="@+id/button_filter"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:onClick="filter"
-                android:src="@drawable/button_filter"/>
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/button_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:onClick="filter"
+                    android:src="@drawable/button_filter"/>
 
 
-            <ImageButton
-                android:id="@+id/button_cancel_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleY="1.2"
-                android:scaleX="1.2"
-                android:onClick="cancel_filter"
-                android:padding="5dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="3dp"
-                android:background="@color/transparent"
-                android:visibility="gone"
-                android:src="@drawable/button_cross"
-                android:layout_gravity="center_vertical|right"/>
-        </FrameLayout>
+                <ImageButton
+                    android:id="@+id/button_cancel_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleY="1.2"
+                    android:scaleX="1.2"
+                    android:onClick="cancel_filter"
+                    android:padding="5dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginEnd="3dp"
+                    android:background="@color/transparent"
+                    android:visibility="gone"
+                    android:src="@drawable/button_cross"
+                    android:layout_gravity="center_vertical|right"/>
+            </FrameLayout>
 
-    </com.loopeer.shadow.ShadowView>
+        </com.loopeer.shadow.ShadowView>
 
-    <com.loopeer.shadow.ShadowView
-        android:layout_marginTop="5dp"
-        android:id="@+id/shadowView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shadowColor="#1A000000"
-        app:shadowMargin="10dp"
-        app:shadowRadius="10dp">
+                <com.loopeer.shadow.ShadowView
+            android:layout_marginTop="5dp"
+            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cornerRadius="5dp"
+            app:shadowColor="#1A000000"
+            app:shadowMargin="10dp"
+            app:shadowRadius="10dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
@@ -119,36 +110,61 @@
         </androidx.cardview.widget.CardView>
     </com.loopeer.shadow.ShadowView>
 
-    <LinearLayout
-        android:scaleX="0.95"
-        android:scaleY="0.95"
-        android:id="@+id/linearLayout9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/frameLayout6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+            </FrameLayout>
 
-        <ImageButton
-            android:id="@+id/button_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:onClick="animals"
-            android:src="@drawable/button_photo_press" />
+                    <FrameLayout
+                        android:id="@+id/frameLayout6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="2dp"
+                        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/shadowView2">
 
-        <ImageButton
-            android:layout_marginStart="10dp"
-            android:id="@+id/button_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:onClick="card"
-            android:src="@drawable/button_card_not_press" />
-    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/AnimalsRecycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingBottom="40dp" />
+
+                <LinearLayout
+                    android:scaleX="0.95"
+                    android:scaleY="0.95"
+                    android:id="@+id/linearLayout9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:gravity="center"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/frameLayout6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/button_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:onClick="animals"
+                        android:src="@drawable/button_photo_press" />
+
+                    <ImageButton
+                        android:layout_marginStart="10dp"
+                        android:id="@+id/button_card"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/transparent"
+                        android:onClick="card"
+                        android:src="@drawable/button_card_not_press" />
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

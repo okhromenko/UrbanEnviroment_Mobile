@@ -5,10 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.adapter.OrganizationsAdapter;
@@ -17,12 +15,13 @@ import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsProfileUserOrg extends AppCompatActivity {
+public class FavoritesProfileUserOrg extends AppCompatActivity {
 
     RecyclerView orgRecycler;
     OrganizationsAdapter orgAdapter;
@@ -31,7 +30,7 @@ public class NotificationsProfileUserOrg extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notigications_profile_user_org);
+        setContentView(R.layout.activity_favorite_profile_user_org);
 
         init();
     }
@@ -126,6 +125,18 @@ public class NotificationsProfileUserOrg extends AppCompatActivity {
         orgRecycler.setAdapter(orgAdapter);
     }
 
+    public void profile(View view){
+        FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
+        Intent intent;
+
+        if (mAuth != null)
+            intent = new Intent(this, ProfileActivityUser.class);
+        else
+            intent = new Intent(this, RegistrationActivity.class);
+
+        startActivity(intent);
+    }
+
     public void animals(View view){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
@@ -146,13 +157,18 @@ public class NotificationsProfileUserOrg extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void notification_menu_org(View view){
-        Intent intent = new Intent(this, NotificationsProfileUserOrg.class);
+    public void favorites_menu_animal(View view){
+        Intent intent = new Intent(this, FavoritesProfileUserAnimals.class);
         startActivity(intent);
     }
 
-    public void notification_menu_not(View view){
-        Intent intent = new Intent(this, NotificationsProfileUser.class);
+    public void favorites_menu_ads(View view){
+        Intent intent = new Intent(this, FavoritesProfileUserAds.class);
+        startActivity(intent);
+    }
+
+    public void favorites_menu_org(View view) {
+        Intent intent = new Intent(this, FavoritesProfileUserOrg.class);
         startActivity(intent);
     }
 }

@@ -53,7 +53,7 @@ import java.util.Objects;
 public class EditHelpPage extends AppCompatActivity {
 
     private FirebaseFirestore db;
-    int type_flag = 0;
+    int type_flag = 5;
     String type, id, description;
     ImageButton food, things, help, other, money;
     MaterialEditText text_edit_last_date, text_edit_first_date;
@@ -327,20 +327,67 @@ public class EditHelpPage extends AppCompatActivity {
             case(2):
                 type = "Волонтерство";
                 break;
+            case(3):
+                type = "Финансы";
+                break;
+            case(4):
+                type = "Другое";
+                break;
+            case(5):
+                Toast.makeText(getApplicationContext(), "Выберите тип объявления!", Toast.LENGTH_LONG).show();
+                return;
         }
         save("type", type);
     }
 
     public void save_last_date(View view){
+        text_edit_last_date = findViewById(R.id.text_edit_last_date);
+        if (text_edit_last_date.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите дату завершения объявления!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date data = null;
+        try {
+            data = dateFormat.parse(text_edit_last_date.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Дата введена некорректно!\nСледуйте шаблону ДД.ММ.ГГГГ", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("last_date", Objects.requireNonNull(text_edit_last_date.getText()).toString());
     }
 
     public void save_first_date(View view){
+        text_edit_first_date = findViewById(R.id.text_edit_first_date);
+        if (text_edit_first_date.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите дату публикации объявления!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date data = null;
+        try {
+            data = dateFormat.parse(text_edit_first_date.getText().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Дата введена некорректно!\nСледуйте шаблону ДД.ММ.ГГГГ", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("first_date", Objects.requireNonNull(text_edit_first_date.getText()).toString());
     }
 
     public void save_description(View view){
         MaterialEditText text_edit_description = findViewById(R.id.text_edit_help_description);
+
+        if (text_edit_description.getText().toString().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Введите описание объявления!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         save("description", Objects.requireNonNull(text_edit_description.getText()).toString());
     }
 

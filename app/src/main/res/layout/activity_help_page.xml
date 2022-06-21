@@ -6,18 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".page.help.HelpPage">
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="61dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        tools:context="com.shppandroid1.app.MainActivity"
+        tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <FrameLayout
             android:id="@+id/frameLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/panel_date"
@@ -71,8 +79,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_marginBottom="2dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="10dp">
 
                 <TextView
@@ -93,7 +101,7 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"/>
 
-            <TextView
+                <TextView
                 android:id="@+id/date_help_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +122,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
                 android:layout_marginEnd="10dp">
 
@@ -189,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingBottom="80dp">
+                android:paddingBottom="40dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -306,6 +314,8 @@
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"
