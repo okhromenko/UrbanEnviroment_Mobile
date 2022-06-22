@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -21,7 +23,7 @@ import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
+
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.github.mikephil.charting.animation.Easing;
@@ -85,6 +87,7 @@ public class Organization_statistics extends AppCompatActivity {
 
         @SuppressLint("ResourceType") View view = findViewById(R.layout.activity_organization_statistics_animal);
         button_animal_statistics(view);
+
     }
 
     public void animals(View view){

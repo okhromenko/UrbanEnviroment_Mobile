@@ -1,118 +1,83 @@
 package com.example.urbanenviroment.page.profile.user;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.urbanenviroment.R;
+import com.example.urbanenviroment.adapter.FavoriteProfileOrgAdapter;
 import com.example.urbanenviroment.adapter.OrganizationsAdapter;
+import com.example.urbanenviroment.model.Animals;
 import com.example.urbanenviroment.model.Organizations;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.org.OrganizationsActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesProfileUserOrg extends AppCompatActivity {
 
     RecyclerView orgRecycler;
-    OrganizationsAdapter orgAdapter;
-    String id, name, image, date, address, description, phone, email, website, count_animal, count_photo, count_ads;
+    FavoriteProfileOrgAdapter orgAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_profile_user_org);
-
         init();
     }
 
     public void init(){
-        /*ParseUser parseUser = ParseUser.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<Organizations> orgList = new ArrayList<>();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("FavoriteOrganization");
-        query.orderByAscending("createdAt");
-        query.whereEqualTo("id_user", parseUser);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
 
-                    List<Organizations> orgList = new ArrayList<>();
+        db.collection("FavoriteOrg").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        String name = document.getString("name");
+                        String date = document.getString("date");
+                        String address = document.getString("address");
+                        String description = document.getString("description");
+                        String phone = document.getString("phone");
+                        String email = document.getString("email");
+                        String website = document.getString("website");
+                        String requisits = document.getString("requisits");
+                        String count_animal = document.getString("count_animal");
+                        String count_photo = document.getString("count_photo");
+                        String count_ads = document.getString("count_ads");
+                        String image = document.getString("image");
 
-                    for (ParseObject p : objects) {
-                        ParseQuery<ParseObject> query_org = ParseQuery.getQuery("Organization");
-                        query_org.whereEqualTo("objectId", p.getParseObject("id_org").getObjectId());
-                        query_org.orderByAscending("createdAt");
-                        query_org.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if (e == null) {
-
-                                    for (ParseObject i : objects){
-                                        ParseQuery<ParseObject> query_user = new ParseQuery<>("_User");
-                                        query_user.whereEqualTo("objectId", i.getParseObject("id_user").getObjectId());
-                                        query_user.getFirstInBackground(new GetCallback<ParseObject>() {
-                                            public void done(ParseObject object_user, ParseException ex) {
-                                                if (ex == null) {
-                                                    ParseObject id_user = ParseObject.createWithoutData("_User", object_user.getObjectId());
-
-                                                    ParseQuery<ParseObject> query_animal = new ParseQuery<>("Animals");
-                                                    query_animal.whereEqualTo("id_user", id_user);
-                                                    query_animal.countInBackground(new CountCallback() {
-                                                        @Override
-                                                        public void done(int query_count_animal, ParseException e) {
-                                                            ParseQuery<ParseObject> query_animal = new ParseQuery<>("Ads");
-                                                            query_animal.whereEqualTo("id_user", id_user);
-                                                            query_animal.countInBackground(new CountCallback() {
-                                                                @Override
-                                                                public void done(int query_count_ads, ParseException e) {
-                                                                    ParseQuery<ParseObject> query_animal = new ParseQuery<>("Collection");
-                                                                    query_animal.whereEqualTo("id_user", id_user);
-                                                                    query_animal.countInBackground(new CountCallback() {
-                                                                        @Override
-                                                                        public void done(int query_count_photo, ParseException e) {
-                                                                            id = i.getObjectId();
-                                                                            name = object_user.getString("username");
-                                                                            image = Uri.parse(object_user.getParseFile("image").getUrl()).toString();
-                                                                            date = new SimpleDateFormat("d.M.y").format(i.getCreatedAt());
-                                                                            address = i.get("address").toString();
-                                                                            description = i.get("description").toString();
-                                                                            phone = i.get("phone").toString();
-                                                                            email = object_user.getString("email");
-                                                                            website = i.get("website").toString();
-                                                                            count_animal = Integer.toString(query_count_animal);
-                                                                            count_ads = Integer.toString(query_count_ads);
-                                                                            count_photo = Integer.toString(query_count_photo);
-
-                                                                            orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
-                                                                                    count_animal, count_ads, count_photo, date));
-                                                                            setOrgRecycler(orgList);
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        });
-                                    }
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                        orgList.add(new Organizations(id, name, image, phone, address, email, website, description,
+                                count_animal, count_ads, count_photo, date, requisits));
                     }
+                    setOrgRecycler(orgList);
                 }
             }
-        });*/
+        });
     }
 
     private void setOrgRecycler(List<Organizations> orgList){
@@ -121,7 +86,7 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
         orgRecycler = findViewById(R.id.FavoritesRecyclerOrg);
         orgRecycler.setLayoutManager(layoutManager);
 
-        orgAdapter = new OrganizationsAdapter(this, orgList);
+        orgAdapter = new FavoriteProfileOrgAdapter(this, orgList);
         orgRecycler.setAdapter(orgAdapter);
     }
 
@@ -144,11 +109,6 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
 
     public void help(View view){
         Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
-    }
-
-    public void authorization(View view){
-        Intent intent = new Intent(this, AuthorizationActivity.class);
         startActivity(intent);
     }
 

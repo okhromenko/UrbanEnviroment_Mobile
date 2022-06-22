@@ -1,11 +1,8 @@
 package com.example.urbanenviroment.adapter;
 
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.urbanenviroment.page.animals.CardsMainActivity;
-import com.example.urbanenviroment.page.org.OrganizationsActivity;
-import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.example.urbanenviroment.R;
 import com.example.urbanenviroment.model.Organizations;
+import com.example.urbanenviroment.page.org.OrganizationsPage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -29,35 +24,35 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdapter.OrganizationViewHolder> {
+public class FavoriteProfileOrgAdapter extends RecyclerView.Adapter<FavoriteProfileOrgAdapter.FavoriteProfileOrgViewHolder> {
 
     private DocumentSnapshot[] currentDocument;
     Context context;
     List<Organizations> organizationsList;
     Boolean is_org;
 
-    public OrganizationsAdapter(Context context, List<Organizations> helpList) {
+    public FavoriteProfileOrgAdapter(Context context, List<Organizations> helpList) {
         this.context = context;
         this.organizationsList = helpList;
     }
 
     @NonNull
     @Override
-    public OrganizationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavoriteProfileOrgAdapter.FavoriteProfileOrgViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View orgItem = LayoutInflater.from(context).inflate(R.layout.organization_item, parent, false);
-        return new OrganizationsAdapter.OrganizationViewHolder(orgItem);
+        return new FavoriteProfileOrgAdapter.FavoriteProfileOrgViewHolder(orgItem);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrganizationViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull FavoriteProfileOrgAdapter.FavoriteProfileOrgViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+        holder.button_favorite_org.setImageResource(R.drawable.button_favorite_press);
 
         Picasso.get().load(organizationsList.get(position).getImg_org()).into(holder.img_org_org);
 
@@ -68,10 +63,10 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         else
             holder.address_org.setText(organizationsList.get(position).getAddress());
 
-        if (organizationsList.get(position).getDescription() != null && !organizationsList.get(position).getDescription().isEmpty()){
+        if (organizationsList.get(position).getDescription() != null && !organizationsList.get(position).getDescription().isEmpty()) {
             String str = organizationsList.get(position).getDescription();
             if (str.length() > 200) {
-                str = str.substring(0,200) + "...";
+                str = str.substring(0, 200) + "...";
                 holder.description_org.setText(str);
             } else {
                 holder.description_org.setText(organizationsList.get(position).getDescription());
@@ -108,81 +103,18 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        if (mAuth != null){
+        if (mAuth != null) {
             currentDocument = new DocumentSnapshot[organizationsList.size()];
 
-            DocumentReference docRef = db.collection("User").document(mAuth.getUid());
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot document) {
-                    is_org = document.getBoolean("is_org");
-
-                    if (is_org)
-                        holder.button_favorite_org.setVisibility(View.GONE);
-                    else
-                         holder.button_favorite_org.setVisibility(View.VISIBLE);
-                }
-            });
-
-            db.collection("FavoriteOrg").whereEqualTo("idOrg", organizationsList.get(position).getId())
-                    .whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                QuerySnapshot document = task.getResult();
-                                if (document.isEmpty()) {
-                                    currentDocument[position] = null;
-                                    holder.button_favorite_org.setImageResource(R.drawable.button_favorite);
-                                }
-                                else{
-                                    currentDocument[position] = document.getDocuments().get(0);
-                                    holder.button_favorite_org.setImageResource(R.drawable.button_favorite_press);
-                                }
-                            }
-                        }
-                    });
+            holder.button_favorite_org.setVisibility(View.VISIBLE);
 
             holder.button_favorite_org.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
-                    if (currentDocument[position] == null) {
-
-                        HashMap<String, Object> favoriteOrg = new HashMap<>();
-
-                        favoriteOrg.put("name", organizationsList.get(position).getName_org());
-                        favoriteOrg.put("date", organizationsList.get(position).getDate());
-                        favoriteOrg.put("address", organizationsList.get(position).getAddress());
-                        favoriteOrg.put("description", organizationsList.get(position).getDescription());
-                        favoriteOrg.put("phone", organizationsList.get(position).getPhone());
-                        favoriteOrg.put("email", organizationsList.get(position).getEmail());
-                        favoriteOrg.put("website", organizationsList.get(position).getWebsite());
-                        favoriteOrg.put("count_animal", organizationsList.get(position).getCount_animal());
-                        favoriteOrg.put("count_photo", organizationsList.get(position).getCount_photo());
-                        favoriteOrg.put("count_ads", organizationsList.get(position).getCount_ads());
-                        favoriteOrg.put("image", organizationsList.get(position).getImg_org());
-                        favoriteOrg.put("requisits", organizationsList.get(position).getRequisits());
-
-                        favoriteOrg.put("userId", mAuth.getUid());
-                        favoriteOrg.put("idOrg", organizationsList.get(position).getId());
-
-                        db.collection("FavoriteOrg").document()
-                                .set(favoriteOrg).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @SuppressLint("NotifyDataSetChanged")
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        notifyDataSetChanged();
-                                    }
-                                });
-                    } else {
-                        DocumentReference changeRef = db.collection("FavoriteOrg").document(currentDocument[position].getId());
-                        changeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @SuppressLint("NotifyDataSetChanged")
-                            @Override
-                            public void onSuccess(Void unused) {
-                                notifyDataSetChanged();
-                            }
-                        });
-                    }
+                    db.collection("FavoriteOrg").document(organizationsList.get(position).getId()).delete();
+                    organizationsList.remove(position);
+                    notifyDataSetChanged();
                 }
             });
         }
@@ -194,14 +126,14 @@ public class OrganizationsAdapter extends RecyclerView.Adapter<OrganizationsAdap
         return organizationsList.size();
     }
 
-    public static final class OrganizationViewHolder extends RecyclerView.ViewHolder{
+    public static final class FavoriteProfileOrgViewHolder extends RecyclerView.ViewHolder {
 
         ImageButton button_favorite_org;
         ImageView img_org_org;
         TextView name_org_org, address_org, description_org, count_animal_org, count_ads_org,
                 count_photo_org, date_org;
 
-        public OrganizationViewHolder(@NonNull View itemView) {
+        public FavoriteProfileOrgViewHolder(@NonNull View itemView) {
             super(itemView);
 
             button_favorite_org = itemView.findViewById(R.id.button_favorite_org);

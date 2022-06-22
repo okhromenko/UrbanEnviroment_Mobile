@@ -7,20 +7,10 @@
     android:background="@color/white"
     tools:context=".page.org.Organization_statistics">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="61dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context="com.shppandroid1.app.MainActivity"
-        tools:ignore="MissingConstraints">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_marginBottom="61dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,74 +18,74 @@
             android:orientation="vertical">
 
             <FrameLayout
-        android:id="@+id/frameLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imageView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|top"
-            app:srcCompat="@drawable/text_statistics" />
-
-        </FrameLayout>
-
-            <LinearLayout
-            android:id="@+id/frameLayout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
-
-            <TextView
+                android:id="@+id/frameLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Вид"
-                android:textSize="16sp"
-                android:textColor="@color/basic_blue"
-                android:fontFamily="@font/roboto"/>
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/rectangle_animals_statistics"
-                android:layout_width="match_parent"
-                android:layout_height="225dp"
-                />
+                <ImageView
+                    android:id="@+id/imageView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|top"
+                    app:srcCompat="@drawable/text_statistics" />
 
-        </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
-            android:id="@+id/frameLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
-
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/circle_animals_statistics"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_gravity="bottom"/>
-
-        </LinearLayout>
-
-        </LinearLayout>
-
-            <FrameLayout
-                android:layout_gravity="bottom|center_horizontal"
+                android:id="@+id/frameLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Вид"
+                    android:textSize="16sp"
+                    android:textColor="@color/basic_blue"
+                    android:fontFamily="@font/roboto"/>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/rectangle_animals_statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="225dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/frameLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout4">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/circle_animals_statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_gravity="bottom"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -121,9 +111,7 @@
             </LinearLayout>
 
         </FrameLayout>
-        </FrameLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

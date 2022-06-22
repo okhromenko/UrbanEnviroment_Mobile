@@ -7,12 +7,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -226,6 +228,7 @@ public class AnimalPage extends AppCompatActivity {
                     favoriteAnimal.put("kind", getIntent().getStringExtra("kind_animal"));
                     favoriteAnimal.put("date_reg", getIntent().getStringExtra("reg_date_animal"));
 
+                    favoriteAnimal.put("orgId", getIntent().getStringExtra("orgId"));
                     favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
                     favoriteAnimal.put("username", getIntent().getStringExtra("org"));
                     favoriteAnimal.put("imageOrg", getIntent().getStringExtra("imageOrg"));
@@ -238,6 +241,7 @@ public class AnimalPage extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
                                     intent.putExtra("id_animal", getIntent().getStringExtra("id_animal"));
+                                    intent.putExtra("orgId", getIntent().getStringExtra("orgId"));
                                     intent.putExtra("name_animal", getIntent().getStringExtra("name_animal"));
                                     intent.putExtra("state_animal", getIntent().getStringExtra("state_animal"));
                                     intent.putExtra("species_animal", getIntent().getStringExtra("species_animal"));
@@ -259,6 +263,7 @@ public class AnimalPage extends AppCompatActivity {
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(AnimalPage.this, AnimalPage.class);
                             intent.putExtra("id_animal", getIntent().getStringExtra("id_animal"));
+                            intent.putExtra("orgId", getIntent().getStringExtra("orgId"));
                             intent.putExtra("name_animal", getIntent().getStringExtra("name_animal"));
                             intent.putExtra("state_animal", getIntent().getStringExtra("state_animal"));
                             intent.putExtra("species_animal", getIntent().getStringExtra("species_animal"));
@@ -276,8 +281,6 @@ public class AnimalPage extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     public void init(){

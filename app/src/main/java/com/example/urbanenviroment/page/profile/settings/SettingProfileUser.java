@@ -195,7 +195,7 @@ public class SettingProfileUser extends AppCompatActivity {
                     }
                 });
 
-        db.collection("FavoriteAds").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+        db.collection("FavoriteAds").whereEqualTo("orgId", mAuth.getCurrentUser().getUid()).
                 get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -206,7 +206,7 @@ public class SettingProfileUser extends AppCompatActivity {
                     }
                 });
 
-        db.collection("FavoriteAnimal").whereEqualTo("userId", mAuth.getCurrentUser().getUid()).
+        db.collection("FavoriteAnimal").whereEqualTo("orgId", mAuth.getCurrentUser().getUid()).
                 get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -231,38 +231,40 @@ public class SettingProfileUser extends AppCompatActivity {
             public void onSuccess(Void unused) {
                 DocumentReference changeRef = db.collection("User").document(mAuth.getCurrentUser().getUid());
 
-                changeRef.update(field, value).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        //Не забудь потом поправить - пароль не должен храниться в бд открыто!!!
+                switch (field){
+                    case "password":
+                        user.updatePassword(value);
+                        break;
+                    case "email":
+                        user.updateEmail(value);
+                        mAuth.getCurrentUser().updateEmail(value);
+                        break;
+                    case "name":
+                        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
+                                setDisplayName(value).build();
 
-                        switch (field){
-                            case "password":
-                                user.updatePassword(value);
-                                break;
-                            case "email":
-                                user.updateEmail(value);
-                                break;
-                            case "name":
-                                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().
-                                        setDisplayName(value).build();
+                        user.updateProfile(profileChangeRequest);
+                        edit_fields_name(value);
+                        break;
+                }
 
-                                user.updateProfile(profileChangeRequest);
-                                edit_fields_name(value);
-                                break;
+                if (!field.equals(password)){
+                    changeRef.update(field, value).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                            Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
+                            startActivity(intent);
+                            finish();
                         }
-
-                        Toast.makeText(getApplicationContext(), "Successful", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(SettingProfileUser.this, SettingProfileUser.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
-                    }
-                });
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(),  "Что-то пошло не так", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

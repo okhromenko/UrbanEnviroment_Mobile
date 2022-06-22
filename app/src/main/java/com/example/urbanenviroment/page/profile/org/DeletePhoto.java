@@ -51,7 +51,7 @@ public class DeletePhoto extends AppCompatActivity {
     AnimalPhotoDeleteOrgAdapter animalsAdapter;
     List<Animals> animalsList;
 
-    String name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
+    String id_org, name_animal, age, state, species, description, sex, name_org, image_org, kind_animal;
 
     static class AnimalsComparator implements Comparator<Animals> {
 
@@ -98,7 +98,7 @@ public class DeletePhoto extends AppCompatActivity {
                         String date = new SimpleDateFormat("d.M.y").format(document.getDate("reg_date"));
                         String image_animal = document.getString("image_collection");
 
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                        animalsList.add(new Animals(id, id_org, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
 
                         Collections.sort(animalsList, new AnimalsComparator().reversed());

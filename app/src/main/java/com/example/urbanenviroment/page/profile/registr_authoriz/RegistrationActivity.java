@@ -75,23 +75,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
                                     if (firebaseUser != null) {
-                                        firebaseUser.sendEmailVerification()
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Toast.makeText(getApplicationContext(), "Подтвердите адрес электронной почты, " +
-                                                                    "письмо было отправлено на вашу почту", Toast.LENGTH_LONG).show();
-                                                        }
-                                                    }
-                                                });
 
                                         Date date = new Date();
 
                                         Map<String, Object> user = new HashMap<>();
                                         user.put("email", email);
                                         user.put("name", name);
-                                        user.put("password", password);
                                         user.put("is_org", is_org);
                                         user.put("reg_date", date);
 

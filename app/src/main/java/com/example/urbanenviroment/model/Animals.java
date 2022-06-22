@@ -3,6 +3,7 @@ package com.example.urbanenviroment.model;
 public class Animals {
 
     String id;
+    String id_org;
     String name_org;
     String img_org;
     String name_animal;
@@ -15,9 +16,10 @@ public class Animals {
     String sex;
     String reg_data;
 
-    public Animals(String id, String name_org, String img_org, String name_animal, String img_animal,
+    public Animals(String id, String id_org, String name_org, String img_org, String name_animal, String img_animal,
                    String age, String state, String kind, String species, String description, String sex, String reg_data) {
         this.id = id;
+        this.id_org = id_org;
         this.name_org = name_org;
         this.img_org = img_org;
         this.name_animal = name_animal;
@@ -37,6 +39,14 @@ public class Animals {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getId_org() {
+        return id_org;
+    }
+
+    public void setId_org(String id_org) {
+        this.id_org = id_org;
     }
 
     public String getName_org() {

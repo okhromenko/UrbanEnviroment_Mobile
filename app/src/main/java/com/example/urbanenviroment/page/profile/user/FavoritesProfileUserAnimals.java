@@ -66,9 +66,9 @@ public class FavoritesProfileUserAnimals extends AppCompatActivity {
                         String name_org = document.getString("username");
                         String image_org = document.getString("imageOrg");
                         String image_animal = document.getString("image");
+                        String id_org = document.getString("userId");
 
-
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                        animalsList.add(new Animals(id, id_org, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
                     }
                     setAnimalsRecycler(animalsList);

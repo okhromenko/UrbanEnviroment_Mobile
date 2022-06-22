@@ -3,12 +3,14 @@ package com.example.urbanenviroment.page.help;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -142,6 +144,7 @@ public class HelpPage extends AppCompatActivity {
                     favoriteAds.put("description",  getIntent().getStringExtra("description_help"));
 
                     favoriteAds.put("userId", mAuth.getCurrentUser().getUid());
+                    favoriteAds.put("orgId", getIntent().getStringExtra("orgId"));
                     favoriteAds.put("username", getIntent().getStringExtra("name_org_help"));
                     favoriteAds.put("imageOrg", getIntent().getStringExtra("image"));
 
@@ -152,6 +155,7 @@ public class HelpPage extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     Intent intent = new Intent(HelpPage.this, HelpPage.class);
                                     intent.putExtra("id", getIntent().getStringExtra("id"));
+                                    intent.putExtra("orgId", getIntent().getStringExtra("orgId"));
                                     intent.putExtra("color_transperent", getIntent().getIntExtra("color_transperent", 0));
                                     intent.putExtra("color", getIntent().getIntExtra("color", 0));
                                     intent.putExtra("type_ads_help", getIntent().getStringExtra("type_ads_help"));
@@ -172,6 +176,7 @@ public class HelpPage extends AppCompatActivity {
                         public void onSuccess(Void unused) {
                             Intent intent = new Intent(HelpPage.this, HelpPage.class);
                             intent.putExtra("id", getIntent().getStringExtra("id"));
+                            intent.putExtra("orgId", getIntent().getStringExtra("orgId"));
                             intent.putExtra("color_transperent", getIntent().getIntExtra("color_transperent", 0));
                             intent.putExtra("color", getIntent().getIntExtra("color", 0));
                             intent.putExtra("type_ads_help", getIntent().getStringExtra("type_ads_help"));

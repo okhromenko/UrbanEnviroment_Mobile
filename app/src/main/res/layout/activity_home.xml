@@ -8,7 +8,7 @@
     tools:context=".page.animals.HomeActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+        android:id="@+id/refresh_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="61dp"

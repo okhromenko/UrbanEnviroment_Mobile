@@ -7,12 +7,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -86,6 +88,21 @@ public class CardsMainActivity extends AppCompatActivity {
 
         flag_org = getIntent().getBooleanExtra("flag_org", false);
         init(flag_org);
+
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_cards_main);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                init(flag_org);
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     public void init(boolean flag_org){
@@ -114,12 +131,13 @@ public class CardsMainActivity extends AppCompatActivity {
                         String description = document.getString("description");
                         String sex = document.getString("sex");
                         String name_org = document.getString("username");
+                        String id_org = document.getString("userId");
                         String image_org = document.getString("imageOrg");
                         String image_animal = document.getString("image");
 
                         list_org_name.add(name_org);
 
-                        animalsList.add(new Animals(id, name_org, image_org, name_animal, image_animal,
+                        animalsList.add(new Animals(id, id_org, name_org, image_org, name_animal, image_animal,
                                 age, state, kind_animal, species, description, sex, date));
 
                         Collections.sort(animalsList, new AnimalsComparator().reversed());

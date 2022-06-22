@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".page.help.HelpPage">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="61dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context="com.shppandroid1.app.MainActivity"
-        tools:ignore="MissingConstraints">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,13 +92,13 @@
                     android:textSize="14sp"/>
 
                 <TextView
-                android:id="@+id/date_help_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Конец"
-                android:fontFamily="@font/roboto"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
+                    android:id="@+id/date_help_page"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Конец"
+                    android:fontFamily="@font/roboto"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"/>
 
             </LinearLayout>
 
@@ -302,11 +292,11 @@
                                     android:textColor="@color/basic_blue"/>
 
                                 <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/img_org_icon"
-                                        android:layout_gravity="center_vertical|right"
-                                        android:layout_marginEnd="10dp"/>
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/img_org_icon"
+                                    android:layout_gravity="center_vertical|right"
+                                    android:layout_marginEnd="10dp"/>
                             </androidx.cardview.widget.CardView>
                         </androidx.cardview.widget.CardView>
                     </FrameLayout>
@@ -314,8 +304,6 @@
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.loopeer.shadow.ShadowView
         android:id="@+id/shadowView"

@@ -1,6 +1,5 @@
 package com.example.urbanenviroment.page.org;
 
-import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -13,10 +12,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,27 +24,32 @@ import com.example.urbanenviroment.page.animals.CardsMainActivity;
 import com.example.urbanenviroment.page.help.HelpActivity;
 import com.example.urbanenviroment.page.animals.HomeActivity;
 import com.example.urbanenviroment.R;
-import com.example.urbanenviroment.page.profile.registr_authoriz.AuthorizationActivity;
 import com.example.urbanenviroment.page.profile.registr_authoriz.RegistrationActivity;
 import com.example.urbanenviroment.page.profile.settings.SettingProfile;
 import com.example.urbanenviroment.page.profile.user.ProfileActivityUser;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 public class OrganizationsPage extends AppCompatActivity {
 
     private FirebaseUser mAuth;
     private String name, email, phone, description, count_animal, count_ads, count_photo, date_reg,
             website, address, img_org, requisits;
+    private DocumentSnapshot currentDocument;
+    FirebaseFirestore db;
     Dialog dialog_requisites;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -58,7 +60,7 @@ public class OrganizationsPage extends AppCompatActivity {
         dialog_requisites = new Dialog(this);
 
         mAuth = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         LinearLayout layout = findViewById(R.id.layout_user_buttons_org_page);
 
@@ -74,6 +76,7 @@ public class OrganizationsPage extends AppCompatActivity {
         TextView address_org_org_page = findViewById(R.id.address_org_org_page);
         ImageView img_org_org_page = findViewById(R.id.img_org_org_page);
         ImageButton button_org_edit = findViewById(R.id.button_setting_edit_org);
+        ImageButton button_favorite_org_page = findViewById(R.id.button_favorite_org_page);
 
         String userId = getIntent().getStringExtra("id");
         Boolean flagHelpPage = getIntent().getBooleanExtra("flagHelpPage", false);
@@ -187,6 +190,25 @@ public class OrganizationsPage extends AppCompatActivity {
                 }
             }
         });
+
+        if (mAuth != null) {
+            db.collection("FavoriteOrg").whereEqualTo("idOrg", getIntent().getStringExtra("id"))
+                    .whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                QuerySnapshot document = task.getResult();
+                                if (document.isEmpty())
+                                    button_favorite_org_page.setImageResource(R.drawable.button_favorite);
+                                else {
+                                    currentDocument = document.getDocuments().get(0);
+                                    button_favorite_org_page.setImageResource(R.drawable.button_favorite_press);
+                                }
+                            }
+                        }
+                    });
+
+        }
     }
 
     public void hidden_other(TextView textView, boolean flag){
@@ -266,7 +288,74 @@ public class OrganizationsPage extends AppCompatActivity {
     }
 
 
-    public void add_org_notification(View view){
+    public void add_org_favorite(View view){
+        if (currentDocument == null) {
 
+            HashMap<String, Object> favoriteOrg = new HashMap<>();
+
+            favoriteOrg.put("name", getIntent().getStringExtra("name"));
+            favoriteOrg.put("date", getIntent().getStringExtra("date"));
+            favoriteOrg.put("address", getIntent().getStringExtra("address"));
+            favoriteOrg.put("description", getIntent().getStringExtra("description"));
+            favoriteOrg.put("phone", getIntent().getStringExtra("phone"));
+            favoriteOrg.put("email", getIntent().getStringExtra("email"));
+            favoriteOrg.put("website", getIntent().getStringExtra("website"));
+            favoriteOrg.put("count_animal", getIntent().getStringExtra("count_animal"));
+            favoriteOrg.put("count_photo", getIntent().getStringExtra("count_photo"));
+            favoriteOrg.put("count_ads", getIntent().getStringExtra("count_ads"));
+            favoriteOrg.put("image", getIntent().getStringExtra("image"));
+            favoriteOrg.put("requisits", getIntent().getStringExtra("requisits"));
+
+            favoriteOrg.put("userId", mAuth.getUid());
+            favoriteOrg.put("idOrg", getIntent().getStringExtra("id"));
+
+            db.collection("FavoriteOrg").document()
+                    .set(favoriteOrg).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Intent intent = new Intent(OrganizationsPage.this, OrganizationsPage.class);
+                            intent.putExtra("id", getIntent().getStringExtra("id"));
+                            intent.putExtra("name", getIntent().getStringExtra("name"));
+                            intent.putExtra("image", getIntent().getStringExtra("image"));
+                            intent.putExtra("address", getIntent().getStringExtra("address"));
+                            intent.putExtra("email", getIntent().getStringExtra("email"));
+                            intent.putExtra("phone", getIntent().getStringExtra("phone"));
+                            intent.putExtra("description", getIntent().getStringExtra("description"));
+                            intent.putExtra("requisits", getIntent().getStringExtra("requisits"));
+                            intent.putExtra("count_animal", getIntent().getStringExtra("count_animal"));
+                            intent.putExtra("count_ads", getIntent().getStringExtra("count_ads"));
+                            intent.putExtra("count_photo", getIntent().getStringExtra("count_photo"));
+                            intent.putExtra("date", getIntent().getStringExtra("date"));
+                            intent.putExtra("website", getIntent().getStringExtra("website"));
+                            intent.putExtra("is_org", getIntent().getStringExtra("is_org"));
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+        } else {
+            DocumentReference changeRef = db.collection("FavoriteOrg").document(currentDocument.getId());
+            changeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Intent intent = new Intent(OrganizationsPage.this, OrganizationsPage.class);
+                    intent.putExtra("id", getIntent().getStringExtra("id"));
+                    intent.putExtra("name", getIntent().getStringExtra("name"));
+                    intent.putExtra("image", getIntent().getStringExtra("image"));
+                    intent.putExtra("address", getIntent().getStringExtra("address"));
+                    intent.putExtra("email", getIntent().getStringExtra("email"));
+                    intent.putExtra("phone", getIntent().getStringExtra("phone"));
+                    intent.putExtra("description", getIntent().getStringExtra("description"));
+                    intent.putExtra("requisits", getIntent().getStringExtra("requisits"));
+                    intent.putExtra("count_animal", getIntent().getStringExtra("count_animal"));
+                    intent.putExtra("count_ads", getIntent().getStringExtra("count_ads"));
+                    intent.putExtra("count_photo", getIntent().getStringExtra("count_photo"));
+                    intent.putExtra("date", getIntent().getStringExtra("date"));
+                    intent.putExtra("website", getIntent().getStringExtra("website"));
+                    intent.putExtra("is_org", getIntent().getStringExtra("is_org"));
+                    startActivity(intent);
+                    finish();
+                }
+            });
+        }
     }
 }

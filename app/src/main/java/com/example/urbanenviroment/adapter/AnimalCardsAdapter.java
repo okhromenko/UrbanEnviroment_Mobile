@@ -148,6 +148,7 @@ public class AnimalCardsAdapter extends RecyclerView.Adapter<AnimalCardsAdapter.
                         favoriteAnimal.put("date_reg", animalCardsList.get(position).getReg_data());
 
                         favoriteAnimal.put("userId", mAuth.getCurrentUser().getUid());
+                        favoriteAnimal.put("orgId", animalCardsList.get(position).getId_org());
                         favoriteAnimal.put("username", animalCardsList.get(position).getName_org());
                         favoriteAnimal.put("imageOrg", animalCardsList.get(position).getImg_org());
                         favoriteAnimal.put("image", animalCardsList.get(position).getImg_animal());
