@@ -159,7 +159,7 @@ public class Organization_statistics extends AppCompatActivity {
         YAxis rightAxis = barChart.getAxisRight();
         YAxis leftAxis = barChart.getAxisLeft();
         rightAxis.setEnabled(false);
-        leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
+        leftAxis.setTextColor(getResources().getColor(R.color.white, getTheme()));
         leftAxis.setTextSize(12f);
         leftAxis.setDrawAxisLine(false);
 
@@ -242,7 +242,7 @@ public class Organization_statistics extends AppCompatActivity {
 
         PieDataSet pieDataSet = new PieDataSet(animals_statistic_circle, "Объявления");
 
-        pieDataSet.setColors(new int[] {getResources().getColor(R.color.food, getTheme()), getResources().getColor(R.color.things, getTheme()), getResources().getColor(R.color.red_static, getTheme())});
+        pieDataSet.setColors(new int[] {getResources().getColor(R.color.food, getTheme()), getResources().getColor(R.color.red_static, getTheme()), getResources().getColor(R.color.money, getTheme())});
 
         PieData data = new PieData(pieDataSet);
         data.setDrawValues(true);
@@ -316,13 +316,14 @@ public class Organization_statistics extends AppCompatActivity {
         YAxis rightAxis = barChart.getAxisRight();
         YAxis leftAxis = barChart.getAxisLeft();
         rightAxis.setEnabled(false);
-        leftAxis.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
+        leftAxis.setTextColor(getResources().getColor(R.color.white, getTheme()));
         leftAxis.setTextSize(12f);
         leftAxis.setDrawAxisLine(false);
         leftAxis.setStartAtZero(true);
         leftAxis.setDrawZeroLine(true);
         leftAxis.setZeroLineColor(getResources().getColor(R.color.basic_blue, getTheme()));
         leftAxis.setZeroLineWidth(2f);
+        leftAxis.setLabelCount(5, false);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setTextSize(14f);

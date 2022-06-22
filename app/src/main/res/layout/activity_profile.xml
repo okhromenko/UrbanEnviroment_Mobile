@@ -8,6 +8,14 @@
     tools:context=".page.profile.user.ProfileActivityUser">
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bird_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
@@ -312,7 +320,6 @@
                 android:fontFamily="@font/roboto"/>
 
         </FrameLayout>
-
     </LinearLayout>
 
     <com.loopeer.shadow.ShadowView

@@ -43,14 +43,21 @@ public class SettingProfile extends AppCompatActivity {
         ImageButton button_setting_org_org = (ImageButton) findViewById(R.id.button_setting_org_org);
         ImageButton button_setting_profile = (ImageButton) findViewById(R.id.button_setting_profile);
         ImageButton button_setting_page_org = (ImageButton) findViewById(R.id.button_setting_page_org);
-        ImageButton button_setting_notifications = (ImageButton) findViewById(R.id.button_setting_notifications);
         ImageButton button_other_settings = (ImageButton) findViewById(R.id.button_other_settings);
 
-        button_setting_org_org.setVisibility(View.VISIBLE);
-        button_setting_page_org.setVisibility(View.VISIBLE);
-        button_setting_profile.setVisibility(View.GONE);
-        button_setting_notifications.setVisibility(View.GONE);
-        button_other_settings.setVisibility(View.VISIBLE);
+
+        if (getIntent().getBooleanExtra("is_org", false)) {
+            button_setting_org_org.setVisibility(View.VISIBLE);
+            button_setting_page_org.setVisibility(View.VISIBLE);
+            button_setting_profile.setVisibility(View.GONE);
+            button_other_settings.setVisibility(View.VISIBLE);
+        } else {
+            button_setting_profile.setVisibility(View.VISIBLE);
+            button_setting_org_org.setVisibility(View.GONE);
+            button_setting_page_org.setVisibility(View.GONE);
+            button_other_settings.setVisibility(View.GONE);
+        }
+
     }
 
     public void animals(View view){

@@ -33,22 +33,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp">
 
-                <ImageButton
-                    android:id="@+id/button_setting_notifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:onClick="setting_notification"
-                    app:srcCompat="@drawable/button_setting_notifications" />
-
                  <ImageButton
                      android:id="@+id/button_setting_page_org"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:background="@color/transparent"
                      android:src="@drawable/button_setting_page_org"
-                     android:onClick="setting_page"
-                     android:visibility="gone"/>
+                     android:onClick="setting_page"/>
             </FrameLayout>
 
 

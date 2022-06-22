@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -74,6 +74,7 @@
             </com.loopeer.shadow.ShadowView>
 
             <com.loopeer.shadow.ShadowView
+                android:layout_gravity="right"
                 android:layout_marginTop="5dp"
                 android:id="@+id/shadowView3"
                 android:layout_width="wrap_content"
@@ -116,7 +117,7 @@
                     android:layout_gravity="center_vertical|right"/>
                 </FrameLayout>
             </com.loopeer.shadow.ShadowView>
-        </LinearLayout>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/frameLayout6"

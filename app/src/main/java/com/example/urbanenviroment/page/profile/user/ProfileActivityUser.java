@@ -320,13 +320,8 @@ public class ProfileActivityUser extends AppCompatActivity {
 
     public void settings(View view){
         Intent intent;
-
-        if (is_org){
-            intent = new Intent(this, SettingProfile.class);
-            intent.putExtra("is_org", is_org);
-        }
-        else
-            intent = new Intent(this, SettingProfileUser.class);
+        intent = new Intent(this, SettingProfile.class);
+        intent.putExtra("is_org", is_org);
 
         startActivity(intent);
     }
