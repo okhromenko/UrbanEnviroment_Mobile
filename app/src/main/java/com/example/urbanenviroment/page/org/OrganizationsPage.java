@@ -172,7 +172,7 @@ public class OrganizationsPage extends AppCompatActivity {
                     count_photo_org_page.setText(count_photo);
                     date_reg_org_org.setText(date_reg);
 
-                    if (address != null && !address.equals("Адрес")){
+                    if (address != null && !address.equals("Адрес") && !address.isEmpty()){
                         SpannableString content = new SpannableString(address);
                         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                         address_org_org_page.setTextColor(getResources().getColor(R.color.blue_link, getTheme()));

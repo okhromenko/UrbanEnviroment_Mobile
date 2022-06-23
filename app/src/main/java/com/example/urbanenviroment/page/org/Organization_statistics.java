@@ -202,6 +202,9 @@ public class Organization_statistics extends AppCompatActivity {
 
         pieDataSet.setColors(new int[] {getResources().getColor(R.color.pink, getTheme()),
                 getResources().getColor(R.color.blue, getTheme())});
+        if (count_woman != 0)
+            pieDataSet.setColors(new int[] {getResources().getColor(R.color.blue, getTheme()),
+                    getResources().getColor(R.color.pink, getTheme())});
 
         PieData data = new PieData(pieDataSet);
         data.setDrawValues(true);
