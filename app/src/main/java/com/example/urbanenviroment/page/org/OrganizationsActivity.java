@@ -65,6 +65,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class OrganizationsActivity extends AppCompatActivity {
@@ -151,8 +152,8 @@ public class OrganizationsActivity extends AppCompatActivity {
         ArrayList<Organizations> filterString = new ArrayList<>();
 
         for (Organizations word: strings){
-            String item = word.getName_org();
-            if (item.contains(text) || item.toLowerCase().contains(text) || item.toUpperCase().contains(text))
+            String item = word.getName_org().toLowerCase(Locale.ROOT);
+            if (item.contains(text.toLowerCase(Locale.ROOT)))
                 filterString.add(word);
         }
         return filterString;

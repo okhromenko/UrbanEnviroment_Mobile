@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -126,8 +127,8 @@ public class AddPhoto extends AppCompatActivity {
         ArrayList<CategoryAnimals> filterString = new ArrayList<>();
 
         for (CategoryAnimals word: strings){
-            String item = word.getTitle();
-            if (item.contains(text) || item.toLowerCase().contains(text) || item.toUpperCase().contains(text))
+            String item = word.getTitle().toLowerCase(Locale.ROOT);
+            if (item.contains(text.toLowerCase(Locale.ROOT)))
                 filterString.add(word);
         }
         return filterString;

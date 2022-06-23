@@ -48,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class FilterAnimal extends AppCompatActivity {
@@ -133,8 +134,8 @@ public class FilterAnimal extends AppCompatActivity {
         ArrayList<CategoryAnimals> filterString = new ArrayList<>();
 
         for (CategoryAnimals word: strings){
-            String item = word.getTitle();
-            if (item.contains(text) || item.toLowerCase().contains(text) || item.toUpperCase().contains(text))
+            String item = word.getTitle().toLowerCase(Locale.ROOT);
+            if (item.contains(text.toLowerCase(Locale.ROOT)))
                 filterString.add(word);
         }
         return filterString;
