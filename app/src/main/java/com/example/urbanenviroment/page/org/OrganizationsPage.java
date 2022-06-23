@@ -161,7 +161,7 @@ public class OrganizationsPage extends AppCompatActivity {
                     name_org_org_page.setText(name);
                     email_org_org_page.setText(email);
 
-                    if (!phone.equals("Номер телефона") && !phone.isEmpty())
+                    if (phone != null && !phone.equals("Номер телефона"))
                         phone_org_org_page.setText(phone);
 
                     if (description != null && !description.isEmpty())
@@ -172,7 +172,7 @@ public class OrganizationsPage extends AppCompatActivity {
                     count_photo_org_page.setText(count_photo);
                     date_reg_org_org.setText(date_reg);
 
-                    if (!address.equals("Адрес") && !address.isEmpty()){
+                    if (address != null && !address.equals("Адрес")){
                         SpannableString content = new SpannableString(address);
                         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
                         address_org_org_page.setTextColor(getResources().getColor(R.color.blue_link, getTheme()));
@@ -182,7 +182,7 @@ public class OrganizationsPage extends AppCompatActivity {
                         address_org_org_page.setTextColor(getResources().getColor(R.color.dark_gray_2, getTheme()));
                     }
 
-                    if (!website.equals("Сайт организации") && !website.isEmpty()){
+                    if (website != null && !website.equals("Сайт организации")){
                         SpannableString contentlink = new SpannableString(website);
                         contentlink.setSpan(new UnderlineSpan(), 0, contentlink.length(), 0);
                         website_org_org_page.setText(contentlink);

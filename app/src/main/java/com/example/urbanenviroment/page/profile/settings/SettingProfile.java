@@ -87,10 +87,6 @@ public class SettingProfile extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void setting_notification(View view) {
-        Intent intent = new Intent(this, SettingNotificationsUser.class);
-        startActivity(intent);
-    }
 
     public void setting_page(View view) {
         Intent intent = new Intent(this, SettingPageOrg.class);

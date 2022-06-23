@@ -64,7 +64,7 @@ public class FavoriteProfileAnimalsAdapter extends RecyclerView.Adapter<Favorite
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnimalPage.class);
 
-                intent.putExtra("id", FavoriteAnimalList.get(position).getId());
+                intent.putExtra("id_animal", FavoriteAnimalList.get(position).getId());
                 intent.putExtra("kind_animal", FavoriteAnimalList.get(position).getKind());
                 intent.putExtra("species_animal", FavoriteAnimalList.get(position).getSpecies());
                 intent.putExtra("reg_date_animal", FavoriteAnimalList.get(position).getReg_data());
@@ -75,6 +75,7 @@ public class FavoriteProfileAnimalsAdapter extends RecyclerView.Adapter<Favorite
                 intent.putExtra("state_animal", FavoriteAnimalList.get(position).getState());
                 intent.putExtra("image_animal", FavoriteAnimalList.get(position).getImg_animal());
                 intent.putExtra("org", FavoriteAnimalList.get(position).getName_org());
+                intent.putExtra("imageOrg", FavoriteAnimalList.get(position).getImg_org());
 
                 context.startActivity(intent);
             }

@@ -44,6 +44,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class HelpPage extends AppCompatActivity {
 
@@ -104,7 +105,7 @@ public class HelpPage extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.getString("userId").equals(mAuth.getCurrentUser().getUid()))
+                    if (Objects.equals(document.getString("userId"), mAuth.getCurrentUser().getUid()))
                         edit_del_buttons.setVisibility(View.VISIBLE);
                     else edit_del_buttons.setVisibility(View.GONE);
                 }

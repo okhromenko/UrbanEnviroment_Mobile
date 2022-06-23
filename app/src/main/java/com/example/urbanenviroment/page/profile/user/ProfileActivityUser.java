@@ -331,10 +331,6 @@ public class ProfileActivityUser extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void notifications(View view){
-        Intent intent = new Intent(this, NotificationsProfileUser.class);
-        startActivity(intent);
-    }
 
     public void add_animal_photo_org(View view) {
         Intent intent = new Intent(this, AddPhoto.class);

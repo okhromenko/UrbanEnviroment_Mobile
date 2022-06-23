@@ -80,14 +80,6 @@
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".page.profile.settings.SettingNotificationsUser"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".page.profile.user.NotificationsProfileUser"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".page.profile.user.FavoritesProfileUserAds"
             android:exported="false"
             android:screenOrientation="portrait"/>

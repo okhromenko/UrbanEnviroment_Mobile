@@ -57,7 +57,7 @@ public class FavoritesProfileUserOrg extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        String id = document.getId();
+                        String id = document.getString("idOrg");
                         String name = document.getString("name");
                         String date = document.getString("date");
                         String address = document.getString("address");

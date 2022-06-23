@@ -78,30 +78,44 @@ public class FavoriteProfileOrgAdapter extends RecyclerView.Adapter<FavoriteProf
         holder.count_photo_org.setText(organizationsList.get(position).getCount_photo());
         holder.date_org.setText(organizationsList.get(position).getDate());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, OrganizationsPage.class);
-                intent.putExtra("id", organizationsList.get(position).getId());
-                intent.putExtra("name", organizationsList.get(position).getName_org());
-                intent.putExtra("image", organizationsList.get(position).getImg_org());
-                intent.putExtra("address", organizationsList.get(position).getAddress());
-                intent.putExtra("email", organizationsList.get(position).getEmail());
-                intent.putExtra("phone", organizationsList.get(position).getPhone());
-                intent.putExtra("description", organizationsList.get(position).getDescription());
-                intent.putExtra("requisits", organizationsList.get(position).getRequisits());
-                intent.putExtra("count_animal", organizationsList.get(position).getCount_animal());
-                intent.putExtra("count_ads", organizationsList.get(position).getCount_ads());
-                intent.putExtra("count_photo", organizationsList.get(position).getCount_photo());
-                intent.putExtra("date", organizationsList.get(position).getDate());
-                intent.putExtra("website", organizationsList.get(position).getWebsite());
-                intent.putExtra("is_org", is_org);
-                context.startActivity(intent);
-            }
-        });
-
         FirebaseUser mAuth = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (mAuth != null) {
+            currentDocument = new DocumentSnapshot[organizationsList.size()];
+
+            DocumentReference docRef = db.collection("User").document(mAuth.getUid());
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot document) {
+                    is_org = document.getBoolean("is_org");
+
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, OrganizationsPage.class);
+                            intent.putExtra("id", organizationsList.get(position).getId());
+                            intent.putExtra("name", organizationsList.get(position).getName_org());
+                            intent.putExtra("image", organizationsList.get(position).getImg_org());
+                            intent.putExtra("address", organizationsList.get(position).getAddress());
+                            intent.putExtra("email", organizationsList.get(position).getEmail());
+                            intent.putExtra("phone", organizationsList.get(position).getPhone());
+                            intent.putExtra("description", organizationsList.get(position).getDescription());
+                            intent.putExtra("requisits", organizationsList.get(position).getRequisits());
+                            intent.putExtra("count_animal", organizationsList.get(position).getCount_animal());
+                            intent.putExtra("count_ads", organizationsList.get(position).getCount_ads());
+                            intent.putExtra("count_photo", organizationsList.get(position).getCount_photo());
+                            intent.putExtra("date", organizationsList.get(position).getDate());
+                            intent.putExtra("website", organizationsList.get(position).getWebsite());
+                            intent.putExtra("is_org", is_org);
+                            context.startActivity(intent);
+                        }
+                    });
+                }
+            });
+        }
+
+
 
         if (mAuth != null) {
             currentDocument = new DocumentSnapshot[organizationsList.size()];
