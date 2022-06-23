@@ -139,7 +139,7 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
         });
 
 
-        if (mAuth.getCurrentUser() != null && !flag){
+        if (mAuth.getCurrentUser() != null){
 
             currentDocument = new DocumentSnapshot[helpList.size()];
 
@@ -147,74 +147,79 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.HelpViewHolder
                 @Override
                 public void onSuccess(DocumentSnapshot document) {
                     if ((Boolean) Boolean.TRUE.equals(document.getBoolean("is_org"))){
-                        holder.button_favorite_help.setVisibility(View.GONE);
+                        if (!flag)
+                            holder.button_favorite_help.setVisibility(View.GONE);
                         is_org = true;
                     }
                     else{
-                        holder.button_favorite_help.setVisibility(View.VISIBLE);
+                        if (!flag)
+                            holder.button_favorite_help.setVisibility(View.VISIBLE);
                         is_org = false;
                     }
                 }
             });
 
-            db.collection("FavoriteAds").whereEqualTo("id_ads", helpList.get(position).getId())
-                    .whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()){
-                                QuerySnapshot document = task.getResult();
-                                if (document.isEmpty()) {
-                                    currentDocument[position] = null;
-                                    holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
-                                }
-                                else{
-                                    currentDocument[position] = document.getDocuments().get(0);
-                                    holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
-                                }
-                            }
-                        }
-                    });
-
-
-            holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (currentDocument[position] == null) {
-
-                        HashMap<String, Object> favoriteAds = new HashMap<>();
-
-                        favoriteAds.put("id_ads", helpList.get(position).getId());
-                        favoriteAds.put("type", helpList.get(position).getType_help());
-                        favoriteAds.put("last_date", helpList.get(position).getDate_last());
-                        favoriteAds.put("first_date", helpList.get(position).getDate_first());
-                        favoriteAds.put("description",  helpList.get(position).getDescription());
-
-                        favoriteAds.put("userId", mAuth.getUid());
-                        favoriteAds.put("orgId", helpList.get(position).getId_org());
-                        favoriteAds.put("username", helpList.get(position).getName_org());
-                        favoriteAds.put("imageOrg", helpList.get(position).getImg_org());
-
-
-                        db.collection("FavoriteAds").document()
-                                .set(favoriteAds).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @SuppressLint("NotifyDataSetChanged")
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        notifyDataSetChanged();
-                                    }
-                                });
-                    } else {
-                        DocumentReference changeRef = db.collection("FavoriteAds").document(currentDocument[position].getId());
-                        changeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @SuppressLint("NotifyDataSetChanged")
+            if (!flag){
+                db.collection("FavoriteAds").whereEqualTo("id_ads", helpList.get(position).getId())
+                        .whereEqualTo("userId", mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onSuccess(Void unused) {
-                                notifyDataSetChanged();
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()){
+                                    QuerySnapshot document = task.getResult();
+                                    if (document.isEmpty()) {
+                                        currentDocument[position] = null;
+                                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite);
+                                    }
+                                    else{
+                                        currentDocument[position] = document.getDocuments().get(0);
+                                        holder.button_favorite_help.setImageResource(R.drawable.button_favorite_press);
+                                    }
+                                }
                             }
                         });
+
+
+                holder.button_favorite_help.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (currentDocument[position] == null) {
+
+                            HashMap<String, Object> favoriteAds = new HashMap<>();
+
+                            favoriteAds.put("id_ads", helpList.get(position).getId());
+                            favoriteAds.put("type", helpList.get(position).getType_help());
+                            favoriteAds.put("last_date", helpList.get(position).getDate_last());
+                            favoriteAds.put("first_date", helpList.get(position).getDate_first());
+                            favoriteAds.put("description",  helpList.get(position).getDescription());
+
+                            favoriteAds.put("userId", mAuth.getUid());
+                            favoriteAds.put("orgId", helpList.get(position).getId_org());
+                            favoriteAds.put("username", helpList.get(position).getName_org());
+                            favoriteAds.put("imageOrg", helpList.get(position).getImg_org());
+
+
+                            db.collection("FavoriteAds").document()
+                                    .set(favoriteAds).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @SuppressLint("NotifyDataSetChanged")
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            notifyDataSetChanged();
+                                        }
+                                    });
+                        } else {
+                            DocumentReference changeRef = db.collection("FavoriteAds").document(currentDocument[position].getId());
+                            changeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @SuppressLint("NotifyDataSetChanged")
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    notifyDataSetChanged();
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
+
         }
 
         if (flag){
